@@ -1,0 +1,19 @@
+export(
+forecast.gts,
+plot.gts,
+accuracy.gts,
+window.gts,
+hts,
+gts,
+allts,
+combinef,
+Smatrix
+)
+
+S3method(forecast,gts)
+S3method(plot,gts)
+S3method(print,gts)
+S3method(window,gts)
+
+import(forecast)
+importFrom("stats", "window")

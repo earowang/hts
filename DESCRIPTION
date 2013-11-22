@@ -1,0 +1,13 @@
+Package: hts
+Type: Package
+Title: Hierarchical and grouped time series
+Version: 4.00
+Date: 2013-11-22
+Depends: forecast
+Imports: SparseM
+LazyLoad: yes
+LazyData: yes
+Author: Rob J Hyndman, Roman A Ahmed, Han Lin Shang, and Yiru Wang
+Maintainer: Rob J Hyndman <Rob.Hyndman@monash.edu>
+Description: Methods for analysing and forecasting hierarchical and grouped time series.
+License: GPL (>= 2)
