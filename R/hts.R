@@ -24,4 +24,18 @@ hts <- function(bts, node) {
   if(!is.list(node)) {
     stop("Argument node must be a list.")
   }
+  if(length(node[[1]]) != 1) {
+    stop("The number of nodes for the level 0 cannot be empty.")
+  }
+  if(sum(node[[length(node)]]) != ncol(bts)) {
+    stop("The number of nodes is not consistent with the number of bottome time
+         series.")
+  }
+  for(i in 1:length(node)) {
+    if(sum(node[[i]]) != length(node[[i + 1])) {
+      error <- paste("The number of nodes for the level", i - 1, "is not equal
+                     to the number of series of level", i)
+      stop(error)
+    }
+  }
 }
