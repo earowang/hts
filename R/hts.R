@@ -49,5 +49,31 @@ Gmatrix <- function(xlist) {
   # Create an empty matrix to contain the gmatrix
   gmat <- matrix(, nrow = length(xlist) + 1, ncol = num.bts)
   # Insert the bottom level
-  gmat[nrow(gmat), ] <- seq(1:num.bts)
+  gmat[nrow(gmat), ] <- seq(1, num.bts)
+  # Insert the middle levels in the reverse order
+  for(i in length(xlist):2) {
+    gvec <- vector(length = num.bts)
+    for(k in 1:length(xlist[[i]])) {
+      # Returns the no. of the unique numbers for each block of the lower level
+      num.unique <- cumsum(xlist[[i]])
+      if(k == 1) {
+        index <- seq(1, num.unique[k])
+      } else {
+        index <- seq(1, num.unique[k])[-seq(1, num.unique[k - 1])]
+      }
+      block <- unique(gmat[i + 1, ])[index]
+      # Returns the full index for each block
+      block.index  <- which(gmat[i + 1, ] %in% block)
+      block.length <- length(gmat[i + 1, block.index])
+      gvec[block.index] <- rep(k, block.length)
+    }
+    gmat[i, ] <- gvec
+  }
+  # Insert the top level
+  gmat[1, ] <- rep(1, num.bts)
+
+  colnames(gmat) <- colnames(y)
+  rownames(gmat) <- paste("Level", 0:nrow(gmat))
+  class(gmat) <- "gmatrix"
+  return(gmat)
 }
