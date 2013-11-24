@@ -43,14 +43,17 @@ hts <- function(y, node) {
   }
 
   # Obtain the group matrix
-  gmatrix <- Gmatrix(node)  # Gmatrix() defined below
+  gmat <- Gmatrix(node)  # Gmatrix() defined below
+  colnames(gmat) <- colnames(y)
+  rownames(gmat) <- paste("Level", 0:(nrow(gmat) - 1))
+  class(gmat) <- "gmatrix"
 
   # Obtain other information
   names(node) <- paste("Level", 0:(length(node) - 1))
   # Returns the NO. of series for each level
-  m <- apply(gmatrix, 1, function(x) length(unique(x)))
+  m <- apply(gmat, 1, function(x) length(unique(x)))
 
-  output <- structure(list(bts = y, node = node, gmatrix = gmatrix, m = m), 
+  output <- structure(list(bts = y, node = node, gmatrix = gmat, m = m), 
                       class = "hts")
   return(output)
 }
@@ -85,9 +88,6 @@ Gmatrix <- function(xlist) {
   # Insert the top level
   gmat[1, ] <- rep(1, num.bts)
 
-  colnames(gmat) <- colnames(bts)
-  rownames(gmat) <- paste("Level", 0:(nrow(gmat) - 1))
-  class(gmat) <- "gmatrix"
   return(gmat)
 }
 
