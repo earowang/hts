@@ -40,6 +40,16 @@ hts <- function(y, node) {
   }
 
   # Obtain the group matrix
+  gmatrix <- Gmatrix(node)  # Gmatrix() defined below
+
+  # Obtain other information
+  names(node) <- paste("Level", 0:length(node))
+  # Returns the NO. of series for each level
+  m <- apply(gmatrix, 1, function(x) length(unique(x)))
+
+  output <- structure(list(bts = y, node = node, gmatrix = gmatrix, m = m), 
+                      class = "hts")
+  return(output)
 }
 
 
@@ -54,7 +64,7 @@ Gmatrix <- function(xlist) {
   for(i in length(xlist):2) {
     gvec <- vector(length = num.bts)
     for(k in 1:length(xlist[[i]])) {
-      # Returns the no. of the unique numbers for each block of the lower level
+      # Returns the NO. of the unique numbers for each block of the lower level
       num.unique <- cumsum(xlist[[i]])
       if(k == 1) {
         index <- seq(1, num.unique[k])
