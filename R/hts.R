@@ -18,7 +18,7 @@ hts <- function(y, node) {
   if(ncol(y) <= 1) {
     stop("Argument y must be a multiviate time series.")
   }
-  if(is.na(y)) {
+  if(TRUE %in% is.na(y)) {
     stop("Argument y must not have missing values.")
   }
   if(!is.list(node)) {
@@ -31,8 +31,8 @@ hts <- function(y, node) {
     stop("The number of terminal nodes is not consistent with the number of 
          bottome time series.")
   }
-  for(i in 1:length(node)) {
-    if(sum(node[[i]]) != length(node[[i + 1])) {
+  for(i in 1:(length(node) - 1)) {
+    if(sum(node[[i]]) != length(node[[i + 1]])) {
       error <- paste("The number of nodes for the level", i - 1, "is not equal
                      to the number of series of level", i)
       stop(error)
@@ -43,7 +43,7 @@ hts <- function(y, node) {
   gmatrix <- Gmatrix(node)  # Gmatrix() defined below
 
   # Obtain other information
-  names(node) <- paste("Level", 0:length(node))
+  names(node) <- paste("Level", 0:(length(node) - 1))
   # Returns the NO. of series for each level
   m <- apply(gmatrix, 1, function(x) length(unique(x)))
 
@@ -82,8 +82,8 @@ Gmatrix <- function(xlist) {
   # Insert the top level
   gmat[1, ] <- rep(1, num.bts)
 
-  colnames(gmat) <- colnames(y)
-  rownames(gmat) <- paste("Level", 0:nrow(gmat))
+  colnames(gmat) <- colnames(bts)
+  rownames(gmat) <- paste("Level", 0:(nrow(gmat) - 1))
   class(gmat) <- "gmatrix"
   return(gmat)
 }
