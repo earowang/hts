@@ -11,6 +11,9 @@ hts <- function(y, node) {
   # Returns:
   #   A hierarchical time series.
   #
+  # ToDo:
+  #   1. May handle NA's by forecasting them properly.
+  #
   # Error handling:
   if(!is.ts(y)) {
     stop("Agrument y must be a time series data.")
@@ -86,4 +89,10 @@ Gmatrix <- function(xlist) {
   rownames(gmat) <- paste("Level", 0:(nrow(gmat) - 1))
   class(gmat) <- "gmatrix"
   return(gmat)
+}
+
+
+# A function to check whether it's the "hts" class.
+is.hts <- function(xts) {
+  is.element("hts", class(xts))
 }
