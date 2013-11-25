@@ -1,5 +1,3 @@
-library(testthat)
-source("/home/earowang/hts4/R/hts.R")
 # A unit test for hts() function
 context("Tests on inputs")
 
@@ -69,9 +67,9 @@ test_that("tests for the gmatrix", {
   g <- matrix(c(rep(1, 10), rep(1, 4), rep(2, 3), rep(3, 3), rep(1, 2), 
                 rep(2, 2), seq(3, 5), rep(6, 3), seq(1, 10)), ncol = 10, 
                 byrow = TRUE)
+  class(g) <- "gmatrix"
 
   output <- hts(mts, node.list)$gmatrix
   dimnames(output) <- NULL
-  class(output) <- "matrix"
   expect_that(output, equals(g))
 })

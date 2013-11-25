@@ -13,6 +13,7 @@ hts <- function(y, node) {
   #
   # ToDo:
   #   1. May handle NA's by forecasting them properly.
+  #   2. Restrict the minimum number of obs handled by hts.
   #
   # Error handling:
   if(!is.ts(y)) {
@@ -95,4 +96,21 @@ Gmatrix <- function(xlist) {
 # A function to check whether it's the "hts" class.
 is.hts <- function(xts) {
   is.element("hts", class(xts))
+}
+
+
+# Print "hts" on the screen
+print.hts <- function(xts) {
+  # ToDo:
+  #   1. Add if condition (fcasts) exists
+  bts <- xts$bts
+  cat("Hierarchical Time Series \n")
+  cat(length(xts$m), "Levels \n")
+  cat("Number of nodes at each level:", xts$m, "\n")
+  cat("Total number of series:", sum(xts$m), "\n")
+  cat("Number of observations per series:", nrow(bts), "\n")
+  cat("Top level series:", "\n")
+  
+  topts <- ts(rowSums(bts), start = tsp(bts)[1], frequency = tsp(bts)[3])
+  print(topts)
 }

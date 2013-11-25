@@ -1,4 +1,7 @@
 export(
 hts,
-is.hts
+is.hts,
+print.hts
 )
+
+S3method(print, hts)
