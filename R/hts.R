@@ -26,24 +26,25 @@ hts <- function(y, nodes) {
   }
   if(missing(nodes) || length(as.numeric(nodes)) == 1) {
     nodes <- list(ncol(y))
-  } else if(!is.list(nodes)) {
-      stop("Argument nodes must be a list.")
-  } else {
-      for(i in 1:(length(nodes) - 1)) {
-        if(sum(nodes[[i]]) != length(nodes[[i + 1]])) {
-          error <- paste("The number of nodes for the level", i - 1, "is not 
-                         equal to the number of series of level", i)
-          stop(error)
-        }
-      }
-      nodes <- nodes
-  }
+  } 
+  if(!is.list(nodes)) {
+    stop("Argument nodes must be a list.")
+  } 
   if(length(nodes[[1]]) != 1) {
     stop("The root node cannot be empty.")
   }
   if(sum(nodes[[length(nodes)]]) != ncol(y)) {
     stop("The number of terminal nodes is not consistent with the number of 
          bottom time series.")
+  }
+  if(length(nodes) > 1) {
+    for(i in 1:(length(nodes) - 1)) {
+      if(sum(nodes[[i]]) != length(nodes[[i + 1]])) {
+        error <- paste("The number of nodes for the level", i - 1, "is not 
+                       equal to the number of series of level", i)
+        stop(error)
+      }
+    }
   }
 
   # Obtain other information
