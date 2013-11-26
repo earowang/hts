@@ -1,11 +1,11 @@
 # Functions to contruct hierarchical or grouped time series.
 
-hts <- function(y, node) {
+hts <- function(y, nodes = NULL) {
   # Construct the hierarchical time series.
   # 
   # Args:
   #   y: The bottom time series assigned by the user. Same lengths and no NA.
-  #   node: A list contains the number of child nodes for each level except
+  #   nodes: A list contains the number of child nodes for each level except
   #         for the bottom one. 
   #
   # Returns:
@@ -13,7 +13,6 @@ hts <- function(y, node) {
   #
   # ToDo:
   #   1. May handle NA's by forecasting them properly.
-  #   2. Restrict the minimum number of obs handled by hts.
   #
   # Error handling:
   if(!is.ts(y)) {
@@ -22,45 +21,40 @@ hts <- function(y, node) {
   if(ncol(y) <= 1) {
     stop("Argument y must be a multiviate time series.")
   }
-  if(TRUE %in% is.na(y)) {
+  if(any(is.na(y))) {
     stop("Argument y must not have missing values.")
   }
-  if(!is.list(node)) {
-    stop("Argument node must be a list.")
+  if(is.null(nodes) | length(nodes) == 1) {
+    nodes <- list(ncol(y))
+  } else if(!is.list(nodes)) {
+      stop("Argument nodes must be a list.")
+  } else {
+      for(i in 1:(length(nodes) - 1)) {
+        if(sum(nodes[[i]]) != length(nodes[[i + 1]])) {
+          error <- paste("The number of nodes for the level", i - 1, "is not 
+                         equal to the number of series of level", i)
+          stop(error)
+        }
+      }
+      nodes <- nodes
   }
-  if(length(node[[1]]) != 1) {
+  if(length(nodes[[1]]) != 1) {
     stop("The root node cannot be empty.")
   }
-  if(sum(node[[length(node)]]) != ncol(y)) {
+  if(sum(nodes[[length(nodes)]]) != ncol(y)) {
     stop("The number of terminal nodes is not consistent with the number of 
-         bottome time series.")
+         bottom time series.")
   }
-  for(i in 1:(length(node) - 1)) {
-    if(sum(node[[i]]) != length(node[[i + 1]])) {
-      error <- paste("The number of nodes for the level", i - 1, "is not equal
-                     to the number of series of level", i)
-      stop(error)
-    }
-  }
-
-  # Obtain the group matrix
-  gmat <- Gmatrix(node)  # Gmatrix() defined below
-  colnames(gmat) <- colnames(y)
-  rownames(gmat) <- paste("Level", 0:(nrow(gmat) - 1))
-  class(gmat) <- "gmatrix"
 
   # Obtain other information
-  names(node) <- paste("Level", 0:(length(node) - 1))
-  # Returns the NO. of series for each level
-  m <- apply(gmat, 1, function(x) length(unique(x)))
+  names(nodes) <- paste("Level", 0:(length(nodes) - 1))
 
-  output <- structure(list(bts = y, node = node, gmatrix = gmat, m = m), 
-                      class = "hts")
+  output <- structure(list(bts = y, nodes = nodes), class = "hts")
   return(output)
 }
 
 
-# A function to convert the node list to gmatrix
+# A function to convert the nodes list to gmatrix
 Gmatrix <- function(xlist) {
   num.bts <- sum(xlist[[length(xlist)]])
   # Create an empty matrix to contain the gmatrix
@@ -69,7 +63,7 @@ Gmatrix <- function(xlist) {
   gmat[nrow(gmat), ] <- seq(1, num.bts)
   # Insert the middle levels in the reverse order
   for(i in length(xlist):2) {
-    gvec <- vector(length = num.bts)
+    gint <- integer(length = num.bts)
     for(k in 1:length(xlist[[i]])) {
       # Returns the NO. of the unique numbers for each block of the lower level
       num.unique <- cumsum(xlist[[i]])
@@ -82,13 +76,16 @@ Gmatrix <- function(xlist) {
       # Returns the full index for each block
       block.index  <- which(gmat[i + 1, ] %in% block)
       block.length <- length(gmat[i + 1, block.index])
-      gvec[block.index] <- rep(k, block.length)
+      gint[block.index] <- rep(k, block.length)
     }
-    gmat[i, ] <- gvec
+    gmat[i, ] <- gint
   }
   # Insert the top level
   gmat[1, ] <- rep(1, num.bts)
 
+  colnames(gmat) <- colnames(xlist)
+  rownames(gmat) <- paste("Level", 0:(nrow(gmat) - 1))
+  class(gmat) <- "gmatrix"
   return(gmat)
 }
 

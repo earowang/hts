@@ -34,6 +34,14 @@ test_that("tests for node as a list", {
   expect_that(hts(mts, node.mat), throws_error())
 })
 
+test_that("tests for node by default", {
+  set.seed(1234)
+  mts <- ts(matrix(5 + sort(rnorm(500)), nrow = 50, ncol = 10))
+  nodes <- list("Level 0" = 10)
+
+  expect_that(hts(mts)$nodes, equals(nodes))
+})
+
 test_that("tests for the root node not specified", {
   set.seed(1234)
   mts <- ts(matrix(5 + sort(rnorm(500)), nrow = 50, ncol = 10))
@@ -61,15 +69,13 @@ test_that("tests for the middle nodes wrong", {
 context("tests on output")
 
 test_that("tests for the gmatrix", {
-  set.seed(1234)
-  mts <- ts(matrix(5 + sort(rnorm(500)), nrow = 50, ncol = 10))
   node.list <- list(3, c(2, 3, 1), c(2, 2, 1, 1, 1, 3))
   g <- matrix(c(rep(1, 10), rep(1, 4), rep(2, 3), rep(3, 3), rep(1, 2), 
                 rep(2, 2), seq(3, 5), rep(6, 3), seq(1, 10)), ncol = 10, 
                 byrow = TRUE)
   class(g) <- "gmatrix"
 
-  output <- hts(mts, node.list)$gmatrix
+  output <- Gmatrix(node.list)
   dimnames(output) <- NULL
   expect_that(output, equals(g))
 })
