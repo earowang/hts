@@ -90,6 +90,13 @@ Gmatrix <- function(xlist) {
 }
 
 
+# A function to return the NO. of series at each level
+Mlevel <- function(xlist) {
+  m <- c(unlist(lapply(xlist, length)), sum(xlist[[length(xlist)]]))
+  return(m)
+}
+
+
 # A function to check whether it's the "hts" class.
 is.hts <- function(xts) {
   is.element("hts", class(xts))
@@ -102,9 +109,9 @@ print.hts <- function(xts) {
   #   1. Add if condition (fcasts) exists
   bts <- xts$bts
   cat("Hierarchical Time Series \n")
-  cat(length(xts$m), "Levels \n")
-  cat("Number of nodes at each level:", xts$m, "\n")
-  cat("Total number of series:", sum(xts$m), "\n")
+  cat(length(Mlevel(xts$nodes)), "Levels \n")
+  cat("Number of nodes at each level:", Mlevel(xts$nodes), "\n")
+  cat("Total number of series:", sum(Mlevel(xts$nodes)), "\n")
   cat("Number of observations per series:", nrow(bts), "\n")
   cat("Top level series:", "\n")
   
