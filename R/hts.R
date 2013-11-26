@@ -24,7 +24,7 @@ hts <- function(y, nodes) {
   if(any(is.na(y))) {
     stop("Argument y must not have missing values.")
   }
-  if(missing(nodes) | length(nodes) == 1) {
+  if(missing(nodes) || length(nodes) == 1) {
     nodes <- list(ncol(y))
   } else if(!is.list(nodes)) {
       stop("Argument nodes must be a list.")
