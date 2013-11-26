@@ -1,6 +1,6 @@
 # Functions to contruct hierarchical or grouped time series.
 
-hts <- function(y, nodes = NULL) {
+hts <- function(y, nodes) {
   # Construct the hierarchical time series.
   # 
   # Args:
@@ -24,7 +24,7 @@ hts <- function(y, nodes = NULL) {
   if(any(is.na(y))) {
     stop("Argument y must not have missing values.")
   }
-  if(is.null(nodes) | length(nodes) == 1) {
+  if(missing(nodes) | length(nodes) == 1) {
     nodes <- list(ncol(y))
   } else if(!is.list(nodes)) {
       stop("Argument nodes must be a list.")
