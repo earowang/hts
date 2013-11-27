@@ -18,26 +18,26 @@ hts <- function(y, nodes) {
   if(!is.ts(y)) {
     stop("Agrument y must be a time series data.")
   }
-  if(ncol(y) <= 1) {
+  if(ncol(y) <= 1L) {
     stop("Argument y must be a multiviate time series.")
   }
   if(any(is.na(y))) {
     stop("Argument y must not have missing values.")
   }
-  if(missing(nodes) || length(as.numeric(nodes)) == 1) {
+  if(missing(nodes) || length(as.numeric(nodes)) == 1L) {
     nodes <- list(ncol(y))
   } 
   if(!is.list(nodes)) {
     stop("Argument nodes must be a list.")
   } 
-  if(length(nodes[[1]]) != 1) {
+  if(length(nodes[[1L]]) != 1L) {
     stop("The root node cannot be empty.")
   }
   if(sum(nodes[[length(nodes)]]) != ncol(y)) {
     stop("The number of terminal nodes is not consistent with the number of 
          bottom time series.")
   }
-  if(length(nodes) > 1) {
+  if(length(nodes) > 1L) {
     for(i in 1:(length(nodes) - 1)) {
       if(sum(nodes[[i]]) != length(nodes[[i + 1]])) {
         error <- paste("The number of nodes for the level", i - 1, "is not 
@@ -68,7 +68,7 @@ Gmatrix <- function(xlist) {
     for(k in 1:length(xlist[[i]])) {
       # Returns the NO. of the unique numbers for each block of the lower level
       num.unique <- cumsum(xlist[[i]])
-      if(k == 1) {
+      if(k == 1L) {
         index <- seq(1, num.unique[k])
       } else {
         index <- seq(1, num.unique[k])[-seq(1, num.unique[k - 1])]
@@ -82,7 +82,7 @@ Gmatrix <- function(xlist) {
     gmat[i, ] <- gint
   }
   # Insert the top level
-  gmat[1, ] <- rep(1, num.bts)
+  gmat[1, ] <- rep(1L, num.bts)
 
   colnames(gmat) <- colnames(xlist)
   rownames(gmat) <- paste("Level", 0:(nrow(gmat) - 1))
@@ -116,6 +116,6 @@ print.hts <- function(xts) {
   cat("Number of observations per series:", nrow(bts), "\n")
   cat("Top level series:", "\n")
   
-  topts <- ts(rowSums(bts), start = tsp(bts)[1], frequency = tsp(bts)[3])
+  topts <- ts(rowSums(bts), start = tsp(bts)[1L], frequency = tsp(bts)[3L])
   print(topts)
 }
