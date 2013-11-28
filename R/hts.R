@@ -1,12 +1,15 @@
 # Functions to contruct hierarchical or grouped time series.
 
-hts <- function(y, nodes) {
+hts <- function(y, nodes, bnames = colnames(y), characters) {
   # Construct the hierarchical time series.
   # 
   # Args:
-  #   y: The bottom time series assigned by the user. Same lengths and no NA.
+  #   y*: The bottom time series assigned by the user. Same lengths and no NA.
   #   nodes: A list contains the number of child nodes for each level except
-  #         for the bottom one. 
+  #     for the bottom one. If missing, it's assumed to have only one level.
+  #   bnames: The names of the bottom time series.
+  #   characters: Define how to split the "bnames" in order to construct the
+  #     level labels. Otherwise, use the defaul labelling system.
   #
   # Returns:
   #   A hierarchical time series.
@@ -24,7 +27,7 @@ hts <- function(y, nodes) {
   if(any(is.na(y))) {
     stop("Argument y must not have missing values.")
   }
-  if(missing(nodes) || length(as.numeric(nodes)) == 1L) {
+  if(missing(nodes)) {
     nodes <- list(ncol(y))
   } 
   if(!is.list(nodes)) {
@@ -45,6 +48,13 @@ hts <- function(y, nodes) {
         stop(error)
       }
     }
+  }
+
+  # Construct the level labels
+  if(is.null(bnames) || missing(characters)) {
+    message("Since argument bnames/characters are not specified, the default 
+            labelling system is used.")
+    labels <- HierName(nodes) # HierName() defined below
   }
 
   # Obtain other information
@@ -91,10 +101,38 @@ Gmatrix <- function(xlist) {
 }
 
 
-# A function to return the NO. of series at each level
-Mlevel <- function(xlist) {
+# A function to return the NO. of nodes at each level
+Mnodes <- function(xlist) {
   m <- c(unlist(lapply(xlist, length)), sum(xlist[[length(xlist)]]))
   return(m)
+}
+
+
+# A function to set the default hierarchical names
+HierName<- function(xlist) {
+  gmat <- Gmatrix(xlist)  # Based on gmatrix
+  names.mat <- gmat[-1L, ]
+  for(i in nrow(names.mat):1) {
+    no.unique <- cumsum(xlist[[i]])
+    for(k in 1:length(no.unique)) {
+      if(k == 1L) {
+        index <- which(names.mat[i, ] %in% seq(1, no.unique[k]))
+      } else {
+        index <- which(names.mat[i, ] %in% seq(no.unique[k - 1], no.unique[k]))
+      }
+      letter <- length(unique(names.mat[i, index]))
+      times <- as.data.frame(table(names.mat[i, index]))
+      names.mat[i, index] <- rep(LETTERS[1:letter], times[, 2])
+    }
+  }
+  j <- 2
+  while(j <= nrow(names.mat)) {
+    # Overwrite names.mat
+    names.mat[j, ] <- paste0(names.mat[j - 1, ], names.mat[j, ])
+    j <- j + 1
+  }
+  names.list <- c("Level 0" = "Total", apply(names.mat, 1, unique))
+  return(names.list)
 }
 
 
@@ -110,9 +148,9 @@ print.hts <- function(xts) {
   #   1. Add if condition (fcasts) exists
   bts <- xts$bts
   cat("Hierarchical Time Series \n")
-  cat(length(Mlevel(xts$nodes)), "Levels \n")
-  cat("Number of nodes at each level:", Mlevel(xts$nodes), "\n")
-  cat("Total number of series:", sum(Mlevel(xts$nodes)), "\n")
+  cat(length(Mnodes(xts$nodes)), "Levels \n")
+  cat("Number of nodes at each level:", Mnodes(xts$nodes), "\n")
+  cat("Total number of series:", sum(Mnodes(xts$nodes)), "\n")
   cat("Number of observations per series:", nrow(bts), "\n")
   cat("Top level series:", "\n")
   
