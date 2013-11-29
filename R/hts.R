@@ -41,9 +41,9 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
          bottom time series.")
   }
   if(length(nodes) > 1L) {
-    for(i in 1:(length(nodes) - 1)) {
+    for(i in 1L:(length(nodes) - 1L)) {
       if(sum(nodes[[i]]) != length(nodes[[i + 1]])) {
-        error <- paste("The number of nodes for the level", i - 1, "is not 
+        error <- paste("The number of nodes for the level", i - 1L, "is not 
                        equal to the number of series of level", i)
         stop(error)
       }
@@ -55,12 +55,21 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
     message("Since argument bnames/characters are not specified, the default 
             labelling system is used.")
     labels <- HierName(nodes) # HierName() defined below
+  } else if (length(characters) != ncol(y) || 
+             length(characters) != length(nodes) + 1L) {
+    stop("Argument characters is misspecified.")
+  } else {
+    characters <- as.integer(characters)
+    start <- cumsum(characters) - characters + 1L
+    end <- cumsum(characters)
+    token <- sapply(bnames, function(x) substring(x, start, end))
   }
 
   # Obtain other information
-  names(nodes) <- paste("Level", 0:(length(nodes) - 1))
+  names(nodes) <- paste("Level", 0L:(length(nodes) - 1L))
 
-  output <- structure(list(bts = y, nodes = nodes), class = "hts")
+  output <- structure(list(bts = y, nodes = nodes, labels = labels), 
+                      class = "hts")
   return(output)
 }
 
@@ -69,13 +78,13 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
 Gmatrix <- function(xlist) {
   num.bts <- sum(xlist[[length(xlist)]])
   # Create an empty matrix to contain the gmatrix
-  gmat <- matrix(, nrow = length(xlist) + 1, ncol = num.bts)
+  gmat <- matrix(, nrow = length(xlist) + 1L, ncol = num.bts)
   # Insert the bottom level
-  gmat[nrow(gmat), ] <- seq(1, num.bts)
+  gmat[nrow(gmat), ] <- seq(1L, num.bts)
   # Insert the middle levels in the reverse order
-  for(i in length(xlist):2) {
+  for(i in length(xlist):2L) {
     gint <- integer(length = num.bts)
-    for(k in 1:length(xlist[[i]])) {
+    for(k in 1L:length(xlist[[i]])) {
       # Returns the NO. of the unique numbers for each block of the lower level
       num.unique <- cumsum(xlist[[i]])
       if(k == 1L) {
@@ -95,7 +104,7 @@ Gmatrix <- function(xlist) {
   gmat[1, ] <- rep(1L, num.bts)
 
   colnames(gmat) <- colnames(xlist)
-  rownames(gmat) <- paste("Level", 0:(nrow(gmat) - 1))
+  rownames(gmat) <- paste("Level", 0L:(nrow(gmat) - 1L))
   class(gmat) <- "gmatrix"
   return(gmat)
 }
@@ -111,6 +120,7 @@ Mnodes <- function(xlist) {
 # A function to set the default hierarchical names
 HierName<- function(xlist) {
   gmat <- Gmatrix(xlist)  # Based on gmatrix
+  # A matrix to store letters
   names.mat <- gmat[-1L, ]
   for(i in nrow(names.mat):1) {
     no.unique <- cumsum(xlist[[i]])
@@ -122,15 +132,16 @@ HierName<- function(xlist) {
       }
       letter <- length(unique(names.mat[i, index]))
       times <- as.data.frame(table(names.mat[i, index]))
-      names.mat[i, index] <- rep(LETTERS[1:letter], times[, 2])
+      names.mat[i, index] <- rep(LETTERS[1:letter], times[, 2L])
     }
   }
-  j <- 2
+  j <- 2L
   while(j <= nrow(names.mat)) {
     # Overwrite names.mat
     names.mat[j, ] <- paste0(names.mat[j - 1, ], names.mat[j, ])
-    j <- j + 1
+    j <- j + 1L
   }
+  # Drop off the duplicated names
   names.list <- c("Level 0" = "Total", apply(names.mat, 1, unique))
   return(names.list)
 }
