@@ -30,19 +30,26 @@ gts <- function(y, groups, gnames = rownames(groups)) {
 
   # Construct gmatrix
   if (missing(groups)) {
-    gmat <- matrix(1L:ncol(y), nrow = 1L, byrow = TRUE)
+    gmat <- matrix(c(rep(1L, ncol(y)), seq(1L, ncol(y))), nrow = 2L, 
+                   byrow = TRUE)
   } else {
     groups <- as.matrix(groups)
     gmat <- GmatrixG(groups)  # GmatrixG() defined below
   }
 
   # Construct gnames
-  if (missing(gnames)) {
+  if (is.null(gnames)) {
     message("Agrument gnames is missing and the default labels are used.")
-    gnames <- c("Total", paste("Group", 1:nrow(groups)), "Bottom")
+    gnames <- c("Total", ifelse(nrow(gmat) == 2L, "Bottom", 
+                c(paste("Group", LETTERS[1L:(nrow(gmat) - 2L)]), 
+                "Bottom")))
   } else {
-    gnames <- c("Total", rownames(groups), "Bottom")
+    gnames <- c("Total", gnames, "Bottom")
   }
+
+  colnames(gmat) <- colnames(y)
+  rownames(gmat) <- gnames
+
   return(structure(list(bts = y, groups = gmat, gnames = gnames), 
                    class = "gts"))
 }
@@ -58,5 +65,5 @@ GmatrixG <- function(xmat) {
   }
   # Insert the first & last rows
   gmat <- rbind(rep(1L, ncol(xmat)), gmat, seq(1L, ncol(xmat)))
-  return(gmat)
+  return(structure(gmat, class = "gmatrix"))
 }
