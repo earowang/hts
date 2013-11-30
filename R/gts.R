@@ -28,11 +28,23 @@ gts <- function(y, groups, gnames = rownames(groups)) {
     stop("Argument groups is misspecified.")
   }
 
+  # Construct gmatrix
   if (missing(groups)) {
-    groups <- matrix(1L:ncol(y), nrow = 1L, byrow = TRUE)
+    gmat <- matrix(1L:ncol(y), nrow = 1L, byrow = TRUE)
   } else {
     groups <- as.matrix(groups)
+    gmat <- GmatrixG(groups)  # GmatrixG() defined below
   }
+
+  # Construct gnames
+  if (missing(gnames)) {
+    message("Agrument gnames is missing and the default labels are used.")
+    gnames <- c("Total", paste("Group", 1:nrow(groups)), "Bottom")
+  } else {
+    gnames <- c("Total", rownames(groups), "Bottom")
+  }
+  return(structure(list(bts = y, groups = gmat, gnames = gnames), 
+                   class = "gts"))
 }
 
 
@@ -44,9 +56,7 @@ GmatrixG <- function(xmat) {
   } else {
     gmat  <- xmat
   }
-  # Insert the first row
-  gmat <- rbind(rep(1, ncol(xmat)), gmat)
-  # Insert the bottom row
-  gmat <- rbind(gmat, seq(1, ncol(xmat)))
+  # Insert the first & last rows
+  gmat <- rbind(rep(1L, ncol(xmat)), gmat, seq(1L, ncol(xmat)))
   return(gmat)
 }
