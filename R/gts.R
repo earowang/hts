@@ -67,3 +67,32 @@ GmatrixG <- function(xmat) {
   gmat <- rbind(rep(1L, ncol(xmat)), gmat, seq(1L, ncol(xmat)))
   return(structure(gmat, class = "gmatrix"))
 }
+
+
+# A function to calculate No. of groups at each level
+Mlevel <- function(xgroup) {
+  m <- apply(xgroup, 1, function(x) length(unique(x)))
+  return(m)
+}
+
+
+# A function to check whether it's the "gts" class.
+is.gts <- function(xts) {
+  is.element("gts", class(xts))
+}
+
+# Print "gts" on the screen
+print.gts <- function(xts) {
+  # ToDo:
+  #   1. Add if condition (fcasts) exists
+  bts <- xts$bts
+  cat("Grouped Time Series \n")
+  cat(length(Mlevel(xts$groups)), "Levels \n")
+  cat("Number of groups at each level:", Mlevel(xts$groups), "\n")
+  cat("Total number of series:", sum(Mlevel(xts$groups)), "\n")
+  cat("Number of observations per series:", nrow(bts), "\n")
+  cat("Top level series:", "\n")
+  
+  topts <- ts(rowSums(bts), start = tsp(bts)[1L], frequency = tsp(bts)[3L])
+  print(topts)
+}
