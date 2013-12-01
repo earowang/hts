@@ -19,8 +19,16 @@ gts <- function(y, groups, gnames = rownames(groups)) {
   if (any(is.na(y))) {
     stop("Argument y must not have missing values.")
   }
-  if (!is.matrix(groups)) {
+  if (missing(groups)) {
+    groups <- matrix(c(rep(1L, ncol(y)), seq(1L, ncol(y))), nrow = 2L, 
+                   byrow = TRUE)
+    gmat <- groups
+  } else if (!is.matrix(groups)) {
     stop("Argument groups must be a matrix.")
+  } else {
+    # Construct gmatrix
+    groups <- as.matrix(groups)
+    gmat <- GmatrixG(groups)  # GmatrixG() defined below
   }
   # Check whether groups is unique
   bgroup <- unique(apply(groups, 2, paste, collapse = ""))
@@ -28,24 +36,14 @@ gts <- function(y, groups, gnames = rownames(groups)) {
     stop("Argument groups is misspecified.")
   }
 
-  # Construct gmatrix
-  if (missing(groups)) {
-    gmat <- matrix(c(rep(1L, ncol(y)), seq(1L, ncol(y))), nrow = 2L, 
-                   byrow = TRUE)
-  } else {
-    groups <- as.matrix(groups)
-    gmat <- GmatrixG(groups)  # GmatrixG() defined below
-  }
 
   # Construct gnames
-  if (is.null(gnames)) {
+  if (nrow(gmat) == 2L) {
+    gnames <- c("Total", "Bottom")
+  } else if (is.null(gnames)) {
     message("Agrument gnames is missing and the default labels are used.")
-    if (nrow(gmat) == 2L) {
-      gnames <- c("Total", "Bottom")
-    } else {
-      gnames <- c("Total", paste("Group", LETTERS[1L:(nrow(gmat) - 2L)]),
-                  "Bottom")
-    }
+    gnames <- c("Total", paste("Group", LETTERS[1L:(nrow(gmat) - 2L)]),
+                "Bottom")
   } else {
     gnames <- c("Total", gnames, "Bottom")
   }
@@ -62,7 +60,7 @@ gts <- function(y, groups, gnames = rownames(groups)) {
 GmatrixG <- function(xmat) {
   if (is.character(xmat)) {
     # Convert character to numeric
-    gmat <- t(apply(xmat, 1, function(x) as.numeric(factor(x, unqiue(x)))))
+    gmat <- t(apply(xmat, 1, function(x) as.numeric(factor(x, unique(x)))))
   } else {
     gmat  <- xmat
   }
