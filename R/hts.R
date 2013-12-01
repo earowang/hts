@@ -1,5 +1,3 @@
-# Functions to contruct hierarchical or grouped time series.
-
 hts <- function(y, nodes, bnames = colnames(y), characters) {
   # Construct the hierarchical time series.
   # 
@@ -16,33 +14,34 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
   #
   # ToDo:
   #   1. May handle NA's by forecasting them properly.
+  #   2. Add summary.hts function.
   #
   # Error handling:
-  if(!is.ts(y)) {
+  if (!is.ts(y)) {
     stop("Agrument y must be a time series data.")
   }
-  if(ncol(y) <= 1L) {
+  if (ncol(y) <= 1L) {
     stop("Argument y must be a multiviate time series.")
   }
-  if(any(is.na(y))) {
+  if (any(is.na(y))) {
     stop("Argument y must not have missing values.")
   }
-  if(missing(nodes)) {
+  if (missing(nodes)) {
     nodes <- list(ncol(y))
   } 
-  if(!is.list(nodes)) {
+  if (!is.list(nodes)) {
     stop("Argument nodes must be a list.")
   } 
-  if(length(nodes[[1L]]) != 1L) {
+  if (length(nodes[[1L]]) != 1L) {
     stop("The root node cannot be empty.")
   }
-  if(sum(nodes[[length(nodes)]]) != ncol(y)) {
+  if (sum(nodes[[length(nodes)]]) != ncol(y)) {
     stop("The number of terminal nodes is not consistent with the number of 
          bottom time series.")
   }
-  if(length(nodes) > 1L) {
-    for(i in 1L:(length(nodes) - 1L)) {
-      if(sum(nodes[[i]]) != length(nodes[[i + 1]])) {
+  if (length(nodes) > 1L) {
+    for (i in 1L:(length(nodes) - 1L)) {
+      if (sum(nodes[[i]]) != length(nodes[[i + 1]])) {
         error <- paste("The number of nodes for the level", i - 1L, "is not 
                        equal to the number of series of level", i)
         stop(error)
@@ -51,7 +50,7 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
   }
 
   # Construct the level labels
-  if(is.null(bnames) || missing(characters)) {
+  if (is.null(bnames) || missing(characters)) {
     message("Since argument bnames/characters are not specified, the default 
             labelling system is used.")
     labels <- HierName(nodes) # HierName() defined below
@@ -75,30 +74,28 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
 
 
 # A function to convert the nodes list to gmatrix
-Gmatrix <- function(xlist) {
+GmatrixH <- function(xlist) {
   num.bts <- sum(xlist[[length(xlist)]])
   # Create an empty matrix to contain the gmatrix
   gmat <- matrix(, nrow = length(xlist) + 1L, ncol = num.bts)
   # Insert the bottom level
   gmat[nrow(gmat), ] <- seq(1L, num.bts)
   # Insert the middle levels in the reverse order
-  for(i in length(xlist):2L) {
-    gint <- integer(length = num.bts)
-    for(k in 1L:length(xlist[[i]])) {
-      # Returns the NO. of the unique numbers for each block of the lower level
-      num.unique <- cumsum(xlist[[i]])
-      if(k == 1L) {
-        index <- seq(1, num.unique[k])
-      } else {
-        index <- seq(1, num.unique[k])[-seq(1, num.unique[k - 1])]
+  if (length(xlist) > 1L) {
+    for (i in length(xlist):2L) {
+      gint <- integer(length = num.bts)
+      for (k in 1L:length(xlist[[i]])) {
+        # Returns the No of the unique numbers for each block of the lower level
+        end <- cumsum(xlist[[i]])[k]
+        start <- end - xlist[[i]][k] + 1
+        block <- unique(gmat[i + 1, ])[start:end]
+        # Returns the full index for each block
+        block.index  <- which(gmat[i + 1, ] %in% block)
+        block.length <- length(gmat[i + 1, block.index])
+        gint[block.index] <- rep(k, block.length)
       }
-      block <- unique(gmat[i + 1, ])[index]
-      # Returns the full index for each block
-      block.index  <- which(gmat[i + 1, ] %in% block)
-      block.length <- length(gmat[i + 1, block.index])
-      gint[block.index] <- rep(k, block.length)
+      gmat[i, ] <- gint
     }
-    gmat[i, ] <- gint
   }
   # Insert the top level
   gmat[1, ] <- rep(1L, num.bts)
@@ -118,31 +115,32 @@ Mnodes <- function(xlist) {
 
 
 # A function to set the default hierarchical names
-HierName<- function(xlist) {
-  gmat <- Gmatrix(xlist)  # Based on gmatrix
+HierName <- function(xlist) {
+  gmat <- GmatrixH(xlist)  # Based on gmatrix
   # A matrix to store letters
   names.mat <- gmat[-1L, ]
-  for(i in nrow(names.mat):1) {
-    no.unique <- cumsum(xlist[[i]])
-    for(k in 1:length(no.unique)) {
-      if(k == 1L) {
-        index <- which(names.mat[i, ] %in% seq(1, no.unique[k]))
-      } else {
-        index <- which(names.mat[i, ] %in% seq(no.unique[k - 1], no.unique[k]))
+  if (!is.null(nrow(names.mat))) {
+    for (i in nrow(names.mat):1L) {
+      for (k in 1L:length(xlist[[i]])) {
+        end <- cumsum(xlist[[i]])[k]
+        start <- end - xlist[[i]][k] + 1
+        index <- which(names.mat[i, ] %in% seq(start, end))
+        letter <- length(unique(names.mat[i, index]))
+        times <- as.data.frame(table(names.mat[i, index]))
+        names.mat[i, index] <- rep(LETTERS[1:letter], times[, 2L])
       }
-      letter <- length(unique(names.mat[i, index]))
-      times <- as.data.frame(table(names.mat[i, index]))
-      names.mat[i, index] <- rep(LETTERS[1:letter], times[, 2L])
     }
+    j <- 2L
+    while (j <= nrow(names.mat)) {
+      # Overwrite names.mat
+      names.mat[j, ] <- paste0(names.mat[j - 1, ], names.mat[j, ])
+      j <- j + 1L
+    }
+    # Drop off the duplicated names
+    names.list <- c("Level 0" = "Total", apply(names.mat, 1, unique))
+  } else {
+    names.list <- list("Level 0" = "Total")
   }
-  j <- 2L
-  while(j <= nrow(names.mat)) {
-    # Overwrite names.mat
-    names.mat[j, ] <- paste0(names.mat[j - 1, ], names.mat[j, ])
-    j <- j + 1L
-  }
-  # Drop off the duplicated names
-  names.list <- c("Level 0" = "Total", apply(names.mat, 1, unique))
   return(names.list)
 }
 

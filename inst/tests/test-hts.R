@@ -75,7 +75,7 @@ test_that("tests for the gmatrix", {
                 byrow = TRUE)
   class(g) <- "gmatrix"
 
-  output <- Gmatrix(node.list)
+  output <- GmatrixH(node.list)
   dimnames(output) <- NULL
   expect_that(output, equals(g))
 })

@@ -40,9 +40,12 @@ gts <- function(y, groups, gnames = rownames(groups)) {
   # Construct gnames
   if (is.null(gnames)) {
     message("Agrument gnames is missing and the default labels are used.")
-    gnames <- c("Total", ifelse(nrow(gmat) == 2L, "Bottom", 
-                c(paste("Group", LETTERS[1L:(nrow(gmat) - 2L)]), 
-                "Bottom")))
+    if (nrow(gmat) == 2L) {
+      gnames <- c("Total", "Bottom")
+    } else {
+      gnames <- c("Total", paste("Group", LETTERS[1L:(nrow(gmat) - 2L)]),
+                  "Bottom")
+    }
   } else {
     gnames <- c("Total", gnames, "Bottom")
   }
