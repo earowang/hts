@@ -55,10 +55,8 @@ gts <- function(y, groups, gnames = rownames(groups)) {
   # Keep the names at each group
   if (nrow(gmat) > 2L) {
     times <- apply(groups, 1, function(x) length(unique(x)))
-    full.groups <- list(length = length(gnames))
-    for (i in 1L:length(gnames)) {
-      full.groups[[i]] <- rep(gnames[i], times[i])
-    }
+    full.groups <- rep(gnames, times)
+    full.groups <- split(full.groups, factor(full.groups, unique(full.groups)))
     subnames <- apply(groups, 1, unique)
     if (is.matrix(subnames)) {
       subnames <- split(subnames, rep(1:ncol(subnames), each = nrow(subnames)))
