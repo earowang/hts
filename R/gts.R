@@ -9,6 +9,9 @@ gts <- function(y, groups, gnames = rownames(groups)) {
   # Returns:
   #   A grouped time series.
   #
+  # ToDo:
+  #   1. If group > 26, implement "Aa + No" form.
+  #
   # Error handling:
   if (!is.ts(y)) {
     stop("Agrument y must be a time series data.")
@@ -36,14 +39,12 @@ gts <- function(y, groups, gnames = rownames(groups)) {
     stop("Argument groups is misspecified.")
   }
 
-
   # Construct gnames
   if (nrow(gmat) == 2L) {
     gnames <- c("Total", "Bottom")
   } else if (is.null(gnames)) {
     message("Agrument gnames is missing and the default labels are used.")
-    gnames <- c("Total", paste("Group", LETTERS[1L:(nrow(gmat) - 2L)]),
-                "Bottom")
+    gnames <- c("Total", LETTERS[1L:(nrow(gmat) - 2L)], "Bottom")
   } else {
     gnames <- c("Total", gnames, "Bottom")
   }
@@ -51,8 +52,18 @@ gts <- function(y, groups, gnames = rownames(groups)) {
   colnames(gmat) <- colnames(y)
   rownames(gmat) <- gnames
 
-  return(structure(list(bts = y, groups = gmat, gnames = gnames), 
-                   class = "gts"))
+  # Keep the names at each group
+  times <- apply(groups, 1, function(x) length(unique(x)))
+  full.groups <- list(length = length(gnames) - 2L)
+  for (i in 2L:(length(gnames) - 1L)) {
+    full.groups[[i]] <- rep(gnames[i], times[i])
+  }
+  subnames <- apply(groups, 1, unique)
+  name.list <- mapply(paste0, full.groups, "/", subnames)
+  names(name.list) <- gnames
+
+  return(structure(list(bts = y, groups = gmat, gnames = name.list,
+                        class = "gts"))
 }
 
 
