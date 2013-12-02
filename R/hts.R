@@ -58,10 +58,18 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
              length(characters) != length(nodes) + 1L) {
     stop("Argument characters is misspecified.")
   } else {
+    # Construct labels based on characters
     characters <- as.integer(characters)
     start <- cumsum(characters) - characters + 1L
     end <- cumsum(characters)
     token <- sapply(bnames, function(x) substring(x, start, end))
+    labels.mat <- matrix(, nrow = nrow(token), ncol = ncol(token))
+    labels.mat[1, ] <- token[1, ]
+    for (i in 2:nrow(labels.mat)) {
+      labels.mat[i, ] <- paste0(labels.mat[i - 1, ], labels.mat[i, ])
+    }
+    rownames(labels.mat) <- paste("Level", 1:nrow(labels.mat))
+    labels <- c("Level 0" = "Total", apply(label.mat, 1, unique))
   }
 
   # Obtain other information
