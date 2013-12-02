@@ -65,10 +65,10 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
     token <- sapply(bnames, function(x) substring(x, start, end))
     labels.mat <- matrix(, nrow = nrow(token), ncol = ncol(token))
     labels.mat[1, ] <- token[1, ]
-    for (i in 2:nrow(labels.mat)) {
+    for (i in 2L:nrow(labels.mat)) {
       labels.mat[i, ] <- paste0(labels.mat[i - 1, ], labels.mat[i, ])
     }
-    rownames(labels.mat) <- paste("Level", 1:nrow(labels.mat))
+    rownames(labels.mat) <- paste("Level", 1L:nrow(labels.mat))
     labels <- c("Level 0" = "Total", apply(label.mat, 1, unique))
   }
 

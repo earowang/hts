@@ -41,28 +41,33 @@ gts <- function(y, groups, gnames = rownames(groups)) {
 
   # Construct gnames
   if (nrow(gmat) == 2L) {
-    gnames <- c("Total", "Bottom")
+    name.list <- NULL
   } else if (is.null(gnames)) {
     message("Agrument gnames is missing and the default labels are used.")
-    gnames <- c("Total", LETTERS[1L:(nrow(gmat) - 2L)], "Bottom")
+    gnames <- LETTERS[1L:(nrow(gmat) - 2L)]
   } else {
-    gnames <- c("Total", gnames, "Bottom")
+    gnames <- gnames
   }
 
   colnames(gmat) <- colnames(y)
-  rownames(gmat) <- gnames
+  rownames(gmat) <- c("Total", gnames, "Bottom")
 
   # Keep the names at each group
-  times <- apply(groups, 1, function(x) length(unique(x)))
-  full.groups <- list(length = length(gnames) - 2L)
-  for (i in 2L:(length(gnames) - 1L)) {
-    full.groups[[i]] <- rep(gnames[i], times[i])
+  if (nrow(gmat) > 2L) {
+    times <- apply(groups, 1, function(x) length(unique(x)))
+    full.groups <- list(length = length(gnames))
+    for (i in 1L:length(gnames)) {
+      full.groups[[i]] <- rep(gnames[i], times[i])
+    }
+    subnames <- apply(groups, 1, unique)
+    if (is.matrix(subnames)) {
+      subnames <- split(subnames, rep(1:ncol(subnames), each = nrow(subnames)))
+    } 
+    name.list <- mapply(paste0, full.groups, "/", subnames, SIMPLIFY = FALSE)
+    names(name.list) <- gnames
   }
-  subnames <- apply(groups, 1, unique)
-  name.list <- mapply(paste0, full.groups, "/", subnames)
-  names(name.list) <- gnames
 
-  return(structure(list(bts = y, groups = gmat, gnames = name.list,
+  return(structure(list(bts = y, groups = gmat, gnames = name.list),
                         class = "gts"))
 }
 
