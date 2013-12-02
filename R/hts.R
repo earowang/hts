@@ -85,31 +85,21 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
 GmatrixH <- function(xlist) {
   num.bts <- sum(xlist[[length(xlist)]])
   # Create an empty matrix to contain the gmatrix
-  gmat <- matrix(, nrow = length(xlist) + 1L, ncol = num.bts)
+  gmat <- matrix(, nrow = length(xlist), ncol = num.bts)
   # Insert the bottom level
   gmat[nrow(gmat), ] <- seq(1L, num.bts)
   # Insert the middle levels in the reverse order
   if (length(xlist) > 1L) {
-    for (i in length(xlist):2L) {
-      gint <- integer(length = num.bts)
-      for (k in 1L:length(xlist[[i]])) {
-        # Returns the No of the unique numbers for each block of the lower level
-        end <- cumsum(xlist[[i]])[k]
-        start <- end - xlist[[i]][k] + 1
-        block <- unique(gmat[i + 1, ])[start:end]
-        # Returns the full index for each block
-        block.index  <- which(gmat[i + 1, ] %in% block)
-        block.length <- length(gmat[i + 1, block.index])
-        gint[block.index] <- rep(k, block.length)
-      }
-      gmat[i, ] <- gint
+    repcount <- xlist[[length(xlist)]]
+    for (i in (length(xlist) - 1L):1L) {
+      gmat[i, ] <- rep(1L:length(xlist[[i + 1]]), repcount)
+      repcount <- tapply(repcount, rep(1L:length(xlist[[i]]), xlist[[i]]), sum)
     }
   }
   # Insert the top level
-  gmat[1, ] <- rep(1L, num.bts)
+  gmat <- rbind(rep(1L, num.bts), gmat)
 
-  colnames(gmat) <- colnames(xlist)
-  rownames(gmat) <- paste("Level", 0L:(nrow(gmat) - 1L))
+  dimnames(gmat) <- list(paste("Level", 0L:(nrow(gmat) - 1L)), colnames(xlist))
   class(gmat) <- "gmatrix"
   return(gmat)
 }
