@@ -14,7 +14,7 @@ gts <- function(y, groups, gnames = rownames(groups)) {
   #
   # Error handling:
   if (!is.ts(y)) {
-    stop("Agrument y must be a time series data.")
+    stop("Argument y must be a time series data.")
   }
   if (ncol(y) <= 1L) {
     stop("Argument y must be a multiviate time series.")
@@ -43,20 +43,16 @@ gts <- function(y, groups, gnames = rownames(groups)) {
   if (nrow(gmat) == 2L) {
     name.list <- NULL
   } else if (is.null(gnames)) {
-    message("Agrument gnames is missing and the default labels are used.")
+    message("Argument gnames is missing and the default labels are used.")
     gnames <- LETTERS[1L:(nrow(gmat) - 2L)]
-  } else {
-    gnames <- gnames
-  }
-
+  } 
   colnames(gmat) <- colnames(y)
   rownames(gmat) <- c("Total", gnames, "Bottom")
 
   # Keep the names at each group
   if (nrow(gmat) > 2L) {
     times <- apply(groups, 1, function(x) length(unique(x)))
-    full.groups <- rep(gnames, times)
-    full.groups <- split(full.groups, factor(full.groups, unique(full.groups)))
+    full.groups <- mapply(rep, as.list(gnames), times, SIMPLIFY = FALSE)
     subnames <- apply(groups, 1, unique)
     if (is.matrix(subnames)) {
       subnames <- split(subnames, rep(1:ncol(subnames), each = nrow(subnames)))
@@ -73,8 +69,8 @@ gts <- function(y, groups, gnames = rownames(groups)) {
 # A function to convert groups to gmatrix
 GmatrixG <- function(xmat) {
   if (is.character(xmat)) {
-    # Convert character to numeric
-    gmat <- t(apply(xmat, 1, function(x) as.numeric(factor(x, unique(x)))))
+    # Convert character to integer
+    gmat <- t(apply(xmat, 1, function(x) as.integer(factor(x, unique(x)))))
   } else {
     gmat  <- xmat
   }

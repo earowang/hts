@@ -83,17 +83,19 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
 
 # A function to convert the nodes list to gmatrix
 GmatrixH <- function(xlist) {
-  num.bts <- sum(xlist[[length(xlist)]])
+  l.xlist <- length(xlist)
+  num.bts <- sum(xlist[[l.xlist]])
   # Create an empty matrix to contain the gmatrix
-  gmat <- matrix(, nrow = length(xlist), ncol = num.bts)
+  gmat <- matrix(, nrow = l.xlist, ncol = num.bts)
   # Insert the bottom level
   gmat[nrow(gmat), ] <- seq(1L, num.bts)
   # Insert the middle levels in the reverse order
-  if (length(xlist) > 1L) {
-    repcount <- xlist[[length(xlist)]]
-    for (i in (length(xlist) - 1L):1L) {
+  if (l.xlist > 1L) {
+    repcount <- xlist[[l.xlist]]
+    for (i in (l.xlist - 1L):1L) {
       gmat[i, ] <- rep(1L:length(xlist[[i + 1]]), repcount)
-      repcount <- tapply(repcount, rep(1L:length(xlist[[i]]), xlist[[i]]), sum)
+      repcount <- aggregate(repcount, list(rep(1L:length(xlist[[i]]), 
+                    xlist[[i]])), sum)[, 2]
     }
   }
   # Insert the top level
@@ -114,30 +116,18 @@ Mnodes <- function(xlist) {
 
 # A function to set the default hierarchical names
 HierName <- function(xlist) {
-  gmat <- GmatrixH(xlist)  # Based on gmatrix
-  # A matrix to store letters
-  names.mat <- gmat[-1L, ]
-  if (!is.null(nrow(names.mat))) {
-    for (i in nrow(names.mat):1L) {
-      for (k in 1L:length(xlist[[i]])) {
-        end <- cumsum(xlist[[i]])[k]
-        start <- end - xlist[[i]][k] + 1
-        index <- which(names.mat[i, ] %in% seq(start, end))
-        letter <- length(unique(names.mat[i, index]))
-        times <- as.data.frame(table(names.mat[i, index]))
-        names.mat[i, index] <- rep(LETTERS[1:letter], times[, 2L])
-      }
-    }
-    j <- 2L
-    while (j <= nrow(names.mat)) {
-      # Overwrite names.mat
-      names.mat[j, ] <- paste0(names.mat[j - 1, ], names.mat[j, ])
-      j <- j + 1L
-    }
-    # Drop off the duplicated names
-    names.list <- c("Level 0" = "Total", apply(names.mat, 1, unique))
-  } else {
+  if (length(xlist) == 1) {
     names.list <- list("Level 0" = "Total")
+  } else {
+    names.list <- list(length = length(xlist))
+    names.list[[1]] <- LETTERS[1:xlist[[1]]]
+    for (i in 2L:length(xlist)) {
+      # Grab the individual letters at each level
+      ind <- unlist(sapply(xlist[[i]], function(x) LETTERS[1:x]))
+      # Recursively paste
+      names.list[[i]] <- paste0(rep(names.list[[i - 1]], xlist[[i]]), ind)
+    }
+    names.list <- c("Level 0" = "Total", names.list)
   }
   return(names.list)
 }
