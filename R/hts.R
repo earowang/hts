@@ -69,7 +69,7 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
       labels.mat[i, ] <- paste0(labels.mat[i - 1, ], labels.mat[i, ])
     }
     rownames(labels.mat) <- paste("Level", 1L:nrow(labels.mat))
-    labels <- c("Level 0" = "Total", apply(label.mat, 1, unique))
+    labels <- c("Level 0" = "Total", apply(labels.mat, 1, unique))
   }
 
   # Obtain other information
@@ -85,7 +85,7 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
 GmatrixH <- function(xlist) {
   l.xlist <- length(xlist)
   num.bts <- sum(xlist[[l.xlist]])
-  nlist <- unlist(lapply(xlist,length))
+  nlist <- unlist(lapply(xlist, length))
   # Create an empty matrix to contain the gmatrix
   gmat <- matrix(, nrow = l.xlist, ncol = num.bts)
   # Insert the bottom level
@@ -94,15 +94,9 @@ GmatrixH <- function(xlist) {
   if (l.xlist > 1L) {
     repcount <- xlist[[l.xlist]]
     for (i in (l.xlist - 1L):1L) {
-<<<<<<< HEAD
-      gmat[i, ] <- rep(1L:length(xlist[[i + 1]]), repcount)
-      repcount <- aggregate(repcount, list(rep(1L:length(xlist[[i]]), 
+      gmat[i, ] <- rep(1L:nlist[i + 1], repcount)
+      repcount <- aggregate(repcount, list(rep(1L:nlist[i], 
                     xlist[[i]])), sum)[, 2L]
-=======
-      gmat[i, ] <- rep(1L:nlist[i + 1]), repcount)
-      repcount <- aggregate(repcount, list(rep(1L:nlist[i]), 
-                    xlist[[i]])), sum)[, 2]
->>>>>>> 539d63670cf39ad2bae2e5fdb0de76d96e48371f
     }
   }
   # Insert the top level
@@ -127,7 +121,7 @@ HierName <- function(xlist) {
     names.list <- list("Level 0" = "Total")
   } else {
     names.list <- list(length = length(xlist))
-    names.list[[1L]] <- LETTERS[1L:xlist[[1]]]
+    names.list[[1L]] <- LETTERS[1L:xlist[[1L]]]
     for (i in 2L:length(xlist)) {
       # Grab the individual letters at each level
       ind <- unlist(sapply(xlist[[i]], function(x) LETTERS[1:x]))
@@ -158,6 +152,7 @@ print.hts <- function(xts) {
   cat("Number of observations per series:", nrow(xts$bts), "\n")
   cat("Top level series:", "\n")
   
-  topts <- ts(rowSums(xts$bts), start = tsp(xts$bts)[1L], frequency = tsp(xts$bts)[3L])
+  topts <- ts(rowSums(xts$bts), start = tsp(xts$bts)[1L], 
+              frequency = tsp(xts$bts)[3L])
   print(topts)
 }

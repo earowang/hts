@@ -105,6 +105,7 @@ print.gts <- function(xts) {
   cat("Number of observations per series:", nrow(xts$bts), "\n")
   cat("Top level series:", "\n")
   
-  topts <- ts(rowSums(xts$bts), start = tsp(xts$bts)[1L], frequency = tsp(xts$bts)[3L])
+  topts <- ts(rowSums(xts$bts), start = tsp(xts$bts)[1L], 
+              frequency = tsp(xts$bts)[3L])
   print(topts)
 }
