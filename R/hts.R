@@ -64,7 +64,7 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
     end <- cumsum(characters)
     token <- sapply(bnames, function(x) substring(x, start, end))
     labels.mat <- matrix(, nrow = nrow(token), ncol = ncol(token))
-    labels.mat[1, ] <- token[1, ]
+    labels.mat[1L, ] <- token[1L, ]
     for (i in 2L:nrow(labels.mat)) {
       labels.mat[i, ] <- paste0(labels.mat[i - 1, ], labels.mat[i, ])
     }
@@ -95,7 +95,7 @@ GmatrixH <- function(xlist) {
     for (i in (l.xlist - 1L):1L) {
       gmat[i, ] <- rep(1L:length(xlist[[i + 1]]), repcount)
       repcount <- aggregate(repcount, list(rep(1L:length(xlist[[i]]), 
-                    xlist[[i]])), sum)[, 2]
+                    xlist[[i]])), sum)[, 2L]
     }
   }
   # Insert the top level
@@ -116,11 +116,11 @@ Mnodes <- function(xlist) {
 
 # A function to set the default hierarchical names
 HierName <- function(xlist) {
-  if (length(xlist) == 1) {
+  if (length(xlist) == 1L) {
     names.list <- list("Level 0" = "Total")
   } else {
     names.list <- list(length = length(xlist))
-    names.list[[1]] <- LETTERS[1:xlist[[1]]]
+    names.list[[1L]] <- LETTERS[1L:xlist[[1]]]
     for (i in 2L:length(xlist)) {
       # Grab the individual letters at each level
       ind <- unlist(sapply(xlist[[i]], function(x) LETTERS[1:x]))

@@ -55,6 +55,7 @@ gts <- function(y, groups, gnames = rownames(groups)) {
     full.groups <- mapply(rep, as.list(gnames), times, SIMPLIFY = FALSE)
     subnames <- apply(groups, 1, unique)
     if (is.matrix(subnames)) {
+      # Convert a matrix to a list
       subnames <- split(subnames, rep(1:ncol(subnames), each = nrow(subnames)))
     } 
     name.list <- mapply(paste0, full.groups, "/", subnames, SIMPLIFY = FALSE)
