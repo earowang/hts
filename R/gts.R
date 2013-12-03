@@ -17,7 +17,7 @@ gts <- function(y, groups, gnames = rownames(groups)) {
     stop("Argument y must be a time series data.")
   }
   if (ncol(y) <= 1L) {
-    stop("Argument y must be a multiviate time series.")
+    stop("Argument y must be a multivariate time series.")
   }
   if (any(is.na(y))) {
     stop("Argument y must not have missing values.")
@@ -51,7 +51,7 @@ gts <- function(y, groups, gnames = rownames(groups)) {
 
   # Keep the names at each group
   if (nrow(gmat) > 2L) {
-    times <- apply(groups, 1, function(x) length(unique(x)))
+    times <- Mlevel(groups)
     full.groups <- mapply(rep, as.list(gnames), times, SIMPLIFY = FALSE)
     subnames <- apply(groups, 1, unique)
     if (is.matrix(subnames)) {
@@ -97,14 +97,14 @@ is.gts <- function(xts) {
 print.gts <- function(xts) {
   # ToDo:
   #   1. Add if condition (fcasts) exists
-  bts <- xts$bts
   cat("Grouped Time Series \n")
-  cat(length(Mlevel(xts$groups)), "Levels \n")
-  cat("Number of groups at each level:", Mlevel(xts$groups), "\n")
-  cat("Total number of series:", sum(Mlevel(xts$groups)), "\n")
-  cat("Number of observations per series:", nrow(bts), "\n")
+  nlevels <- Mlevel(xts$groups)
+  cat(length(nlevels), "Levels \n")
+  cat("Number of groups at each level:", nlevels, "\n")
+  cat("Total number of series:", sum(nlevels), "\n")
+  cat("Number of observations per series:", nrow(xts$bts), "\n")
   cat("Top level series:", "\n")
   
-  topts <- ts(rowSums(bts), start = tsp(bts)[1L], frequency = tsp(bts)[3L])
+  topts <- ts(rowSums(xts$bts), start = tsp(xts$bts)[1L], frequency = tsp(xts$bts)[3L])
   print(topts)
 }
