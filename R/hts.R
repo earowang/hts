@@ -18,10 +18,10 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
   #
   # Error handling:
   if (!is.ts(y)) {
-    stop("Agrument y must be a time series data.")
+    stop("Argument y must be a time series data.")
   }
   if (ncol(y) <= 1L) {
-    stop("Argument y must be a multiviate time series.")
+    stop("Argument y must be a multivariate time series.")
   }
   if (any(is.na(y))) {
     stop("Argument y must not have missing values.")
@@ -51,7 +51,7 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
 
   # Construct the level labels
   if (is.null(bnames) || missing(characters)) {
-    message("Since argument bnames/characters are not specified, the default 
+    message("Since arguments bnames & characters are not specified, the default 
             labelling system is used.")
     labels <- HierName(nodes) # HierName() defined below
   } else if (length(characters) != ncol(y) || 
@@ -85,6 +85,7 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
 GmatrixH <- function(xlist) {
   l.xlist <- length(xlist)
   num.bts <- sum(xlist[[l.xlist]])
+  nlist <- unlist(lapply(xlist,length))
   # Create an empty matrix to contain the gmatrix
   gmat <- matrix(, nrow = l.xlist, ncol = num.bts)
   # Insert the bottom level
@@ -93,8 +94,8 @@ GmatrixH <- function(xlist) {
   if (l.xlist > 1L) {
     repcount <- xlist[[l.xlist]]
     for (i in (l.xlist - 1L):1L) {
-      gmat[i, ] <- rep(1L:length(xlist[[i + 1]]), repcount)
-      repcount <- aggregate(repcount, list(rep(1L:length(xlist[[i]]), 
+      gmat[i, ] <- rep(1L:nlist[i + 1]), repcount)
+      repcount <- aggregate(repcount, list(rep(1L:nlist[i]), 
                     xlist[[i]])), sum)[, 2]
     }
   }
@@ -143,14 +144,14 @@ is.hts <- function(xts) {
 print.hts <- function(xts) {
   # ToDo:
   #   1. Add if condition (fcasts) exists
-  bts <- xts$bts
+  mn <- Mnodes(xts$nodes)
   cat("Hierarchical Time Series \n")
-  cat(length(Mnodes(xts$nodes)), "Levels \n")
-  cat("Number of nodes at each level:", Mnodes(xts$nodes), "\n")
-  cat("Total number of series:", sum(Mnodes(xts$nodes)), "\n")
-  cat("Number of observations per series:", nrow(bts), "\n")
+  cat(length(mn), "Levels \n")
+  cat("Number of nodes at each level:", mn, "\n")
+  cat("Total number of series:", sum(mn), "\n")
+  cat("Number of observations per series:", nrow(xts$bts), "\n")
   cat("Top level series:", "\n")
   
-  topts <- ts(rowSums(bts), start = tsp(bts)[1L], frequency = tsp(bts)[3L])
+  topts <- ts(rowSums(xts$bts), start = tsp(xts$bts)[1L], frequency = tsp(xts$bts)[3L])
   print(topts)
 }
