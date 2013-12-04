@@ -60,8 +60,8 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
   } else {
     # Construct labels based on characters
     characters <- as.integer(characters)
-    start <- cumsum(characters) - characters + 1L
     end <- cumsum(characters)
+    start <- end - characters + 1L
     token <- sapply(bnames, function(x) substring(x, start, end))
     labels.mat <- matrix(, nrow = nrow(token), ncol = ncol(token))
     labels.mat[1L, ] <- token[1L, ]
@@ -76,7 +76,7 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
   names(nodes) <- paste("Level", 0L:(length(nodes) - 1L))
 
   output <- structure(list(bts = y, nodes = nodes, labels = labels), 
-                      class = "hts")
+                      class = c("gts", "hts"))
   return(output)
 }
 
@@ -139,22 +139,4 @@ HierName <- function(xlist) {
 # A function to check whether it's the "hts" class.
 is.hts <- function(xts) {
   is.element("hts", class(xts))
-}
-
-
-# Print "hts" on the screen
-print.hts <- function(xts) {
-  # ToDo:
-  #   1. Add if condition (fcasts) exists
-  mn <- Mnodes(xts$nodes)
-  cat("Hierarchical Time Series \n")
-  cat(length(mn), "Levels \n")
-  cat("Number of nodes at each level:", mn, "\n")
-  cat("Total number of series:", sum(mn), "\n")
-  cat("Number of observations per series:", nrow(xts$bts), "\n")
-  cat("Top level series:", "\n")
-  
-  topts <- ts(rowSums(xts$bts), start = tsp(xts$bts)[1L], 
-              frequency = tsp(xts$bts)[3L])
-  print(topts)
 }

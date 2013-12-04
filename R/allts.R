@@ -1,4 +1,4 @@
-allts <- function(y, levels) {
+allts <- function(y, levels = NULL) {
   # Display all time series from top to bottom.
   #
   # Args:
@@ -28,7 +28,7 @@ allts <- function(y, levels) {
   # A function to aggregate the bts
   rSum <- function(x) rowsum(t(y$bts), gmat[x, ])
 
-  if (missing(levels)) {
+  if (is.null(levels)) {
     # Return all levels of the time series
     levels <- 1L:nrow(gmat)
     ally <- lapply(levels, rSum)

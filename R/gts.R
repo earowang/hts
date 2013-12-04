@@ -94,11 +94,19 @@ is.gts <- function(xts) {
 print.gts <- function(xts) {
   # ToDo:
   #   1. Add if condition (fcasts) exists
-  cat("Grouped Time Series \n")
-  nlevels <- Mlevel(xts$groups)
-  cat(length(nlevels), "Levels \n")
-  cat("Number of groups at each level:", nlevels, "\n")
-  cat("Total number of series:", sum(nlevels), "\n")
+  if (is.hts(xts)) {
+    mn <- Mnodes(xts$nodes)
+    cat("Hierarchical Time Series \n")
+    cat(length(mn), "Levels \n")
+    cat("Number of nodes at each level:", mn, "\n")
+    cat("Total number of series:", sum(mn), "\n")
+  } else {
+    cat("Grouped Time Series \n")
+    nlevels <- Mlevel(xts$groups)
+    cat(length(nlevels), "Levels \n")
+    cat("Number of groups at each level:", nlevels, "\n")
+    cat("Total number of series:", sum(nlevels), "\n")
+  }
   cat("Number of observations per series:", nrow(xts$bts), "\n")
   cat("Top level series:", "\n")
   
