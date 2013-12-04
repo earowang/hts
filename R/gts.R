@@ -9,9 +9,6 @@ gts <- function(y, groups, gnames = rownames(groups)) {
   # Returns:
   #   A grouped time series.
   #
-  # ToDo:
-  #   1. If group > 26, implement "Aa + No" form.
-  #
   # Error handling:
   if (!is.ts(y)) {
     stop("Argument y must be a time series data.")
@@ -44,7 +41,7 @@ gts <- function(y, groups, gnames = rownames(groups)) {
     name.list <- NULL
   } else if (is.null(gnames)) {
     message("Argument gnames is missing and the default labels are used.")
-    gnames <- LETTERS[1L:(nrow(gmat) - 2L)]
+    gnames <- paste0("G", 1L:(nrow(gmat) - 2L))
   } 
   colnames(gmat) <- colnames(y)
   rownames(gmat) <- c("Total", gnames, "Bottom")
@@ -56,10 +53,10 @@ gts <- function(y, groups, gnames = rownames(groups)) {
     subnames <- apply(groups, 1, unique)
     if (is.matrix(subnames)) {
       # Convert a matrix to a list
-      subnames <- split(subnames, rep(1:ncol(subnames), each = nrow(subnames)))
+      subnames <- split(subnames, rep(1L:ncol(subnames), each = nrow(subnames)))
     } 
     name.list <- mapply(paste0, full.groups, "/", subnames, SIMPLIFY = FALSE)
-    names(name.list) <- gnames
+    names(name.list) <- paste("Group", 1L:(nrow(gmat) - 2L))
   }
 
   return(structure(list(bts = y, groups = gmat, gnames = name.list),

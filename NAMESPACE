@@ -4,7 +4,8 @@ gts,
 is.hts,
 is.gts,
 print.hts,
-print.gts
+print.gts,
+allts
 )
 
 S3method(print, hts)
