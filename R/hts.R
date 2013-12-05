@@ -42,8 +42,8 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
   if (length(nodes) > 1L) {
     for (i in 1L:(length(nodes) - 1L)) {
       if (sum(nodes[[i]]) != length(nodes[[i + 1]])) {
-        error <- paste("The number of nodes for the level", i - 1L, "is not 
-                       equal to the number of series of level", i)
+        error <- sprintf("The number of nodes for the level %i is not equal to 
+                         the number of series of level %i.", i - 1L, i)
         stop(error)
       }
     }
