@@ -1,4 +1,4 @@
-allts <- function(y, levels = NULL) {
+allts <- function(y, levels) {
   # Display all time series from top to bottom.
   #
   # Args:
@@ -13,7 +13,7 @@ allts <- function(y, levels = NULL) {
   #   1. Add argument forecast = TRUE/FALSE
   #
   # Error Handling:
-  if (!is.hts(y) && !is.gts(y)) {
+  if (!is.gts(y)) {
     stop("Argument y must be either a hts or gts object.")
   }
 
@@ -28,7 +28,7 @@ allts <- function(y, levels = NULL) {
   # A function to aggregate the bts
   rSum <- function(x) rowsum(t(y$bts), gmat[x, ])
 
-  if (is.null(levels)) {
+  if (missing(levels)) {
     # Return all levels of the time series
     levels <- 1L:nrow(gmat)
     ally <- lapply(levels, rSum)
