@@ -1,4 +1,4 @@
-allts <- function(y, levels) {
+aggts <- function(y, levels) {
   # Display all time series from top to bottom.
   #
   # Args:

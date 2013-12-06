@@ -2,7 +2,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
                          2L*frequency(object), 10L), 
                          method = c("bu"),
                          fmethod = c("ets", "arima", "rw"), 
-                         keep = c(NULL, "fitted", "residuals"),
+                         keep = c(NaN, "fitted", "residuals"),
                          positive = FALSE, ...) {
   # Forecast hts or gts objects
   #
@@ -17,7 +17,6 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
   # Return:
   #   Point forecasts with other info chosen by the user.
   #
-  require(forecast)
   method <- match.arg(method)
   fmethod <- match.arg(fmethod)
   keep <- match.arg(keep)
