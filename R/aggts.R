@@ -1,5 +1,6 @@
 aggts <- function(y, levels) {
-  # Display all time series from top to bottom.
+  # 1. Display all time series from top to bottom. 
+  # 2. Bottom-up
   #
   # Args:
   #   y*: hts & gts objects.

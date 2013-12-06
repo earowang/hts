@@ -3,7 +3,8 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
                          method = c("bu"),
                          fmethod = c("ets", "arima", "rw"), 
                          keep = c(NaN, "fitted", "residuals"),
-                         positive = FALSE, ...) {
+                         positive = FALSE, lambda = NULL, 
+                         xreg = NULL, newxreg = NULL, ...) {
   # Forecast hts or gts objects
   #
   # Args:
@@ -12,7 +13,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
   #   method: Aggregated approaches.
   #   fmethod: Forecast methods.
   #   keep: Users specify what they'd like to keep at the bottom level.
-  #   positive: Put restrictions on positive forecasts.
+  #   positive & lambda: Use Box-Cox transformation.
   #
   # Return:
   #   Point forecasts with other info chosen by the user.
@@ -28,65 +29,75 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     stop("Argument h must be positive.")
   }
 
-  # Set up lambda for arg "positive"
-  if (positive) {
-    lambda <- 0
-  } else {
-    lambda <- NULL
+  # Set up lambda for arg "positive" when lambda is missing
+  if (is.null(lambda)) {
+    if (positive) {
+      lambda <- 0
+    } else {
+      lambda <- NULL
+    }
   }
 
   # Bottom-up approach
   if (method == "bu") {
-    ally <- object$bts  # Only grab the bts
-    if (is.hts(object)) {
-      gmat <- GmatrixH(object$nodes)
-    } else {
-      gmat <- object$groups
-    }
+    y <- object$bts  # Only grab the bts
+  }
+
+  # Pre-allocate memory
+  model <- vector(length = ncol(y), mode = "list")
+  if (keep == "fitted") {
+    fits <- matrix(, nrow = nrow(y), ncol = ncol(y))
+  } else if (keep == "residuals") {
+    resid <- matrix(, nrow = nrow(y), ncol = ncol(y))
   }
 
   if (fmethod == "ets") {
     # Fit a model
-    fit <- lapply(ally, function(x) ets(x, lambda = lambda, ...))
-    if (keep == "fitted") {
-      fits <- sapply(ally, function(x) fitted(ets(x, lambda = lambda, ...)))
-    } else if (keep == "residuals") {
-      res <- sapply(ally, function(x) residuals(ets(x, lambda = lambda, ...)))
+    for (i in 1:ncol(y)) {
+      model[[i]] <- ets(y[, i], lambda = lambda, ...)
+      if (keep == "fitted") {
+        fits[, i] <- fitted(model[[i]])  # Grab fitted values
+      } else if (keep == "residuals") {
+        resid[, i] <- residuals(model[[i]])  # Grab residuals
+      }
     }
     # Generate point forecasts at for all level
-    pfcasts <- sapply(fit, function(x) forecast(x, h = h)$mean)
+    pfcasts <- sapply(model, function(x) forecast(x, h = h, PI = FALSE)$mean)
   } else if (fmethod == "arima") {
-    fit <- lapply(ally, function(x) auto.arima(x, lambda = lambda, ...))
-    if (keep == "fitted") {
-      fits <- sapply(ally, function(x) fitted(auto.arima(x, lambda = lambda, 
-                     ...)))
-    } else if (keep == "residuals") {
-      res <- sapply(ally, function(x) residuals(auto.arima(x, lambda = lambda, 
-                    ...)))
+    for (i in 1:ncol(y)) {
+      model[[i]] <- auto.arima(y[, i], lambda = lambda, xreg = xreg, ...)
+      if (keep == "fitted") {
+        fits[, i] <- fitted(model[[i]])  # Grab fitted values
+      } else if (keep == "residuals") {
+        resid[, i] <- residuals(model[[i]])  # Grab residuals
+      }
     }
-    pfcasts <- sapply(fit, function(x) forecast(x, h = h)$mean)
+    pfcasts <- sapply(model, function(x) forecast(x, h = h, xreg = newreg, 
+                      PI = FALSE)$mean)
   } else {
-    if (keep == "fitted") {
-      fits <- sapply(ally, function(x) fitted(rwf(x, lambda = lambda, ...)))
-    } else if (keep == "residuals") {
-      res <- sapply(ally, function(x) residuals(rwf(x, lambda = lambda, ...)))
+    for (i in 1:ncol(y)) {
+      model[[i]] <- rwf(y[, i], lambda = lambda, ...)
+      if (keep == "fitted") {
+        fits[, i] <- fitted(model[[i]])  # Grab fitted values
+      } else if (keep == "residuals") {
+        resid[, i] <- residuals(model[[i]])  # Grab residuals
+      }
     }
-    pfcasts <- sapply(ally, function(x) rwf(x, h = h, lambda = lambda)$mean)
+    pfcasts <- sapply(y, function(x) rwf(x, h = h, lambda = lambda)$mean)
   }
 
+  tsp.y <- tsp(y)
   if (method == "bu") {
-    allfcasts <- BottomUp(pfcasts, gmat)
+    bfcasts <- ts(pfcasts, start = tsp.y[2L] + 1L/tsp.y[3L], 
+                  frequency = tsp.y[3L])
     if (exists("fits")) {
-      bfits <- fits
+      bfits <- ts(fits, start = tsp.y[2L], frequency = tsp.y[3L])
     } else if (exists("res")) {
-      bres <- res
+      bresid <- ts(resid, start = tsp.y[2L], frequency = tsp.y[3L])
     }
   }
 
-  tsp.ally <- tsp(ally)
-  allfcasts <- ts(allfcasts, start = tsp.ally[2L] + 1L/tsp.ally[3L], 
-                  frequency = tsp.ally[3L])
-  return(list(allfcasts, 
+  return(list(f = bfcasts, 
               fitted = if (exists("bfits")) bfits, 
-              residuals = if (exists("bres")) bres))
+              residuals = if (exists("bresid")) bresid))
 }
