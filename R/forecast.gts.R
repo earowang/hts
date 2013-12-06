@@ -53,7 +53,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
 
   if (fmethod == "ets") {
     # Fit a model
-    for (i in 1:ncol(y)) {
+    for (i in 1L:ncol(y)) {
       model[[i]] <- ets(y[, i], lambda = lambda, ...)
       if (keep == "fitted") {
         fits[, i] <- fitted(model[[i]])  # Grab fitted values
@@ -64,7 +64,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     # Generate point forecasts at for all level
     pfcasts <- sapply(model, function(x) forecast(x, h = h, PI = FALSE)$mean)
   } else if (fmethod == "arima") {
-    for (i in 1:ncol(y)) {
+    for (i in 1L:ncol(y)) {
       model[[i]] <- auto.arima(y[, i], lambda = lambda, xreg = xreg, ...)
       if (keep == "fitted") {
         fits[, i] <- fitted(model[[i]])  # Grab fitted values
@@ -72,10 +72,10 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
         resid[, i] <- residuals(model[[i]])  # Grab residuals
       }
     }
-    pfcasts <- sapply(model, function(x) forecast(x, h = h, xreg = newreg, 
+    pfcasts <- sapply(model, function(x) forecast(x, h = h, xreg = newxreg, 
                       PI = FALSE)$mean)
   } else {
-    for (i in 1:ncol(y)) {
+    for (i in 1L:ncol(y)) {
       model[[i]] <- rwf(y[, i], lambda = lambda, ...)
       if (keep == "fitted") {
         fits[, i] <- fitted(model[[i]])  # Grab fitted values
@@ -92,7 +92,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
                   frequency = tsp.y[3L])
     if (exists("fits")) {
       bfits <- ts(fits, start = tsp.y[2L], frequency = tsp.y[3L])
-    } else if (exists("res")) {
+    } else if (exists("resid")) {
       bresid <- ts(resid, start = tsp.y[2L], frequency = tsp.y[3L])
     }
   }
