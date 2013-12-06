@@ -3,10 +3,8 @@ hts,
 gts,
 is.hts,
 is.gts,
-print.hts,
 print.gts,
 allts
 )
 
-S3method(print, hts)
 S3method(print, gts)

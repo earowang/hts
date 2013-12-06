@@ -56,7 +56,7 @@ gts <- function(y, groups, gnames = rownames(groups)) {
       subnames <- split(subnames, rep(1L:ncol(subnames), each = nrow(subnames)))
     } 
     name.list <- mapply(paste0, full.groups, "/", subnames, SIMPLIFY = FALSE)
-    names(name.list) <- paste("Group", 1L:(nrow(gmat) - 2L))
+    names(name.list) <- gnames
   }
 
   return(structure(list(bts = y, groups = gmat, gnames = name.list),
