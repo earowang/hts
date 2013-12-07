@@ -92,8 +92,6 @@ is.gts <- function(xts) {
 
 # Print "gts" on the screen
 print.gts <- function(xts) {
-  # ToDo:
-  #   1. Add if condition (fcasts) exists
   if (is.hts(xts)) {
     mn <- Mnodes(xts$nodes)
     cat("Hierarchical Time Series \n")
@@ -107,10 +105,19 @@ print.gts <- function(xts) {
     cat("Number of groups at each level:", nlevels, "\n")
     cat("Total number of series:", sum(nlevels), "\n")
   }
-  cat("Number of observations per series:", nrow(xts$bts), "\n")
-  cat("Top level series:", "\n")
-  
-  topts <- ts(rowSums(xts$bts), start = tsp(xts$bts)[1L], 
-              frequency = tsp(xts$bts)[3L])
+
+  if (is.null(xts$f)) {  # Original series
+    cat("Number of observations per series:", nrow(xts$bts), "\n")
+    cat("Top level series: \n")
+    topts <- ts(rowSums(xts$bts), start = tsp(xts$bts)[1L], 
+                frequency = tsp(xts$bts)[3L])
+  } else {
+    cat("Number of forecasts per series:", nrow(xts$f), "\n")
+    cat("Top level series of forecasts: \n")
+    if (xts$method == "bu") {
+      topts <- as.numeric(aggts(xts, 0))
+    }
+    topts <- ts(topts, start = tsp(xts$f)[1L], frequency = tsp(xts$f)[3L])
+  }
   print(topts)
 }
