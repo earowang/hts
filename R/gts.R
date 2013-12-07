@@ -59,7 +59,7 @@ gts <- function(y, groups, gnames = rownames(groups)) {
     names(name.list) <- gnames
   }
 
-  return(structure(list(bts = y, groups = gmat, gnames = name.list),
+  return(structure(list(bts = y, groups = gmat, labels = name.list),
                         class = "gts"))
 }
 

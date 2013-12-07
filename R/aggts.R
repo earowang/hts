@@ -10,9 +10,6 @@ aggts <- function(y, levels) {
   # Returns:
   #   The time series selected by users.
   #
-  # ToDo:
-  #   1. Add argument forecast = TRUE/FALSE
-  #
   # Error Handling:
   if (!is.gts(y)) {
     stop("Argument y must be either a hts or gts object.")
@@ -23,25 +20,32 @@ aggts <- function(y, levels) {
     labels <- y$labels
   } else {
     gmat <- y$groups
-    labels <- c("Total", y$gnames, list(colnames(y$bts)))
+    labels <- c("Total", y$labels, list(colnames(y$bts)))
   }
-
-  # A function to aggregate the bts
-  rSum <- function(x) rowsum(t(y$bts), gmat[x, ])
 
   if (missing(levels)) {
     # Return all levels of the time series
     levels <- 1L:nrow(gmat)
-    ally <- lapply(levels, rSum)
   } else {
     # Return the specified levels
     levels <- as.integer(levels) + 1L
+  }
+
+  # A function to aggregate the bts
+  rSum <- function(x) rowsum(t(y[[1L]]), gmat[x, ])
+
+  if (!is.null(y$f)) {
+    if (y$method == "bu") {
+      ally <- lapply(levels, rSum)
+    }
+  } else {
     ally <- lapply(levels, rSum)
   }
   # Convert lists to matrices
-  ally <- matrix(unlist(sapply(ally, t)), nrow = nrow(y$bts))
+  ally <- matrix(unlist(sapply(ally, t)), nrow = nrow(y[[1L]]))
+
   colnames(ally) <- unlist(labels[levels])
-  tsp.y <- tsp(y$bts)
+  tsp.y <- tsp(y[[1L]])
   ally <- ts(ally, start = tsp.y[1L], frequency = tsp.y[3L])
   return(ally)
 }
