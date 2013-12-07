@@ -91,19 +91,20 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
 
   # Set up basic info
   tsp.y <- tsp(y)
+  bnames <- colnames(object$bts)
 
   if (method == "bu") {
     bfcasts <- ts(pfcasts, start = tsp.y[2L] + 1L/tsp.y[3L], 
                   frequency = tsp.y[3L])
   }
-  colnames(bfcasts) <- colnames(object$bts)
+  colnames(bfcasts) <- bnames
   if (keep.fitted) {
     bfits <- ts(fits, start = tsp.y[2L], frequency = tsp.y[3L])
-    colnames(bfits) <- colnames(object$bts)
+    colnames(bfits) <- bnames
   } 
   if (keep.resid) {
     bresid <- ts(resid, start = tsp.y[2L], frequency = tsp.y[3L])
-    colnames(bresid) <- colnames(object$bts)
+    colnames(bresid) <- bnames
   }
 
   return(structure(

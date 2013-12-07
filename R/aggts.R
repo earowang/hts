@@ -15,7 +15,7 @@ aggts <- function(y, levels, forecast = TRUE) {
     stop("Argument y must be either a hts or gts object.")
   }
 
-  if(!forecast) {
+  if (!forecast) {
     y$bts <- y$histy
   }
 
