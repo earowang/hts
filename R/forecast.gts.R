@@ -117,6 +117,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
 
   return(structure(
            list(f = bfcasts, 
+           histy = object$bts,
            fitted = if (exists("bfits")) bfits, 
            residuals = if (exists("bresid")) bresid,
            nodes = if (is.hts(object)) object$nodes, 

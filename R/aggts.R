@@ -1,6 +1,6 @@
 aggts <- function(y, levels) {
   # 1. Display all time series from top to bottom. 
-  # 2. Bottom-up
+  # 2. Bottom-up method.
   #
   # Args:
   #   y*: hts & gts objects.
@@ -31,21 +31,21 @@ aggts <- function(y, levels) {
     levels <- as.integer(levels) + 1L
   }
 
-  # A function to aggregate the bts
-  rSum <- function(x) rowsum(t(y[[1L]]), gmat[x, ])
-
   if (!is.null(y$f)) {
-    if (y$method == "bu") {
-      ally <- lapply(levels, rSum)
-    }
+    obj <- y$f
   } else {
-    ally <- lapply(levels, rSum)
+    obj <- y$bts
   }
+
+  # A function to aggregate the bts
+  rSum <- function(x) rowsum(t(obj), gmat[x, ])
+
+  ally <- lapply(levels, rSum)
   # Convert lists to matrices
-  ally <- matrix(unlist(sapply(ally, t)), nrow = nrow(y[[1L]]))
+  ally <- matrix(unlist(sapply(ally, t)), nrow = nrow(obj))
 
   colnames(ally) <- unlist(labels[levels])
-  tsp.y <- tsp(y[[1L]])
+  tsp.y <- tsp(obj)
   ally <- ts(ally, start = tsp.y[1L], frequency = tsp.y[3L])
   return(ally)
 }

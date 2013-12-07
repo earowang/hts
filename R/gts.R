@@ -112,12 +112,12 @@ print.gts <- function(xts) {
     topts <- ts(rowSums(xts$bts), start = tsp(xts$bts)[1L], 
                 frequency = tsp(xts$bts)[3L])
   } else {
+    cat("Number of observations in each historical series:", 
+        nrow(xts$histy), "\n")
     cat("Number of forecasts per series:", nrow(xts$f), "\n")
     cat("Top level series of forecasts: \n")
-    if (xts$method == "bu") {
-      topts <- as.numeric(aggts(xts, 0))
-    }
-    topts <- ts(topts, start = tsp(xts$f)[1L], frequency = tsp(xts$f)[3L])
+    topts <- ts(rowSums(xts$f), start = tsp(xts$f)[1L], 
+                frequency = tsp(xts$f)[3L])
   }
   print(topts)
 }
