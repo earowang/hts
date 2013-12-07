@@ -106,18 +106,16 @@ print.gts <- function(xts) {
     cat("Total number of series:", sum(nlevels), "\n")
   }
 
-  if (is.null(xts$f)) {  # Original series
+  if (is.null(xts$histy)) {  # Original series
     cat("Number of observations per series:", nrow(xts$bts), "\n")
     cat("Top level series: \n")
-    topts <- ts(rowSums(xts$bts), start = tsp(xts$bts)[1L], 
-                frequency = tsp(xts$bts)[3L])
   } else {
     cat("Number of observations in each historical series:", 
         nrow(xts$histy), "\n")
-    cat("Number of forecasts per series:", nrow(xts$f), "\n")
+    cat("Number of forecasts per series:", nrow(xts$bts), "\n")
     cat("Top level series of forecasts: \n")
-    topts <- ts(rowSums(xts$f), start = tsp(xts$f)[1L], 
-                frequency = tsp(xts$f)[3L])
   }
+  topts <- ts(rowSums(xts$bts), start = tsp(xts$bts)[1L], 
+              frequency = tsp(xts$bts)[3L])
   print(topts)
 }

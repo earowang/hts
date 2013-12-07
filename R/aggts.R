@@ -1,4 +1,4 @@
-aggts <- function(y, levels) {
+aggts <- function(y, levels, forecast = TRUE) {
   # 1. Display all time series from top to bottom. 
   # 2. Bottom-up method.
   #
@@ -13,6 +13,10 @@ aggts <- function(y, levels) {
   # Error Handling:
   if (!is.gts(y)) {
     stop("Argument y must be either a hts or gts object.")
+  }
+
+  if(!forecast) {
+    y$bts <- y$histy
   }
 
   if (is.hts(y)) {
@@ -31,21 +35,15 @@ aggts <- function(y, levels) {
     levels <- as.integer(levels) + 1L
   }
 
-  if (!is.null(y$f)) {
-    obj <- y$f
-  } else {
-    obj <- y$bts
-  }
-
   # A function to aggregate the bts
-  rSum <- function(x) rowsum(t(obj), gmat[x, ])
+  rSum <- function(x) rowsum(t(y$bts), gmat[x, ])
 
   ally <- lapply(levels, rSum)
   # Convert lists to matrices
-  ally <- matrix(unlist(sapply(ally, t)), nrow = nrow(obj))
+  ally <- matrix(unlist(sapply(ally, t)), nrow = nrow(y$bts))
 
   colnames(ally) <- unlist(labels[levels])
-  tsp.y <- tsp(obj)
+  tsp.y <- tsp(y$bts)
   ally <- ts(ally, start = tsp.y[1L], frequency = tsp.y[3L])
   return(ally)
 }

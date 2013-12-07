@@ -50,10 +50,16 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
   }
 
   # Construct the level labels
-  if (is.null(bnames) || missing(characters)) {
-    message("Since arguments bnames & characters are not specified, the default 
+  if (missing(characters)) {
+    message("Since arguments characters are not specified, the default 
             labelling system is used.")
-    labels <- HierName(nodes) # HierName() defined below
+    if (is.null(bnames)) {
+      labels <- HierName(nodes) # HierName() defined below
+      colnames(y) <- unlist(labels[length(labels)])
+    } else {  # Keep bts names if specified
+      hn <- HierName(nodes)
+      labels <- c(hn[-length(hn)], list(bnames))
+    }
   } else if (length(characters) != ncol(y) || 
              length(characters) != length(nodes) + 1L) {
     stop("Argument characters is misspecified.")

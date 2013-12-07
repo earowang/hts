@@ -91,32 +91,23 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
 
   # Set up basic info
   tsp.y <- tsp(y)
-  if (is.hts(object)) {
-    if (is.null(colnames(object$bts))) {
-      bnames <- unlist(object$labels[length(object$labels)])
-    } else {
-      bnames <- colnames(object$bts)
-    }
-  } else {
-    bnames <- colnames(object$bts)
-  }
 
   if (method == "bu") {
     bfcasts <- ts(pfcasts, start = tsp.y[2L] + 1L/tsp.y[3L], 
                   frequency = tsp.y[3L])
   }
-  colnames(bfcasts) <- bnames
+  colnames(bfcasts) <- colnames(object$bts)
   if (keep.fitted) {
     bfits <- ts(fits, start = tsp.y[2L], frequency = tsp.y[3L])
-    colnames(bfits) <- bnames
+    colnames(bfits) <- colnames(object$bts)
   } 
   if (keep.resid) {
     bresid <- ts(resid, start = tsp.y[2L], frequency = tsp.y[3L])
-    colnames(bresid) <- bnames
+    colnames(bresid) <- colnames(object$bts)
   }
 
   return(structure(
-           list(f = bfcasts, 
+           list(bts = bfcasts, 
            histy = object$bts,
            fitted = if (exists("bfits")) bfits, 
            residuals = if (exists("bresid")) bresid,
