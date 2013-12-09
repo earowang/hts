@@ -1,6 +1,6 @@
 forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
                          2L*frequency(object), 10L), 
-                         method = c("bu"),
+                         method = c("comb", "bu"),
                          fmethod = c("ets", "arima", "rw"), 
                          keep.fitted = FALSE, keep.resid = FALSE,
                          positive = FALSE, lambda = NULL, 
@@ -31,14 +31,19 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
   # Set up lambda for arg "positive" when lambda is missing
   if (is.null(lambda)) {
     if (positive) {
+      if (any(object < 0L)) {
+        stop("Some data are negative.")
+      }
       lambda <- 0
     } else {
       lambda <- NULL
     }
   }
 
-  # Bottom-up approach
-  if (method == "bu") {
+  # Set up forecast methods
+  if (method == "comb") { # Combination
+    y <- aggts(object)  # Grab all ts
+  } else if (method == "bu") {  # Bottom-up approach
     y <- object$bts  # Only grab the bts
   }
 
@@ -93,10 +98,16 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
   tsp.y <- tsp(y)
   bnames <- colnames(object$bts)
 
-  if (method == "bu") {
-    bfcasts <- ts(pfcasts, start = tsp.y[2L] + 1L/tsp.y[3L], 
-                  frequency = tsp.y[3L])
+  if (method == "comb") {
+    # cs <- cumsum(Mnodes(object$nodes))
+    # bl <- (cs[(length(cs) - 1L)] + 1L):cs[length(cs)]
+    # bfcasts <- combinefw(pfcasts, object$nodes)[, bl]
+    bfcasts <- combinef(pfcasts, object$nodes)
+  } else if (method == "bu") {
+    bfcasts <- pfcasts
   }
+  bfcasts <- ts(bfcasts, start = tsp.y[2L] + 1L/tsp.y[3L], 
+                frequency = tsp.y[3L])
   colnames(bfcasts) <- bnames
   if (keep.fitted) {
     bfits <- ts(fits, start = tsp.y[2L], frequency = tsp.y[3L])
