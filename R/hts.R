@@ -51,7 +51,7 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
 
   # Construct the level labels
   if (missing(characters)) {
-    message("Since arguments characters are not specified, the default 
+    message("Since argument characters are not specified, the default 
             labelling system is used.")
     if (is.null(bnames)) {
       labels <- HierName(nodes) # HierName() defined below

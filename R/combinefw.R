@@ -56,7 +56,6 @@ SumSplit <- function(x, n) {
 combinefw <- function(fcasts, nodes) {
   h <- nrow(fcasts)
   nodes <- c(1L, nodes)
-  all.adj.fcasts <- matrix(, nrow = h, ncol = ncol(fcasts))
   l.nodes <- length(nodes)
   n.nodes <- sum(nodes[[l.nodes]])
   all.c <- array(, c(sum(nodes[[l.nodes - 1L]]), sum(nodes[[l.nodes - 1L]]), h))
@@ -96,10 +95,10 @@ combinefw <- function(fcasts, nodes) {
 
   levels <- levels[unlist(l.list)]
   wmat <- matrix(1L, nrow = h, ncol = ncol(fcasts))
-  w <- wmat[h, ]
 
   for (h in 1L:h) {
     fcast <- fcasts[h, ]
+    w <- wmat[h, ]
     k <- length(nodes[[l.nodes]])
     d.list <- vector(length = k, mode = "list")
     m <- c(0L, cumsum(nodes[[l.nodes]]))
@@ -147,27 +146,6 @@ combinefw <- function(fcasts, nodes) {
     tvec <- SumSplit(stwy * dvec, nodes[[l.nodes]])
     adj.fcast <- c(stwy - rep(cmat %*% tvec, nodes[[l.nodes]])) * dvec
     adj.fcasts[h, ] <- adj.fcast
-
-    newl <- length(nodes[[l.nodes]])
-    all.list <- vector(length = newl, mode = "list")
-    m <- c(0L, cumsum(nodes[[l.nodes]]))
-    for (i in 1L:newl) {
-      vec <- adj.fcast[(m[i] + 1L):m[i + 1L]]
-      all.list[[i]] <- c(sum(vec), vec)
-    }
-    for (i in 1L:(l.nodes - 2L)) {
-      newl <- length(nodes[[l.nodes - i]])
-      new.all.list <- vector(length = newl, mode = "list")
-      m <- c(0L, cumsum(nodes[[l.nodes - i]]))
-      for (j in 1L:newl) {
-        vec <- unlist(all.list[(m[j] + 1L):m[j + 1L]])
-        vec1 <- unlist(lapply(all.list[(m[j] + 1L):m[j + 1L]], 
-                              function(x) x[1L]))
-        new.all.list[[j]] <- c(sum(vec1), vec)  
-      }
-      all.list <- new.all.list
-    }
-    all.adj.fcasts[h, ] <- unlist(all.list)
   }
-  return(all.adj.fcasts)
+  return(adj.fcasts)  # Only return fcasts at the bottom level
 }

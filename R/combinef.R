@@ -137,5 +137,5 @@ combinef <- function(fcasts, nList)
     sums <- tapply(STY, rep(1L:length(n), n), sum)
     comb[h, ] <- STY - rep(C %*% sums, n)
   }
-  return(comb)
+  return(comb)  # Only return forecasts at bottom level
 }

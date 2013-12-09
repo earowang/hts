@@ -99,10 +99,14 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
   bnames <- colnames(object$bts)
 
   if (method == "comb") {
-    # cs <- cumsum(Mnodes(object$nodes))
-    # bl <- (cs[(length(cs) - 1L)] + 1L):cs[length(cs)]
-    # bfcasts <- combinefw(pfcasts, object$nodes)[, bl]
+    # bfcasts <- combinefw(pfcasts, object$nodes)
     bfcasts <- combinef(pfcasts, object$nodes)
+    if (keep.fitted) {
+      fits <- combinef(fits, object$nodes)
+    }
+    if (keep.resid) {
+      resid <- combinef(resid, object$nodes)
+    }
   } else if (method == "bu") {
     bfcasts <- pfcasts
   }
@@ -118,15 +122,21 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     colnames(bresid) <- bnames
   }
 
-  return(structure(
-           list(bts = bfcasts, 
-           histy = object$bts,
-           fitted = if (exists("bfits")) bfits, 
-           residuals = if (exists("bresid")) bresid,
-           nodes = if (is.hts(object)) object$nodes, 
-           groups = if (is.gts(object)) object$groups,
-           labels = object$labels,
-           method = method,
-           fmethod = fmethod
-           ), class = if (is.hts(object)) c("gts", "hts") else "gts"))
+  # Output
+  out <- list(bts = bfcasts, histy = object$bts, labels = object$labels,
+              method = method, fmethod = fmethod)
+  if (exists("bfits")) {
+    out <- c(out, fitted = list(bfits))
+  }
+  if (exists("bresid")) {
+    out <- c(out, residuals = list(bresid))
+  }
+  if (is.hts(object)) {
+    out <- c(out, nodes = list(object$nodes))
+  }
+  if (is.gts(object) && !is.hts(object)) {
+    out <- c(out, groups = list(object$groups))
+  }
+
+  return(structure(out, class = if (is.hts(object)) c("gts", "hts") else "gts"))
 }
