@@ -6,7 +6,8 @@ is.gts,
 print.gts,
 aggts,
 forecast.gts,
-window.gts
+window.gts,
+accuracy.gts
 )
 
 S3method(print, gts)

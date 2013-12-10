@@ -107,6 +107,11 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
   } else if (method == "bu") {
     bfcasts <- pfcasts
   }
+
+  if (is.vector(bfcasts)) {  # if h = 1, sapply returns a vector
+    bfcasts <- t(bfcasts)
+  }
+
   bfcasts <- ts(bfcasts, start = tsp.y[2L] + 1L/tsp.y[3L], 
                 frequency = tsp.y[3L])
   colnames(bfcasts) <- bnames
