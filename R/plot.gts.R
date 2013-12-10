@@ -37,14 +37,24 @@ plot.gts <- function(xts, levels, labels = TRUE, ...) {
   for (i in 1L:l.levels) { 
     end <- cs[i + 1L]
     start <- cs[i] + 1L
-    cols <- rainbow(length(start:end))
-    plot(histx[, start:end], col = cols, xlab = "", ylab = "", 
+    series <- seq(start, end)
+    cols <- rainbow(length(series))
+    if(!is.null(xts$histy)) {
+      ylim <- range(histx[, series], fcasts[, series])
+      xlim <- range(time(histx), time(fcasts))
+    } else {
+      ylim <- range(histx[, series])
+      xlim <- range(time(histx))
+    }
+    plot(histx[, series], col = cols, xlab = "", ylab = "", 
+         xlim = xlim, ylim = ylim,
          main = names(xts$labels)[levels][i], 
          plot.type = "single")
 
     if (!is.null(xts$histy)) {
-      for (i in 1:length(start:end)) {
-        lines(fcasts[, c(start:end)[i]], col = cols[i], lty = 2, type = "p")
+      for (j in 1L:length(series)) {
+        lines(fcasts[, series[j]], lty = 2, col = cols[j], 
+              type = ifelse(nrow(fcasts) == 1L, "p", "l"))
       }
     }
 
