@@ -7,9 +7,11 @@ print.gts,
 aggts,
 forecast.gts,
 window.gts,
-accuracy.gts
+accuracy.gts,
+plot.gts
 )
 
 S3method(print, gts)
 S3method(forecast, gts)
 S3method(window, gts)
+S3method(plot, gts)
