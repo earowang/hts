@@ -5,8 +5,10 @@ is.hts,
 is.gts,
 print.gts,
 aggts,
-forecast.gts
+forecast.gts,
+window.gts
 )
 
 S3method(print, gts)
 S3method(forecast, gts)
+S3method(window, gts)
