@@ -1,0 +1,3 @@
+accuracy.gts <- function(x) {
+  
+}
