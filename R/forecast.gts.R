@@ -97,7 +97,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
 
   if (method == "comb") {
     # bfcasts <- combinefw(pfcasts, object$nodes)
-    bfcasts <- combinef(pfcasts, object$nodes)
+    bfcasts <- combinef(pfcasts, object$nodes, all = FALSE)
     if (keep.fitted) {
       fits <- combinef(fits, object$nodes)
     }

@@ -1,4 +1,16 @@
-plot.gts <- function(xts, levels, labels = TRUE, ...) {
+plot.gts <- function(xts, include, levels, labels = TRUE, ...) {
+  # Do plotting
+  #
+  # Args:
+  #   xts: hts or gts
+  #   include: No. of historical data included in the plot.
+  #   levels: which level or group to display.
+  #   labels: text labels
+  #
+  # Return:
+  #   hts or gts plots
+  #
+  # Error Handling:
   if (!is.gts(xts)) {
     stop("Argument xts must be either hts or gts object.")
   }
@@ -8,6 +20,12 @@ plot.gts <- function(xts, levels, labels = TRUE, ...) {
     fcasts <- aggts(xts, levels, forecast = TRUE)
   } else {
     histx <- aggts(xts, levels)
+  }
+
+  if (missing(include)) {
+    histx <- histx
+  } else {
+    histx <- window(histx, start = end(histx)[1L] - include + 1L)
   }
 
   if (missing(levels)) {
@@ -46,20 +64,19 @@ plot.gts <- function(xts, levels, labels = TRUE, ...) {
       ylim <- range(histx[, series])
       xlim <- range(time(histx))
     }
-    plot(histx[, series], col = cols, xlab = "", ylab = "", 
-         xlim = xlim, ylim = ylim,
-         main = names(xts$labels)[levels][i], 
-         plot.type = "single")
+    plot(histx[, series, drop = FALSE], col = cols, xlim = xlim, ylim = ylim, 
+         xlab = "", ylab = "", main = names(xts$labels)[levels][i], 
+         plot.type = "single", type = ifelse(include == 1L, "p", "l"))
 
     if (!is.null(xts$histy)) {
       for (j in 1L:length(series)) {
-        lines(fcasts[, series[j]], lty = 2, col = cols[j], 
+        lines(fcasts[, series[j], drop = FALSE], lty = 2, col = cols[j], 
               type = ifelse(nrow(fcasts) == 1L, "p", "l"))
       }
     }
 
     if (labels) {
-      text(x = tsp(histx)[1] + 0.1, y = histx[1, start:end] + 0.2,
+      text(x = tsp(histx)[1] + 0.1, y = histx[1, series] + 0.2,
            labels = unlist(xts$labels[levels][i]), 
            cex = 0.9, adj = 1)
     }
