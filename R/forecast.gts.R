@@ -49,12 +49,9 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
 
   # Pre-allocate memory
   model <- vector(length = ncol(y), mode = "list")
-  if (keep.fitted) {
-    fits <- matrix(, nrow = nrow(y), ncol = ncol(y))
+  if (keep.fitted || keep.resid) {
+    fits <- resid <- matrix(, nrow = nrow(y), ncol = ncol(y))
   } 
-  if (keep.resid) {
-    resid <- matrix(, nrow = nrow(y), ncol = ncol(y))
-  }
 
   if (fmethod == "ets") {
     # Fit a model
