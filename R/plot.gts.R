@@ -24,6 +24,7 @@ plot.gts <- function(xts, include, levels, labels = TRUE, ...) {
 
   if (missing(include)) {
     histx <- histx
+    include <- end(histx)[1L] - start(histx)[1L] + 1L
   } else {
     histx <- window(histx, start = end(histx)[1L] - include + 1L)
   }
@@ -66,7 +67,7 @@ plot.gts <- function(xts, include, levels, labels = TRUE, ...) {
     }
     plot(histx[, series, drop = FALSE], col = cols, xlim = xlim, ylim = ylim, 
          xlab = "", ylab = "", main = names(xts$labels)[levels][i], 
-         plot.type = "single", type = ifelse(include == 1L, "p", "l"))
+         plot.type = "single", type = ifelse(include == 1L, "p", "l"), ...)
 
     if (!is.null(xts$histy)) {
       for (j in 1L:length(series)) {
