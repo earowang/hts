@@ -102,13 +102,27 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
   bnames <- colnames(object$bts)
 
   if (method == "comb") {
-    weights <- 1/apply(resid, 2, sd)
-    bfcasts <- combinef(pfcasts, object$nodes, weights = weights)
+    if (weights == "none") {
+      bfcasts <- combinef(pfcasts, object$nodes, weights = "none")
+    } else if (weights == "sd") {
+      wvec <- 1/apply(resid, 2, sd)
+      bfcasts <- combinef(pfcasts, object$nodes, wvec)
+    }
     if (keep.fitted) {
-      fits <- combinef(fits, object$nodes, weights = weights)
+      if (weights == "none") {
+        fits <- combinef(fits, object$nodes, weights = "none")
+      } else if (weights == "sd") {
+        wvec <- 1/apply(resid, 2, sd)
+        fits <- combinef(fits, object$nodes, weights = "sd", wvec)
+      }
     }
     if (keep.resid) {
-      resid <- combinef(resid, object$nodes, weights = weights)
+      if (weights == "none") {
+        resid <- combinef(fits, object$nodes, weights = "none")
+      } else if (weights == "sd") {
+        wvec <- 1/apply(resid, 2, sd)
+        resid <- combinef(fits, object$nodes, weights = "sd", wvec)
+      }
     }
   } else if (method == "bu") {
     bfcasts <- pfcasts

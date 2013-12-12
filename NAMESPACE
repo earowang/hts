@@ -9,7 +9,8 @@ forecast.gts,
 window.gts,
 accuracy.gts,
 plot.gts,
-summary.gts
+summary.gts,
+comebinef
 )
 
 S3method(print, gts)
