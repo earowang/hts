@@ -102,8 +102,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
   bnames <- colnames(object$bts)
 
   if (method == "comb") {
-    weights <- matrix(rep(1/apply(resid, 2, sd), nrow(pfcasts)),
-                      nrow = nrow(pfcasts), byrow = TRUE)
+    weights <- 1/apply(resid, 2, sd)
     bfcasts <- combinef(pfcasts, object$nodes, weights = weights)
     if (keep.fitted) {
       fits <- combinef(fits, object$nodes, weights = weights)
@@ -142,8 +141,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
   }
   if (is.hts(object)) {
     out <- c(out, nodes = list(object$nodes))
-  }
-  if (is.gts(object) && !is.hts(object)) {
+  } else {
     out <- c(out, groups = list(object$groups))
   }
 
