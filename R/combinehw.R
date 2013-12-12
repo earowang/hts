@@ -53,7 +53,7 @@ SumSplit <- function(x, n) {
   return(out)
 }
 
-Combinefw <- function(fcasts, nodes, weights) {
+Combinehw <- function(fcasts, nodes, weights) {
   H <- nrow(fcasts)
   nodes <- c(1L, nodes)
   l.nodes <- length(nodes)

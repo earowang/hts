@@ -10,9 +10,9 @@ combineh <- function(fcasts, nodes, weights = FALSE, wvec) {
   # Return:
   #   Optimal forcasts
   if(weights) {
-    bf <- Combinefw(fcasts, nodes, wvec)
+    bf <- Combinehw(fcasts, nodes, wvec)
   } else {
-    bf <- Combinef(fcasts, nodes)
+    bf <- Combineh(fcasts, nodes)
   }
   return(bf)
 }
@@ -59,7 +59,7 @@ UpdateC <- function(c.list) {
   return(list(C = c.star, nvec = comb.vec))
 }
 
-Combinef <- function(fcasts, nList) {
+Combineh <- function(fcasts, nList) {
   nList <- c(1L, nList)
   l <- length(nList)
   n <- sum(unlist(nList))
