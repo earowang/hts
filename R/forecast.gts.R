@@ -4,6 +4,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
                          fmethod = c("ets", "arima", "rw"), 
                          keep.fitted = FALSE, keep.resid = FALSE,
                          positive = FALSE, lambda = NULL, 
+                         weights = c("none", "sd", "nseries"),
                          xreg = NULL, newxreg = NULL, ...) {
   # Forecast hts or gts objects
   #
@@ -20,6 +21,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
   #
   method <- match.arg(method)
   fmethod <- match.arg(fmethod)
+  weights <- match.arg(weights)
   # Error Handling:
   if (!is.gts(object)) {
     stop("Argument object must be either a hts or gts object.")
@@ -38,6 +40,10 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     } else {
       lambda <- NULL
     }
+  }
+
+  if (weights == "sd") {
+    keep.resid <- TRUE
   }
 
   # Set up forecast methods
@@ -96,13 +102,14 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
   bnames <- colnames(object$bts)
 
   if (method == "comb") {
-    # bfcasts <- combinefw(pfcasts, object$nodes)
-    bfcasts <- combinef(pfcasts, object$nodes)
+    weights <- matrix(rep(1/apply(resid, 2, sd), nrow(pfcasts)),
+                      nrow = nrow(pfcasts), byrow = TRUE)
+    bfcasts <- combinef(pfcasts, object$nodes, weights = weights)
     if (keep.fitted) {
-      fits <- combinef(fits, object$nodes)
+      fits <- combinef(fits, object$nodes, weights = weights)
     }
     if (keep.resid) {
-      resid <- combinef(resid, object$nodes)
+      resid <- combinef(resid, object$nodes, weights = weights)
     }
   } else if (method == "bu") {
     bfcasts <- pfcasts
@@ -114,7 +121,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
 
   bfcasts <- ts(bfcasts, start = tsp.y[2L] + 1L/tsp.y[3L], 
                 frequency = tsp.y[3L])
-  colnames(bfcasts) <- bnames
+  # colnames(bfcasts) <- bnames
   if (keep.fitted) {
     bfits <- ts(fits, start = tsp.y[2L], frequency = tsp.y[3L])
     colnames(bfits) <- bnames

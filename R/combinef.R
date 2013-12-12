@@ -1,141 +1,150 @@
-# # Combination approach w/o weights
-# # Author: Alan Lee
+# Combination approach w weights
+# Author: Alan Lee
 
-BasicC <- function(n)
-{
-  K <- length(n)
-  C.list <- vector(length = K, mode = "list")
-  for (i in 1L:K) 
-    C.list[[i]] <- list(matrix(1L/(n[i] + 1L), 1L, 1L), n[i])
-  return(C.list)
+BasicC <- function(d0, d.list) {
+  l.d0 <- length(d0)
+  c.list <- vector(length = l.d0, mode = "list")
+  for (i in 1L:l.d0) {
+    c0 <- 1L/(d0[i] + sum(d.list[[i]]))
+    c.list[[i]] <- list(cmat = matrix(c0, 1L, 1L), m = i)
+  }
+  return(c.list)
 }
 
-UpdateC <- function(C.list)
-{
-  # makes a new C matrix from those in the list C.list
-  K <- length(C.list)
-  # get dimensions of new matrix
-  div <- 1L
-  nvec <- numeric(K)
+UpdateC <- function(c.list, d1.vec, d0) {
+  l.c <- length(c.list)
+  div <- d0
   comb.vec <- NULL
-  for (i in 1L:K)
-  {
-    m <- C.list[[i]][[2L]]
-    C <- C.list[[i]][[1L]]
-    nvec[i] <- dim(C)[1L]
-    div <- div - sum(m * (C %*% m))
+  nvec <- numeric(l.c)
+  for (i in 1L:l.c) {
+    m <- c.list[[i]][[2L]]
+    cmat <- c.list[[i]][[1L]]
+    d <- d1.vec[m]
+    nvec[i] <- length(m)
+    div <- div + sum(d) - sum(d * (cmat %*% d))
     comb.vec <- c(comb.vec, m)
   }
-  d <- sum(comb.vec)
-  div <- div + d
-  Cstar <- matrix(, sum(nvec), sum(nvec))
-  # hi, lo for matrix insertion
+
+  c.star <- matrix(, nrow = length(comb.vec), ncol = length(comb.vec))
   hi <- cumsum(nvec)
   lo <- cumsum(c(1L, nvec[-length(nvec)]))
-  
-  # update C matrix
-  for (i in 1L:K)
-  {
-    Cm1 <- as.vector(C.list[[i]][[1L]] %*% C.list[[i]][[2L]])
+
+  for (i in 1L:l.c) {
+    di <- d1.vec[c.list[[i]][[2L]]]
+    cd1 <- as.vector(c.list[[i]][[1L]] %*% di)
     row.range <- lo[i]:hi[i]
-    for (j in 1L:K)
-    {
-      Cm2 <- as.vector(C.list[[j]][[1L]] %*% C.list[[j]][[2L]])
-      Cinsert <- outer(1L - Cm1, 1L - Cm2)/div
-      if (i == j) 
-        Cinsert <- C.list[[i]][[1L]] + Cinsert
+    for (j in 1L:l.c) {
       col.range <- lo[j]:hi[j]
-      Cstar[row.range, col.range] <- Cinsert
+      dj <- d1.vec[c.list[[j]][[2L]]]
+      cd2 <- as.vector(c.list[[j]][[1L]] %*% dj)
+      cinsert <- outer(1L - cd1, 1L - cd2)/div
+      if (i == j) {
+        cinsert <- c.list[[i]][[1L]] + cinsert
+      }
+      c.star[row.range, col.range] <- cinsert
     }
   }
-  list(C = Cstar, nvec = comb.vec)
+  return(list(cmat = c.star, m = comb.vec))
 }
 
+SumSplit <- function(x, n) {
+  gr <- rep(1L:length(n), n)
+  out <- tapply(x, gr, sum)
+  return(out)
+}
 
-combinef <- function(fcasts, nList)
-{
-  # fcasts: Matrix of forecasts for all levels of the hierarchical time series.
-  # Each row represents one forecast horizon and each column represents one time
-  # series from the hierarchy, arranged in standard order ( descending the tree
-  # from the root and moving across the levels from left to right)
+combinef <- function(fcasts, nodes, weights) {
+  H <- nrow(fcasts)
+  nodes <- c(1L, nodes)
+  l.nodes <- length(nodes)
+  n.nodes <- sum(nodes[[l.nodes]])
+  all.c <- array(, c(sum(nodes[[l.nodes - 1L]]), sum(nodes[[l.nodes - 1L]]), H))
+  adj.fcasts <- matrix(, nrow = H, ncol = n.nodes)
+  n <- sum(unlist(nodes))
+  levels <- rep(1L, n)
+  labels <- 1L:n
 
-  # g: the g-matrix describing the hierarchical tree structure
-
-  # get level info
-  nList <- c(1L, nList)
-  L <- length(nList)
-  
-  # calculate level information for forecasts
-  N <- sum(unlist(nList))
-  Level <- rep(1L, N)
-  
   node <- 2L
-  for (l in 2L:L)
-  {
-    for (i in 1L:length(nList[[l]]))
-    {
-      for (j in 1L:nList[[l]][i])
-      {
-        Level[node] <- l
+  for (l in 2L:l.nodes) {
+    for (i in 1L:length(nodes[[l]])) {
+      for (j in 1L:nodes[[l]][i]) {
+        levels[node] <- l
         node <- node + 1L
       }
     }
   }
-  
-  # initialise the lists at the bottom level
-  
-  # first inverse list
-  C.list <- BasicC(nList[[L]])
-  
-  # then Sty lists, one for each forecast horizon
-  newLength <- length(nList[[L]])
-  
-  # S list of lists
-  S.list <- vector(length = nrow(fcasts), mode = "list")
-  
-  for (h in 1L:nrow(fcasts))
-  {
-    y <- fcasts[h, ]
-    S.list[[h]] <- vector(length = newLength, mode = "list")
-    m <- c(0L, cumsum(nList[[L]]))
-    for (i in 1L:newLength)
-    {
-      yy <- y[Level == L][(m[i] + 1L):m[i + 1L]]
-      S.list[[h]][[i]] <- yy + y[Level == L - 1L][i]
-    }
+
+  newl <- length(nodes[[l.nodes]])
+  l.list <- vector(length = newl, mode = "list")
+  m <- c(0L, cumsum(nodes[[l.nodes]]))
+  for (j in 1L:newl) {
+    l.list[[j]] <- c(labels[levels == l.nodes - 1L][j], 
+                     labels[levels == l.nodes][(m[j] + 1L):m[j + 1L]])
   }
-  
-  # now iterate to construct the C and S list sequences
-  new.S.list <- vector(length = nrow(fcasts), mode = "list")
-  for (i in 1L:(L - 2L))
-  {
-    newLength <- length(nList[[L - i]])
-    new.C.list <- vector(length = newLength, mode = "list")
-    new.S.list <- vector(length = newLength, mode = "list")
-    m <- c(0L, cumsum(nList[[L - i]]))
-    for (h in 1L:nrow(fcasts))
-    {
-      y <- fcasts[h, ]
-      for (j in 1L:newLength)
-      {
-        new.C.list[[j]] <- UpdateC(C.list[(m[j] + 1L):m[j + 1L]])
-        y0 <- y[Level == L - i - 1L][j]
-        new.S.list[[j]] <- y0 + unlist(S.list[[h]][(m[j] + 1L):m[j + 1L]])
+
+  for (i in 1L:(l.nodes - 2L)) {
+    newl <- length(nodes[[l.nodes - i]])
+    new.l.list <- vector(length = newl, mode = "list")
+    m <- c(0, cumsum(nodes[[l.nodes - i]]))
+    for (j in 1L:newl) {
+      new.l.list[[j]] <- c(labels[levels == l.nodes - i - 1L][j],
+                           unlist(l.list[(m[j] + 1L):m[j + 1L]]))
+    }
+    l.list <- new.l.list
+  }
+
+  levels <- levels[unlist(l.list)]
+
+  for (h in 1L:H) {
+    fcast <- fcasts[h, ]
+    w <- weights[h, ]
+    k <- length(nodes[[l.nodes]])
+    d.list <- vector(length = k, mode = "list")
+    m <- c(0L, cumsum(nodes[[l.nodes]]))
+    for (i in 1L:k) {
+      d.list[[i]] <- 1/w[levels == l.nodes][(m[i] + 1L):m[i + 1L]]
+    }
+
+    d1.vec <- unlist(lapply(d.list, sum))
+    d0 <- 1/w[levels == l.nodes - 1L]
+    c.list <- BasicC(d0, d.list)
+
+    newl <- length(nodes[[l.nodes]])
+
+    sw.list <- vector(length =newl, mode = "list")
+    m <- c(0L, cumsum(nodes[[l.nodes]]))
+    for (i in 1L:newl) {
+      yy <- fcast[levels == l.nodes][(m[i] + 1L):m[i + 1L]] * 
+            w[levels == l.nodes][(m[i] + 1L):m[i + 1L]]
+      sw.list[[i]] <- yy + fcast[levels == l.nodes - 1L][i] *
+            w[levels == l.nodes - 1L][i]  
+    } 
+    
+    new.s.list <- vector(length = length(fcast), mode = "list")
+
+    for (i in 1L:(l.nodes - 2L)) {
+      newl <- length(nodes[[l.nodes - i]])
+      new.c.list <- vector(length = newl, mode = "list")
+      new.s.list <- vector(length = newl, mode = "list")
+      m <- c(0L, cumsum(nodes[[l.nodes - i]]))
+      d0 <- 1/w[levels = l.nodes - i + 1L]
+      for (j in 1:newl) {
+        new.c.list[[j]] <- UpdateC(c.list[(m[j] + 1L):m[j + 1L]], d1.vec, d0[j])
+        y0 <- fcast[levels == l.nodes - i - 1L][j]
+        w0 <- w[levels == l.nodes - i - 1L][j]
+        new.s.list[[j]] <- y0 * w0 + unlist(sw.list[(m[j] + 1L):m[j + 1L]])
       }
-      S.list[[h]] <- new.S.list
+      sw.list <- new.s.list
+      c.list <- new.c.list
     }
-    C.list <- new.C.list
+
+    cmat <- c.list[[1L]]$cmat
+    stwy <- sw.list[[1L]]
+    dvec <- unlist(d.list)
+    all.c[, , h] <- cmat
+    tvec <- SumSplit(stwy * dvec, nodes[[l.nodes]])
+    adj.fcast <- c(stwy - rep(cmat %*% tvec, nodes[[l.nodes]])) * dvec
+    adj.fcasts[h, ] <- adj.fcast
   }
-  
-  C <- C.list[[1L]]$C
-  n <- nList[[L]]
-  comb <- matrix(, nrow(fcasts), sum(n))
-  for (h in 1L:nrow(fcasts))
-  {
-    STY <- unlist(S.list[[h]])
-    # now solve normal equations
-    sums <- tapply(STY, rep(1L:length(n), n), sum)
-    comb[h, ] <- STY - rep(C %*% sums, n)
-  }
-  return(comb)  # Only return forecasts at bottom level
+  return(adj.fcasts)  # Only return fcasts at the bottom level
 }
