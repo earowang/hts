@@ -45,5 +45,5 @@ aggts <- function(y, levels, forecast = TRUE) {
   colnames(ally) <- unlist(labels[levels])
   tsp.y <- tsp(y$bts)
   ally <- ts(ally, start = tsp.y[1L], frequency = tsp.y[3L])
-  return(ally)
+  return(structure(ally, class = class(y)))
 }

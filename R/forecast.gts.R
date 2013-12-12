@@ -103,25 +103,25 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
 
   if (method == "comb") {
     if (weights == "none") {
-      bfcasts <- combinef(pfcasts, object$nodes, weights = "none")
+      bfcasts <- combineh(pfcasts, object$nodes, weights = FALSE)
     } else if (weights == "sd") {
       wvec <- 1/apply(resid, 2, sd)
-      bfcasts <- combinef(pfcasts, object$nodes, wvec)
+      bfcasts <- combineh(pfcasts, object$nodes, wvec)
     }
     if (keep.fitted) {
       if (weights == "none") {
-        fits <- combinef(fits, object$nodes, weights = "none")
+        fits <- combineh(fits, object$nodes, weights = FALSE)
       } else if (weights == "sd") {
         wvec <- 1/apply(resid, 2, sd)
-        fits <- combinef(fits, object$nodes, weights = "sd", wvec)
+        fits <- combineh(fits, object$nodes, wvec)
       }
     }
     if (keep.resid) {
       if (weights == "none") {
-        resid <- combinef(fits, object$nodes, weights = "none")
+        resid <- combineh(fits, object$nodes, weights = FALSE)
       } else if (weights == "sd") {
         wvec <- 1/apply(resid, 2, sd)
-        resid <- combinef(fits, object$nodes, weights = "sd", wvec)
+        resid <- combineh(fits, object$nodes, wvec)
       }
     }
   } else if (method == "bu") {
@@ -134,7 +134,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
 
   bfcasts <- ts(bfcasts, start = tsp.y[2L] + 1L/tsp.y[3L], 
                 frequency = tsp.y[3L])
-  # colnames(bfcasts) <- bnames
+  colnames(bfcasts) <- bnames
   if (keep.fitted) {
     bfits <- ts(fits, start = tsp.y[2L], frequency = tsp.y[3L])
     colnames(bfits) <- bnames
@@ -159,5 +159,5 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     out <- c(out, groups = list(object$groups))
   }
 
-  return(structure(out, class = if (is.hts(object)) c("gts", "hts") else "gts"))
+  return(structure(out, class = class(object)))
 }

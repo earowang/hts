@@ -1,10 +1,18 @@
-combinef <- function(fcasts, nodes, 
-                     weights = c("none", "sd", "nseries"), wvec) {
-  weights <- match.arg(weights)
-  if (weights == "none") {
-    bf <- Combinef(fcasts, nodes)
-  } else if (weights == "sd") {
+combineh <- function(fcasts, nodes, weights = FALSE, wvec) {
+  # Construct optimal combination forecasts
+  #
+  # Args:
+  #   fcasts: hts forecasts
+  #   nodes: nodes for hts
+  #   weights: weighting vector 
+  #   wvec: if weights = TRUE, users need to specify the weights
+  #
+  # Return:
+  #   Optimal forcasts
+  if(weights) {
     bf <- Combinefw(fcasts, nodes, wvec)
+  } else {
+    bf <- Combinef(fcasts, nodes)
   }
   return(bf)
 }

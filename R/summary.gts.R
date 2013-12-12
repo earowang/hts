@@ -8,15 +8,13 @@ summary.gts <- function(xts, ...) {
     method <- switch(xts$method,
                      comb = "Optimal combination forecasts",
                      bu = "Bottom-up")
-    fmethod <- switch(xts$fmethod,
-                      ets = "ETS",
-                      arima = "Arima",
+    fmethod <- switch(xts$fmethod, ets = "ETS", arima = "Arima", 
                       rw = "Random walk")
     cat("\n")
     cat(paste("Method:", method), "\n")
     cat(paste("Forecast method:", fmethod), "\n")
     if (!is.null(xts$fitted)) {
-      cat("Error measures at the bottom level: \n")
+      cat("In-sample error measures at the bottom level: \n")
       print(accuracy.gts(xts))
     }
   }
