@@ -4,7 +4,7 @@ accuracy.gts <- function(fcasts, test, levels) {
   # Args:
   #   fcasts: forcasts
   #   test: Test set. If it's missing, default is in-sample accuracy for the
-  #         bottom level, when keep.resid is set to TRUE in the forecast.gts().
+  #         bottom level, when keep.fitted is set to TRUE in the forecast.gts().
   #   levels: If computing out-of-sample accuracy, users can select whatever
   #           levels they like.
   #
@@ -19,9 +19,9 @@ accuracy.gts <- function(fcasts, test, levels) {
     stop("Unable to compute forecast accuracy measures.")
   }
 
-  if (missing(test) && exists("residuals")) {
-    x <- fcasts$histy
-    res <- fcasts$residuals
+  if (missing(test) && exists("fitted")) {
+    x <- unclass(fcasts$histy)  # Unclass mts to matrix
+    res <- x - unclass(fcasts$fitted)  # fcasts$residuals may contain errors
   } else {
     f <- aggts(fcasts, levels)
     x <- aggts(test, levels)
