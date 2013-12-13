@@ -99,28 +99,35 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
   # Set up basic info
   tsp.y <- tsp(y)
   bnames <- colnames(object$bts)
+  # class used for combinef to detect hts/gts
+  class(pfcasts) <- class(fits)  <- class(resid) <- class(object)
+  if (is.hts(object)) {
+    gr <- object$nodes
+  } else {
+    gr <- object$groups
+  }
 
   if (method == "comb") {
     if (weights == "none") {
-      bfcasts <- combineh(pfcasts, object$nodes, weights = FALSE)
+      bfcasts <- combinef(pfcasts, gr, weights = FALSE)
     } else if (weights == "sd") {
       wvec <- 1/apply(resid, 2, sd)
-      bfcasts <- combineh(pfcasts, object$nodes, wvec)
+      bfcasts <- combinef(pfcasts, gr, wvec)
     }
     if (keep.fitted) {
       if (weights == "none") {
-        fits <- combineh(fits, object$nodes, weights = FALSE)
+        fits <- combinef(fits, gr, weights = FALSE)
       } else if (weights == "sd") {
         wvec <- 1/apply(resid, 2, sd)
-        fits <- combineh(fits, object$nodes, wvec)
+        fits <- combinef(fits, gr, wvec)
       }
     }
     if (keep.resid) {
       if (weights == "none") {
-        resid <- combineh(fits, object$nodes, weights = FALSE)
+        resid <- combinef(fits, gr, weights = FALSE)
       } else if (weights == "sd") {
         wvec <- 1/apply(resid, 2, sd)
-        resid <- combineh(fits, object$nodes, wvec)
+        resid <- combinef(fits, gr, wvec)
       }
     }
   } else if (method == "bu") {
