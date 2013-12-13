@@ -14,7 +14,6 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
   #
   # ToDo:
   #   1. May handle NA's by forecasting them properly.
-  #   2. Add summary.hts function.
   #
   # Error handling:
   if (!is.ts(y)) {

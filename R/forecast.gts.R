@@ -18,7 +18,6 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
   #
   # Return:
   #   Point forecasts with other info chosen by the user.
-  #
   method <- match.arg(method)
   fmethod <- match.arg(fmethod)
   weights <- match.arg(weights)

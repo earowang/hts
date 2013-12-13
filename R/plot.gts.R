@@ -46,7 +46,7 @@ plot.gts <- function(xts, include, levels, labels = TRUE, ...) {
   if (is.hts(xts)) {
     m <- Mnodes(xts$nodes)[levels]
   } else {
-    m <- apply(xts$groups, 1, function(x) length(unique(x)))[levels]
+    m <- Mlevel(xts$groups)[levels]
     xts$labels <- c(Total = "Total", xts$labels, 
                     Bottom = list(colnames(xts$bts)))
   }
