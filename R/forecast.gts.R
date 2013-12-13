@@ -100,7 +100,14 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
   tsp.y <- tsp(y)
   bnames <- colnames(object$bts)
   # class used for combinef to detect hts/gts
-  class(pfcasts) <- class(fits)  <- class(resid) <- class(object)
+  class(pfcasts) <- class(object)
+  if (keep.fitted) {
+    class(fits) <- class(object)
+  }
+  if (keep.resid) {
+    class(resid) <- class(object)
+  }
+
   if (is.hts(object)) {
     gr <- object$nodes
   } else {
