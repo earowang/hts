@@ -122,6 +122,10 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     } else if (weights == "sd") {
       wvec <- 1/apply(resid, 2, sd)
       bfcasts <- combinef(pfcasts, gr, weights = TRUE, wvec)
+    } else if (weights == "nseries") {
+      smat <- as.matrix(smatrix(object))
+      wvec <- 1/rowSums(smat)
+      bfcasts <- combinef(pfcasts, gr, weights = TRUE, wvec)
     }
     if (keep.fitted) {
       if (weights == "none") {
@@ -129,6 +133,10 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
       } else if (weights == "sd") {
         wvec <- 1/apply(resid, 2, sd)
         fits <- combinef(fits, gr, weights = TRUE, wvec)
+      } else if (weights == "nseries") {
+        smat <- as.matrix(smatrix(object))
+        wvec <- 1/rowSums(smat)
+        bfcasts <- combinef(pfcasts, gr, weights = TRUE, wvec)
       }
     }
     if (keep.resid) {
@@ -137,6 +145,10 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
       } else if (weights == "sd") {
         wvec <- 1/apply(resid, 2, sd)
         resid <- combinef(resid, gr, weights = TRUE, wvec)
+      } else if (weights == "nseries") {
+        smat <- as.matrix(smatrix(object))
+        wvec <- 1/rowSums(smat)
+        bfcasts <- combinef(pfcasts, gr, weights = TRUE, wvec)
       }
     }
   } else if (method == "bu") {
