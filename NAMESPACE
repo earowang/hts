@@ -10,7 +10,8 @@ window.gts,
 accuracy.gts,
 plot.gts,
 summary.gts,
-comebinef
+comebinef,
+smatrix
 )
 
 S3method(print, gts)
