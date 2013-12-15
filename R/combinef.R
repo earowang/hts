@@ -16,7 +16,11 @@ combinef <- function(fcasts, nodes, weights = FALSE, wvec) {
       bf <- Combineh(fcasts, nodes)  # w/o weights
     }
   } else {
-      # Add gts  
+    if (weights) {
+      bf <- CombineG(fcasts, nodes, wvec)
+    } else {
+      bf <- CombineG(fcasts, nodes)
+    }
   }
   return(bf)
 }

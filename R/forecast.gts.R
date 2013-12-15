@@ -108,10 +108,12 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     class(resid) <- class(object)
   }
 
-  if (is.hts(object)) {
-    gr <- object$nodes
-  } else {
-    gr <- object$groups
+  if (method == "comb") {
+    if (is.hts(object)) {
+      gr <- object$nodes
+    } else {
+      gr <- smatrix(object)
+    }
   }
 
   if (method == "comb") {
@@ -119,14 +121,14 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
       bfcasts <- combinef(pfcasts, gr, weights = FALSE)
     } else if (weights == "sd") {
       wvec <- 1/apply(resid, 2, sd)
-      bfcasts <- combinef(pfcasts, gr, wvec)
+      bfcasts <- combinef(pfcasts, gr, weights = TRUE, wvec)
     }
     if (keep.fitted) {
       if (weights == "none") {
         fits <- combinef(fits, gr, weights = FALSE)
       } else if (weights == "sd") {
         wvec <- 1/apply(resid, 2, sd)
-        fits <- combinef(fits, gr, wvec)
+        fits <- combinef(fits, gr, weights = TRUE, wvec)
       }
     }
     if (keep.resid) {
@@ -134,7 +136,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
         resid <- combinef(fits, gr, weights = FALSE)
       } else if (weights == "sd") {
         wvec <- 1/apply(resid, 2, sd)
-        resid <- combinef(fits, gr, wvec)
+        resid <- combinef(fits, gr, weights = TRUE, wvec)
       }
     }
   } else if (method == "bu") {
