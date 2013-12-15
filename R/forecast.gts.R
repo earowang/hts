@@ -133,10 +133,10 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     }
     if (keep.resid) {
       if (weights == "none") {
-        resid <- combinef(fits, gr, weights = FALSE)
+        resid <- combinef(resid, gr, weights = FALSE)
       } else if (weights == "sd") {
         wvec <- 1/apply(resid, 2, sd)
-        resid <- combinef(fits, gr, weights = TRUE, wvec)
+        resid <- combinef(resid, gr, weights = TRUE, wvec)
       }
     }
   } else if (method == "bu") {
