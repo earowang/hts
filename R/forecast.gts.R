@@ -1,6 +1,6 @@
 forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
                          2L*frequency(object), 10L), 
-                         method = c("comb", "bu", "tdgsa"),
+                         method = c("comb", "bu", "tdgsa", "tdgsf"),
                          fmethod = c("ets", "arima", "rw"), 
                          keep.fitted = FALSE, keep.resid = FALSE,
                          positive = FALSE, lambda = NULL, 
@@ -162,6 +162,14 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     }
     if (keep.resid) {
       resid <- TdGsA(resid, object$bts, y)
+    }
+  } else if (method == "tdgsf") {
+    bfcasts <- TdGsF(pfcasts, object$bts, y)
+    if (keep.fitted) {
+      fits <- TdGsF(fits, object$bts, y)
+    }
+    if (keep.resid) {
+      resid <- TdGsF(resid, object$bts, y)
     }
   }
 

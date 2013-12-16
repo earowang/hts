@@ -11,9 +11,9 @@ combinef <- function(fcasts, nodes, weights = FALSE, wvec) {
   #   Optimal forcasts
   if (is.hts(fcasts)) {
     if(weights) {
-      bf <- Combinehw(fcasts, nodes, wvec)  # with weights
+      bf <- CombineHw(fcasts, nodes, wvec)  # with weights
     } else {
-      bf <- Combineh(fcasts, nodes)  # w/o weights
+      bf <- CombineH(fcasts, nodes)  # w/o weights
     }
   } else {
     if (weights) {
@@ -67,7 +67,7 @@ UpdateC <- function(c.list) {
   return(list(C = c.star, nvec = comb.vec))
 }
 
-Combineh <- function(fcasts, nList) {
+CombineH <- function(fcasts, nList) {
   nList <- c(1L, nList)
   l <- length(nList)
   n <- sum(unlist(nList))
@@ -177,7 +177,7 @@ SumSplit <- function(x, n) {
   return(out)
 }
 
-Combinehw <- function(fcasts, nodes, weights) {
+CombineHw <- function(fcasts, nodes, weights) {
   H <- nrow(fcasts)
   nodes <- c(1L, nodes)
   l.nodes <- length(nodes)
