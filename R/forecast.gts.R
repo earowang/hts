@@ -1,6 +1,6 @@
 forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
                          2L*frequency(object), 10L), 
-                         method = c("comb", "bu", "tdgsa", "tdgsf"),
+                         method = c("comb", "bu", "tdgsa", "tdgsf", "tdfp"),
                          fmethod = c("ets", "arima", "rw"), 
                          keep.fitted = FALSE, keep.resid = FALSE,
                          positive = FALSE, lambda = NULL, 
@@ -46,13 +46,13 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
   }
 
   # Set up forecast methods
-  if (method == "comb") { # Combination
+  if (method == "comb" || method == "tdfp") { # Combination or tdfp
     y <- aggts(object)  # Grab all ts
   } else if (method == "bu") {  # Bottom-up approach
     y <- object$bts  # Only grab the bts
-  } else if (substr(method, 1L, 2L) == "td") {
+  } else if (any(method == c("tdgsa", "tdgsf")) && method != "tdfp") {
     y <- aggts(object, levels = 0)  # Grab the top ts
-  }
+  } 
 
   # Pre-allocate memory
   model <- vector(length = ncol(y), mode = "list")
@@ -171,7 +171,16 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     if (keep.resid) {
       resid <- TdGsF(resid, object$bts, y)
     }
+  } else if (method == "tdfp") {
+    bfcasts <- TdFp(pfcasts)
+    if (keep.fitted) {
+      fits <- TdFp(fits)
+    }
+    if (keep.resid) {
+      resid <- TdFp(resid)
+    }
   }
+
 
   if (is.vector(bfcasts)) {  # if h = 1, sapply returns a vector
     bfcasts <- t(bfcasts)
@@ -179,7 +188,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
 
   bfcasts <- ts(bfcasts, start = tsp.y[2L] + 1L/tsp.y[3L], 
                 frequency = tsp.y[3L])
-  colnames(bfcasts) <- bnames
+  # colnames(bfcasts) <- bnames
   if (keep.fitted) {
     bfits <- ts(fits, start = tsp.y[2L], frequency = tsp.y[3L])
     colnames(bfits) <- bnames
