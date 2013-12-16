@@ -1,6 +1,6 @@
 forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
                          2L*frequency(object), 10L), 
-                         method = c("comb", "bu"),
+                         method = c("comb", "bu", "tdgsa"),
                          fmethod = c("ets", "arima", "rw"), 
                          keep.fitted = FALSE, keep.resid = FALSE,
                          positive = FALSE, lambda = NULL, 
@@ -50,6 +50,8 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     y <- aggts(object)  # Grab all ts
   } else if (method == "bu") {  # Bottom-up approach
     y <- object$bts  # Only grab the bts
+  } else if (substr(method, 1L, 2L) == "td") {
+    y <- aggts(object, levels = 0)  # Grab the top ts
   }
 
   # Pre-allocate memory
@@ -153,6 +155,14 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     }
   } else if (method == "bu") {
     bfcasts <- pfcasts
+  } else if (method == "tdgsa") {
+    bfcasts <- TdGsA(pfcasts, object$bts, y)
+    if (keep.fitted) {
+      fits <- TdGsA(fits, object$bts, y)
+    }
+    if (keep.resid) {
+      resid <- TdGsA(resid, object$bts, y)
+    }
   }
 
   if (is.vector(bfcasts)) {  # if h = 1, sapply returns a vector
