@@ -1,9 +1,10 @@
 forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
                          2L*frequency(object), 10L), 
-                         method = c("comb", "bu", "tdgsa", "tdgsf", "tdfp"),
+                         method = c("comb", "bu", "mo", 
+                                    "tdgsa", "tdgsf", "tdfp"),
                          fmethod = c("ets", "arima", "rw"), 
                          keep.fitted = FALSE, keep.resid = FALSE,
-                         positive = FALSE, lambda = NULL, 
+                         positive = FALSE, lambda = NULL, level, 
                          weights = c("none", "sd", "nseries"),
                          xreg = NULL, newxreg = NULL, ...) {
   # Forecast hts or gts objects
@@ -15,6 +16,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
   #   fmethod: Forecast methods.
   #   keep: Users specify what they'd like to keep at the bottom level.
   #   positive & lambda: Use Box-Cox transformation.
+  #   level: Specify level for the middle-out approach.
   #
   # Return:
   #   Point forecasts with other info chosen by the user.
@@ -27,6 +29,14 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
   }
   if (h < 1L) {
     stop("Argument h must be positive.")
+  }
+  if (!is.hts(object) && 
+      is.element(method, c("mo", "tdgsf", "tdgsa", "tdfp"))) {
+    stop("Argument method is not appropriate for a non-hierarchical time 
+         series.")
+  }
+  if (method == "mo" && missing(level)) {
+    stop("Please specify argument level for the middle-out method.")
   }
 
   # Set up lambda for arg "positive" when lambda is missing
@@ -45,6 +55,21 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     keep.resid <- TRUE
   }
 
+  # Set up "level" for middle-out
+  if (method == "mo") {
+    if (level < 0L) {
+      stop("Argument level must not be negative.")
+    } else if (level == 0L) {
+      method <- "tdfp"
+    } else if (level == length(object$nodes)) {
+      method <- "bu"
+    } else {
+      l.nodes <- length(object$nodes)
+      mo.nodes <- object$nodes[level:l.nodes]
+      level <- seq(level, l.nodes)
+    }
+  }
+
   # Set up forecast methods
   if (method == "comb" || method == "tdfp") { # Combination or tdfp
     y <- aggts(object)  # Grab all ts
@@ -52,7 +77,9 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     y <- object$bts  # Only grab the bts
   } else if (any(method == c("tdgsa", "tdgsf")) && method != "tdfp") {
     y <- aggts(object, levels = 0)  # Grab the top ts
-  } 
+  } else if (method == "mo") {
+    y <- aggts(object, levels = level)
+  }
 
   # Pre-allocate memory
   model <- vector(length = ncol(y), mode = "list")
@@ -179,7 +206,16 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     if (keep.resid) {
       resid <- TdFp(resid, object$nodes)
     }
+  } else if (method == "mo") {
+    bfcasts <- MiddleOut(pfcasts, mo.nodes)
+    if (keep.fitted) {
+      fits <- MiddleOut(fits, mo.nodes)
+    }
+    if (keep.resid) {
+      resid <- MiddleOut(resid, mo.nodes)
+    }
   }
+
 
 
   if (is.vector(bfcasts)) {  # if h = 1, sapply returns a vector

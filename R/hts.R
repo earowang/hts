@@ -57,7 +57,10 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
       colnames(y) <- unlist(labels[length(labels)])
     } else {  # Keep bts names if specified
       hn <- HierName(nodes)
-      labels <- c(hn[-length(hn)], list(bnames))
+      last.label <- paste("Level", length(nodes))
+      b.list <- list(bnames)
+      names(b.list) <- last.label
+      labels <- c(hn[-length(hn)], b.list)
     }
   } else if (length(characters) != ncol(y) || 
              length(characters) != length(nodes) + 1L) {
