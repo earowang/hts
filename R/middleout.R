@@ -1,5 +1,5 @@
 MiddleOut <- function(fcasts, nodes) {
-  # Middle-out forecasts
+  # Middle-out forecasts similar to tdfp
   levels <- c(0L, cumsum(sapply(nodes, sum)))
   # Split fcasts to a list
   l.levels <- length(levels) - 1L
@@ -18,16 +18,17 @@ MiddleOut <- function(fcasts, nodes) {
   }
   tmp <- t(apply(new.flist[[1L]], 1, function(x) rep(x, nodes[[2L]])))
   prop <- flist[[2L]]/tmp
+  mfcasts0 <- matrix(unlist(flist[[1L]]), ncol = ncol(flist[[1L]]))
+  mfcasts <- t(apply(mfcasts0, 1, function(x) rep(x, nodes[[2L]])))
   if (l.levels > 2L) {
     for (k in 2L:(l.levels - 1L)) {
       prop <- t(apply(prop, 1, function(x) rep(x, nodes[[k + 1L]])))
       newprop <- t(apply(new.flist[[k]], 1, 
                          function(x) rep(x, nodes[[k + 1L]])))
+      mfcasts <- t(apply(mfcasts, 1, function(x) rep(x, nodes[[k + 1L]])))
       prop <- prop * flist[[k + 1L]]/newprop
     }
   }
-  mfcasts <- matrix(unlist(flist[[1L]]), ncol = ncol(flist[[1L]]))
-  sumf <- apply(mfcasts, 1, sum)
-  out <- sumf * prop
+  out <- mfcasts * prop
   return(out)
 }
