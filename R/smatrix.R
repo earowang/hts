@@ -10,7 +10,6 @@ smatrix <- function(xts) {
   if (is.hts(xts)) {
     gmat <- GmatrixH(xts$nodes)
     ntotal <- sum(Mnodes(xts$nodes))
-    Jaslot <- function(x) as.integer(rep(x[nrow(x), ], nrow(x)))
   } else {
     gmat <- xts$groups
     ntotal <- sum(Mlevel(xts$groups))

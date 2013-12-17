@@ -172,12 +172,12 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
       resid <- TdGsF(resid, object$bts, y)
     }
   } else if (method == "tdfp") {
-    bfcasts <- TdFp(pfcasts)
+    bfcasts <- TdFp(pfcasts, object$nodes)
     if (keep.fitted) {
-      fits <- TdFp(fits)
+      fits <- TdFp(fits, object$nodes)
     }
     if (keep.resid) {
-      resid <- TdFp(resid)
+      resid <- TdFp(resid, object$nodes)
     }
   }
 

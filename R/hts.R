@@ -100,8 +100,7 @@ GmatrixH <- function(xlist) {
     repcount <- xlist[[l.xlist]]
     for (i in (l.xlist - 1L):1L) {
       gmat[i, ] <- rep(1L:nlist[i + 1], repcount)
-      repcount <- aggregate(repcount, list(rep(1L:nlist[i], 
-                    xlist[[i]])), sum)[, 2L]
+      repcount <- rowsum(repcount, rep(1L:nlist[i], xlist[[i]]))
     }
   }
   # Insert the top level
