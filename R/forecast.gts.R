@@ -141,7 +141,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     if (is.hts(object)) {
       gr <- object$nodes
     } else {
-      gr <- smatrix(object)
+      gr <- Smatrix(object)
     }
   }
 
@@ -152,7 +152,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
       wvec <- 1/apply(resid, 2, sd)
       bfcasts <- combinef(pfcasts, gr, weights = TRUE, wvec)
     } else if (weights == "nseries") {
-      smat <- as.matrix(smatrix(object))
+      smat <- smatrix(object)
       wvec <- 1/rowSums(smat)
       bfcasts <- combinef(pfcasts, gr, weights = TRUE, wvec)
     }
@@ -163,9 +163,9 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
         wvec <- 1/apply(resid, 2, sd)
         fits <- combinef(fits, gr, weights = TRUE, wvec)
       } else if (weights == "nseries") {
-        smat <- as.matrix(smatrix(object))
+        smat <- smatrix(object)
         wvec <- 1/rowSums(smat)
-        bfcasts <- combinef(pfcasts, gr, weights = TRUE, wvec)
+        fits <- combinef(fits, gr, weights = TRUE, wvec)
       }
     }
     if (keep.resid) {
@@ -175,9 +175,9 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
         wvec <- 1/apply(resid, 2, sd)
         resid <- combinef(resid, gr, weights = TRUE, wvec)
       } else if (weights == "nseries") {
-        smat <- as.matrix(smatrix(object))
+        smat <- smatrix(object)
         wvec <- 1/rowSums(smat)
-        bfcasts <- combinef(pfcasts, gr, weights = TRUE, wvec)
+        resid <- combinef(resid, gr, weights = TRUE, wvec)
       }
     }
   } else if (method == "bu") {
@@ -224,7 +224,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
 
   bfcasts <- ts(bfcasts, start = tsp.y[2L] + 1L/tsp.y[3L], 
                 frequency = tsp.y[3L])
-  # colnames(bfcasts) <- bnames
+  colnames(bfcasts) <- bnames
   if (keep.fitted) {
     bfits <- ts(fits, start = tsp.y[2L], frequency = tsp.y[3L])
     colnames(bfits) <- bnames

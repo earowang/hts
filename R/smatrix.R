@@ -5,7 +5,12 @@ smatrix <- function(xts) {
   #   xts: hts/gts
   #
   # Returns:
-  #   S matrix in the sparse mode
+  #   S matrix in the dense mode
+  return(as.matrix(Smatrix(xts)))
+}
+
+Smatrix <- function(xts) {
+  # S matrix in the sparse mode
   if (is.hts(xts)) {
     gmat <- GmatrixH(xts$nodes)
     ntotal <- sum(Mnodes(xts$nodes))
@@ -36,7 +41,6 @@ smatrix <- function(xts) {
 
   ia <- Iaslot(gmat)
   ja <- Jaslot(gmat)
-  out <- new("matrix.csr", ra = ra, ja = ja, ia = ia, 
-             dimension = as.integer(c(ntotal, nbts)))
-  return(out)
+  return(new("matrix.csr", ra = ra, ja = ja, ia = ia, 
+             dimension = as.integer(c(ntotal, nbts))))
 }
