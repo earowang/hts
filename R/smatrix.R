@@ -6,7 +6,6 @@ smatrix <- function(xts) {
   #
   # Returns:
   #   S matrix in the sparse mode
-  library(SparseM)
   if (is.hts(xts)) {
     gmat <- GmatrixH(xts$nodes)
     ntotal <- sum(Mnodes(xts$nodes))

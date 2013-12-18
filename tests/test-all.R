@@ -1,5 +1,5 @@
 # Run unit tests
 library(testthat)
-library(hts4)
+library(gts)
 
-test_package("hts4")
+test_package("gts")

@@ -6,27 +6,27 @@ test_that("tests for groups by default", {
   mts <- ts(5 + matrix(sort(rnorm(2700)), nrow = 100, ncol = 27), 
             start = c(2001, 1), frequency = 12)
 
-  expect_that(gts(mts)$gnames, equals(NULL))
+  expect_that(gts(mts)$labels, equals(NULL))
 })
 
-test_that("tests for gnames", {
+test_that("tests for labels", {
   set.seed(1234)
   mts <- ts(5 + matrix(sort(rnorm(2700)), nrow = 100, ncol = 27), 
             start = c(2001, 1), frequency = 12)
   g <- matrix(c(rep(1:3, each = 9), rep(c(rep(1, 3), rep(2, 3), rep(3, 3)), 3),
               rep(1:3, 9)), nrow = 3, byrow = 9)
   output <- paste0("G", 1:3)
-  expect_that(names(gts(mts, g)$gnames), equals(output))
+  expect_that(names(gts(mts, g)$labels), equals(output))
 })
 
-test_that("tests for specified gnames", {
+test_that("tests for specified labels", {
   set.seed(1234)
   mts <- ts(5 + matrix(sort(rnorm(2700)), nrow = 100, ncol = 27), 
             start = c(2001, 1), frequency = 12)
   g <- matrix(c(rep(1:3, each = 9), rep(c(rep(1, 3), rep(2, 3), rep(3, 3)), 3),
               rep(1:3, 9)), nrow = 3, byrow = 9)
   rownames(g) <- c("Sex", "Purpose", "Frames")
-  expect_that(names(gts(mts, g)$gnames), equals(rownames(g)))
+  expect_that(names(gts(mts, g)$labels), equals(rownames(g)))
 })
 
 test_that("tests for gmatrix", {

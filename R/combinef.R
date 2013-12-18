@@ -116,7 +116,7 @@ CombineH <- function(fcasts, nList) {
   comb <- matrix(, nrow = nrow(fcasts), ncol = sum(n))
   for (h in 1L:nrow(fcasts)) {
     sty <- unlist(s.list[[h]])
-    sums <- tapply(sty, rep(1L:length(n), n), sum)
+    sums <- rowsum(sty, rep(1L:length(n), n))
     comb[h, ] <- sty - rep(cc %*% sums, n)
   }
   return(comb)
@@ -173,7 +173,7 @@ UpdateCw <- function(c.list, d1.vec, d0) {
 
 SumSplit <- function(x, n) {
   gr <- rep(1L:length(n), n)
-  out <- tapply(x, gr, sum)
+  out <- rowsum(x, gr)
   return(out)
 }
 

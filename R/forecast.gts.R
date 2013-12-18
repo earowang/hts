@@ -16,7 +16,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
   #   fmethod: Forecast methods.
   #   keep: Users specify what they'd like to keep at the bottom level.
   #   positive & lambda: Use Box-Cox transformation.
-  #   level: Specify level for the middle-out approach.
+  #   level: Specify level for the middle-out approach, starting with level 0.
   #
   # Return:
   #   Point forecasts with other info chosen by the user.
