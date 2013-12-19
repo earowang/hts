@@ -31,23 +31,42 @@ TdFp <- function(fcasts, nodes) {
     series <- seq(start, end)
     flist[[i]] <- fcasts[, series]
   }
-  # Create the sum of the h-step-ahead base forecasts at l level above node j
-  new.flist <- vector(length = l.levels - 1L, mode = "list")
-  for (j in 1L:(l.levels - 1L)) {
-    repcount <- rep(1:length(nodes[[j]]), nodes[[j]])
-    new.flist[[j]] <- t(apply(flist[[j + 1L]], 1, 
-                              function(x) rowsum(x, repcount)))
-  }
-
-  # Calculate proportions
-  prop <- apply(flist[[2L]], 2, function(x) x/new.flist[[1L]])
-  if (l.levels > 2L) {
-    for (k in 2L:(l.levels - 1L)) {
-      prop <- t(apply(prop, 1, function(x) rep(x, nodes[[k]])))
-      newprop <- t(apply(new.flist[[k]], 1, function(x) rep(x, nodes[[k]])))
-      prop <- prop * flist[[k + 1L]]/newprop
+  if (is.vector(flist[[2L]])) {  # In case of h = 1
+    new.flist <- vector(length = l.levels - 1L, mode = "list")
+    for (j in 1L:(l.levels - 1L)) {
+      repcount <- rep(1:length(nodes[[j]]), nodes[[j]])
+      new.flist[[j]] <- rowsum(flist[[j + 1L]], repcount)
     }
+
+    # Calculate proportions
+    prop <- flist[[2L]]/new.flist[[1L]]
+    if (l.levels > 2L) {
+      for (k in 2L:(l.levels - 1L)) {
+        prop <- rep(prop, nodes[[k]])
+        newprop <- rep(new.flist[[k]], nodes[[k]])
+        prop <- prop * flist[[k + 1L]]/newprop
+      }
+    }
+    out <- t(fcasts[, 1L] * prop)
+  } else {
+    # Create the sum of the h-step-ahead base forecasts at l level above node j
+    new.flist <- vector(length = l.levels - 1L, mode = "list")
+    for (j in 1L:(l.levels - 1L)) {
+      repcount <- rep(1:length(nodes[[j]]), nodes[[j]])
+      new.flist[[j]] <- t(apply(flist[[j + 1L]], 1, 
+                                function(x) rowsum(x, repcount)))
+    }
+
+    # Calculate proportions
+    prop <- apply(flist[[2L]], 2, function(x) x/new.flist[[1L]])
+    if (l.levels > 2L) {
+      for (k in 2L:(l.levels - 1L)) {
+        prop <- t(apply(prop, 1, function(x) rep(x, nodes[[k]])))
+        newprop <- t(apply(new.flist[[k]], 1, function(x) rep(x, nodes[[k]])))
+        prop <- prop * flist[[k + 1L]]/newprop
+      }
+    }
+    out <- fcasts[, 1L] * prop
   }
-  out <- fcasts[, 1L] * prop
   return(out)
 }

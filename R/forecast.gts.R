@@ -125,6 +125,10 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     pfcasts <- sapply(y, function(x) rwf(x, h = h, lambda = lambda)$mean)
   }
 
+  if (is.vector(pfcasts)) {  # if h = 1, sapply returns a vector
+    pfcasts <- t(pfcasts)
+  }
+
   # Set up basic info
   tsp.y <- tsp(y)
   bnames <- colnames(object$bts)
@@ -214,12 +218,6 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     if (keep.resid) {
       resid <- MiddleOut(resid, mo.nodes)
     }
-  }
-
-
-
-  if (is.vector(bfcasts)) {  # if h = 1, sapply returns a vector
-    bfcasts <- t(bfcasts)
   }
 
   bfcasts <- ts(bfcasts, start = tsp.y[2L] + 1L/tsp.y[3L], 
