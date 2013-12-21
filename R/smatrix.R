@@ -30,7 +30,7 @@ Smatrix <- function(xts) {
     ja <- vector(length = nrow(xmat), mode = "list")
     uni.num <- apply(xmat, 1, unique)
     if (is.matrix(uni.num)) {
-      uni.num <- split(uni.num, rep(1L:ncol(uni.sum), each = nrow(uni.num)))
+      uni.num <- split(uni.num, rep(1L:ncol(uni.num), each = nrow(uni.num)))
     }
     for (i in 1L:length(ja)) {
       ja[[i]] <- unlist(sapply(uni.num[[i]], 

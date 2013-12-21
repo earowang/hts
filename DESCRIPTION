@@ -4,7 +4,7 @@ Title: Hierarchical and grouped time series
 Version: 4.01
 Date: 2013-12-19
 Depends: forecast
-Imports: SparseM
+Imports: SparseM, parallel
 LazyLoad: yes
 LazyData: yes
 Author: Rob J Hyndman, Roman A Ahmed, Han Lin Shang, and Yiru Wang

@@ -1,8 +1,6 @@
 export(
 hts,
 gts,
-is.hts,
-is.gts,
 print.gts,
 aggts,
 forecast.gts,
@@ -22,4 +20,5 @@ S3method(summary, gts)
 
 import(forecast)
 import(SparseM)
+import(parallel)
 importFrom("stats", "window")

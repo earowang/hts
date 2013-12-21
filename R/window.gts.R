@@ -1,6 +1,6 @@
-window.gts <- function(y, ...) {
+window.gts <- function(x, ...) {
   # Select a snapshot of hts or gts
-  y$bts <- window(y$bts, ...)
-  tsp(y) <- tsp(y)
-  return(y)
+  x$bts <- window(x$bts, ...)
+  tsp(x) <- tsp(x)
+  return(x)
 }

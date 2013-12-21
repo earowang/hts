@@ -6,6 +6,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
                          keep.fitted = FALSE, keep.resid = FALSE,
                          positive = FALSE, lambda = NULL, level, 
                          weights = c("none", "sd", "nseries"),
+                         parallel = FALSE, num.cores = NULL,
                          xreg = NULL, newxreg = NULL, ...) {
   # Forecast hts or gts objects
   #
@@ -81,35 +82,67 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     y <- aggts(object, levels = level)
   }
 
-  if (fmethod == "ets") {
-    models <- lapply(y, ets, lambda = lambda, ...)
-    if (keep.fitted) {
-      fits <- sapply(models, fitted)
+  if (parallel) {
+    if (is.null(num.cores)) {
+      num.cores <- detectCores()
     }
-    if (keep.resid) {
-      resid <- sapply(models, residuals)
+    if (Sys.info()[1] == "Windows") {
+      cl <- makeCluster(num.cores)
+      if (fmethod == "ets") {
+        models <- parLapply(cl = cl, y, ets, lambda = lambda, ...)
+        pfcasts <- parSapply(models, 
+                            function(x) forecast(x, h = h, PI = FALSE)$mean,
+                            mc.cores = num.cores)
+      } else if (fmethod == "arima") {
+        models <- parLapply(cl = cl, y, auto.arima, lambda = lambda, 
+                            xreg = xreg, parallel = TRUE, ...)
+        pfcasts <- parSapply(models,
+                            function(x) forecast(x, h = h, xreg = newxreg,
+                                                 PI = FALSE)$mean)
+      } else if (fmethod == "rw") {
+        models <- parLapply(cl = cl, y, rwf, h = h, lambda = lambda, ...)
+        pfcasts <- sapply(models, function(x) x$mean)
+      }
+      stopCluster(cl = cl)
+    } else {
+      if (fmethod == "ets") {
+        models <- mclapply(y, ets, lambda = lambda, ..., mc.cores = num.cores)
+        pfcasts <- mclapply(models, 
+                            function(x) forecast(x, h = h, PI = FALSE)$mean,
+                            mc.cores = num.cores)
+        pfcasts <- matrix(unlist(pfcasts), nrow = h)
+      } else if (fmethod == "arima") {
+        models <- mclapply(y, auto.arima, lambda = lambda, xreg = xreg,
+                           parallel = TRUE, ..., mc.cores = num.cores)
+        pfcasts <- mclapply(models,
+                            function(x) forecast(x, h = h, xreg = newxreg,
+                            PI = FALSE)$mean)
+        pfcasts <- matrix(unlist(pfcasts), nrow = h)
+      } else if (fmethod == "rw") {
+        models <- mclapply(y, rwf, h = h, lambda = lambda, ...)
+        pfcasts <- sapply(models, function(x) x$mean)
+      }
     }
-    pfcasts <- sapply(models, function(x) forecast(x, h = h, PI = FALSE)$mean)
-  } else if (fmethod == "arima") {
-    models <- lapply(y, auto.arima, lambda = lambda, xreg = xreg, ...)
-    if (keep.fitted) {
-      fits <- sapply(models, fitted)
+  } else {
+    if (fmethod == "ets") {
+      models <- lapply(y, ets, lambda = lambda, ...)
+      pfcasts <- sapply(models, function(x) forecast(x, h = h, PI = FALSE)$mean)
+    } else if (fmethod == "arima") {
+      models <- lapply(y, auto.arima, lambda = lambda, xreg = xreg, ...)
+      pfcasts <- sapply(models, function(x) forecast(x, h = h, xreg = newxreg,
+                        PI = FALSE)$mean)
+    } else if (fmethod == "rw") {
+      models <- lapply(y, rwf, h = h, lambda = lambda, ...)
+      pfcasts <- sapply(models, function(x) x$mean)
     }
-    if (keep.resid) {
-      resid <- sapply(models, residuals)
-    }
-    pfcasts <- sapply(models, function(x) forecast(x, h = h, xreg = newxreg,
-                      PI = FALSE)$mean)
-  } else if (fmethod == "rw") {
-    models <- lapply(y, function(x) rwf(x, h = h, lambda = lambda, ...))
-    if (keep.fitted) {
-      fits <- sapply(models, fitted)
-    }
-    if (keep.resid) {
-      resid <- sapply(models, residuals)
-    }
-    pfcasts <- sapply(models, function(x) x$mean)
   }
+  if (keep.fitted) {
+    fits <- sapply(models, fitted)
+  }
+  if (keep.resid) {
+    resid <- sapply(models, residuals)
+  }
+
 
   if (is.vector(pfcasts)) {  # if h = 1, sapply returns a vector
     pfcasts <- t(pfcasts)
