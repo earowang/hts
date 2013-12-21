@@ -1,4 +1,4 @@
-combinef <- function(fcasts, nodes, weights = FALSE, wvec) {
+combinef <- function(fcasts, nodes, weights = NULL) {
   # Construct optimal combination forecasts
   #
   # Args:
@@ -10,16 +10,16 @@ combinef <- function(fcasts, nodes, weights = FALSE, wvec) {
   # Return:
   #   Optimal forcasts
   if (is.hts(fcasts)) {
-    if(weights) {
-      bf <- CombineHw(fcasts, nodes, wvec)  # with weights
-    } else {
+    if(is.null(weights)) {
       bf <- CombineH(fcasts, nodes)  # w/o weights
+    } else {
+      bf <- CombineHw(fcasts, nodes, weights)  # with weights
     }
   } else {
-    if (weights) {
-      bf <- CombineG(fcasts, nodes, wvec)
-    } else {
+    if (is.null(weights)) {
       bf <- CombineG(fcasts, nodes)
+    } else {
+      bf <- CombineG(fcasts, nodes, weights)
     }
   }
   return(bf)

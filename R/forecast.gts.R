@@ -82,29 +82,29 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     y <- aggts(object, levels = level)
   }
 
-  if (parallel) {
+  if (parallel) { # parallel == TRUE
     if (is.null(num.cores)) {
       num.cores <- detectCores()
     }
-    if (Sys.info()[1] == "Windows") {
+    if (Sys.info()[1] == "Windows") {  # For windows
       cl <- makeCluster(num.cores)
       if (fmethod == "ets") {
         models <- parLapply(cl = cl, y, ets, lambda = lambda, ...)
-        pfcasts <- parSapply(models, 
+        pfcasts <- parSapply(cl = cl, models, 
                             function(x) forecast(x, h = h, PI = FALSE)$mean,
                             mc.cores = num.cores)
       } else if (fmethod == "arima") {
         models <- parLapply(cl = cl, y, auto.arima, lambda = lambda, 
                             xreg = xreg, parallel = TRUE, ...)
-        pfcasts <- parSapply(models,
+        pfcasts <- parSapply(cl = cl, models,
                             function(x) forecast(x, h = h, xreg = newxreg,
                                                  PI = FALSE)$mean)
       } else if (fmethod == "rw") {
         models <- parLapply(cl = cl, y, rwf, h = h, lambda = lambda, ...)
-        pfcasts <- sapply(models, function(x) x$mean)
+        pfcasts <- parSapply(cl = cl, models, function(x) x$mean)
       }
       stopCluster(cl = cl)
-    } else {
+    } else {  # For Linux and Mac
       if (fmethod == "ets") {
         models <- mclapply(y, ets, lambda = lambda, ..., mc.cores = num.cores)
         pfcasts <- mclapply(models, 
@@ -170,37 +170,37 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
 
   if (method == "comb") {
     if (weights == "none") {
-      bfcasts <- combinef(pfcasts, gr, weights = FALSE)
+      bfcasts <- combinef(pfcasts, gr)
     } else if (weights == "sd") {
       wvec <- 1/apply(resid, 2, sd)
-      bfcasts <- combinef(pfcasts, gr, weights = TRUE, wvec)
+      bfcasts <- combinef(pfcasts, gr, weights = wvec)
     } else if (weights == "nseries") {
       smat <- smatrix(object)
       wvec <- 1/rowSums(smat)
-      bfcasts <- combinef(pfcasts, gr, weights = TRUE, wvec)
+      bfcasts <- combinef(pfcasts, gr, weights = wvec)
     }
     if (keep.fitted) {
       if (weights == "none") {
-        fits <- combinef(fits, gr, weights = FALSE)
+        fits <- combinef(fits, gr)
       } else if (weights == "sd") {
         wvec <- 1/apply(resid, 2, sd)
-        fits <- combinef(fits, gr, weights = TRUE, wvec)
+        fits <- combinef(fits, gr, weights = wvec)
       } else if (weights == "nseries") {
         smat <- smatrix(object)
         wvec <- 1/rowSums(smat)
-        fits <- combinef(fits, gr, weights = TRUE, wvec)
+        fits <- combinef(fits, gr, weights = wvec)
       }
     }
     if (keep.resid) {
       if (weights == "none") {
-        resid <- combinef(resid, gr, weights = FALSE)
+        resid <- combinef(resid, gr)
       } else if (weights == "sd") {
         wvec <- 1/apply(resid, 2, sd)
-        resid <- combinef(resid, gr, weights = TRUE, wvec)
+        resid <- combinef(resid, gr, weights = wvec)
       } else if (weights == "nseries") {
         smat <- smatrix(object)
         wvec <- 1/rowSums(smat)
-        resid <- combinef(resid, gr, weights = TRUE, wvec)
+        resid <- combinef(resid, gr, weights = wvec)
       }
     }
   } else if (method == "bu") {
