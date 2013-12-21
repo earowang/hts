@@ -1,5 +1,5 @@
 forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
-                         2L*frequency(object), 10L), 
+                         2L * frequency(object), 10L), 
                          method = c("comb", "bu", "mo", 
                                     "tdgsa", "tdgsf", "tdfp"),
                          fmethod = c("ets", "arima", "rw"), 
@@ -51,7 +51,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     }
   }
 
-  if (weights == "sd") {
+  if (method == "comb" && weights == "sd") {
     keep.resid <- TRUE
   }
 
@@ -81,48 +81,34 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     y <- aggts(object, levels = level)
   }
 
-  # Pre-allocate memory
-  model <- vector(length = ncol(y), mode = "list")
-  if (keep.fitted || keep.resid) {
-    fits <- resid <- matrix(, nrow = nrow(y), ncol = ncol(y))
-  } 
-
   if (fmethod == "ets") {
-    # Fit a model
-    for (i in 1L:ncol(y)) {
-      model[[i]] <- ets(y[, i], lambda = lambda, ...)
-      if (keep.fitted) {
-        fits[, i] <- fitted(model[[i]])  # Grab fitted values
-      } 
-      if (keep.resid) {
-        resid[, i] <- residuals(model[[i]])  # Grab residuals
-      }
+    models <- lapply(y, ets, lambda = lambda, ...)
+    if (keep.fitted) {
+      fits <- sapply(models, fitted)
     }
-    # Generate point forecasts at for all level
-    pfcasts <- sapply(model, function(x) forecast(x, h = h, PI = FALSE)$mean)
+    if (keep.resid) {
+      resid <- sapply(models, residuals)
+    }
+    pfcasts <- sapply(models, function(x) forecast(x, h = h, PI = FALSE)$mean)
   } else if (fmethod == "arima") {
-    for (i in 1L:ncol(y)) {
-      model[[i]] <- auto.arima(y[, i], lambda = lambda, xreg = xreg, ...)
-      if (keep.fitted) {
-        fits[, i] <- fitted(model[[i]])  # Grab fitted values
-      } 
-      if (keep.resid) {
-        resid[, i] <- residuals(model[[i]])  # Grab residuals
-      }
+    models <- lapply(y, auto.arima, lambda = lambda, xreg = xreg, ...)
+    if (keep.fitted) {
+      fits <- sapply(models, fitted)
     }
-    pfcasts <- sapply(model, function(x) forecast(x, h = h, xreg = newxreg, 
+    if (keep.resid) {
+      resid <- sapply(models, residuals)
+    }
+    pfcasts <- sapply(models, function(x) forecast(x, h = h, xreg = newxreg,
                       PI = FALSE)$mean)
-  } else {
-    for (i in 1L:ncol(y)) {
-      model[[i]] <- rwf(y[, i], lambda = lambda, ...)
-      if (keep.fitted) {
-        fits[, i] <- fitted(model[[i]])  # Grab fitted values
-      } 
-      if (keep.resid) {
-        resid[, i] <- residuals(model[[i]])  # Grab residuals
-      }
+  } else if (fmethod == "rw") {
+    models <- lapply(y, function(x) rwf(x, h = h, lambda = lambda, ...))
+    if (keep.fitted) {
+      fits <- sapply(models, fitted)
     }
-    pfcasts <- sapply(y, function(x) rwf(x, h = h, lambda = lambda)$mean)
+    if (keep.resid) {
+      resid <- sapply(models, residuals)
+    }
+    pfcasts <- sapply(models, function(x) x$mean)
   }
 
   if (is.vector(pfcasts)) {  # if h = 1, sapply returns a vector
