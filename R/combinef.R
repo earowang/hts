@@ -4,8 +4,7 @@ combinef <- function(fcasts, nodes, weights = NULL) {
   # Args:
   #   fcasts: hts/gts forecasts
   #   nodes: nodes for hts; groups for gts
-  #   weights: weighting vector 
-  #   wvec: if weights = TRUE, users need to specify the weights
+  #   weights: users need to specify the weights
   #
   # Return:
   #   Optimal forcasts
