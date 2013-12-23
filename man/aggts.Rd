@@ -17,10 +17,7 @@ aggts(y, levels, forecast = TRUE)
 \author{Rob J Hyndman}
 
 \examples{
-nodes <- list(2, c(3, 2))
-abc <- ts(5 + matrix(sort(rnorm(500)), ncol = 5, nrow = 100))
-x <- hts(abc, nodes)
-aggts(x)
-aggts(x, levels = c(0, 2))
+aggts(htseg1)
+aggts(htseg1, levels = c(0, 2))
 }
 \keyword{ts}

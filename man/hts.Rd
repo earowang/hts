@@ -37,14 +37,12 @@ Optimal combination forecasts for hierarchical time series.
 nodes <- list(2, c(3, 2))
 abc <- ts(5 + matrix(sort(rnorm(500)), ncol = 5, nrow = 100))
 x <- hts(abc, nodes)
-}
-
-\examples{
 nodes <- list(2, c(2, 2), c(3, 2, 3, 2))
 abc <- ts(5 + matrix(sort(rnorm(1000)), ncol = 10, nrow = 100))
 colnames(abc) <- c("A10A", "A10B", "A10C", "A20A", "A20B",
-                        "B30A", "B30B", "B40A", "B40B", "B40C")
-eg2 <- hts(abc, nodes, characters = c(1, 2, 1))
+                   "B30A", "B30B", "B40A", "B40B", "B40C")
+y <- hts(abc, nodes, characters = c(1, 2, 1))
 }
+
 
 \keyword{ts}

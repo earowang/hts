@@ -1,7 +1,6 @@
 \name{gts}
 \Rdversion{1.1}
 \alias{gts}
-\alias{hts}
 \title{Create a grouped time series}
 \description{
 Method for creating grouped time series. For a grouped time series, there is 
@@ -35,7 +34,7 @@ Optimal combination forecasts for hierarchical time series.
 }
 
 \examples{
-abc <- ts(5 + matrix(sort(rnorm(2700)), ncol = 27, nrow = 100))
+abc <- ts(5 + matrix(sort(rnorm(1600)), ncol = 16, nrow = 100))
 sex <- rep(c("female", "male"), each = 8)
 state <- rep(c("NSW", "VIC", "QLD", "SA", "WA", "NT", "ACT", "TAS"), 2)
 gc <- rbind(sex, state)  

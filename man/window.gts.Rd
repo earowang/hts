@@ -16,9 +16,6 @@ Extracts a subset of the time series from a grouped time series object.
 \author{Rob J Hyndman}
 
 \examples{
-nodes <- list(2, c(3, 2))
-abc <- ts(5 + matrix(sort(rnorm(50)), ncol = 5, nrow = 10), start = 1995)
-x <- hts(abc, nodes)
-window(x, start = 2000, end = 2001)
+window(htseg2, start = 2000, end = 2001)
 }
 \keyword{ts}

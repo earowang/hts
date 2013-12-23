@@ -26,11 +26,8 @@ Optimal combination forecasts for hierarchical time series.
 \url{http://robjhyndman.com/papers/hierarchical/}
 }
 \examples{
-nodes <- list(2, c(3, 2))
-abc <- ts(5 + matrix(sort(rnorm(500)), ncol = 5, nrow = 100))
-x <- hts(abc, nodes)
-plot(x)
-plot(x, levels = c(0, 2))
+plot(htseg1)
+plot(htseg1, levels = c(0, 2))
 }
 \keyword{hplot}
 

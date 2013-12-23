@@ -21,7 +21,7 @@ combinef <- function(fcasts, nodes, weights = NULL) {
       bf <- CombineG(fcasts, nodes, weights)
     }
   }
-  return(structure(bf, class = class(fcasts)))
+  return(bf)
 }
 
 BasicC <- function(n) { 

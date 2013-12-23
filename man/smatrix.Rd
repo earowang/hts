@@ -26,10 +26,7 @@ Optimal combination forecasts for hierarchical time series.
 }
 
 \examples{
-nodes <- list(2, c(3, 2))
-abc <- ts(5 + matrix(sort(rnorm(500)), ncol = 5, nrow = 100))
-x <- hts(abc, nodes)
-smatrix(x)
+smatrix(htseg1)
 }
 \keyword{ts}
 

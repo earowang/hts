@@ -22,6 +22,8 @@ Methods for forecasting hierarchical or grouped time series.
   \item{h}{Forecast horizon}
   \item{method}{Method for distributing forecasts within the hierarchy. See details}
   \item{fmethod}{Forecasting method to use}
+  \item{keep.fitted}{Keep the fitted values at the bottom level.}
+  \item{keep.resid}{Keep the residuals at the bottom level.}
   \item{positive}{If TRUE, forecasts are forced to be strictly positive}
   \item{lambda}{Box-Cox transformation}
   \item{weights}{Weights used for "optimal combination" method. When \code{weights = "sd"},
@@ -62,10 +64,7 @@ Gross, C. and Sohl, J. (1990) Dissagregation methods to expedite product line fo
  \code{\link[hts]{hts}}, \code{\link[hts]{gts}}, \code{\link[hts]{plot.gts}}, \code{\link[hts]{accuracy.gts}}
 }
 \examples{
-nodes <- list(2, c(3, 2))
-abc <- ts(5 + matrix(sort(rnorm(500)), ncol = 5, nrow = 100))
-x <- hts(abc, nodes)
-forecast(x, h = 10, method = "bu", fmethod = "arima")
+forecast(htseg2, h = 10, method = "bu", fmethod = "arima")
 }
 \keyword{ts}
 

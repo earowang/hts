@@ -30,14 +30,12 @@ Optimal combination forecasts for hierarchical time series.
 \keyword{ts}
 
 \examples{
-# Construct data
-abc <- ts(5 + matrix(sort(rnorm(200)), ncol = 4, nrow = 50))
-y <- gts(abc, rbind(c(1,1,2,2), c(1,2,1,2)))
 h <- 12 
-ally <- aggts(y)
-allf <- matrix(NA,nrow=h,ncol=ncol(ally))
+ally <- aggts(htseg1)
+allf <- matrix(NA,nrow = h,ncol = ncol(ally))
 for(i in 1:ncol(ally))
-	allf[,i] <- forecast(auto.arima(ally[,i]),h=h)$mean
-allf <- ts(allf, start=51)
-y.f <- combinef(allf, smatrix(y), weights = NULL)
+	allf[,i] <- forecast(auto.arima(ally[,i]), h=h)$mean
+allf <- ts(allf, start = 51)
+class(allf) <- "hts"
+y.f <- combinef(allf, htseg1$nodes, weights = NULL)
 }

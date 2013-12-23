@@ -44,11 +44,8 @@ Rob J Hyndman
 \code{\link[hts]{hts}}, \code{\link[hts]{plot.gts}}, \code{\link[hts]{forecast.gts}}, \code{\link[forecast]{accuracy}}
 }
 \examples{
-nodes <- list(2, c(2, 2), c(3, 2, 3, 2))
-abc <- ts(5 + matrix(sort(rnorm(1000)), ncol = 10, nrow = 100))
-x <- hts(abc, nodes)
-data <- window(x, start = 1992, end = 2002)
-test <- window(x, start = 2003)
+data <- window(htseg2, start = 1992, end = 2002)
+test <- window(htseg2, start = 2003)
 fcasts <- forecast(data, h = 4, method = "bu")
 accuracy.gts(fcasts, test)
 accuracy.gts(fcasts, test, levels = 1)

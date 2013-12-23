@@ -89,50 +89,57 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     if (Sys.info()[1] == "Windows") {  # For windows
       cl <- makeCluster(num.cores)
       if (fmethod == "ets") {
-        models <- parLapply(cl = cl, y, ets, lambda = lambda, ...)
+        models <- parLapply(cl = cl, y, function(x) 
+                            ets(x, lambda = lambda, ...))
         pfcasts <- parSapply(cl = cl, models, 
                             function(x) forecast(x, h = h, PI = FALSE)$mean,
                             mc.cores = num.cores)
       } else if (fmethod == "arima") {
-        models <- parLapply(cl = cl, y, auto.arima, lambda = lambda, 
-                            xreg = xreg, parallel = TRUE, ...)
+        models <- parLapply(cl = cl, y, function(x) 
+                            auto.arima(x, lambda = lambda, xreg = xreg, 
+                                       parallel = TRUE, ...))
         pfcasts <- parSapply(cl = cl, models,
                             function(x) forecast(x, h = h, xreg = newxreg,
                                                  PI = FALSE)$mean)
       } else if (fmethod == "rw") {
-        models <- parLapply(cl = cl, y, rwf, h = h, lambda = lambda, ...)
+        models <- parLapply(cl = cl, y, 
+                            function(x) rwf(x, h = h, lambda = lambda, ...))
         pfcasts <- parSapply(cl = cl, models, function(x) x$mean)
       }
       stopCluster(cl = cl)
     } else {  # For Linux and Mac
       if (fmethod == "ets") {
-        models <- mclapply(y, ets, lambda = lambda, ..., mc.cores = num.cores)
+        models <- mclapply(y, function(x) 
+                           ets(x, lambda = lambda, ...), mc.cores = num.cores)
         pfcasts <- mclapply(models, 
                             function(x) forecast(x, h = h, PI = FALSE)$mean,
                             mc.cores = num.cores)
         pfcasts <- matrix(unlist(pfcasts), nrow = h)
       } else if (fmethod == "arima") {
-        models <- mclapply(y, auto.arima, lambda = lambda, xreg = xreg,
-                           parallel = TRUE, ..., mc.cores = num.cores)
+        models <- mclapply(y, function(x) 
+                           auto.arima(x, lambda = lambda, xreg = xreg,
+                           parallel = TRUE, ...), mc.cores = num.cores)
         pfcasts <- mclapply(models,
                             function(x) forecast(x, h = h, xreg = newxreg,
                             PI = FALSE)$mean)
         pfcasts <- matrix(unlist(pfcasts), nrow = h)
       } else if (fmethod == "rw") {
-        models <- mclapply(y, rwf, h = h, lambda = lambda, ...)
+        models <- mclapply(y, function(x) rwf(x, h = h, lambda = lambda, ...),
+                           mc.cores = num.cores)
         pfcasts <- sapply(models, function(x) x$mean)
       }
     }
   } else {
     if (fmethod == "ets") {
-      models <- lapply(y, ets, lambda = lambda, ...)
+      models <- lapply(y, function(x) ets(x, lambda = lambda, ...))
       pfcasts <- sapply(models, function(x) forecast(x, h = h, PI = FALSE)$mean)
     } else if (fmethod == "arima") {
-      models <- lapply(y, auto.arima, lambda = lambda, xreg = xreg, ...)
+      models <- lapply(y, function(x) 
+                       auto.arima(x, lambda = lambda, xreg = xreg, ...))
       pfcasts <- sapply(models, function(x) forecast(x, h = h, xreg = newxreg,
                         PI = FALSE)$mean)
     } else if (fmethod == "rw") {
-      models <- lapply(y, rwf, h = h, lambda = lambda, ...)
+      models <- lapply(y, function(x) rwf(x, h = h, lambda = lambda, ...))
       pfcasts <- sapply(models, function(x) x$mean)
     }
   }
