@@ -97,7 +97,8 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
       } else if (fmethod == "arima") {
         models <- parLapply(cl = cl, y, function(x) 
                             auto.arima(x, lambda = lambda, xreg = xreg, 
-                                       parallel = TRUE, ...))
+                                       parallel = TRUE, num.cores = num.cores, 
+                                       ...))
         pfcasts <- parSapply(cl = cl, models,
                             function(x) forecast(x, h = h, xreg = newxreg,
                                                  PI = FALSE)$mean)
@@ -118,7 +119,8 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
       } else if (fmethod == "arima") {
         models <- mclapply(y, function(x) 
                            auto.arima(x, lambda = lambda, xreg = xreg,
-                           parallel = TRUE, ...), mc.cores = num.cores)
+                           parallel = TRUE, num.cores = num.cores, ...), 
+                           mc.cores = num.cores)
         pfcasts <- mclapply(models,
                             function(x) forecast(x, h = h, xreg = newxreg,
                             PI = FALSE)$mean)

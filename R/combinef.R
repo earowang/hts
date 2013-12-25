@@ -266,14 +266,14 @@ CombineHw <- function(fcasts, nodes, weights) {
     c.list <- new.c.list
   }
 
-    cmat <- c.list[[1L]]$cmat
-    dvec <- unlist(d.list)
-    for (h in 1L:H) {
-      stwy <- unlist(sw.list[[h]])
-      all.c[, , h] <- cmat
-      tvec <- SumSplit(stwy * dvec, nodes[[l.nodes]])
-      adj.fcast <- c(stwy - rep(cmat %*% tvec, nodes[[l.nodes]])) * dvec
-      adj.fcasts[h, ] <- adj.fcast
-    }
+  cmat <- c.list[[1L]]$cmat
+  dvec <- unlist(d.list)
+  for (h in 1L:H) {
+    stwy <- unlist(sw.list[[h]])
+    all.c[, , h] <- cmat
+    tvec <- SumSplit(stwy * dvec, nodes[[l.nodes]])
+    adj.fcast <- (stwy - rep(cmat %*% tvec, nodes[[l.nodes]])) * dvec
+    adj.fcasts[h, ] <- adj.fcast
+  }
   return(adj.fcasts)  # Only return fcasts at the bottom level
 }
