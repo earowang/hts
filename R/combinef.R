@@ -1,25 +1,24 @@
-combinef <- function(fcasts, nodes, weights = FALSE, wvec) {
+combinef <- function(fcasts, nodes, weights = NULL) {
   # Construct optimal combination forecasts
   #
   # Args:
   #   fcasts: hts/gts forecasts
   #   nodes: nodes for hts; groups for gts
-  #   weights: weighting vector 
-  #   wvec: if weights = TRUE, users need to specify the weights
+  #   weights: users need to specify the weights
   #
   # Return:
   #   Optimal forcasts
   if (is.hts(fcasts)) {
-    if(weights) {
-      bf <- CombineHw(fcasts, nodes, wvec)  # with weights
-    } else {
+    if(is.null(weights)) {
       bf <- CombineH(fcasts, nodes)  # w/o weights
+    } else {
+      bf <- CombineHw(fcasts, nodes, weights)  # with weights
     }
   } else {
-    if (weights) {
-      bf <- CombineG(fcasts, nodes, wvec)
-    } else {
+    if (is.null(weights)) {
       bf <- CombineG(fcasts, nodes)
+    } else {
+      bf <- CombineG(fcasts, nodes, weights)
     }
   }
   return(bf)
@@ -116,7 +115,7 @@ CombineH <- function(fcasts, nList) {
   comb <- matrix(, nrow = nrow(fcasts), ncol = sum(n))
   for (h in 1L:nrow(fcasts)) {
     sty <- unlist(s.list[[h]])
-    sums <- tapply(sty, rep(1L:length(n), n), sum)
+    sums <- rowsum(sty, rep(1L:length(n), n))
     comb[h, ] <- sty - rep(cc %*% sums, n)
   }
   return(comb)
@@ -173,7 +172,7 @@ UpdateCw <- function(c.list, d1.vec, d0) {
 
 SumSplit <- function(x, n) {
   gr <- rep(1L:length(n), n)
-  out <- tapply(x, gr, sum)
+  out <- rowsum(x, gr)
   return(out)
 }
 

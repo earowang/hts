@@ -91,31 +91,31 @@ is.gts <- function(xts) {
 }
 
 # Print "gts" on the screen
-print.gts <- function(xts) {
-  if (is.hts(xts)) {
-    mn <- Mnodes(xts$nodes)
+print.gts <- function(x, ...) {
+  if (is.hts(x)) {
+    mn <- Mnodes(x$nodes)
     cat("Hierarchical Time Series \n")
     cat(length(mn), "Levels \n")
     cat("Number of nodes at each level:", mn, "\n")
     cat("Total number of series:", sum(mn), "\n")
   } else {
     cat("Grouped Time Series \n")
-    nlevels <- Mlevel(xts$groups)
+    nlevels <- Mlevel(x$groups)
     cat(length(nlevels), "Levels \n")
     cat("Number of groups at each level:", nlevels, "\n")
     cat("Total number of series:", sum(nlevels), "\n")
   }
 
-  if (is.null(xts$histy)) {  # Original series
-    cat("Number of observations per series:", nrow(xts$bts), "\n")
+  if (is.null(x$histy)) {  # Original series
+    cat("Number of observations per series:", nrow(x$bts), "\n")
     cat("Top level series: \n")
   } else {
     cat("Number of observations in each historical series:", 
-        nrow(xts$histy), "\n")
-    cat("Number of forecasts per series:", nrow(xts$bts), "\n")
+        nrow(x$histy), "\n")
+    cat("Number of forecasts per series:", nrow(x$bts), "\n")
     cat("Top level series of forecasts: \n")
   }
-  topts <- ts(rowSums(xts$bts), start = tsp(xts$bts)[1L], 
-              frequency = tsp(xts$bts)[3L])
+  topts <- ts(rowSums(x$bts), start = tsp(x$bts)[1L], 
+              frequency = tsp(x$bts)[3L])
   print(topts)
 }

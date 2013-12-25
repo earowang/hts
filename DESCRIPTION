@@ -1,9 +1,10 @@
 Package: gts
 Type: Package
 Title: Hierarchical and grouped time series
-Version: 1.00
-Date: 2013-11-22
+Version: 4.00
+Date: 2013-12-19
 Depends: forecast
+Imports: SparseM, parallel
 LazyLoad: yes
 LazyData: yes
 Author: Rob J Hyndman, Roman A Ahmed, Han Lin Shang, and Yiru Wang

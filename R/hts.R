@@ -62,8 +62,7 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
       names(b.list) <- last.label
       labels <- c(hn[-length(hn)], b.list)
     }
-  } else if (length(characters) != ncol(y) || 
-             length(characters) != length(nodes) + 1L) {
+  } else if (length(characters) != length(nodes)) {
     stop("Argument characters is misspecified.")
   } else {
     # Construct labels based on characters
@@ -74,7 +73,7 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
     labels.mat <- matrix(, nrow = nrow(token), ncol = ncol(token))
     labels.mat[1L, ] <- token[1L, ]
     for (i in 2L:nrow(labels.mat)) {
-      labels.mat[i, ] <- paste0(labels.mat[i - 1, ], labels.mat[i, ])
+      labels.mat[i, ] <- paste0(labels.mat[i - 1, ], token[i, ])
     }
     rownames(labels.mat) <- paste("Level", 1L:nrow(labels.mat))
     labels <- c("Level 0" = "Total", apply(labels.mat, 1, unique))

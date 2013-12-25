@@ -1,8 +1,6 @@
 export(
 hts,
 gts,
-is.hts,
-is.gts,
 print.gts,
 aggts,
 forecast.gts,
@@ -10,7 +8,7 @@ window.gts,
 accuracy.gts,
 plot.gts,
 summary.gts,
-comebinef,
+combinef,
 smatrix
 )
 
@@ -19,3 +17,8 @@ S3method(forecast, gts)
 S3method(window, gts)
 S3method(plot, gts)
 S3method(summary, gts)
+
+import(forecast)
+import(SparseM)
+import(parallel)
+importFrom("stats", "window")

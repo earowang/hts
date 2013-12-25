@@ -1,11 +1,12 @@
 forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
-                         2L*frequency(object), 10L), 
+                         2L * frequency(object), 10L), 
                          method = c("comb", "bu", "mo", 
                                     "tdgsa", "tdgsf", "tdfp"),
                          fmethod = c("ets", "arima", "rw"), 
                          keep.fitted = FALSE, keep.resid = FALSE,
                          positive = FALSE, lambda = NULL, level, 
                          weights = c("none", "sd", "nseries"),
+                         parallel = FALSE, num.cores = NULL,
                          xreg = NULL, newxreg = NULL, ...) {
   # Forecast hts or gts objects
   #
@@ -16,7 +17,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
   #   fmethod: Forecast methods.
   #   keep: Users specify what they'd like to keep at the bottom level.
   #   positive & lambda: Use Box-Cox transformation.
-  #   level: Specify level for the middle-out approach.
+  #   level: Specify level for the middle-out approach, starting with level 0.
   #
   # Return:
   #   Point forecasts with other info chosen by the user.
@@ -51,7 +52,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     }
   }
 
-  if (weights == "sd") {
+  if (method == "comb" && weights == "sd") {
     keep.resid <- TRUE
   }
 
@@ -81,48 +82,77 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     y <- aggts(object, levels = level)
   }
 
-  # Pre-allocate memory
-  model <- vector(length = ncol(y), mode = "list")
-  if (keep.fitted || keep.resid) {
-    fits <- resid <- matrix(, nrow = nrow(y), ncol = ncol(y))
-  } 
-
-  if (fmethod == "ets") {
-    # Fit a model
-    for (i in 1L:ncol(y)) {
-      model[[i]] <- ets(y[, i], lambda = lambda, ...)
-      if (keep.fitted) {
-        fits[, i] <- fitted(model[[i]])  # Grab fitted values
-      } 
-      if (keep.resid) {
-        resid[, i] <- residuals(model[[i]])  # Grab residuals
+  if (parallel) { # parallel == TRUE
+    if (is.null(num.cores)) {
+      num.cores <- detectCores()
+    }
+    if (Sys.info()[1] == "Windows") {  # For windows
+      cl <- makeCluster(num.cores)
+      if (fmethod == "ets") {
+        models <- parLapply(cl = cl, y, function(x) 
+                            ets(x, lambda = lambda, ...))
+        pfcasts <- parSapply(cl = cl, models, 
+                            function(x) forecast(x, h = h, PI = FALSE)$mean,
+                            mc.cores = num.cores)
+      } else if (fmethod == "arima") {
+        models <- parLapply(cl = cl, y, function(x) 
+                            auto.arima(x, lambda = lambda, xreg = xreg, 
+                                       parallel = TRUE, ...))
+        pfcasts <- parSapply(cl = cl, models,
+                            function(x) forecast(x, h = h, xreg = newxreg,
+                                                 PI = FALSE)$mean)
+      } else if (fmethod == "rw") {
+        models <- parLapply(cl = cl, y, 
+                            function(x) rwf(x, h = h, lambda = lambda, ...))
+        pfcasts <- parSapply(cl = cl, models, function(x) x$mean)
+      }
+      stopCluster(cl = cl)
+    } else {  # For Linux and Mac
+      if (fmethod == "ets") {
+        models <- mclapply(y, function(x) 
+                           ets(x, lambda = lambda, ...), mc.cores = num.cores)
+        pfcasts <- mclapply(models, 
+                            function(x) forecast(x, h = h, PI = FALSE)$mean,
+                            mc.cores = num.cores)
+        pfcasts <- matrix(unlist(pfcasts), nrow = h)
+      } else if (fmethod == "arima") {
+        models <- mclapply(y, function(x) 
+                           auto.arima(x, lambda = lambda, xreg = xreg,
+                           parallel = TRUE, ...), mc.cores = num.cores)
+        pfcasts <- mclapply(models,
+                            function(x) forecast(x, h = h, xreg = newxreg,
+                            PI = FALSE)$mean)
+        pfcasts <- matrix(unlist(pfcasts), nrow = h)
+      } else if (fmethod == "rw") {
+        models <- mclapply(y, function(x) rwf(x, h = h, lambda = lambda, ...),
+                           mc.cores = num.cores)
+        pfcasts <- sapply(models, function(x) x$mean)
       }
     }
-    # Generate point forecasts at for all level
-    pfcasts <- sapply(model, function(x) forecast(x, h = h, PI = FALSE)$mean)
-  } else if (fmethod == "arima") {
-    for (i in 1L:ncol(y)) {
-      model[[i]] <- auto.arima(y[, i], lambda = lambda, xreg = xreg, ...)
-      if (keep.fitted) {
-        fits[, i] <- fitted(model[[i]])  # Grab fitted values
-      } 
-      if (keep.resid) {
-        resid[, i] <- residuals(model[[i]])  # Grab residuals
-      }
-    }
-    pfcasts <- sapply(model, function(x) forecast(x, h = h, xreg = newxreg, 
-                      PI = FALSE)$mean)
   } else {
-    for (i in 1L:ncol(y)) {
-      model[[i]] <- rwf(y[, i], lambda = lambda, ...)
-      if (keep.fitted) {
-        fits[, i] <- fitted(model[[i]])  # Grab fitted values
-      } 
-      if (keep.resid) {
-        resid[, i] <- residuals(model[[i]])  # Grab residuals
-      }
+    if (fmethod == "ets") {
+      models <- lapply(y, function(x) ets(x, lambda = lambda, ...))
+      pfcasts <- sapply(models, function(x) forecast(x, h = h, PI = FALSE)$mean)
+    } else if (fmethod == "arima") {
+      models <- lapply(y, function(x) 
+                       auto.arima(x, lambda = lambda, xreg = xreg, ...))
+      pfcasts <- sapply(models, function(x) forecast(x, h = h, xreg = newxreg,
+                        PI = FALSE)$mean)
+    } else if (fmethod == "rw") {
+      models <- lapply(y, function(x) rwf(x, h = h, lambda = lambda, ...))
+      pfcasts <- sapply(models, function(x) x$mean)
     }
-    pfcasts <- sapply(y, function(x) rwf(x, h = h, lambda = lambda)$mean)
+  }
+  if (keep.fitted) {
+    fits <- sapply(models, fitted)
+  }
+  if (keep.resid) {
+    resid <- sapply(models, residuals)
+  }
+
+
+  if (is.vector(pfcasts)) {  # if h = 1, sapply returns a vector
+    pfcasts <- t(pfcasts)
   }
 
   # Set up basic info
@@ -141,43 +171,43 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     if (is.hts(object)) {
       gr <- object$nodes
     } else {
-      gr <- smatrix(object)
+      gr <- Smatrix(object)
     }
   }
 
   if (method == "comb") {
     if (weights == "none") {
-      bfcasts <- combinef(pfcasts, gr, weights = FALSE)
+      bfcasts <- combinef(pfcasts, gr)
     } else if (weights == "sd") {
       wvec <- 1/apply(resid, 2, sd)
-      bfcasts <- combinef(pfcasts, gr, weights = TRUE, wvec)
+      bfcasts <- combinef(pfcasts, gr, weights = wvec)
     } else if (weights == "nseries") {
-      smat <- as.matrix(smatrix(object))
+      smat <- smatrix(object)
       wvec <- 1/rowSums(smat)
-      bfcasts <- combinef(pfcasts, gr, weights = TRUE, wvec)
+      bfcasts <- combinef(pfcasts, gr, weights = wvec)
     }
     if (keep.fitted) {
       if (weights == "none") {
-        fits <- combinef(fits, gr, weights = FALSE)
+        fits <- combinef(fits, gr)
       } else if (weights == "sd") {
         wvec <- 1/apply(resid, 2, sd)
-        fits <- combinef(fits, gr, weights = TRUE, wvec)
+        fits <- combinef(fits, gr, weights = wvec)
       } else if (weights == "nseries") {
-        smat <- as.matrix(smatrix(object))
+        smat <- smatrix(object)
         wvec <- 1/rowSums(smat)
-        bfcasts <- combinef(pfcasts, gr, weights = TRUE, wvec)
+        fits <- combinef(fits, gr, weights = wvec)
       }
     }
     if (keep.resid) {
       if (weights == "none") {
-        resid <- combinef(resid, gr, weights = FALSE)
+        resid <- combinef(resid, gr)
       } else if (weights == "sd") {
         wvec <- 1/apply(resid, 2, sd)
-        resid <- combinef(resid, gr, weights = TRUE, wvec)
+        resid <- combinef(resid, gr, weights = wvec)
       } else if (weights == "nseries") {
-        smat <- as.matrix(smatrix(object))
+        smat <- smatrix(object)
         wvec <- 1/rowSums(smat)
-        bfcasts <- combinef(pfcasts, gr, weights = TRUE, wvec)
+        resid <- combinef(resid, gr, weights = wvec)
       }
     }
   } else if (method == "bu") {
@@ -216,15 +246,9 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     }
   }
 
-
-
-  if (is.vector(bfcasts)) {  # if h = 1, sapply returns a vector
-    bfcasts <- t(bfcasts)
-  }
-
   bfcasts <- ts(bfcasts, start = tsp.y[2L] + 1L/tsp.y[3L], 
                 frequency = tsp.y[3L])
-  # colnames(bfcasts) <- bnames
+  colnames(bfcasts) <- bnames
   if (keep.fitted) {
     bfits <- ts(fits, start = tsp.y[2L], frequency = tsp.y[3L])
     colnames(bfits) <- bnames

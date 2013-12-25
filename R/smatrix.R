@@ -5,8 +5,12 @@ smatrix <- function(xts) {
   #   xts: hts/gts
   #
   # Returns:
-  #   S matrix in the sparse mode
-  library(SparseM)
+  #   S matrix in the dense mode
+  return(as.matrix(Smatrix(xts)))
+}
+
+Smatrix <- function(xts) {
+  # S matrix in the sparse mode
   if (is.hts(xts)) {
     gmat <- GmatrixH(xts$nodes)
     ntotal <- sum(Mnodes(xts$nodes))
@@ -26,7 +30,7 @@ smatrix <- function(xts) {
     ja <- vector(length = nrow(xmat), mode = "list")
     uni.num <- apply(xmat, 1, unique)
     if (is.matrix(uni.num)) {
-      uni.num <- split(uni.num, rep(1L:ncol(uni.sum), each = nrow(uni.num)))
+      uni.num <- split(uni.num, rep(1L:ncol(uni.num), each = nrow(uni.num)))
     }
     for (i in 1L:length(ja)) {
       ja[[i]] <- unlist(sapply(uni.num[[i]], 
@@ -37,7 +41,6 @@ smatrix <- function(xts) {
 
   ia <- Iaslot(gmat)
   ja <- Jaslot(gmat)
-  out <- new("matrix.csr", ra = ra, ja = ja, ia = ia, 
-             dimension = as.integer(c(ntotal, nbts)))
-  return(out)
+  return(new("matrix.csr", ra = ra, ja = ja, ia = ia, 
+             dimension = as.integer(c(ntotal, nbts))))
 }
