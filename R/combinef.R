@@ -219,56 +219,62 @@ CombineHw <- function(fcasts, nodes, weights) {
 
   levels <- levels[unlist(l.list)]
 
+  k <- length(nodes[[l.nodes]])
+  d.list <- vector(length = k, mode = "list")
+  m <- c(0L, cumsum(nodes[[l.nodes]]))
+  for (i in 1L:k) {
+    d.list[[i]] <- 1/weights[levels == l.nodes][(m[i] + 1L):m[i + 1L]]
+  }
+
+  d1.vec <- unlist(lapply(d.list, sum))
+  d0 <- 1/weights[levels == l.nodes - 1L]
+  c.list <- BasicCw(d0, d.list)
+
+  newl <- length(nodes[[l.nodes]])
+
+  sw.list <- vector(length = H, mode = "list")
+
   for (h in 1L:H) {
     fcast <- fcasts[h, ]
-    w <- weights[h, ]
-    k <- length(nodes[[l.nodes]])
-    d.list <- vector(length = k, mode = "list")
-    m <- c(0L, cumsum(nodes[[l.nodes]]))
-    for (i in 1L:k) {
-      d.list[[i]] <- 1/w[levels == l.nodes][(m[i] + 1L):m[i + 1L]]
-    }
-
-    d1.vec <- unlist(lapply(d.list, sum))
-    d0 <- 1/w[levels == l.nodes - 1L]
-    c.list <- BasicCw(d0, d.list)
-
-    newl <- length(nodes[[l.nodes]])
-
-    sw.list <- vector(length =newl, mode = "list")
+    sw.list[[h]] <- vector(length = newl, mode = "list")
     m <- c(0L, cumsum(nodes[[l.nodes]]))
     for (i in 1L:newl) {
       yy <- fcast[levels == l.nodes][(m[i] + 1L):m[i + 1L]] * 
-            w[levels == l.nodes][(m[i] + 1L):m[i + 1L]]
-      sw.list[[i]] <- yy + fcast[levels == l.nodes - 1L][i] *
-            w[levels == l.nodes - 1L][i]  
+            weights[levels == l.nodes][(m[i] + 1L):m[i + 1L]]
+      sw.list[[h]][[i]] <- yy + fcast[levels == l.nodes - 1L][i] *
+            weights[levels == l.nodes - 1L][i]  
     } 
+  }
     
-    new.s.list <- vector(length = length(fcast), mode = "list")
+  new.s.list <- vector(length = H, mode = "list")
 
-    for (i in 1L:(l.nodes - 2L)) {
-      newl <- length(nodes[[l.nodes - i]])
-      new.c.list <- vector(length = newl, mode = "list")
-      new.s.list <- vector(length = newl, mode = "list")
-      m <- c(0L, cumsum(nodes[[l.nodes - i]]))
-      d0 <- 1/w[levels = l.nodes - i + 1L]
-      for (j in 1:newl) {
+  for (i in 1L:(l.nodes - 2L)) {
+    newl <- length(nodes[[l.nodes - i]])
+    new.c.list <- vector(length = newl, mode = "list")
+    new.s.list <- vector(length = newl, mode = "list")
+    m <- c(0L, cumsum(nodes[[l.nodes - i]]))
+    d0 <- 1/weights[levels = l.nodes - i + 1L]
+    for (h in 1L:H) {
+      fcast <- fcasts[h, ]
+      for (j in 1L:newl) {
         new.c.list[[j]] <- UpdateCw(c.list[(m[j] + 1L):m[j + 1L]], d1.vec, d0[j])
         y0 <- fcast[levels == l.nodes - i - 1L][j]
-        w0 <- w[levels == l.nodes - i - 1L][j]
-        new.s.list[[j]] <- y0 * w0 + unlist(sw.list[(m[j] + 1L):m[j + 1L]])
+        w0 <- weights[levels == l.nodes - i - 1L][j]
+        new.s.list[[j]] <- y0 * w0 + unlist(sw.list[[h]][(m[j] + 1L):m[j + 1L]])
       }
-      sw.list <- new.s.list
-      c.list <- new.c.list
+      sw.list[[h]] <- new.s.list
     }
+    c.list <- new.c.list
+  }
 
     cmat <- c.list[[1L]]$cmat
-    stwy <- sw.list[[1L]]
     dvec <- unlist(d.list)
-    all.c[, , h] <- cmat
-    tvec <- SumSplit(stwy * dvec, nodes[[l.nodes]])
-    adj.fcast <- c(stwy - rep(cmat %*% tvec, nodes[[l.nodes]])) * dvec
-    adj.fcasts[h, ] <- adj.fcast
-  }
+    for (h in 1L:H) {
+      stwy <- unlist(sw.list[[h]])
+      all.c[, , h] <- cmat
+      tvec <- SumSplit(stwy * dvec, nodes[[l.nodes]])
+      adj.fcast <- c(stwy - rep(cmat %*% tvec, nodes[[l.nodes]])) * dvec
+      adj.fcasts[h, ] <- adj.fcast
+    }
   return(adj.fcasts)  # Only return fcasts at the bottom level
 }
