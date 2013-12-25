@@ -1,8 +1,8 @@
 \name{aggts}
 \alias{aggts}
-\title{Extract all time series from a gts object}
+\title{Extract selected time series from a gts object}
 \description{
-The time series from all levels of a hierarchical/grouped time series or a forecasted
+The time series from selected levels of a hierarchical/grouped time series or a forecasted
 hierarchical/grouped time series are returned as a multivariate time series.
 }
 \usage{
