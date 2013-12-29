@@ -32,7 +32,7 @@ Optimal combination forecasts for hierarchical time series.
 \examples{
 h <- 12 
 ally <- aggts(htseg1)
-allf <- matrix(NA,nrow = h,ncol = ncol(ally))
+allf <- matrix(NA, nrow = h, ncol = ncol(ally))
 for(i in 1:ncol(ally))
 	allf[,i] <- forecast(auto.arima(ally[,i]), h=h)$mean
 allf <- ts(allf, start = 51)

@@ -3,17 +3,16 @@
 \alias{gts}
 \title{Create a grouped time series}
 \description{
-Method for creating grouped time series. For a grouped time series, there is 
-no need for a hierarchical structure.
+Method for creating grouped time series. 
 }
 \usage{
 gts(y, groups, gnames = rownames(groups))
 }
 \arguments{
-  \item{y}{Multivariate time series contains the bottom level series}
+  \item{y}{Multivariate time series contains the bottom level series.}
   \item{groups}{Group matrix indicates the group structure, with one column for
 each series when completely disaggregated, and one row for each grouping of the 
-time series.}
+time series. It allows either a numerical matrix or a matrix consisting of strings.}
   \item{gnames}{Specify the group names.}
 }
 \value{
@@ -37,8 +36,8 @@ Optimal combination forecasts for hierarchical time series.
 abc <- ts(5 + matrix(sort(rnorm(1600)), ncol = 16, nrow = 100))
 sex <- rep(c("female", "male"), each = 8)
 state <- rep(c("NSW", "VIC", "QLD", "SA", "WA", "NT", "ACT", "TAS"), 2)
-gc <- rbind(sex, state)  
-gn <- rbind(rep(1:2, each = 8), rep(1:8, 2))
+gc <- rbind(sex, state)  # a matrix consists of strings.
+gn <- rbind(rep(1:2, each = 8), rep(1:8, 2))  # a numerical matrix
 rownames(gc) <- c("Sex", "State")
 x <- gts(abc, gc)
 y <- gts(abc, gn)

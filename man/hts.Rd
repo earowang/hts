@@ -9,7 +9,7 @@ Method for creating hierarchical time series.
 hts(y, nodes, bnames = colnames(y), characters)
 }
 \arguments{
-  \item{y}{Multivariate time series contain the bottom level series}
+  \item{y}{Multivariate time series contain the bottom level series.}
   \item{nodes}{A list contains the number of child nodes for each level except
   for the bottom one. It indicates the hierarchical structure.}
   \item{bnames}{The names of the bottom time series.}
@@ -34,9 +34,17 @@ Optimal combination forecasts for hierarchical time series.
 }
 
 \examples{
+# Example 1
+# The hierarchical structure looks like one root node associated with 2 child
+# nodes. These 2 child nodes have 3 and 2 sub-child nodes respectively.
 nodes <- list(2, c(3, 2))
 abc <- ts(5 + matrix(sort(rnorm(500)), ncol = 5, nrow = 100))
 x <- hts(abc, nodes)
+
+# Example 2
+# Suppose we've got the bottom names that can be useful for constructing labels
+# at higher levels. We need to specify how to split them in the argument
+# "characters".
 nodes <- list(2, c(2, 2), c(3, 2, 3, 2))
 abc <- ts(5 + matrix(sort(rnorm(1000)), ncol = 10, nrow = 100))
 colnames(abc) <- c("A10A", "A10B", "A10C", "A20A", "A20B",
