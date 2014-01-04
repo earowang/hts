@@ -25,7 +25,7 @@ Methods for forecasting hierarchical or grouped time series.
   \item{keep.fitted}{If TRUE, keep fitted values at the bottom level.}
   \item{keep.resid}{If TRUE, keep residuals at the bottom level.}
   \item{positive}{If TRUE, forecasts are forced to be strictly positive}
-  \item{lambda}{Implement Box-Cox transformation, see \code{\link[forecast]}{lambda}}
+  \item{lambda}{Implement Box-Cox transformation, see \code{\link[forecast]{lambda}}}
   \item{weights}{Weights used for "optimal combination" method. When \code{weights = "sd"},
   it takes account of the standard deviation of forecasts;
   when \code{weights} = "nseries", weights are equal to the inverse of row sums of the summing matrix.}

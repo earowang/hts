@@ -24,6 +24,9 @@ combinef <- function(fcasts, nodes, weights = NULL) {
   return(bf)
 }
 
+# Combination approach 
+# Author: Alan Lee
+
 BasicC <- function(n) { 
   k <- length(n)
   c.list <- vector(length = k, mode = "list")
@@ -121,9 +124,6 @@ CombineH <- function(fcasts, nList) {
   return(comb)
 }
 
-# Combination approach w weights
-# Author: Alan Lee
-
 BasicCw <- function(d0, d.list) {
   l.d0 <- length(d0)
   c.list <- vector(length = l.d0, mode = "list")
@@ -181,7 +181,6 @@ CombineHw <- function(fcasts, nodes, weights) {
   nodes <- c(1L, nodes)
   l.nodes <- length(nodes)
   n.nodes <- sum(nodes[[l.nodes]])
-  all.c <- array(, c(sum(nodes[[l.nodes - 1L]]), sum(nodes[[l.nodes - 1L]]), H))
   adj.fcasts <- matrix(, nrow = H, ncol = n.nodes)
   n <- sum(unlist(nodes))
   levels <- rep(1L, n)
@@ -252,7 +251,7 @@ CombineHw <- function(fcasts, nodes, weights) {
     new.c.list <- vector(length = newl, mode = "list")
     new.s.list <- vector(length = newl, mode = "list")
     m <- c(0L, cumsum(nodes[[l.nodes - i]]))
-    d0 <- 1/weights[levels = l.nodes - i + 1L]
+    d0 <- 1/weights[levels == l.nodes - i - 1L]
     for (h in 1L:H) {
       fcast <- fcasts[h, ]
       for (j in 1L:newl) {
@@ -270,7 +269,6 @@ CombineHw <- function(fcasts, nodes, weights) {
   dvec <- unlist(d.list)
   for (h in 1L:H) {
     stwy <- unlist(sw.list[[h]])
-    all.c[, , h] <- cmat
     tvec <- SumSplit(stwy * dvec, nodes[[l.nodes]])
     adj.fcast <- (stwy - rep(cmat %*% tvec, nodes[[l.nodes]])) * dvec
     adj.fcasts[h, ] <- adj.fcast
