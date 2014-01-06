@@ -43,8 +43,8 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
   # Set up lambda for arg "positive" when lambda is missing
   if (is.null(lambda)) {
     if (positive) {
-      if (any(object$bts < 0L)) {
-        stop("Some data are negative.")
+      if (any(object$bts <= 0L)) {
+        stop("All data must be positive.")
       } else {
         lambda <- 0
       }
