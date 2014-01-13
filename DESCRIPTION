@@ -7,7 +7,7 @@ Depends: forecast (>= 4.9)
 Imports: SparseM, parallel
 LazyLoad: yes
 LazyData: yes
-Author: Rob J Hyndman, Roman A Ahmed, Han Lin Shang, and Yiru Wang
+Author: Rob J Hyndman, Roman A Ahmed, Han Lin Shang, and Earo Wang
 Maintainer: Rob J Hyndman <Rob.Hyndman@monash.edu>
 Description: Methods for analysing and forecasting hierarchical and grouped time series.
 License: GPL (>= 2)

@@ -136,7 +136,6 @@ BasicCw <- function(d0, d.list) {
 
 UpdateCw <- function(c.list, d1.vec, d0) {
   l.c <- length(c.list)
-  div <- d0
   comb.vec <- NULL
   nvec <- numeric(l.c)
   for (i in 1L:l.c) {
@@ -144,7 +143,7 @@ UpdateCw <- function(c.list, d1.vec, d0) {
     cmat <- c.list[[i]][[1L]]
     d <- d1.vec[m]
     nvec[i] <- length(m)
-    div <- div + sum(d) - sum(d * (cmat %*% d))
+    div <- d0 + sum(d) - sum(d * (cmat %*% d))
     comb.vec <- c(comb.vec, m)
   }
 

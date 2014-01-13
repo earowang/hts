@@ -15,7 +15,7 @@ Display hierarchical or grouped time series in detail on the screen.
 \value{
 Display hierarchical or grouped time series in detail on the screen.  
 }
-\author{Yiru Wang}
+\author{Earo Wang}
 
 \seealso{
 \code{\link[hts]{accuracy.gts}}, \code{\link[hts]{forecast.gts}}, \code{\link[hts]{plot.gts}}
