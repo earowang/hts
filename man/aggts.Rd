@@ -14,7 +14,7 @@ aggts(y, levels, forecast = TRUE)
   \item{levels}{Specify which level(s) to return.}
   \item{forecast}{If \code{obj} contains forecasts and historical data, then \code{forecasts} indicates whether to return the forecasts or the historical data. Otherwise it is ignored.}
 }
-\author{Rob J Hyndman}
+\author{Earo Wang}
 
 \examples{
 aggts(htseg1)

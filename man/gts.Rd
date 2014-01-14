@@ -1,6 +1,8 @@
 \name{gts}
 \Rdversion{1.1}
 \alias{gts}
+\alias{print.gts}
+\alias{summary.gts}
 \title{Create a grouped time series}
 \description{
 Method for creating grouped time series. 

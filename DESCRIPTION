@@ -3,7 +3,7 @@ Type: Package
 Title: Hierarchical and grouped time series
 Version: 4.00
 Date: 2013-12-19
-Depends: forecast (>= 4.9)
+Depends: forecast (>= 5.0)
 Imports: SparseM, parallel
 LazyLoad: yes
 LazyData: yes

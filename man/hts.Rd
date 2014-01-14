@@ -11,7 +11,8 @@ hts(y, nodes, bnames = colnames(y), characters)
 \arguments{
   \item{y}{Multivariate time series contain the bottom level series.}
   \item{nodes}{A list contains the number of child nodes for each level except
-  for the bottom one. It indicates the hierarchical structure.}
+  for the bottom one. It indicates the hierarchical structure. The default is
+  a simple hierarchy with only 2 levels (i.e. total and bottom).}
   \item{bnames}{The names of the bottom time series.}
   \item{characters}{A set of integers indicate how to split the \code{bnames}
   in order to construct labels.}
@@ -27,7 +28,7 @@ Optimal combination forecasts for hierarchical time series.
 \emph{Computational Statistics and Data Analysis}, \bold{55}(9), 2579--2589.
 \url{http://robjhyndman.com/papers/hierarchical/}
 }
-\author{Rob J Hyndman}
+\author{Earo Wang}
 
 \seealso{
 \code{\link[hts]{accuracy.gts}}, \code{\link[hts]{forecast.gts}}, \code{\link[hts]{plot.gts}}
