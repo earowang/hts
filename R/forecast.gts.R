@@ -54,7 +54,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
   }
 
   if (method == "comb" && weights == "sd") {
-    keep.resid <- TRUE
+    keep.fitted <- TRUE
   }
 
   # Set up "level" for middle-out
@@ -98,7 +98,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
       } else if (fmethod == "arima") {
         models <- parLapply(cl = cl, y, function(x) 
                             auto.arima(x, lambda = lambda, xreg = xreg, 
-                                       parallel = TRUE, num.cores = num.cores, 
+                                       parallel = FALSE, num.cores = num.cores, 
                                        ...))
         pfcasts <- parSapply(cl = cl, models,
                             function(x) forecast(x, h = h, xreg = newxreg,
@@ -120,7 +120,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
       } else if (fmethod == "arima") {
         models <- mclapply(y, function(x) 
                            auto.arima(x, lambda = lambda, xreg = xreg,
-                           parallel = TRUE, num.cores = num.cores, ...), 
+                           parallel = FALSE, num.cores = num.cores, ...), 
                            mc.cores = num.cores)
         pfcasts <- mclapply(models,
                             function(x) forecast(x, h = h, xreg = newxreg,
@@ -174,7 +174,8 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     if (is.hts(object)) {
       gr <- object$nodes
     } else {
-      gr <- Smatrix(object)
+      # gr <- Smatrix(object)
+      gr <- smatrix(object)
     }
   }
 
@@ -182,6 +183,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     if (weights == "none") {
       bfcasts <- combinef(pfcasts, gr)
     } else if (weights == "sd") {
+      resid <- y - fits
       wvec <- 1/apply(resid, 2, sd)
       bfcasts <- combinef(pfcasts, gr, weights = wvec)
     } else if (weights == "nseries") {
@@ -193,6 +195,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
       if (weights == "none") {
         fits <- combinef(fits, gr)
       } else if (weights == "sd") {
+        resid <- y - fits
         wvec <- 1/apply(resid, 2, sd)
         fits <- combinef(fits, gr, weights = wvec)
       } else if (weights == "nseries") {
@@ -205,6 +208,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
       if (weights == "none") {
         resid <- combinef(resid, gr)
       } else if (weights == "sd") {
+        resid <- y - fits
         wvec <- 1/apply(resid, 2, sd)
         resid <- combinef(resid, gr, weights = wvec)
       } else if (weights == "nseries") {
