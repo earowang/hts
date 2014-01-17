@@ -174,8 +174,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     if (is.hts(object)) {
       gr <- object$nodes
     } else {
-      # gr <- Smatrix(object)
-      gr <- smatrix(object)
+      gr <- Smatrix(object)
     }
   }
 
