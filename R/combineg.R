@@ -6,7 +6,7 @@ CombineG <- function(fcasts, S, weights = NULL) {
     fit <- slm.wfit(S, t(fcasts), weights = weights)
   }
   bottom <- nrow(S) - (ncol(S):1L) + 1L
-  fitted.v <- as.matrix(S) %*% fit$coefficients
+  fitted.v <- as.matrix(S %*% fit$coefficients)
   if (is.vector(fitted.v)) {  # h = 1
     out <- t(fitted.v[bottom])
   } else {
