@@ -83,74 +83,53 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     y <- aggts(object, levels = level)
   }
 
+  # loop function to grab pf, fitted, resid
+  loopfn <- function(x, ...) {  
+    if (fmethod == "ets") {
+      models <- ets(x, lambda = lambda, ...)
+      pfcasts <- forecast(models, h = h, PI = FALSE)$mean
+    } else if (fmethod == "arima") {
+      models <- auto.arima(x, lambda = lambda, xreg = xreg, 
+                           parallel = FALSE, ...)
+      pfcasts <- forecast(models, h = h, xreg = newxreg, PI = FALSE)$mean
+    } else if (fmethod == "rw") {
+      models <- rwf(x, h = h, lambda = lambda, ...)
+      pfcasts <- models$mean
+    }
+    out <- list()
+    out$pfcasts <- pfcasts
+    if (keep.fitted) {
+      fits <- fitted(models)
+      out$fitted <- fits
+    }
+    if (keep.resid) {
+      resid <- residuals(models)
+      out$resid <- resid
+    }
+    return(out)
+  }
+
   if (parallel) { # parallel == TRUE
     if (is.null(num.cores)) {
       num.cores <- detectCores()
     }
     if (Sys.info()[1] == "Windows") {  # For windows
       cl <- makeCluster(num.cores)
-      if (fmethod == "ets") {
-        models <- parLapply(cl = cl, y, function(x) 
-                            ets(x, lambda = lambda, ...))
-        pfcasts <- parSapply(cl = cl, models, 
-                            function(x) forecast(x, h = h, PI = FALSE)$mean,
-                            mc.cores = num.cores)
-      } else if (fmethod == "arima") {
-        models <- parLapply(cl = cl, y, function(x) 
-                            auto.arima(x, lambda = lambda, xreg = xreg, 
-                                       parallel = FALSE, num.cores = num.cores, 
-                                       ...))
-        pfcasts <- parSapply(cl = cl, models,
-                            function(x) forecast(x, h = h, xreg = newxreg,
-                                                 PI = FALSE)$mean)
-      } else if (fmethod == "rw") {
-        models <- parLapply(cl = cl, y, 
-                            function(x) rwf(x, h = h, lambda = lambda, ...))
-        pfcasts <- parSapply(cl = cl, models, function(x) x$mean)
-      }
+      loopout <- parLapply(cl = cl, loopfn, mc.cores = num.cores)
       stopCluster(cl = cl)
     } else {  # For Linux and Mac
-      if (fmethod == "ets") {
-        models <- mclapply(y, function(x) 
-                           ets(x, lambda = lambda, ...), mc.cores = num.cores)
-        pfcasts <- mclapply(models, 
-                            function(x) forecast(x, h = h, PI = FALSE)$mean,
-                            mc.cores = num.cores)
-        pfcasts <- matrix(unlist(pfcasts), nrow = h)
-      } else if (fmethod == "arima") {
-        models <- mclapply(y, function(x) 
-                           auto.arima(x, lambda = lambda, xreg = xreg,
-                           parallel = FALSE, num.cores = num.cores, ...), 
-                           mc.cores = num.cores)
-        pfcasts <- mclapply(models,
-                            function(x) forecast(x, h = h, xreg = newxreg,
-                            PI = FALSE)$mean)
-        pfcasts <- matrix(unlist(pfcasts), nrow = h)
-      } else if (fmethod == "rw") {
-        models <- mclapply(y, function(x) rwf(x, h = h, lambda = lambda, ...),
-                           mc.cores = num.cores)
-        pfcasts <- sapply(models, function(x) x$mean)
-      }
+      loopout <- mclapply(y, loopfn, mc.cores = num.cores)
     }
-  } else {
-    if (fmethod == "ets") {
-      models <- lapply(y, function(x) ets(x, lambda = lambda, ...))
-      pfcasts <- sapply(models, function(x) forecast(x, h = h, PI = FALSE)$mean)
-    } else if (fmethod == "arima") {
-      models <- lapply(y, function(x) 
-                       auto.arima(x, lambda = lambda, xreg = xreg, ...))
-      pfcasts <- sapply(models, function(x) forecast(x, h = h, xreg = newxreg,
-                        PI = FALSE)$mean)
-    } else if (fmethod == "rw") {
-      models <- lapply(y, function(x) rwf(x, h = h, lambda = lambda, ...))
-      pfcasts <- sapply(models, function(x) x$mean)
-    }
+  } else {  # parallel = FALSE
+    loopout <- lapply(y, loopfn)
   }
+
+  pfcasts <- sapply(loopout, function(x) x$pfcasts)
   if (keep.fitted) {
-    fits <- sapply(models, fitted)
+    fits <- sapply(loopout, function(x) x$fitted)
   }
   if (keep.resid) {
-    resid <- sapply(models, residuals)
+    resid <- sapply(loopout, function(x) x$resid)
   }
 
 
@@ -268,15 +247,15 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
   out <- list(bts = bfcasts, histy = object$bts, labels = object$labels,
               method = method, fmethod = fmethod)
   if (exists("bfits")) {
-    out <- c(out, fitted = list(bfits))
+    out$fitted <- bfits
   }
   if (exists("bresid")) {
-    out <- c(out, residuals = list(bresid))
+    out$residuals <- bresid
   }
   if (is.hts(object)) {
-    out <- c(out, nodes = list(object$nodes))
+    out$nodes <- object$nodes
   } else {
-    out <- c(out, groups = list(object$groups))
+    out$groups <- object$groups
   }
 
   return(structure(out, class = class(object)))
