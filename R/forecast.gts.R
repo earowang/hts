@@ -115,10 +115,10 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     }
     if (Sys.info()[1] == "Windows") {  # For windows
       cl <- makeCluster(num.cores)
-      loopout <- parLapply(cl = cl, loopfn)
+      loopout <- parLapply(cl = cl, X = y, fun = loopfn)
       stopCluster(cl = cl)
     } else {  # For Linux and Mac
-      loopout <- mclapply(y, loopfn, mc.cores = num.cores)
+      loopout <- mclapply(X = y, FUN = loopfn, mc.cores = num.cores)
     }
   } else {  # parallel = FALSE
     loopout <- lapply(y, loopfn)
