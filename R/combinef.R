@@ -138,12 +138,13 @@ UpdateCw <- function(c.list, d1.vec, d0) {
   l.c <- length(c.list)
   comb.vec <- NULL
   nvec <- numeric(l.c)
+  div <- d0
   for (i in 1L:l.c) {
     m <- c.list[[i]][[2L]]
     cmat <- c.list[[i]][[1L]]
     d <- d1.vec[m]
     nvec[i] <- length(m)
-    div <- d0 + sum(d) - sum(d * (cmat %*% d))
+    div <- div + sum(d) - sum(d * (cmat %*% d))
     comb.vec <- c(comb.vec, m)
   }
 
@@ -178,6 +179,7 @@ SumSplit <- function(x, n) {
 CombineHw <- function(fcasts, nodes, weights) {
   H <- nrow(fcasts)
   nodes <- c(1L, nodes)
+  # weights <- sqrt(weights)
   l.nodes <- length(nodes)
   n.nodes <- sum(nodes[[l.nodes]])
   adj.fcasts <- matrix(, nrow = H, ncol = n.nodes)
@@ -194,27 +196,6 @@ CombineHw <- function(fcasts, nodes, weights) {
       }
     }
   }
-
-  newl <- length(nodes[[l.nodes]])
-  l.list <- vector(length = newl, mode = "list")
-  m <- c(0L, cumsum(nodes[[l.nodes]]))
-  for (j in 1L:newl) {
-    l.list[[j]] <- c(labels[levels == l.nodes - 1L][j], 
-                     labels[levels == l.nodes][(m[j] + 1L):m[j + 1L]])
-  }
-
-  for (i in 1L:(l.nodes - 2L)) {
-    newl <- length(nodes[[l.nodes - i]])
-    new.l.list <- vector(length = newl, mode = "list")
-    m <- c(0, cumsum(nodes[[l.nodes - i]]))
-    for (j in 1L:newl) {
-      new.l.list[[j]] <- c(labels[levels == l.nodes - i - 1L][j],
-                           unlist(l.list[(m[j] + 1L):m[j + 1L]]))
-    }
-    l.list <- new.l.list
-  }
-
-  levels <- levels[unlist(l.list)]
 
   k <- length(nodes[[l.nodes]])
   d.list <- vector(length = k, mode = "list")
