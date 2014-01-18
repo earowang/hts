@@ -65,5 +65,6 @@ S2g <- function(smat) {
       top <- top + smat[j, ]
     }
   }
+  g <- g[-c(1L, nrow(g)), ]  # remove the first and last row
   return(g)
 }
