@@ -279,7 +279,7 @@ The \code{hts} function creates a hierarchical time series. The required inputs 
 # The first two series belong to one group, and the last two 
 # series belong to a different group
 bts <- ts(5 + matrix(sort(rnorm(400)), ncol=4, nrow=100))
-y <- hts(bts, g=c(rep(1,2),rep(2,2)))
+y <- hts(bts, nodes=list(2, c(3, 2)))
 \end{Verbatim}
 
 For a grouped but non-hierarchical time series, the \code{gts} function can be used. If there are more levels, the \code{g} argument should be a matrix where each row contains the grouping structure for each level.
@@ -287,8 +287,8 @@ For a grouped but non-hierarchical time series, the \code{gts} function can be u
 The \code{allts} function is used to extract time series across the hierarchy, while the \code{Smatrix} function is used to show the summing matrix as defined in \cite{HAA+11}.
 
 \begin{Verbatim}
-ally <-  allts(y) # Returns all series in the hierarchy
-S <- Smatrix(y) # Returns the summing matrix
+ally <-  aggts(y) # Returns all series in the hierarchy
+S <- smatrix(y) # Returns the summing matrix
 \end{Verbatim}
    
 The \code{plot.gts} function allows users to display the historical time series for both an \code{hts} or \code{gts} object. By default, it displays time series across all hierarchical levels, although users can restrict the plot to upper levels only. For example, we plot the top two levels of an \code{hts} object in Figure~\ref{fig:1}.
@@ -298,7 +298,7 @@ The \code{plot.gts} function allows users to display the historical time series 
 \centering
 \includegraphics[width=\textwidth]{hts_plot}
 \begin{Verbatim}
-plot(y, levels=2)
+plot(y, levels=c(0, 1))
 \end{Verbatim}
 \end{figure}     
 
@@ -343,7 +343,7 @@ plot(infantforecast, include=10)
 While Figure~\ref{fig:3} was produced using the \code{forecast.gts} function, there is alternative approach to produce forecasts which may give users extra flexibility.
 
 \begin{Verbatim}
-allts_infant <- allts(infantgts)
+allts_infant <- aggts(infantgts)
 allf <- matrix(, nrow=10, ncol=ncol(allts_infant))
 # Users can select their preferred time-series forecasting method
 # for each time series

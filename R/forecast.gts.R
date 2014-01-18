@@ -140,14 +140,6 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
   # Set up basic info
   tsp.y <- tsp(y)
   bnames <- colnames(object$bts)
-  # class used for combinef to detect hts/gts
-  class(pfcasts) <- class(object)
-  if (keep.fitted) {
-    class(fits) <- class(object)
-  }
-  if (keep.resid) {
-    class(resid) <- class(object)
-  }
 
   if (method == "comb") {
     if (is.hts(object)) {
@@ -159,40 +151,40 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
 
   if (method == "comb") {
     if (weights == "none") {
-      bfcasts <- combinef(pfcasts, gr)
+      bfcasts <- combinef(pfcasts, gr, keep = "bottom")
     } else if (weights == "sd") {
       resid <- y - fits
       wvec <- 1/apply(resid, 2, sd)
-      bfcasts <- combinef(pfcasts, gr, weights = wvec)
+      bfcasts <- combinef(pfcasts, gr, weights = wvec, keep = "bottom")
     } else if (weights == "nseries") {
       smat <- smatrix(object)
       wvec <- 1/rowSums(smat)
-      bfcasts <- combinef(pfcasts, gr, weights = wvec)
+      bfcasts <- combinef(pfcasts, gr, weights = wvec, keep = "bottom")
     }
     if (keep.fitted) {
       if (weights == "none") {
-        fits <- combinef(fits, gr)
+        fits <- combinef(fits, gr, keep = "bottom")
       } else if (weights == "sd") {
         resid <- y - fits
         wvec <- 1/apply(resid, 2, sd)
-        fits <- combinef(fits, gr, weights = wvec)
+        fits <- combinef(fits, gr, weights = wvec, keep = "bottom")
       } else if (weights == "nseries") {
         smat <- smatrix(object)
         wvec <- 1/rowSums(smat)
-        fits <- combinef(fits, gr, weights = wvec)
+        fits <- combinef(fits, gr, weights = wvec, keep = "bottom")
       }
     }
     if (keep.resid) {
       if (weights == "none") {
-        resid <- combinef(resid, gr)
+        resid <- combinef(resid, gr, keep = "bottom")
       } else if (weights == "sd") {
         resid <- y - fits
         wvec <- 1/apply(resid, 2, sd)
-        resid <- combinef(resid, gr, weights = wvec)
+        resid <- combinef(resid, gr, weights = wvec, keep = "bottom")
       } else if (weights == "nseries") {
         smat <- smatrix(object)
         wvec <- 1/rowSums(smat)
-        resid <- combinef(resid, gr, weights = wvec)
+        resid <- combinef(resid, gr, weights = wvec, keep = "bottom")
       }
     }
   } else if (method == "bu") {

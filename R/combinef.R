@@ -1,27 +1,50 @@
-combinef <- function(fcasts, nodes, weights = NULL) {
+combinef <- function(fcasts, nodes, weights = NULL, 
+                     keep = c("gts", "bottom")) {
   # Construct optimal combination forecasts
   #
   # Args:
   #   fcasts: hts/gts forecasts
-  #   nodes: nodes for hts; groups for gts
+  #   nodes: nodes for hts; S matrix for gts
   #   weights: users need to specify the weights
+  #   keep: choose to return a gts object or bottom time series
   #
   # Return:
   #   Optimal forcasts
-  if (is.hts(fcasts)) {
+  keep <- match.arg(keep)
+  tspx <- tsp(fcasts)
+  if (is.list(nodes)) { # hts class
     if(is.null(weights)) {
       bf <- CombineH(fcasts, nodes)  # w/o weights
     } else {
       bf <- CombineHw(fcasts, nodes, weights)  # with weights
     }
-  } else {
+    bf <- ts(bf, start = tspx[1L], frequency = tspx[3L])
+
+    if (keep == "gts") {
+      out <- suppressMessages(hts(bf, nodes = nodes))
+    } else {
+      out <- bf
+    }
+  } else if (is.matrix(nodes) || is.matrix.csr(nodes)) {  # gts class
+    # User uses the dense S matrix, so convert to sparse mode
+    if (is.matrix(nodes)) {
+      nodes <- as.matrix.csr(nodes)
+    }
     if (is.null(weights)) {
       bf <- CombineG(fcasts, nodes)
     } else {
       bf <- CombineG(fcasts, nodes, weights)
     }
+    bf <- ts(bf, start = tspx[1L], frequency = tspx[3L])
+
+    if (keep == "gts") {
+      gmat <- S2g(nodes)  # convert smatrix to groups
+      out <- suppressMessages(gts(bf, groups = gmat))
+    } else {
+      out <- bf
+    } 
   }
-  return(bf)
+  return(out)
 }
 
 # Combination approach 

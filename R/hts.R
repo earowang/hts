@@ -60,7 +60,11 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
       last.label <- paste("Level", length(nodes))
       b.list <- list(bnames)
       names(b.list) <- last.label
-      labels <- c(hn[-length(hn)], b.list)
+      if (length(hn) == 1L) {  # In case of a simple hierarchy of 2 levels
+        labels <- c(hn, b.list)
+      } else {
+        labels <- c(hn[-length(hn)], b.list)
+      }
     }
   } else if (length(characters) != length(nodes)) {
     stop("Argument characters is misspecified.")

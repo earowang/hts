@@ -44,3 +44,26 @@ Smatrix <- function(xts) {
   return(new("matrix.csr", ra = ra, ja = ja, ia = ia, 
              dimension = as.integer(c(ntotal, nbts))))
 }
+
+
+# A function to convert sparse matrix to group matrix for gts
+S2g <- function(smat) {
+  smat <- as.matrix(smat)  # dense matrix
+  k <- 1L  # k = group within level
+  i <- 0L  # i = level
+  g <- NULL  # group matrix
+  top <- rep(1L, ncol(smat))
+  for (j in 1L:nrow(smat)) {
+    if (sum(abs(top - 1)) < 1e-10) {
+      g <- rbind(g, smat[j, ])
+      top <- smat[j, ]
+      k <- 2
+      i <- i + 1L
+    } else {
+      g[i, ] <- g[i, ] + smat[j, ] * k
+      k <- k + 1L
+      top <- top + smat[j, ]
+    }
+  }
+  return(g)
+}

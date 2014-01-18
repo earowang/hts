@@ -6,15 +6,16 @@
 Using the method of Hyndman et al. (2011), this function optimally combines the forecasts at all levels of a hierarchical time series. The \code{\link{forecast.gts}} calls this function when the \code{comb} method is selected.
 }
 \usage{
-combinef(fcasts, nodes, weights = NULL)
+combinef(fcasts, nodes, weights = NULL, keep = c("gts", "bottom"))
 }
 \arguments{
   \item{fcasts}{Matrix of forecasts for all levels of the hierarchical time series. Each row represents one forecast horizon and each column represents one time series from the hierarchy.}
-  \item{nodes}{A list contains the number of child nodes referring to \code{hts}, when the object class is \code{hts}.
-    The summing matrix defines how the forecasts at the bottom level are summed to obtain each time series in the group matrix.}
+  \item{nodes}{If the object class is \code{hts}, a list contains the number of child nodes referring to \code{hts};
+    if the object class is \code{gts}, the summing matrix defines how the forecasts at the bottom level are summed to obtain each time series in the group matrix.}
   \item{weights}{A numeric vector.}
+  \item{keep}{Return a \code{gts} object or the the reconciled forecasts at the bottom level.}
 }
-\value{Only return the reconciled forecasts at the bottom level.}
+\value{Return the reconciled \code{gts} object or forecasts at the bottom level.}
 \references{
 R. J. Hyndman, R. A. Ahmed, G. Athanasopoulos and H.L. Shang (2011) 
 Optimal combination forecasts for hierarchical time series. 
@@ -22,7 +23,7 @@ Optimal combination forecasts for hierarchical time series.
 \url{http://robjhyndman.com/papers/hierarchical/}
 }
 
-\author{Rob J Hyndman and Roman A Ahmed}
+\author{Rob J Hyndman, Roman A Ahmed and Earo Wang}
 
 \seealso{
  \code{\link[hts]{hts}}, \code{\link[hts]{forecast.gts}}
@@ -30,12 +31,25 @@ Optimal combination forecasts for hierarchical time series.
 \keyword{ts}
 
 \examples{
+# hts example
 h <- 12 
 ally <- aggts(htseg1)
 allf <- matrix(NA, nrow = h, ncol = ncol(ally))
 for(i in 1:ncol(ally))
-	allf[,i] <- forecast(auto.arima(ally[,i]), h=h)$mean
+	allf[,i] <- forecast(auto.arima(ally[,i]), h = h, PI = FALSE)$mean
 allf <- ts(allf, start = 51)
-class(allf) <- "hts"
-y.f <- combinef(allf, htseg1$nodes, weights = NULL)
+y.f <- combinef(allf, htseg1$nodes, weights = NULL, keep = "gts")
+plot(y.f)
+
+# gts example
+abc <- ts(5 + matrix(sort(rnorm(200)), ncol = 4, nrow = 50))
+y <- gts(abc, rbind(c(1,1,2,2), c(1,2,1,2)))
+h <- 12
+ally <- aggts(y)
+allf <- matrix(NA,nrow = h,ncol = ncol(ally))
+for(i in 1:ncol(ally))
+  allf[,i] <- forecast(auto.arima(ally[,i]),h = h, PI = FALSE)$mean
+allf <- ts(allf, start = 51)
+y.f <- combinef(allf, smatrix(y), keep ="gts")
+plot(y.f)
 }
