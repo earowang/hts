@@ -18,9 +18,9 @@ combinef <- function(fcasts, nodes, weights = NULL,
     } else {
       bf <- CombineHw(fcasts, nodes, weights)  # with weights
     }
-    bf <- ts(bf, start = tspx[1L], frequency = tspx[3L])
 
     if (keep == "gts") {
+      bf <- ts(bf, start = tspx[1L], frequency = tspx[3L])
       out <- suppressMessages(hts(bf, nodes = nodes))
     } else {
       out <- bf
@@ -35,10 +35,10 @@ combinef <- function(fcasts, nodes, weights = NULL,
     } else {
       bf <- CombineG(fcasts, nodes, weights)
     }
-    bf <- ts(bf, start = tspx[1L], frequency = tspx[3L])
 
     if (keep == "gts") {
       gmat <- S2g(nodes)  # convert smatrix to groups
+      bf <- ts(bf, start = tspx[1L], frequency = tspx[3L])
       out <- suppressMessages(gts(bf, groups = gmat))
     } else {
       out <- bf

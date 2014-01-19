@@ -13,10 +13,10 @@ accuracy.gts <- function(fcasts, test, levels) {
   #
   # Error Handling:
   if (!is.gts(fcasts)) {
-    stop("Arguments fcasts should be a grouped time series.")
+    stop("Argument fcasts must be a grouped time series.")
   }
-  if (is.null(fcasts$histy) && !missing(test)) {
-    stop("Unable to compute forecast accuracy measures.")
+  if (!missing(test) && !is.gts(test)) {
+    stop("Argument test must be a grouped time series.")
   }
 
   if (missing(test) && !is.null(fcasts$fitted)) {
