@@ -54,7 +54,7 @@ S2g <- function(smat) {
   g <- NULL  # group matrix
   top <- rep(1L, ncol(smat))
   for (j in 1L:nrow(smat)) {
-    if (sum(abs(top - 1)) < 1e-10) {
+    if (sum(abs(top - 1)) <= 0L) {
       g <- rbind(g, smat[j, ])
       top <- smat[j, ]
       k <- 2
