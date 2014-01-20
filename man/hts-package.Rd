@@ -8,7 +8,7 @@ Hierarchical and grouped time series
 This package presents functions to create, plot and forecast hierarchical and grouped time series. In forecasting hierarchical and grouped time series, the base methods implemented include ETS, ARIMA and the naive (random walk) models. Forecasts for grouped time series are calibrated using bottom-up and optimal combination methods. Forecasts for hierarchical time series are distributed in the hierarchy using bottom-up, top-down, middle-out and optimal combination methods. Three top-down methods are available: the two Gross-Sohl methods and the forecast-proportion approach of Hyndman, Ahmed, and Athanasopoulos (2011).
 }
 \author{
-Rob J Hyndman, Roman, A. Ahmed, Han Lin Shang, and Yiru Wang
+Rob J Hyndman, Roman, A. Ahmed, Han Lin Shang, and Earo Wang
 
 Maintainer: Rob J Hyndman <Rob.Hyndman@monash.edu>
 }

@@ -1,0 +1,10 @@
+*.o
+*.so
+symbols.rds
+.Rhistory
+.Rproj.user
+forecast.Rproj
+.Rbuildignore
+*.aux
+*.log
+*.fdb_latexmk
