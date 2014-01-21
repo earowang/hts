@@ -11,6 +11,7 @@ combinef <- function(fcasts, nodes, weights = NULL,
   # Return:
   #   Optimal forcasts
   keep <- match.arg(keep)
+  fcasts <- as.ts(fcasts)
   tspx <- tsp(fcasts)
   if (is.list(nodes)) { # hts class
     if(is.null(weights)) {

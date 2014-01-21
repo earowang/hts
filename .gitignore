@@ -5,6 +5,10 @@ symbols.rds
 .Rproj.user
 forecast.Rproj
 .Rbuildignore
+*.bbl
+*.blg
+*.dvi
+*.out
 *.aux
 *.log
 *.fdb_latexmk

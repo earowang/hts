@@ -10,9 +10,8 @@ gts <- function(y, groups, gnames = rownames(groups)) {
   #   A grouped time series.
   #
   # Error handling:
-  if (!is.ts(y)) {
-    stop("Argument y must be a time series data.")
-  }
+  y <- as.ts(y)
+
   if (ncol(y) <= 1L) {
     stop("Argument y must be a multivariate time series.")
   }
