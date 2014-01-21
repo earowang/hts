@@ -17,6 +17,8 @@ each series when completely disaggregated, and one row for each grouping of the
 time series. It allows either a numerical matrix or a matrix consisting of strings.}
   \item{gnames}{Specify the group names.}
 }
+\details{If the argument \code{groups} is a matrix consisting of strings, these
+  characters can be used for labelling.}
 \value{
   \item{bts}{Multivariate time series contains the bottom level series}
   \item{groups}{Information about the groups of a grouped time series}
@@ -28,7 +30,7 @@ Optimal combination forecasts for hierarchical time series.
 \emph{Computational Statistics and Data Analysis}, \bold{55}(9), 2579--2589.
 \url{http://robjhyndman.com/papers/hierarchical/}
 }
-\author{Rob J Hyndman}
+\author{Rob J Hyndman and Earo Wang}
 
 \seealso{
 \code{\link[hts]{accuracy.gts}}, \code{\link[hts]{forecast.gts}}, \code{\link[hts]{plot.gts}}

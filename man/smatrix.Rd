@@ -19,7 +19,7 @@ Optimal combination forecasts for hierarchical time series.
 \url{http://robjhyndman.com/papers/hierarchical/}
 }
 
-\author{Rob J Hyndman and Roman A Ahmed}
+\author{Rob J Hyndman, Roman A Ahmed and Earo Wang}
 
 \seealso{
  \code{\link[hts]{hts}}, \code{\link[gts]{gts}}, \code{\link[hts]{combinef}}

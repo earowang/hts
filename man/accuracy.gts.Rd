@@ -19,7 +19,7 @@ accuracy.gts(fcasts, test, levels)
   is missing.}
   \item{test}{An object of class \code{gts}, containing the holdout hierarchical time series}
   
-  \item{levels}{Specify which levels users want to return, when carrying out 
+  \item{levels}{Return the specified level(s), when carrying out 
   out-of-sample accuracy.} 
 }
 \value{
@@ -38,7 +38,7 @@ Matrix giving forecast accuracy measures.
 R. J. Hyndman and A. Koehler (2006), Another look at measures of forecast accuracy, \emph{International Journal of Forecasting}, \bold{22}, 679-688.
 }
 \author{
-Rob J Hyndman
+Rob J Hyndman and Earo Wang
 }
 \seealso{
 \code{\link[hts]{hts}}, \code{\link[hts]{plot.gts}}, \code{\link[hts]{forecast.gts}}, \code{\link[forecast]{accuracy}}

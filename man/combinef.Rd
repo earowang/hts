@@ -12,7 +12,7 @@ combinef(fcasts, nodes, weights = NULL, keep = c("gts", "bottom"))
   \item{fcasts}{Matrix of forecasts for all levels of the hierarchical time series. Each row represents one forecast horizon and each column represents one time series from the hierarchy.}
   \item{nodes}{If the object class is \code{hts}, a list contains the number of child nodes referring to \code{hts};
     if the object class is \code{gts}, the summing matrix defines how the forecasts at the bottom level are summed to obtain each time series in the group matrix.}
-  \item{weights}{A numeric vector.}
+  \item{weights}{A numeric vector. The default is \code{NULL} that means the ordinary least squares is implemented.}
   \item{keep}{Return a \code{gts} object or the the reconciled forecasts at the bottom level.}
 }
 \value{Return the reconciled \code{gts} object or forecasts at the bottom level.}
