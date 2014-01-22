@@ -1,14 +1,6 @@
 # A unit test for hts() function
 context("Tests on inputs")
 
-test_that("tests for y as ts", {
-  set.seed(1234)
-  mts <- matrix(5 + sort(rnorm(500)), nrow = 50, ncol = 10)
-  node.list <- list(3, c(2, 3, 1), c(2, 2, 1, 1, 1, 3))
-
-  expect_that(hts(mts, node.list), throws_error())
-})
-
 test_that("tests for y as a mts", {
   set.seed(1234)
   sts <- ts(rnorm(100), start = c(2001, 1), frequency = 12)

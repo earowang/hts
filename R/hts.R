@@ -16,9 +16,8 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
   #   1. May handle NA's by forecasting them properly.
   #
   # Error handling:
-  if (!is.ts(y)) {
-    stop("Argument y must be a time series data.")
-  }
+  y <- as.ts(y)
+
   if (ncol(y) <= 1L) {
     stop("Argument y must be a multivariate time series.")
   }

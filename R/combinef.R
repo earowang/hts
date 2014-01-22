@@ -12,6 +12,7 @@ combinef <- function(fcasts, nodes, groups, weights = NULL,
   # Return:
   #   Optimal forecasts
   keep <- match.arg(keep)
+  fcasts <- as.ts(fcasts)
   tspx <- tsp(fcasts)
   if (missing(groups)) { # hts class
     if(is.null(weights)) {
