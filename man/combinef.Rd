@@ -43,13 +43,14 @@ plot(y.f)
 
 # gts example
 abc <- ts(5 + matrix(sort(rnorm(200)), ncol = 4, nrow = 50))
-y <- gts(abc, rbind(c(1,1,2,2), c(1,2,1,2)))
+g <- rbind(c(1,1,2,2), c(1,2,1,2))
+y <- gts(abc, groups = g)
 h <- 12
 ally <- aggts(y)
 allf <- matrix(NA,nrow = h,ncol = ncol(ally))
 for(i in 1:ncol(ally))
   allf[,i] <- forecast(auto.arima(ally[,i]),h = h, PI = FALSE)$mean
 allf <- ts(allf, start = 51)
-y.f <- combinef(allf, y$groups, keep ="gts")
+y.f <- combinef(allf, groups = g, keep ="gts")
 plot(y.f)
 }

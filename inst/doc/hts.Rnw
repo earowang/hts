@@ -352,8 +352,9 @@ allf <- matrix(, nrow=10, ncol=ncol(allts_infant))
 for(i in 1:ncol(allts_infant))
   allf[,i] <- forecast(auto.arima(allts_infant[,i]), h=10, PI=FALSE)$mean
 allf <- ts(allf, start=2004)
-# combine the forecasts with the summing matrix to get a gts object
-y.f <- combinef(allf, smatrix(infantgts))
+# combine the forecasts with the group matrix to get a gts object
+g <- matrix(c(rep(1, 8), rep(2, 8), rep(1:8, 2)), nrow = 2, byrow = T)
+y.f <- combinef(allf, groups = g)
 \end{Verbatim}
 In order to test the forecast accuracy, the \code{accuracy.gts} function can be used.
 \begin{Verbatim}   # set up the training sample and testing sample

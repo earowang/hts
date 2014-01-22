@@ -53,6 +53,9 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
   }
 
   if (method == "comb" && weights == "sd") {
+    if (fmethod == "rw") {
+      stop("weights = 'sd' cannot be applied to random walk.")
+    }
     keep.fitted <- TRUE
   }
 
@@ -158,7 +161,8 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     if (is.hts(x)) {
       return(combinef(x, nodes = object$nodes, ... ))
     } else {
-      return(combinef(x, groups = object$groups, ...))
+      return(combinef(x, groups = object$groups[-c(1L, nrow(object$groups)), ], 
+                      ...))
     }
   }
 

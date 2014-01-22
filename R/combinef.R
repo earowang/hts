@@ -29,7 +29,8 @@ combinef <- function(fcasts, nodes, groups, weights = NULL,
     }
   } else if (missing(nodes)) {  # gts class
     # To call Smatrix() properly
-    fcasts <- structure(list(all = fcasts, groups = groups), class = "gts")
+    allgroups <- GmatrixG(groups)
+    fcasts <- structure(list(all = fcasts, groups = allgroups), class = "gts")
     smat <- Smatrix(fcasts)
     if (is.null(weights)) {
       bf <- CombineG(fcasts$all, smat)
