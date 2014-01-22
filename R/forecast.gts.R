@@ -53,9 +53,6 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
   }
 
   if (method == "comb" && weights == "sd") {
-    if (fmethod == "rw") {
-      stop("weights = 'sd' cannot be applied to random walk.")
-    }
     keep.fitted <- TRUE
   }
 
@@ -130,7 +127,6 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     resid <- sapply(loopout, function(x) x$resid)
   }
 
-
   if (is.vector(pfcasts)) {  # if h = 1, sapply returns a vector
     pfcasts <- t(pfcasts)
   }
@@ -170,7 +166,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
       bfcasts <- Comb(pfcasts, keep = "bottom")
     } else if (weights == "sd") {
       resid <- y - fits
-      wvec <- 1/apply(resid, 2, sd)
+      wvec <- 1/apply(resid, 2, sd, na.rm = TRUE)
       bfcasts <- Comb(pfcasts, weights = wvec, keep = "bottom")
     } else if (weights == "nseries") {
       bfcasts <- Comb(pfcasts, weights = wvec, keep = "bottom")
@@ -180,7 +176,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
         fits <- Comb(fits, keep = "bottom")
       } else if (weights == "sd") {
         resid <- y - fits
-        wvec <- 1/apply(resid, 2, sd)
+        wvec <- 1/apply(resid, 2, sd, na.rm = TRUE)
         fits <- Comb(fits, weights = wvec, keep = "bottom")
       } else if (weights == "nseries") {
         fits <- Comb(fits, weights = wvec, keep = "bottom")
@@ -191,7 +187,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
         resid <- Comb(resid, keep = "bottom")
       } else if (weights == "sd") {
         resid <- y - fits
-        wvec <- 1/apply(resid, 2, sd)
+        wvec <- 1/apply(resid, 2, sd, na.rm = TRUE)
         resid <- Comb(resid, weights = wvec, keep = "bottom")
       } else if (weights == "nseries") {
         resid <- Comb(resid, weights = wvec, keep = "bottom")
