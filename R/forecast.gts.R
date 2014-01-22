@@ -161,8 +161,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     if (is.hts(x)) {
       return(combinef(x, nodes = object$nodes, ... ))
     } else {
-      return(combinef(x, groups = object$groups[-c(1L, nrow(object$groups)), ], 
-                      ...))
+      return(combinef(x, groups = object$groups, ...))
     }
   }
 

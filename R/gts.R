@@ -65,14 +65,18 @@ gts <- function(y, groups, gnames = rownames(groups)) {
 
 # A function to convert groups to gmatrix
 GmatrixG <- function(xmat) {
-  if (is.character(xmat)) {
-    # Convert character to integer
-    gmat <- t(apply(xmat, 1, function(x) as.integer(factor(x, unique(x)))))
+  if (all(xmat[1L, ] == 1L)) {  # gmatrix has already been complete
+    gmat <- xmat
   } else {
-    gmat  <- xmat
+    if (is.character(xmat)) {
+      # Convert character to integer
+      gmat <- t(apply(xmat, 1, function(x) as.integer(factor(x, unique(x)))))
+    } else {
+      gmat  <- xmat
+    }
+    # Insert the first & last rows
+    gmat <- rbind(rep(1L, ncol(xmat)), gmat, seq(1L, ncol(xmat)))
   }
-  # Insert the first & last rows
-  gmat <- rbind(rep(1L, ncol(xmat)), gmat, seq(1L, ncol(xmat)))
   return(structure(gmat, class = "gmatrix"))
 }
 
