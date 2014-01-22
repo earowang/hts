@@ -6,12 +6,12 @@
 Using the method of Hyndman et al. (2011), this function optimally combines the forecasts at all levels of a hierarchical time series. The \code{\link{forecast.gts}} calls this function when the \code{comb} method is selected.
 }
 \usage{
-combinef(fcasts, nodes, weights = NULL, keep = c("gts", "bottom"))
+combinef(fcasts, nodes, groups, weights = NULL, keep = c("gts", "bottom"))
 }
 \arguments{
   \item{fcasts}{Matrix of forecasts for all levels of the hierarchical time series. Each row represents one forecast horizon and each column represents one time series from the hierarchy.}
-  \item{nodes}{If the object class is \code{hts}, a list contains the number of child nodes referring to \code{hts};
-    if the object class is \code{gts}, the summing matrix defines how the forecasts at the bottom level are summed to obtain each time series in the group matrix.}
+  \item{nodes}{If the object class is \code{hts}, a list contains the number of child nodes referring to \code{hts}.}
+  \item{groups}{If the object class is \code{gts}, a gmatrix is required, which is the same as \code{groups} in the function \code{gts}.}
   \item{weights}{A numeric vector. The default is \code{NULL} that means the ordinary least squares is implemented.}
   \item{keep}{Return a \code{gts} object or the the reconciled forecasts at the bottom level.}
 }
@@ -50,6 +50,6 @@ allf <- matrix(NA,nrow = h,ncol = ncol(ally))
 for(i in 1:ncol(ally))
   allf[,i] <- forecast(auto.arima(ally[,i]),h = h, PI = FALSE)$mean
 allf <- ts(allf, start = 51)
-y.f <- combinef(allf, smatrix(y), keep ="gts")
+y.f <- combinef(allf, y$groups, keep ="gts")
 plot(y.f)
 }
