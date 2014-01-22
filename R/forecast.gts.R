@@ -144,6 +144,13 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     if (keep.resid) {
       class(resid) <- class(object)
     }
+    if (weights == "nseries") {
+      if (is.hts(object)) {
+        wvec <- InvS4h(object$nodes)
+      } else {
+        wvec <- InvS4g(object$groups)
+      }
+    }
   }
 
   # An internal function to call combinef correctly
@@ -163,8 +170,6 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
       wvec <- 1/apply(resid, 2, sd)
       bfcasts <- Comb(pfcasts, weights = wvec, keep = "bottom")
     } else if (weights == "nseries") {
-      smat <- smatrix(object)
-      wvec <- 1/rowSums(smat)
       bfcasts <- Comb(pfcasts, weights = wvec, keep = "bottom")
     }
     if (keep.fitted) {
@@ -175,8 +180,6 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
         wvec <- 1/apply(resid, 2, sd)
         fits <- Comb(fits, weights = wvec, keep = "bottom")
       } else if (weights == "nseries") {
-        smat <- smatrix(object)
-        wvec <- 1/rowSums(smat)
         fits <- Comb(fits, weights = wvec, keep = "bottom")
       }
     }
@@ -188,8 +191,6 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
         wvec <- 1/apply(resid, 2, sd)
         resid <- Comb(resid, weights = wvec, keep = "bottom")
       } else if (weights == "nseries") {
-        smat <- smatrix(object)
-        wvec <- 1/rowSums(smat)
         resid <- Comb(resid, weights = wvec, keep = "bottom")
       }
     }

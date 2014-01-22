@@ -121,6 +121,20 @@ Mnodes <- function(xlist) {
 }
 
 
+# A function to get the inverse of row sums of Smatrix
+InvS4h <- function(xlist) {
+  gmat <- GmatrixH(xlist)
+  uniq <- apply(gmat, 1, unique)
+  len <- nrow(gmat)
+  inv.s <- vector(length = len, mode = "list")
+  for (i in 1L:len) {
+    inv.s[[i]] <- sapply(uniq[[i]], function(x) length(gmat[i, gmat[i, ] == x]))
+  }
+  inv.s <- 1/unlist(inv.s)
+  return(inv.s)
+}
+
+
 # A function to set the default hierarchical names
 HierName <- function(xlist) {
   l.xlist <- length(xlist)

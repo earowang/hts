@@ -84,6 +84,16 @@ Mlevel <- function(xgroup) {
 }
 
 
+# A function to get the inverse of row sums of S matrix
+InvS4g <- function(xgroup) {
+  mlevel <- Mlevel(xgroup)
+  len <- length(mlevel)
+  repcount <- mlevel[len]/mlevel
+  inv.s <- 1/unlist(mapply(rep, repcount, mlevel, SIMPLIFY = FALSE))
+  return(inv.s)
+}
+
+
 # A function to check whether it's the "gts" class.
 is.gts <- function(xts) {
   is.element("gts", class(xts))
