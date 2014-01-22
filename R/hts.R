@@ -35,14 +35,12 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
     stop("The root node cannot be empty.")
   }
   if (sum(nodes[[length(nodes)]]) != ncol(y)) {
-    stop("The number of terminal nodes is not consistent with the number of 
-         bottom time series.")
+    stop("The number of terminal nodes is not consistent with the number of bottom time series.")
   }
   if (length(nodes) > 1L) {
     for (i in 1L:(length(nodes) - 1L)) {
       if (sum(nodes[[i]]) != length(nodes[[i + 1]])) {
-        error <- sprintf("The number of nodes for the level %i is not equal to 
-                         the number of series of level %i.", i - 1L, i)
+        error <- sprintf("The number of nodes for the level %i is not equal to the number of series of level %i.", i - 1L, i)
         stop(error)
       }
     }
@@ -50,8 +48,7 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
 
   # Construct the level labels
   if (missing(characters)) {
-    message("Since argument characters are not specified, the default 
-            labelling system is used.")
+    message("Since argument characters are not specified, the default labelling system is used.")
     if (is.null(bnames)) {
       labels <- HierName(nodes) # HierName() defined below
       colnames(y) <- unlist(labels[length(labels)])

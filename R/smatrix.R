@@ -6,6 +6,9 @@ smatrix <- function(xts) {
   #
   # Returns:
   #   S matrix in the dense mode
+  if (!is.gts(xts)) {
+    stop("Argument xts must be a gts object")
+  }
   return(as.matrix(Smatrix(xts)))
 }
 
@@ -13,12 +16,15 @@ Smatrix <- function(xts) {
   # S matrix in the sparse mode
   if (is.hts(xts)) {
     gmat <- GmatrixH(xts$nodes)
-    ntotal <- sum(Mnodes(xts$nodes))
+    mnodes <- Mnodes(xts$nodes)
+    ntotal <- sum(mnodes)
+    nbts <- mnodes[length(mnodes)]
   } else {
     gmat <- xts$groups
-    ntotal <- sum(Mlevel(xts$groups))
+    mlevel <- Mlevel(xts$groups)
+    ntotal <- sum(mlevel)
+    nbts <- mlevel[length(mlevel)]
   }
-  nbts <- ncol(xts$bts)
   # The number of non-zero elements
   ra <- as.numeric(rep(1, nbts * nrow(gmat)))
 
@@ -43,28 +49,4 @@ Smatrix <- function(xts) {
   ja <- Jaslot(gmat)
   return(new("matrix.csr", ra = ra, ja = ja, ia = ia, 
              dimension = as.integer(c(ntotal, nbts))))
-}
-
-
-# A function to convert sparse matrix to group matrix for gts
-S2g <- function(smat) {
-  smat <- as.matrix(smat)  # dense matrix
-  k <- 1L  # k = group within level
-  i <- 0L  # i = level
-  g <- NULL  # group matrix
-  top <- rep(1L, ncol(smat))
-  for (j in 1L:nrow(smat)) {
-    if (sum(abs(top - 1)) <= 0L) {
-      g <- rbind(g, smat[j, ])
-      top <- smat[j, ]
-      k <- 2
-      i <- i + 1L
-    } else {
-      g[i, ] <- g[i, ] + smat[j, ] * k
-      k <- k + 1L
-      top <- top + smat[j, ]
-    }
-  }
-  g <- g[-c(1L, nrow(g)), ]  # remove the first and last row
-  return(g)
 }

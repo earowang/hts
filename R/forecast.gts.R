@@ -33,8 +33,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
   }
   if (!is.hts(object) && 
       is.element(method, c("mo", "tdgsf", "tdgsa", "tdfp"))) {
-    stop("Argument method is not appropriate for a non-hierarchical time 
-         series.")
+    stop("Argument method is not appropriate for a non-hierarchical time series.")
   }
   if (method == "mo" && missing(level)) {
     stop("Please specify argument level for the middle-out method.")
@@ -137,50 +136,61 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
   tsp.y <- tsp(y)
   bnames <- colnames(object$bts)
 
-  if (method == "comb") {
-    if (is.hts(object)) {
-      gr <- object$nodes
+  if (method == "comb") {  # Assign class
+    class(pfcasts) <- class(object)
+    if (keep.fitted) {
+      class(fits) <- class(object)
+    }
+    if (keep.resid) {
+      class(resid) <- class(object)
+    }
+  }
+
+  # An internal function to call combinef correctly
+  Comb <- function(x, ...) {
+    if (is.hts(x)) {
+      return(combinef(x, nodes = object$nodes, ... ))
     } else {
-      gr <- Smatrix(object)
+      return(combinef(x, groups = object$groups, ...))
     }
   }
 
   if (method == "comb") {
     if (weights == "none") {
-      bfcasts <- combinef(pfcasts, gr, keep = "bottom")
+      bfcasts <- Comb(pfcasts, keep = "bottom")
     } else if (weights == "sd") {
       resid <- y - fits
       wvec <- 1/apply(resid, 2, sd)
-      bfcasts <- combinef(pfcasts, gr, weights = wvec, keep = "bottom")
+      bfcasts <- Comb(pfcasts, weights = wvec, keep = "bottom")
     } else if (weights == "nseries") {
       smat <- smatrix(object)
       wvec <- 1/rowSums(smat)
-      bfcasts <- combinef(pfcasts, gr, weights = wvec, keep = "bottom")
+      bfcasts <- Comb(pfcasts, weights = wvec, keep = "bottom")
     }
     if (keep.fitted) {
       if (weights == "none") {
-        fits <- combinef(fits, gr, keep = "bottom")
+        fits <- Comb(fits, keep = "bottom")
       } else if (weights == "sd") {
         resid <- y - fits
         wvec <- 1/apply(resid, 2, sd)
-        fits <- combinef(fits, gr, weights = wvec, keep = "bottom")
+        fits <- Comb(fits, weights = wvec, keep = "bottom")
       } else if (weights == "nseries") {
         smat <- smatrix(object)
         wvec <- 1/rowSums(smat)
-        fits <- combinef(fits, gr, weights = wvec, keep = "bottom")
+        fits <- Comb(fits, weights = wvec, keep = "bottom")
       }
     }
     if (keep.resid) {
       if (weights == "none") {
-        resid <- combinef(resid, gr, keep = "bottom")
+        resid <- Comb(resid, keep = "bottom")
       } else if (weights == "sd") {
         resid <- y - fits
         wvec <- 1/apply(resid, 2, sd)
-        resid <- combinef(resid, gr, weights = wvec, keep = "bottom")
+        resid <- Comb(resid, weights = wvec, keep = "bottom")
       } else if (weights == "nseries") {
         smat <- smatrix(object)
         wvec <- 1/rowSums(smat)
-        resid <- combinef(resid, gr, weights = wvec, keep = "bottom")
+        resid <- Comb(resid, weights = wvec, keep = "bottom")
       }
     }
   } else if (method == "bu") {
