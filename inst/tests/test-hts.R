@@ -9,15 +9,6 @@ test_that("tests for y as a mts", {
   expect_that(hts(sts, node.list), throws_error())
 })
 
-test_that("tests for y with NA's", {
-  set.seed(1234)
-  mts <- ts(matrix(5 + sort(rnorm(500)), nrow = 50, ncol = 10))
-  mts[c(23:25), 3] <- NA
-  node.list <- list(3, c(2, 3, 1), c(2, 2, 1, 1, 1, 3))
-
-  expect_that(hts(mts, node.list), throws_error())
-})
-
 test_that("tests for node as a list", {
   set.seed(1234)
   mts <- ts(matrix(5 + sort(rnorm(500)), nrow = 50, ncol = 10))
