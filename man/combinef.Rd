@@ -32,17 +32,17 @@ Optimal combination forecasts for hierarchical time series.
 
 \examples{
 # hts example
-h <- 12 
+\dontrun{h <- 12 
 ally <- aggts(htseg1)
 allf <- matrix(NA, nrow = h, ncol = ncol(ally))
 for(i in 1:ncol(ally))
 	allf[,i] <- forecast(auto.arima(ally[,i]), h = h, PI = FALSE)$mean
 allf <- ts(allf, start = 51)
 y.f <- combinef(allf, htseg1$nodes, weights = NULL, keep = "gts")
-plot(y.f)
+plot(y.f)}
 
 # gts example
-abc <- ts(5 + matrix(sort(rnorm(200)), ncol = 4, nrow = 50))
+\dontrun{abc <- ts(5 + matrix(sort(rnorm(200)), ncol = 4, nrow = 50))
 g <- rbind(c(1,1,2,2), c(1,2,1,2))
 y <- gts(abc, groups = g)
 h <- 12
@@ -52,5 +52,5 @@ for(i in 1:ncol(ally))
   allf[,i] <- forecast(auto.arima(ally[,i]),h = h, PI = FALSE)$mean
 allf <- ts(allf, start = 51)
 y.f <- combinef(allf, groups = g, keep ="gts")
-plot(y.f)
+plot(y.f)}
 }

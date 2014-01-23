@@ -64,7 +64,7 @@ Gross, C. and Sohl, J. (1990) Dissagregation methods to expedite product line fo
  \code{\link[hts]{hts}}, \code{\link[hts]{gts}}, \code{\link[hts]{plot.gts}}, \code{\link[hts]{accuracy.gts}}
 }
 \examples{
-forecast(htseg2, h = 10, method = "bu", fmethod = "arima")
+forecast(htseg1, h = 10, method = "bu", fmethod = "arima")
 }
 \keyword{ts}
 
