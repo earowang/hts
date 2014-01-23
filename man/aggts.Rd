@@ -6,13 +6,13 @@ The time series from selected levels of a hierarchical/grouped time series or a 
 hierarchical/grouped time series are returned as a multivariate time series.
 }
 \usage{
-aggts(y, levels, forecast = TRUE)
+aggts(y, levels, forecasts = TRUE)
 }
 
 \arguments{
   \item{y}{An object of class \code{{gts}}.}
   \item{levels}{Return the specified level(s).}
-  \item{forecast}{If \code{obj} contains forecasts and historical data, then \code{forecasts} indicates whether to return the forecasts or the historical data. Otherwise it is ignored.}
+  \item{forecasts}{If \code{obj} contains forecasts and historical data, then \code{forecasts} indicates whether to return the forecasts or the historical data. Otherwise it is ignored.}
 }
 \author{Earo Wang}
 

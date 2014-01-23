@@ -229,6 +229,13 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     }
   }
 
+  # In case that accuracy.gts() is called later, since NA's have been omitted
+  # to ensure slm to run without errors.
+  if (method == "comb" && fmethod == "rw" 
+      && keep.fitted == TRUE && !is.hts(object)) {
+    fits <- rbind(rep(NA, ncol(fits)), fits)
+  }
+
   bfcasts <- ts(bfcasts, start = tsp.y[2L] + 1L/tsp.y[3L], 
                 frequency = tsp.y[3L])
   colnames(bfcasts) <- bnames

@@ -29,20 +29,28 @@ accuracy.gts <- function(fcasts, test, levels) {
   }
 
   pe <- res/x * 100  # percentage error
-  scale <- colMeans(diff(x, lag = max(1, frequency(x))), na.rm = TRUE)
-  q <- sweep(res, 2, scale, "/")
+  scale <- try(colMeans(diff(x, lag = max(1, frequency(x))), na.rm = TRUE))
+  if (class(scale) == "try-error") {  # In case of h < lag
+    NULL
+  } else {
+    q <- sweep(res, 2, scale, "/")
+    mase <- colMeans(abs(q), na.rm = TRUE)
+  }
 
   me <- colMeans(res, na.rm = TRUE)
   rmse <- sqrt(colMeans(res^2, na.rm = TRUE))
   mae <- colMeans(abs(res), na.rm = TRUE)
   mape <- colMeans(abs(pe), na.rm = TRUE)
   mpe <- colMeans(pe, na.rm = TRUE)
-  mase <- colMeans(abs(q), na.rm = TRUE)
 
-  out <- rbind(me, rmse, mae, mape, mpe, mase)
+  out <- rbind(me, rmse, mae, mape, mpe)
+  rownames(out) <- c("ME", "RMSE", "MAE", "MAPE", "MPE")
+  if (exists("mase")) {
+    out <- rbind(out, mase)
+    rownames(out)[6L] <- "MASE"
+  }
   if (exists("f")) {
     colnames(out) <- colnames(f)
   }
-  rownames(out) <- c("ME", "RMSE", "MAE", "MAPE", "MPE", "MASE")
   return(out)
 }

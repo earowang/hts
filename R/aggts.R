@@ -1,4 +1,4 @@
-aggts <- function(y, levels, forecast = TRUE) {
+aggts <- function(y, levels, forecasts = TRUE) {
   # 1. Display all time series from top to bottom. 
   # 2. Bottom-up method.
   #
@@ -15,7 +15,7 @@ aggts <- function(y, levels, forecast = TRUE) {
     stop("Argument y must be either a hts or gts object.")
   }
 
-  if (!forecast) {
+  if (!forecasts) {
     y$bts <- y$histy
   }
 
@@ -46,4 +46,13 @@ aggts <- function(y, levels, forecast = TRUE) {
   tsp.y <- tsp(y$bts)
   ally <- ts(ally, start = tsp.y[1L], frequency = tsp.y[3L])
   return(ally)
+}
+
+
+# A wrapper for aggts
+allts <- function(y, forecasts = TRUE) {
+  if (!is.gts(y)) {
+    stop("Argument y must be either a hts or gts object.")
+  }
+  aggts(y = y, forecasts = forecasts)
 }
