@@ -38,6 +38,9 @@ plot.gts <- function(x, include, levels, labels = TRUE, ...) {
   }
 
   l.levels <- length(levels)
+  if (is.character(levels)) {
+    levels <- which(names(x$labels) %in% levels)
+  }
   levels <- as.integer(levels) + 1L
 
   opar <- par(mfrow = c(l.levels, 1L), mar = c(3, 4, 4, 2))

@@ -389,21 +389,21 @@ Every function in \pkg{hts} version 4 has been rewritten in order to improve its
    \end{table}
 
  \item[\code{aggts}] This is a new more flexible version of \code{allts} which allows the extraction of specific levels of the hierarchy. For instance, we are interested in observing the regional infant mortality counts across the states and they are obtained by specifying \code{levels = 2}. All time series in the hierarchy are returned if \code{levels} is omitted. The specification of levels now also works in the \code{plot} function in the same way.
-   \begin{verbatim}
-    statets <- aggts(infantgts, levels = 2)  # Return time series at level 2 (State)
-    plot(infantgts, levels = 2) Plot time series across the states
-   \end{verbatim}
- \item[\code{forecast}] Fitted values and residuals at the bottom level are made available to users. These are reconciled in the same way as the forecasts, as long as users set \code{keep.fitted = TRUE} and \code{keep.resid = TRUE}. Furthermore, the \pkg{parallel} package has been imported for the support of parallel computing. The \code{forecast} function generates independent forecasts for each time series and it can take a long time to model and forecast these time series. Pproducing forecasts in parallel (with \code{parallel = TRUE}) enables users to save a significant amount of computing time. 
+   \begin{Verbatim}
+    statets <- aggts(infantgts, levels = "State")  # Return time series across the states
+    plot(infantgts, levels = "State") Plot time series across the states
+   \end{Verbatim}
+ \item[\code{forecast}] Fitted values and residuals at the bottom level are made available to users. These are reconciled in the same way as the forecasts, as long as users set \code{keep.fitted = TRUE} and \code{keep.resid = TRUE}. Furthermore, the \pkg{parallel} package has been imported for the support of parallel computing. The \code{forecast} function generates independent forecasts for each time series and it can take a long time to model and forecast these time series. Producing forecasts in parallel (with \code{parallel = TRUE}) enables users to save a significant amount of computing time. 
 
  Another major change is the new argument \code{weights}, associated with the optimal combination approach. The function uses ordinary least squares for the unscaled forecasts in the case of \code{weights = "none"} (as it did in previous versions). But when \code{weights = "sd"}, it will use weighted least squares for the forecasts scaled by the standard deviation of the forecast errors. A third possibility is \code{weights = "nseries"}; this case is useful when the bottom level series are on the same scale and the weights are then equal to the inverse of the row sums of $\bm{S}$.
- \begin{verbatim}
+ \begin{Verbatim}
    fcasts <- forecast(htseg1, h = 10, method = "comb", fmethod = "arima", 
                       weights = "sd", keep.fitted = TRUE, parallel = TRUE)
-   \end{verbatim}
+   \end{Verbatim}
  \item[\code{accuracy.gts}] now returns in-sample error measures at the bottom level, if \code{keep.fitted = TRUE} in the \code{forecast} function and the argument \code{test} is missing.
-   \begin{verbatim}
+   \begin{Verbatim}
    accuracy.gts(fcasts)  # In-sample error measure
-   \end{verbatim}
+   \end{Verbatim}
 \end{description}
    
 \section*{Conclusion}

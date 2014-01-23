@@ -31,6 +31,9 @@ aggts <- function(y, levels, forecasts = TRUE) {
     # Return all levels of the time series
     levels <- 1L:nrow(gmat)
   } else {
+    if (is.character(levels)) {  # Strings consistent with groups names
+      levels <- which(names(y$labels) %in% levels)
+    }
     # Return the specified levels
     levels <- as.integer(levels) + 1L
   }

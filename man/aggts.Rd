@@ -11,13 +11,15 @@ aggts(y, levels, forecasts = TRUE)
 
 \arguments{
   \item{y}{An object of class \code{{gts}}.}
-  \item{levels}{Return the specified level(s).}
+  \item{levels}{Integer(s) or string(s) giving the specified level(s).}
   \item{forecasts}{If \code{obj} contains forecasts and historical data, then \code{forecasts} indicates whether to return the forecasts or the historical data. Otherwise it is ignored.}
 }
 \author{Earo Wang}
 
+\seealso{\code{\link[hts]{allts}}}
+
 \examples{
-aggts(htseg1)
 aggts(htseg1, levels = c(0, 2))
+aggts(infantgts, levels = "State")
 }
 \keyword{ts}

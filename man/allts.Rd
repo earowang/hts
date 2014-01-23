@@ -15,6 +15,8 @@ allts(y, forecasts=TRUE)
 }
 \author{Rob J Hyndman}
 
+\seealso{\code{\link[hts]{aggts}}}
+
 \examples{
 allts(htseg1)
 }
