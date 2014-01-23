@@ -16,8 +16,8 @@ plot.gts <- function(x, include, levels, labels = TRUE, ...) {
   }
 
   if (!is.null(x$histy)) {
-    histx <- aggts(x, levels, forecast = FALSE)
-    fcasts <- aggts(x, levels, forecast = TRUE)
+    histx <- aggts(x, levels, forecasts = FALSE)
+    fcasts <- aggts(x, levels, forecasts = TRUE)
   } else {
     histx <- aggts(x, levels)
   }
