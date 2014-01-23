@@ -47,7 +47,7 @@ accuracy.gts <- function(fcasts, test, levels) {
   rownames(out) <- c("ME", "RMSE", "MAE", "MAPE", "MPE")
   if (exists("mase")) {
     out <- rbind(out, mase)
-    rownames(out) <- cbind(rownames(out), "MASE")
+    rownames(out)[6L] <- "MASE"
   }
   if (exists("f")) {
     colnames(out) <- colnames(f)
