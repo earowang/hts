@@ -366,11 +366,15 @@ accuracy.gts(forecast, test)
 \end{Verbatim}
 
 \section*{Changes from the \pkg{hts} package version 3}
-Fast computation of modeling and forecasting hierarchical and grouped time series has recently been an increasingly heated topic. Every function in the \pkg{hts} version 4 has been rewritten in order to improve its efficiency and flexibility. In addition, there are a few new features or changes made to the \pkg{hts} package.
+
+Every function in \pkg{hts} version 4 has been rewritten in order to improve its efficiency and flexibility. In addition, there are a few new features and changes which will affect users. The most important user-level changes are listed below.
 
 \begin{description}
-  \item[\code{hts}] Argument \code{g} is replaced with \code{nodes} implemented for the information about the hierarchical structure. The new argument \code{nodes} requires a \code{list} class containing the number of child nodes associated with the level rather than using a \code{gmatrix} concept. A hierarchy presented in the figure \ref{fig:fig-9-4-hier} suggests \code{nodes} specified as \code{list(2, c(3, 2))} referring to 2 nodes at level~1 as well as 3 and 2 nodes respectively at level~2. Apart from changes in the way of specifying the hierarchical structure, a new option \code{characters} has been added, which allows users to customize names for labelling but in a limited way. We use an example of Anatomical Therapeutic Chemical (ATC) classification system to illustrate the usage. As shown in the table \ref{tab:atc}, it's a hierarchy with six levels including level~0 and one of the bottom series is names as ``A10BA02''. In order to construct the labels according to the table \ref{tab:atc}, it can be obtained by using \code{characters = c(1, 2, 1, 1, 2)} in the \code{hts} function. \\
-  \vbox{\begin{table}
+  \item[\code{hts}] Argument \code{g} is replaced with \code{nodes}, providing information about the hierarchical structure. This is a simpler and more efficient way of representing the hierarchical structure. The new argument \code{nodes} requires a \code{list} class containing the number of child nodes associated with the level rather than using the old \code{gmatrix} concept. The hierarchy presented in Figure~\ref{fig-9-4-hier} requires \code{nodes} specified as \code{list(2, c(3, 2))} referring to 2 nodes at level~1, with 3 and 2 nodes respectively at level~2. 
+
+  A new argument \code{characters} has also been added, which allows users to customize names for labelling but in a limited way. To illustrate the usage, we use an example of Anatomical Therapeutic Chemical (ATC) classification system. As shown in Table~\ref{tab:atc}, the hierarchy has six levels including level~0 and one of the bottom series is named as ``A10BA02''. In order to construct the labels according to Table~\ref{tab:atc}, we use \code{characters = c(1, 2, 1, 1, 2)}. This indicates that the bottom level names can be read in segments of 1, 2, 1, 1 and 2 characters. The function can then construct the appropriate names for the upper levels.
+
+\begin{table}
     \centering
     \begin{tabulary}{\linewidth}{lL}
      \hspace*{2.8cm} A & Alimentary tract and metabolism (1st level, anatomical main group); \\
@@ -382,18 +386,21 @@ Fast computation of modeling and forecasting hierarchical and grouped time serie
      \end{tabulary}
      \caption{ATC classification system}
      \label{tab:atc}
-   \end{table}}
+   \end{table}
+
  \item[\code{aggts}] The function \code{allts} is no longer available in the \pkg{hts} package; Instead, a more flexible function \code{aggts} with one more argument \code{levels} makes it possible to extract the levels of time series of interest. For instance, we are interested in observing the regional infant mortality counts across the states and they are obtained by specifying \code{levels = 2}. It's assumed to start with level~0 in all functions that have \code{levels} provided. \\
    \begin{verbatim}
     statets <- aggts(infantgts, levels = 2)  # Return time series at level 2 (State)
     plot(infantgts, levels = 2) Plot time series across the states
    \end{verbatim}
- \item[\code{forecast}] Fitted values and residuals at the bottom level are made available to users, which are reconciled in the same way as the forecasts, as long as users set \code{keep.fitted = TRUE} and \code{keep.resid = TRUE}. Furthermore, the \pkg{parallel} package has been imported for the support of parallel computing. The \code{forecast} function generates independent forecasts for each time series and it takes the substantial proportion of time to model and forecast these time series. Therefore producing forecasts in parallel enables users to save the significant amount of computing time, if \code{parallel = TRUE}. Another major change is adding a new argument \code{weights} that is associated with the optimal combination approach. It uses ordinary least squares for the unscaled forecasts in the case of \code{weights = "none"} and weighted least squares for the forecasts scaled by the standard deviation of the reconciled forecasts, when \code{weights = "sd"}. There is a special case that the bottom level series are on the same scale and the weights is equal to the inverse of the row sums of $\bm{S}$, as \code{weights = "nseries"} implemented in the \code{forecast} function. \\
-   \begin{verbatim}
+ \item[\code{forecast}] Fitted values and residuals at the bottom level are made available to users. These are reconciled in the same way as the forecasts, as long as users set \code{keep.fitted = TRUE} and \code{keep.resid = TRUE}. Furthermore, the \pkg{parallel} package has been imported for the support of parallel computing. The \code{forecast} function generates independent forecasts for each time series and it can take a long time to model and forecast these time series. Pproducing forecasts in parallel (with \code{parallel = TRUE}) enables users to save a significant amount of computing time. 
+
+ Another major change is the new argument \code{weights}, associated with the optimal combination approach. The function uses ordinary least squares for the unscaled forecasts in the case of \code{weights = "none"} (as it did in previous versions). But when \code{weights = "sd"}, it will use weighted least squares for the forecasts scaled by the standard deviation of the forecast errors. A third possibility is \code{weights = "nseries"}; this case is useful when the bottom level series are on the same scale and the weights are then equal to the inverse of the row sums of $\bm{S}$.
+ \begin{verbatim}
    fcasts <- forecast(htseg1, h = 10, method = "comb", fmethod = "arima", 
                       weights = "sd", keep.fitted = TRUE, parallel = TRUE)
    \end{verbatim}
- \item[\code{accuracy.gts}] It returns in-sample error measures at the bottom level, if \code{keep.fitted = TRUE} in the \code{forecast} function and the argument \code{test} is missing.
+ \item[\code{accuracy.gts}] now returns in-sample error measures at the bottom level, if \code{keep.fitted = TRUE} in the \code{forecast} function and the argument \code{test} is missing.
    \begin{verbatim}
    accuracy.gts(fcasts)  # In-sample error measure
    \end{verbatim}
