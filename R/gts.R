@@ -15,9 +15,6 @@ gts <- function(y, groups, gnames = rownames(groups)) {
   if (ncol(y) <= 1L) {
     stop("Argument y must be a multivariate time series.")
   }
-  if (any(is.na(y))) {
-    stop("Argument y must not have missing values.")
-  }
   if (missing(groups)) {
     groups <- matrix(c(rep(1L, ncol(y)), seq(1L, ncol(y))), nrow = 2L, 
                    byrow = TRUE)

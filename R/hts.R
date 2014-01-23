@@ -21,9 +21,6 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
   if (ncol(y) <= 1L) {
     stop("Argument y must be a multivariate time series.")
   }
-  if (any(is.na(y))) {
-    stop("Argument y must not have missing values.")
-  }
   if (missing(nodes)) {
     nodes <- list(ncol(y))
   } 
