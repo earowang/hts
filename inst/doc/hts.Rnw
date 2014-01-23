@@ -388,7 +388,7 @@ Every function in \pkg{hts} version 4 has been rewritten in order to improve its
      \label{tab:atc}
    \end{table}
 
- \item[\code{aggts}] The function \code{allts} is no longer available in the \pkg{hts} package; Instead, a more flexible function \code{aggts} with one more argument \code{levels} makes it possible to extract the levels of time series of interest. For instance, we are interested in observing the regional infant mortality counts across the states and they are obtained by specifying \code{levels = 2}. It's assumed to start with level~0 in all functions that have \code{levels} provided. \\
+ \item[\code{aggts}] This is a new more flexible version of \code{allts} which allows the extraction of specific levels of the hierarchy. For instance, we are interested in observing the regional infant mortality counts across the states and they are obtained by specifying \code{levels = 2}. All time series in the hierarchy are returned if \code{levels} is omitted. The specification of levels now also works in the \code{plot} function in the same way.
    \begin{verbatim}
     statets <- aggts(infantgts, levels = 2)  # Return time series at level 2 (State)
     plot(infantgts, levels = 2) Plot time series across the states
