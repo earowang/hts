@@ -62,11 +62,11 @@ plot.gts <- function(x, include, levels, labels = TRUE, ...) {
     series <- seq(start, end)
     cols <- rainbow(length(series))
     if(!is.null(x$histy)) {
-      ylim <- range(histx[, series], fcasts[, series])
-      xlim <- range(time(histx), time(fcasts))
+      ylim <- range(histx[, series], fcasts[, series], na.rm = TRUE)
+      xlim <- range(time(histx), time(fcasts), na.rm = TRUE)
     } else {
-      ylim <- range(histx[, series])
-      xlim <- range(time(histx))
+      ylim <- range(histx[, series], na.rm = TRUE)
+      xlim <- range(time(histx), na.rm = TRUE)
     }
     plot(histx[, series, drop = FALSE], col = cols, xlim = xlim, ylim = ylim, 
          xlab = "", ylab = "", main = names(x$labels)[levels][i], 

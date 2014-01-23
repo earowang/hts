@@ -5,6 +5,7 @@ Version: 4.00
 Date: 2014-01-23
 Depends: forecast (>= 5.0)
 Imports: SparseM, parallel
+Suggest: testthat
 LazyLoad: yes
 LazyData: yes
 Author: Rob J Hyndman, Roman A Ahmed, Han Lin Shang, and Earo Wang

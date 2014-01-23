@@ -1,5 +1,5 @@
 # Run unit tests
 library(testthat)
-library(gts)
+library(hts)
 
-test_package("gts")
+test_package("hts")
