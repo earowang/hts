@@ -3,7 +3,7 @@ TdGsA <- function(fcasts, bts, topts) {
   # Top-down forecasts based on the average historical proportions. (Gross-Sohl
   # method A)
   div <- apply(bts, 2, function(x) x/topts)
-  prop <- apply(div, 2, sum)/length(time(bts))
+  prop <- apply(div, 2, sum, na.rm = TRUE)/length(time(bts))
   out <- fcasts %*% prop
   return(out)
 }
@@ -11,8 +11,8 @@ TdGsA <- function(fcasts, bts, topts) {
 TdGsF <- function(fcasts, bts, topts) {
   # Top-down forecasts based on the proportions of the historical averages (
   # Gross-Sohl method F)
-  numerator <- apply(bts, 2, sum)
-  denominator <- sum(topts)
+  numerator <- apply(bts, 2, sum, na.rm = TRUE)
+  denominator <- sum(topts, na.rm = TRUE)
   prop <- numerator/denominator
   out <- fcasts %*% prop
   return(out)
