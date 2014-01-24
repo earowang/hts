@@ -39,7 +39,7 @@ aggts <- function(y, levels, forecasts = TRUE) {
   }
 
   # A function to aggregate the bts
-  rSum <- function(x) rowsum(t(y$bts), gmat[x, ])
+  rSum <- function(x) rowsum(t(y$bts), gmat[x, ], reorder = FALSE)
 
   ally <- lapply(levels, rSum)
   # Convert lists to matrices

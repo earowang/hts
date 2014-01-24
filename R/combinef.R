@@ -3,7 +3,7 @@ combinef <- function(fcasts, nodes, groups, weights = NULL,
   # Construct optimal combination forecasts
   #
   # Args:
-  #   fcasts: hts/gts forecasts
+  #   fcasts: all hts/gts forecasts
   #   nodes: nodes for hts
   #   groups: gts
   #   weights: users need to specify the weights
@@ -15,6 +15,10 @@ combinef <- function(fcasts, nodes, groups, weights = NULL,
   fcasts <- as.ts(fcasts)
   tspx <- tsp(fcasts)
   if (missing(groups)) { # hts class
+    totalts <- sum(Mnodes(nodes))
+    if (ncol(fcasts) != totalts) {
+      stop("Argument fcasts requires all the forecasts.")
+    }
     if(is.null(weights)) {
       bf <- CombineH(fcasts, nodes)  # w/o weights
     } else {
@@ -31,6 +35,10 @@ combinef <- function(fcasts, nodes, groups, weights = NULL,
     # To call Smatrix() properly
     allgroups <- GmatrixG(groups)
     fcasts <- structure(list(all = fcasts, groups = allgroups), class = "gts")
+    totalts <- sum(Mlevel(fcasts$groups))
+    if (ncol(fcasts$all) != totalts) {
+      stop("Argument fcasts requires all the forecasts.")
+    }
     smat <- Smatrix(fcasts)
     if (is.null(weights)) {
       bf <- CombineG(fcasts$all, smat)
