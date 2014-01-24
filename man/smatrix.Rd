@@ -22,7 +22,7 @@ Optimal combination forecasts for hierarchical time series.
 \author{Rob J Hyndman, Roman A Ahmed and Earo Wang}
 
 \seealso{
- \code{\link[hts]{hts}}, \code{\link[gts]{gts}}, \code{\link[hts]{combinef}}
+ \code{\link[hts]{hts}}, \code{\link[hts]{gts}}, \code{\link[hts]{combinef}}
 }
 
 \examples{

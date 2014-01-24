@@ -1,4 +1,4 @@
-v4.0 (x Jan 2014)
+v4.0 (23 Jan 2014)
 * Speeded up all existing functions.
 * Restructured hts function. Argument g is replaced with nodes. Added bnames and 
 	characters to allow custom names.
