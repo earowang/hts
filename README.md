@@ -23,7 +23,7 @@ You can also install the **development** version from
 ```s
 # install.packages("devtools")
 library(devtools)
-install_github("hts", robjhyndman") 
+install_github("hts", "robjhyndman") 
 ```
 
 ## Usage
