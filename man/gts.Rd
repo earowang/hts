@@ -30,7 +30,7 @@ Optimal combination forecasts for hierarchical time series.
 \emph{Computational Statistics and Data Analysis}, \bold{55}(9), 2579--2589.
 \url{http://robjhyndman.com/papers/hierarchical/}
 }
-\author{Earo Wang and Rob J. Hyndman}
+\author{Earo Wang and Rob J Hyndman}
 
 \seealso{
 \code{\link[hts]{accuracy.gts}}, \code{\link[hts]{forecast.gts}}, \code{\link[hts]{plot.gts}}
