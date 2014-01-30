@@ -9,7 +9,7 @@ Method for creating hierarchical time series.
 hts(y, nodes, bnames = colnames(y), characters)
 }
 \arguments{
-  \item{y}{Multivariate time series contain the bottom level series.}
+  \item{y}{A matrix or multivariate time series contain the bottom level series.}
   \item{nodes}{A list contains the number of child nodes for each level except
   for the bottom one. It indicates the hierarchical structure. The default is
   a simple hierarchy with only 2 levels (i.e. total and bottom).}
@@ -28,7 +28,7 @@ Optimal combination forecasts for hierarchical time series.
 \emph{Computational Statistics and Data Analysis}, \bold{55}(9), 2579--2589.
 \url{http://robjhyndman.com/papers/hierarchical/}
 }
-\author{Earo Wang}
+\author{Earo Wang and Rob J. Hyndman}
 
 \seealso{
 \code{\link[hts]{accuracy.gts}}, \code{\link[hts]{forecast.gts}}, \code{\link[hts]{plot.gts}}

@@ -58,7 +58,7 @@ Gross, C. and Sohl, J. (1990) Dissagregation methods to expedite product line fo
 \emph{Journal of Forecasting}, \bold{9}, 233-254.
 }
 
-\author{Rob J Hyndman, Roman A Ahmed and Earo Wang}
+\author{Earo Wang and Rob J Hyndman}
 
 \seealso{
  \code{\link[hts]{hts}}, \code{\link[hts]{gts}}, \code{\link[hts]{plot.gts}}, \code{\link[hts]{accuracy.gts}}
