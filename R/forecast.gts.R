@@ -113,8 +113,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
       num.cores <- detectCores()
     }
     cl <- makeCluster(num.cores)
-    # loopout <- parLapplyLB(cl = cl, X = y, fun = loopfn)
-    loopout <- parApply(cl = cl, X = y, MARGIN = 2, FUN = loopfn)
+    loopout <- parSapplyLB(cl = cl, X = y, FUN = loopfn, simplify = FALSE)
     stopCluster(cl = cl)
   } else {  # parallel = FALSE
     loopout <- lapply(y, loopfn)
