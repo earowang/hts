@@ -116,7 +116,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     loopout <- parSapplyLB(cl = cl, X = y, FUN = loopfn, simplify = FALSE)
     stopCluster(cl = cl)
   } else {  # parallel = FALSE
-    loopout <- lapply(y, loopfn)
+    loopout <- lapply(y, loopfn, ...)
   }
 
   pfcasts <- sapply(loopout, function(x) x$pfcasts)
