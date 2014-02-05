@@ -17,7 +17,7 @@ test_that("tests for gts groups", {
               rep(1:3, 9)), nrow = 3, byrow = TRUE)
   gts <- gts(mts, groups = g)
 
-  expect_that(combinef(allts(mts), groups = gts$groups), throws_error())
+  expect_that(combinef(allts(gts), groups = gts$groups), throws_error())
 })
 
 context("Tests on outputs")
