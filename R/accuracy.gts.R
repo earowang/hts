@@ -29,7 +29,8 @@ accuracy.gts <- function(fcasts, test, levels) {
   }
 
   pe <- res/x * 100  # percentage error
-  scale <- try(colMeans(diff(x, lag = max(1, frequency(x))), na.rm = TRUE))
+  scale <- try(colMeans(diff(x, lag = max(1, frequency(x))), na.rm = TRUE),
+               silent = TRUE)
   if (class(scale) == "try-error") {  # In case of h < lag
     NULL
   } else {
