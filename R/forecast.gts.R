@@ -58,11 +58,12 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
 
   # Set up "level" for middle-out
   if (method == "mo") {
-    if (level < 0L) {
-      stop("Argument level must not be negative.")
+    len <- length(object$nodes)
+    if (level < 0L || level > len) {
+      stop("Argument level is out of the range.")
     } else if (level == 0L) {
       method <- "tdfp"
-    } else if (level == length(object$nodes)) {
+    } else if (level == len) {
       method <- "bu"
     } else {
       l.nodes <- length(object$nodes)
