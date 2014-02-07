@@ -66,9 +66,8 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     } else if (level == len) {
       method <- "bu"
     } else {
-      l.nodes <- length(object$nodes)
-      mo.nodes <- object$nodes[level:l.nodes]
-      level <- seq(level, l.nodes)
+      mo.nodes <- object$nodes[level:len]
+      level <- seq(level, len)
     }
   }
 
