@@ -2,7 +2,6 @@ Package: hts
 Type: Package
 Title: Hierarchical and grouped time series
 Version: 4.0
-Date: 2014-01-30
 Depends: forecast (>= 5.0)
 Imports: SparseM, parallel
 Suggests: testthat
