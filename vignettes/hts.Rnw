@@ -358,7 +358,8 @@ g <- matrix(c(rep(1, 8), rep(2, 8), rep(1:8, 2)), nrow = 2, byrow = T)
 y.f <- combinef(allf, groups = g)
 \end{Verbatim}
 In order to test the forecast accuracy, the \code{accuracy.gts} function can be used.
-\begin{Verbatim}   # set up the training sample and testing sample
+\begin{Verbatim}   
+# set up the training sample and testing sample
 data <- window(infantgts, start=1933, end=1993)
 test <- window(infantgts, start=1994, end=2003)
 forecast <- forecast(data, h=10, method="bu")
