@@ -1,6 +1,6 @@
 CombineG <- function(fcasts, S, weights = NULL) {
   class(fcasts) <- tsp(fcasts) <- NULL
-  fcasts <- na.omit(fcasts)  # Used for "rw" fmethod
+  fcasts <- na.omit(fcasts) # In case of "NA"
   if (is.null(weights)) {
     coef <- slm.fit(S, t(fcasts))$coefficients
   } else {

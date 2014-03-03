@@ -3,7 +3,6 @@ TdGsA <- function(fcasts, bts, topts) {
   # Top-down forecasts based on the average historical proportions. (Gross-Sohl
   # method A)
   div <- apply(bts, 2, function(x) x/topts)
-  # prop <- colSums(div, na.rm = TRUE)/length(time(bts))
   prop <- colMeans(div, na.rm = TRUE)
   out <- fcasts %*% prop
   return(out)
