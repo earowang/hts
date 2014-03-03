@@ -6,7 +6,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
                          keep.fitted = FALSE, keep.resid = FALSE,
                          positive = FALSE, lambda = NULL, level, 
                          weights = c("none", "sd", "nseries"),
-                         parallel = FALSE, num.cores = NULL,
+                         parallel = FALSE, num.cores = 2,
                          xreg = NULL, newxreg = NULL, ...) {
   # Forecast hts or gts objects
   #
