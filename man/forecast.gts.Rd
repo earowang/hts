@@ -14,7 +14,7 @@ Methods for forecasting hierarchical or grouped time series.
                          keep.fitted = FALSE, keep.resid = FALSE,
                          positive = FALSE, lambda = NULL, level, 
                          weights = c("none", "sd", "nseries"),
-                         parallel = FALSE, num.cores = NULL,
+                         parallel = FALSE, num.cores = 2,
                          xreg = NULL, newxreg = NULL, ...) 
 }
 \arguments{

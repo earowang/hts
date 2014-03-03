@@ -1,11 +1,15 @@
+v4.1 (3 Mar 2014)
+* Set the default parallel processes to 2.
+* Fixed three dots in parallel computing for forecast.gts.
+* Speeded up the topdown approaches.
+
 v4.0 (10 Feb 2014)
 * Speeded up all existing functions.
 * Restructured hts function. Argument g is replaced with nodes. Added bnames and 
 	characters to allow custom names.
 * Added argument gnames to gts function.
 * Argument groups in gts function allows the gmatrix with characters.
-* Replaced allts function with aggts in which users can specify whatever levels 
-	they like.
+* Added function aggts in which users can specify whatever levels they like.
 * Renamed Smatrix to smatrix.
 * Added summary.gts function.
 * Added more arguments to forecast.gts such as keep.fitted, keep.resid, lambda, 
@@ -19,8 +23,8 @@ v4.0 (10 Feb 2014)
 * Dropped argument criterions in accuracy.gts function.
 * Added argument weights to combinef function. When it's a hts object, argument 
 	nodes is used instead of the summing matrix.
-* combinef function only return time series at the bottom level. Dropped
-	arguments return and hierarchical.
+* combinef function returns either a gts object or time series at the bottom 
+  level. Dropped arguments return and hierarchical.
 * Argument levels in plot.gts function allows more flexibilities.
 
 v3.01 (7 May 2013)

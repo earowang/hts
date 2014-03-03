@@ -3,7 +3,6 @@ data <- window(htseg2, start = 1992, end = 2002)
 test <- window(htseg2, start = 2003)
 fcasts2.mo <- forecast(data, h = 4, method = "mo", fmethod = "ets", level = 1,
                        keep.fitted = TRUE, keep.resid = TRUE)
-attributes(fcasts2.mo)
 accuracy.gts(fcasts2.mo, test)
 accuracy.gts(fcasts2.mo, test, levels = 1)
 fcasts2.td <- forecast(data, h = 5, method = "tdgsa", fmethod = "ets", 

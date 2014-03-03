@@ -3,7 +3,7 @@ plot(infantgts, levels = 1)
 
 fcasts3.comb <- forecast(infantgts, h = 4, method = "comb", fmethod = "ets")
 aggts(fcasts3.comb, levels = 1)
-aggts(fcasts3.comb, levels = 1, forecast = FALSE)
+aggts(fcasts3.comb, levels = 1, forecasts = FALSE)
 plot(fcasts3.comb)
 plot(fcasts3.comb, include = 5, levels = c(1, 2))
 
