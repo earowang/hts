@@ -113,10 +113,11 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
       num.cores <- detectCores()
     }
     cl <- makeCluster(num.cores)
-    loopout <- parSapplyLB(cl = cl, X = y, FUN = loopfn, simplify = FALSE)
+    loopout <- parSapplyLB(cl = cl, X = y, FUN = function(x) loopfn(x, ...), 
+                           simplify = FALSE)
     stopCluster(cl = cl)
   } else {  # parallel = FALSE
-    loopout <- lapply(y, loopfn, ...)
+    loopout <- lapply(y, function(x) loopfn(x, ...))
   }
 
   pfcasts <- sapply(loopout, function(x) x$pfcasts)
