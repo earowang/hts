@@ -51,7 +51,7 @@ plot.gts <- function(x, include, levels, labels = TRUE, ...) {
   } else {
     m <- Mlevel(x$groups)[levels]
     x$labels <- c(Total = "Total", x$labels, 
-                    Bottom = list(colnames(x$bts)))
+                  Bottom = list(colnames(x$bts)))
   }
 
   cs <- c(0L, cumsum(m))
@@ -80,7 +80,9 @@ plot.gts <- function(x, include, levels, labels = TRUE, ...) {
     }
 
     if (labels) {
-      text(x = tsp(histx)[1] + 0.1, y = histx[1, series] + 0.2,
+      num.chars <- nchar(unlist(x$labels)[series])
+      adj.pos <- max(num.chars/min(num.chars))
+      text(x = tsp(histx)[1L] + adj.pos + 0.5, y = histx[1L, series],
            labels = unlist(x$labels[levels][i]), 
            cex = 0.9, adj = 1)
     }
