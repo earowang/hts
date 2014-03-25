@@ -149,9 +149,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
       }
     } else if (weights == "sd") {
       resid <- y - fits
-      n <- nrow(resid)
-      wvec <- 1/apply(resid, 2, 
-                      function(x) sd(x, na.rm = TRUE) * sqrt((n - 1)/n))
+      wvec <- 1/sqrt(colMeans(resid^2, na.rm = TRUE))
     }
   }
 
