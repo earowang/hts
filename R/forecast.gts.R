@@ -84,26 +84,23 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
 
   # loop function to grab pf, fitted, resid
   loopfn <- function(x, ...) {  
+    out <- list()
     if (fmethod == "ets") {
       models <- ets(x, lambda = lambda, ...)
-      pfcasts <- forecast(models, h = h, PI = FALSE)$mean
+      out$pfcasts <- forecast(models, h = h, PI = FALSE)$mean
     } else if (fmethod == "arima") {
       models <- auto.arima(x, lambda = lambda, xreg = xreg, 
                            parallel = FALSE, ...)
-      pfcasts <- forecast(models, h = h, xreg = newxreg, PI = FALSE)$mean
+      out$pfcasts <- forecast(models, h = h, xreg = newxreg, PI = FALSE)$mean
     } else if (fmethod == "rw") {
       models <- rwf(x, h = h, lambda = lambda, ...)
-      pfcasts <- models$mean
+      out$pfcasts <- models$mean
     }
-    out <- list()
-    out$pfcasts <- pfcasts
     if (keep.fitted) {
-      fits <- fitted(models)
-      out$fitted <- fits
+      out$fitted <- fitted(models)
     }
     if (keep.resid) {
-      resid <- residuals(models)
-      out$resid <- resid
+      out$resid <- residuals(models)
     }
     return(out)
   }

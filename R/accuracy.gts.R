@@ -23,17 +23,15 @@ accuracy.gts <- function(fcasts, test, levels) {
     x <- unclass(fcasts$histy)  # Unclass mts to matrix
     res <- x - unclass(fcasts$fitted)  # fcasts$residuals may contain errors
   } else {
-    f <- aggts(fcasts, levels)
-    x <- aggts(test, levels)
+    f <- unclass(aggts(fcasts, levels))
+    x <- unclass(aggts(test, levels))
     res <- x - f
   }
 
   pe <- res/x * 100  # percentage error
   scale <- try(colMeans(diff(x, lag = max(1, frequency(x))), na.rm = TRUE),
                silent = TRUE)
-  if (class(scale) == "try-error") {  # In case of h < lag
-    NULL
-  } else {
+  if (class(scale) != "try-error") {  # In case of h < lag
     q <- sweep(res, 2, scale, "/")
     mase <- colMeans(abs(q), na.rm = TRUE)
   }
