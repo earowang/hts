@@ -147,6 +147,11 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
       } else {
         wvec <- InvS4g(object$groups)
       }
+    } else if (weights == "sd") {
+      resid <- y - fits
+      n <- nrow(resid)
+      wvec <- 1/apply(resid, 2, 
+                      function(x) sd(x, na.rm = TRUE) * sqrt((n - 1)/n))
     }
   }
 
@@ -163,8 +168,6 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     if (weights == "none") {
       bfcasts <- Comb(pfcasts, keep = "bottom")
     } else if (weights == "sd") {
-      resid <- y - fits
-      wvec <- 1/apply(resid, 2, sd, na.rm = TRUE)
       bfcasts <- Comb(pfcasts, weights = wvec, keep = "bottom")
     } else if (weights == "nseries") {
       bfcasts <- Comb(pfcasts, weights = wvec, keep = "bottom")
@@ -173,8 +176,6 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
       if (weights == "none") {
         fits <- Comb(fits, keep = "bottom")
       } else if (weights == "sd") {
-        resid <- y - fits
-        wvec <- 1/apply(resid, 2, sd, na.rm = TRUE)
         fits <- Comb(fits, weights = wvec, keep = "bottom")
       } else if (weights == "nseries") {
         fits <- Comb(fits, weights = wvec, keep = "bottom")
@@ -184,8 +185,6 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
       if (weights == "none") {
         resid <- Comb(resid, keep = "bottom")
       } else if (weights == "sd") {
-        resid <- y - fits
-        wvec <- 1/apply(resid, 2, sd, na.rm = TRUE)
         resid <- Comb(resid, weights = wvec, keep = "bottom")
       } else if (weights == "nseries") {
         resid <- Comb(resid, weights = wvec, keep = "bottom")
