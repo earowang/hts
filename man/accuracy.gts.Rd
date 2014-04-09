@@ -46,7 +46,7 @@ Rob J Hyndman and Earo Wang
 \examples{
 data <- window(htseg2, start = 1992, end = 2002)
 test <- window(htseg2, start = 2003)
-fcasts <- forecast(data, h = 4, method = "bu")
+fcasts <- forecast(data, h = 5, method = "bu")
 accuracy.gts(fcasts, test)
 accuracy.gts(fcasts, test, levels = 1)
 }
