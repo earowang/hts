@@ -72,7 +72,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
   }
 
   # Set up forecast methods
-  if (method == "comb" || method == "tdfp") { # Combination or tdfp
+  if (any(method == c("comb", "tdfp"))) { # Combination or tdfp
     y <- aggts(object)  # Grab all ts
   } else if (method == "bu") {  # Bottom-up approach
     y <- object$bts  # Only grab the bts
@@ -165,28 +165,22 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
   if (method == "comb") {
     if (weights == "none") {
       bfcasts <- Comb(pfcasts, keep = "bottom")
-    } else if (weights == "sd") {
+    } else if (any(weights == c("sd", "nseries"))) {
       bfcasts <- Comb(pfcasts, weights = wvec, keep = "bottom")
-    } else if (weights == "nseries") {
-      bfcasts <- Comb(pfcasts, weights = wvec, keep = "bottom")
-    }
+    } 
     if (keep.fitted) {
       if (weights == "none") {
         fits <- Comb(fits, keep = "bottom")
-      } else if (weights == "sd") {
+      } else if (any(weights == c("sd", "nseries"))) {
         fits <- Comb(fits, weights = wvec, keep = "bottom")
-      } else if (weights == "nseries") {
-        fits <- Comb(fits, weights = wvec, keep = "bottom")
-      }
+      } 
     }
     if (keep.resid) {
       if (weights == "none") {
         resid <- Comb(resid, keep = "bottom")
-      } else if (weights == "sd") {
+      } else if (any(weights == c("sd", "nseries"))) {
         resid <- Comb(resid, weights = wvec, keep = "bottom")
-      } else if (weights == "nseries") {
-        resid <- Comb(resid, weights = wvec, keep = "bottom")
-      }
+      } 
     }
   } else if (method == "bu") {
     bfcasts <- pfcasts
