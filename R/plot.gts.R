@@ -80,9 +80,7 @@ plot.gts <- function(x, include, levels, labels = TRUE, ...) {
     }
 
     if (labels) {
-      num.chars <- nchar(unlist(x$labels)[series])
-      adj.pos <- max(num.chars/min(num.chars))
-      text(x = tsp(histx)[1L] + adj.pos + 0.5, y = histx[1L, series],
+      text(x = tsp(histx)[1L] + 0.1, y = histx[1L, series] + 0.2,
            labels = unlist(x$labels[levels][i]), 
            cex = 0.9, adj = 1)
     }
