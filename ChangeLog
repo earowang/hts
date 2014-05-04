@@ -1,3 +1,6 @@
+v4.3
+* Fixed bug of the arg "include" in plot.gts, when there are not yearly data.
+
 v4.2 (25 Mar 2014)
 * Fixed Next.Generic error in accuracy.gts.
 * Adjust weights = sd.
