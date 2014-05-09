@@ -129,21 +129,32 @@ CombineH <- function(fcasts, nList) {
     }
   }
   new.s.list <- vector(length = nrow(fcasts), mode = "list")
-  for (i in 1L:(l - 2L)) {
-    newl <- length(nList[[l - i]])
-    new.c.list <- vector(length = newl, mode = "list")
-    new.s.list <- vector(length = newl, mode = "list")
-    m <- c(0L, cumsum(nList[[l - i]]))
-    for (h in 1:nrow(fcasts)) {
+  if (l == 2L) { # A simple hierarchy with only 2 levels
+    for (h in 1L:nrow(fcasts)) {
       y <- fcasts[h, ]
-      for (j in 1L:newl) {
-        new.c.list[[j]] <- UpdateC(c.list[(m[j] + 1L):m[j + 1L]])
-        y0 <- y[levels == l - i - 1L][j]
-        new.s.list[[j]] <- y0 + unlist(s.list[[h]][(m[j] + 1L):m[j + 1L]])
-      }
+      new.c.list <- UpdateC(c.list[1L])
+      y0 <- y[levels == 1L]
+      new.s.list <- y0 + unlist(s.list[[h]][1L])
       s.list[[h]] <- new.s.list
     }
-    c.list <- new.c.list
+    c.list <- list(new.c.list)
+  } else { # more than 2 levels
+    for (i in 1L:(l - 2L)) {
+      newl <- length(nList[[l - i]])
+      new.c.list <- vector(length = newl, mode = "list")
+      new.s.list <- vector(length = newl, mode = "list")
+      m <- c(0L, cumsum(nList[[l - i]]))
+      for (h in 1L:nrow(fcasts)) {
+        y <- fcasts[h, ]
+        for (j in 1L:newl) {
+          new.c.list[[j]] <- UpdateC(c.list[(m[j] + 1L):m[j + 1L]])
+          y0 <- y[levels == l - i - 1L][j]
+          new.s.list[[j]] <- y0 + unlist(s.list[[h]][(m[j] + 1L):m[j + 1L]])
+        }
+        s.list[[h]] <- new.s.list
+      }
+      c.list <- new.c.list
+    }
   }
   cc <- c.list[[1L]]$C
   n <- nList[[l]]
@@ -211,7 +222,6 @@ SumSplit <- function(x, n) {
 CombineHw <- function(fcasts, nodes, weights) {
   H <- nrow(fcasts)
   nodes <- c(1L, nodes)
-  # weights <- sqrt(weights)
   l.nodes <- length(nodes)
   n.nodes <- sum(nodes[[l.nodes]])
   adj.fcasts <- matrix(, nrow = H, ncol = n.nodes)
@@ -258,23 +268,36 @@ CombineHw <- function(fcasts, nodes, weights) {
     
   new.s.list <- vector(length = H, mode = "list")
 
-  for (i in 1L:(l.nodes - 2L)) {
-    newl <- length(nodes[[l.nodes - i]])
-    new.c.list <- vector(length = newl, mode = "list")
-    new.s.list <- vector(length = newl, mode = "list")
-    m <- c(0L, cumsum(nodes[[l.nodes - i]]))
-    d0 <- 1/weights[levels == l.nodes - i - 1L]
-    for (h in 1L:H) {
-      fcast <- fcasts[h, ]
-      for (j in 1L:newl) {
-        new.c.list[[j]] <- UpdateCw(c.list[(m[j] + 1L):m[j + 1L]], d1.vec, d0[j])
-        y0 <- fcast[levels == l.nodes - i - 1L][j]
-        w0 <- weights[levels == l.nodes - i - 1L][j]
-        new.s.list[[j]] <- y0 * w0 + unlist(sw.list[[h]][(m[j] + 1L):m[j + 1L]])
-      }
+  if (l == 2L) { # A simple hierarchy with only 2 levels
+    d0 <- 1/weights[levels == 1L]
+    for (h in 1L:nrow(fcasts)) {
+      y <- fcasts[h, ]
+      new.c.list <- UpdateCw(c.list[1L], d1.vec, d0)
+      y0 <- y[levels == 1L]
+      w0 <- weights[levels == 1L]
+      new.s.list <- y0 * w0 + unlist(sw.list[[h]][1L])
       sw.list[[h]] <- new.s.list
     }
-    c.list <- new.c.list
+    c.list <- list(new.c.list)
+  } else { # more than 2 levels
+    for (i in 1L:(l.nodes - 2L)) {
+      newl <- length(nodes[[l.nodes - i]])
+      new.c.list <- vector(length = newl, mode = "list")
+      new.s.list <- vector(length = newl, mode = "list")
+      m <- c(0L, cumsum(nodes[[l.nodes - i]]))
+      d0 <- 1/weights[levels == l.nodes - i - 1L]
+      for (h in 1L:H) {
+        fcast <- fcasts[h, ]
+        for (j in 1L:newl) {
+          new.c.list[[j]] <- UpdateCw(c.list[(m[j] + 1L):m[j + 1L]], d1.vec, d0[j])
+          y0 <- fcast[levels == l.nodes - i - 1L][j]
+          w0 <- weights[levels == l.nodes - i - 1L][j]
+          new.s.list[[j]] <- y0 * w0 + unlist(sw.list[[h]][(m[j] + 1L):m[j + 1L]])
+        }
+        sw.list[[h]] <- new.s.list
+      }
+      c.list <- new.c.list
+    }
   }
 
   cmat <- c.list[[1L]]$cmat
