@@ -7,13 +7,11 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
   #     for the bottom one. If missing, it's assumed to have only one level.
   #   bnames: The names of the bottom time series.
   #   characters: Define how to split the "bnames" in order to construct the
-  #     level labels. Otherwise, use the defaul labelling system.
+  #     level labels. Otherwise, use the defaul labelling system. The arg also
+  #     implies the node structure.
   #
   # Returns:
   #   A hierarchical time series.
-  #
-  # ToDo:
-  #   1. May handle NA's by forecasting them properly.
   #
   # Error handling:
   y <- as.ts(y)
@@ -21,30 +19,30 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
   if (ncol(y) <= 1L) {
     stop("Argument y must be a multivariate time series.")
   }
-  if (missing(nodes)) {
-    nodes <- list(ncol(y))
-  } 
-  if (!is.list(nodes)) {
-    stop("Argument nodes must be a list.")
-  } 
-  if (length(nodes[[1L]]) != 1L) {
-    stop("The root node cannot be empty.")
-  }
-  if (sum(nodes[[length(nodes)]]) != ncol(y)) {
-    stop("The number of terminal nodes is not consistent with the number of bottom time series.")
-  }
-  if (length(nodes) > 1L) {
-    for (i in 1L:(length(nodes) - 1L)) {
-      if (sum(nodes[[i]]) != length(nodes[[i + 1]])) {
-        error <- sprintf("The number of nodes for the level %i is not equal to the number of series of level %i.", i - 1L, i)
-        stop(error)
+  if (missing(characters)) { # Arg "characters" not specified
+    message("Since argument characters are not specified, the default labelling system is used.")
+    if (missing(nodes)) {
+      nodes <- list(ncol(y))
+    } 
+    if (!is.list(nodes)) {
+      stop("Argument nodes must be a list.")
+    } 
+    if (length(nodes[[1L]]) != 1L) {
+      stop("The root node cannot be empty.")
+    }
+    if (sum(nodes[[length(nodes)]]) != ncol(y)) {
+      stop("The number of terminal nodes is not consistent with the number of bottom time series.")
+    }
+    if (length(nodes) > 1L) {
+      for (i in 1L:(length(nodes) - 1L)) {
+        if (sum(nodes[[i]]) != length(nodes[[i + 1]])) {
+          error <- sprintf("The number of nodes for the level %i is not equal to the number of series of level %i.", i - 1L, i)
+          stop(error)
+        }
       }
     }
-  }
 
-  # Construct the level labels
-  if (missing(characters)) {
-    message("Since argument characters are not specified, the default labelling system is used.")
+    # Construct the level labels
     if (is.null(bnames)) {
       labels <- HierName(nodes) # HierName() defined below
       colnames(y) <- unlist(labels[length(labels)])
@@ -59,25 +57,20 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
         labels <- c(hn[-length(hn)], b.list)
       }
     }
-  } else if (length(characters) != length(nodes)) {
-    stop("Argument characters is misspecified.")
-  } else {
-    # Construct labels based on characters
-    characters <- as.integer(characters)
-    end <- cumsum(characters)
-    start <- end - characters + 1L
-    token <- sapply(bnames, function(x) substring(x, start, end))
-    labels.mat <- matrix(, nrow = nrow(token), ncol = ncol(token))
-    labels.mat[1L, ] <- token[1L, ]
-    for (i in 2L:nrow(labels.mat)) {
-      labels.mat[i, ] <- paste0(labels.mat[i - 1, ], token[i, ])
+  } else { # Specified "characters" automates the node structure
+    if (!all(nchar(bnames)[1L] == nchar(bnames)[-1L])) {
+      stop("The bottom names must be of the same length.")
     }
-    rownames(labels.mat) <- paste("Level", 1L:nrow(labels.mat))
-    labels <- c("Level 0" = "Total", apply(labels.mat, 1, unique))
+    if (any(nchar(bnames) != sum(characters))) {
+      warning("The argument characters is not fully specified for the bottom names.")
+    }
+    c.nodes <- CreateNodes(bnames, characters)
+    nodes <- c.nodes$nodes
+    labels <- c.nodes$labels
   }
 
   # Obtain other information
-  names(nodes) <- paste("Level", 0L:(length(nodes) - 1L))
+  names(nodes) <- paste("Level", 1L:length(nodes))
 
   output <- structure(list(bts = y, nodes = nodes, labels = labels), 
                       class = c("gts", "hts"))
@@ -150,6 +143,32 @@ HierName <- function(xlist) {
     names.list <- c("Level 0" = "Total", names.list)
   }
   return(names.list)
+}
+
+
+# A function to create nodes based on segmentation of bottom names
+CreateNodes <- function(bnames, characters) {
+  # Construct labels based on characters
+  characters <- as.integer(characters)
+  end <- cumsum(characters)
+  start <- end - characters + 1L
+  token <- sapply(bnames, function(x) substring(x, start, end))
+  nr.token <- nrow(token)
+  labels.mat <- matrix(, nrow = nr.token, ncol = ncol(token))
+  nodes <- vector(length = nr.token, mode = "list")
+  labels.mat[1L, ] <- token[1L, ]
+  nodes[[1L]] <- length(unique(labels.mat[1L, ]))
+  for (i in 2L:nr.token) {
+    labels.mat[i, ] <- paste0(labels.mat[i - 1, ], token[i, ])
+    # Create nodes for each level
+    strings <- unique(labels.mat[i, ])
+    prefix <- substr(strings, start = 1L, stop = end[i - 1L])
+    nodes[[i]] <- tapply(strings, factor(prefix, unique(prefix)), length)
+  }
+  rownames(labels.mat) <- paste("Level", 1L:nrow(labels.mat))
+  labels <- c("Level 0" = "Total", apply(labels.mat, 1, unique))
+  out <- list(nodes = nodes, labels = labels)
+  return(out)
 }
 
 

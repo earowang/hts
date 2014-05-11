@@ -12,10 +12,13 @@ hts(y, nodes, bnames = colnames(y), characters)
   \item{y}{A matrix or multivariate time series contain the bottom level series.}
   \item{nodes}{A list contains the number of child nodes for each level except
   for the bottom one. It indicates the hierarchical structure. The default is
-  a simple hierarchy with only 2 levels (i.e. total and bottom).}
+  a simple hierarchy with only 2 levels (i.e. total and bottom). If the argument
+  \code{characters} is specified, \code{nodes} will be automatically generated
+  within the function.}
   \item{bnames}{The names of the bottom time series.}
   \item{characters}{A set of integers indicate how to split the \code{bnames}
-  in order to construct labels.}
+  in order to create labels and how to construct the node structure accordingly.
+  If it is specified, \code{nodes} can be left blank.}
 }
 \value{
   \item{bts}{Multivariate time series containing the bottom level series}
