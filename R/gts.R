@@ -154,7 +154,12 @@ CreateGmat <- function(bnames, characters) {
         }
       }
     }
-    groups[[i]] <- matrix(unlist(tmp.groups), nrow = nr, ncol = ncol(tmp.token))
+    groups[[i]] <- tmp.groups[[1L]]
+    if (nr1 >= 2L) {
+      for (h in 2L:nr1) {
+        groups[[i]] <- rbind(groups[[i]], tmp.groups[[h]])
+      }
+    }
   }
   # Combine the individual ones and their combinations
   new.list <- c(token, groups)
