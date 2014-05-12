@@ -1,10 +1,12 @@
-gts <- function(y, groups, gnames = rownames(groups)) {
+gts <- function(y, groups, gnames = rownames(groups), characters) {
   # Construct the grouped time series.
   #
   # Args:
   #   y*: The bottom time series assigned by the user.
   #   groups: A matrix contains the distinctive No. for each group at each row.
   #   gnames: Specify the group names.
+  #   characters: Specify how to split the bottom names in order to generate
+  #     the grouping matrix
   #
   # Returns:
   #   A grouped time series.
@@ -15,35 +17,54 @@ gts <- function(y, groups, gnames = rownames(groups)) {
   if (ncol(y) <= 1L) {
     stop("Argument y must be a multivariate time series.")
   }
-  if (missing(groups)) {
-    groups <- matrix(c(rep(1L, ncol(y)), seq(1L, ncol(y))), nrow = 2L, 
-                   byrow = TRUE)
-    gmat <- groups
-  } else if (!is.matrix(groups)) {
-    stop("Argument groups must be a matrix.")
+  bnames <- colnames(y)
+  if (missing(characters)) {
+    if (missing(groups)) {
+      groups <- matrix(c(rep(1L, ncol(y)), seq(1L, ncol(y))), nrow = 2L, 
+                     byrow = TRUE)
+      gmat <- groups
+    } else if (!is.matrix(groups)) {
+      stop("Argument groups must be a matrix.")
+    } 
+    # Check whether groups is unique
+    bgroup <- unique(apply(groups, 2, paste, collapse = ""))
+    if (ncol(groups) != ncol(y) && length(bgroup) != ncol(y)) {
+      stop("Argument groups is misspecified.")
+    }
   } else {
-    # Construct gmatrix
-    groups <- as.matrix(groups)
-    gmat <- GmatrixG(groups)  # GmatrixG() defined below
+    if (!all(nchar(bnames)[1L] == nchar(bnames)[-1L])) {
+      stop("The bottom names must be of the same length.")
+    }
+    if (any(nchar(bnames) != sum(unlist(characters)))) {
+      warning("The argument characters is not fully specified for the bottom names.")
+    }
+    groups <- CreateGmat(bnames, characters)
   }
-  # Check whether groups is unique
-  bgroup <- unique(apply(groups, 2, paste, collapse = ""))
-  if (ncol(groups) != ncol(y) && length(bgroup) != ncol(y)) {
-    stop("Argument groups is misspecified.")
+  # Construct gmatrix
+  groups <- as.matrix(groups)
+  nc.groups <- ncol(groups)
+  if (all(groups[1L, ] == rep(1L, nc.groups))) {
+    groups <- groups[-1L, ]
   }
+  nr.groups <- nrow(groups)
+  if (all(groups[nr.groups, ] == seq(1L, nc.groups))) {
+    groups <- groups[-nr.groups, ]
+  }
+  gmat <- GmatrixG(groups)  # GmatrixG() defined below
 
   # Construct gnames
-  if (nrow(gmat) == 2L) {
+  nr.gmat <- nrow(gmat)
+  if (nr.gmat == 2L) {
     name.list <- NULL
   } else if (is.null(gnames)) {
     message("Argument gnames is missing and the default labels are used.")
-    gnames <- paste0("G", 1L:(nrow(gmat) - 2L))
+    gnames <- paste0("G", 1L:(nr.gmat - 2L))
   } 
-  colnames(gmat) <- colnames(y)
+  colnames(gmat) <- bnames
   rownames(gmat) <- c("Total", gnames, "Bottom")
 
   # Keep the names at each group
-  if (nrow(gmat) > 2L) {
+  if (nr.gmat > 2L) {
     times <- Mlevel(groups)
     full.groups <- mapply(rep, as.list(gnames), times, SIMPLIFY = FALSE)
     subnames <- apply(groups, 1, unique)
@@ -62,18 +83,15 @@ gts <- function(y, groups, gnames = rownames(groups)) {
 
 # A function to convert groups to gmatrix
 GmatrixG <- function(xmat) {
-  if (all(xmat[1L, ] == 1L)) {  # gmatrix has already been complete
-    gmat <- xmat
+  if (is.character(xmat)) {
+    # Convert character to integer
+    gmat <- t(apply(xmat, 1, function(x) as.integer(factor(x, unique(x)))))
   } else {
-    if (is.character(xmat)) {
-      # Convert character to integer
-      gmat <- t(apply(xmat, 1, function(x) as.integer(factor(x, unique(x)))))
-    } else {
-      gmat  <- xmat
-    }
-    # Insert the first & last rows
-    gmat <- rbind(rep(1L, ncol(xmat)), gmat, seq(1L, ncol(xmat)))
+    gmat  <- xmat
   }
+  # Insert the first & last rows
+  gmat <- rbind(rep(1L, ncol(xmat)), gmat, seq(1L, ncol(xmat)))
+  gmat <- gmat[!duplicated(gmat), , drop = FALSE] # Remove possible duplicated
   return(structure(gmat, class = "gmatrix"))
 }
 
@@ -92,6 +110,65 @@ InvS4g <- function(xgroup) {
   repcount <- mlevel[len]/mlevel
   inv.s <- 1/unlist(mapply(rep, repcount, mlevel, SIMPLIFY = FALSE))
   return(inv.s)
+}
+
+
+# A function to generate the gmatrix based on bottome names
+CreateGmat <- function(bnames, characters) {
+  total.len <- length(characters)
+  sub.len <- c(0L, lapply(characters, length))
+  cs <- cumsum(unlist(sub.len))
+  int.char <- unlist(characters)
+  end <- cumsum(int.char)
+  start <- end - int.char + 1L
+  tmp.token <- sapply(bnames, function(x) substring(x, start, end))
+  # Grab the individual group
+  token <- vector(length = total.len, mode = "list")
+  for (i in 1L:total.len) {
+    token[[i]] <- matrix(, nrow = sub.len[[i + 1L]], ncol = ncol(tmp.token))
+  }
+  for (i in 1L:total.len) {
+    token[[i]][1L, ] <- tmp.token[cs[i] + 1L, ]
+    if (sub.len[[i + 1L]] >= 2L) {
+      for (j in 2L:sub.len[[i + 1L]]) {
+        token[[i]][j, ] <- paste0(token[[i]][j - 1L, ], tmp.token[cs[i] + j, ])
+      }
+    }
+  }
+  # Take combinations of any two groups
+  cn <- combn(1L:total.len, 2)
+  ncl <- ncol(cn)
+  groups <- vector(length = ncl, mode = "list")
+  for (i in 1L:ncl) {
+    bigroups <- list(token[[cn[, i][1L]]], token[[cn[, i][2L]]])
+    nr1 <- nrow(bigroups[[1L]])
+    nr2 <- nrow(bigroups[[2L]])
+    nr <- nr1 * nr2
+    tmp.groups <- vector(length = nr1, mode = "list")
+    for (j in 1L:nr1) {
+      tmp.groups[[j]] <- paste0(bigroups[[1L]][j, ], bigroups[[2L]][1L, ])
+      if (nr2 >= 2L) {
+        for (k in 2L:nr2) {
+          tmp.groups[[j]] <- rbind(tmp.groups[[j]], paste0(bigroups[[1L]][j, ],
+                                   bigroups[[2L]][k, ]))
+        }
+      }
+    }
+    groups[[i]] <- matrix(unlist(tmp.groups), nrow = nr, ncol = ncol(tmp.token))
+  }
+  # Combine the individual ones and their combinations
+  new.list <- c(token, groups)
+  gmatrix <- new.list[[1L]]
+  for (i in 2L:length(new.list)) {
+    gmatrix <- rbind(gmatrix, new.list[[i]])
+  }
+  gmatrix <- gmatrix[!duplicated(gmatrix), , drop = FALSE]
+  # Remove bottome names if it has
+  check <- try(which(gmatrix == bnames, arr.ind = TRUE)[1L, 1L], silent = TRUE)
+  if (class(check) != "try-error") {
+    gmatrix <- gmatrix[-check, ]
+  }
+  return(gmatrix)
 }
 
 

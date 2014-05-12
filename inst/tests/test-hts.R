@@ -20,7 +20,7 @@ test_that("tests for node as a list", {
 test_that("tests for node by default", {
   set.seed(1234)
   mts <- ts(matrix(5 + sort(rnorm(500)), nrow = 50, ncol = 10))
-  nodes <- list("Level 0" = 10)
+  nodes <- list("Level 1" = 10)
 
   expect_that(hts(mts)$nodes, equals(nodes))
 })

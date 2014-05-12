@@ -1,7 +1,8 @@
-v4.3
+v4.3 (12 May 2014)
 * Fixed bug of the arg "include" in plot.gts, when there are not yearly data.
 * Fixed bug in combinef(), when it handles a simple hierarchy with 2 levels.
 * Improved arg "characters" in hts() to automate the node structure.
+* Added a new arg "characters" in gts(), which will automate the grouping matrix.
 
 v4.2 (25 Mar 2014)
 * Fixed Next.Generic error in accuracy.gts.

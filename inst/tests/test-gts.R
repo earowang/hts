@@ -1,14 +1,6 @@
 # A unit test for gts() function
 context("Tests on output")
 
-test_that("tests for groups by default", {
-  set.seed(1234)
-  mts <- ts(5 + matrix(sort(rnorm(2700)), nrow = 100, ncol = 27), 
-            start = c(2001, 1), frequency = 12)
-
-  expect_that(gts(mts)$labels, equals(NULL))
-})
-
 test_that("tests for labels", {
   set.seed(1234)
   mts <- ts(5 + matrix(sort(rnorm(2700)), nrow = 100, ncol = 27), 

@@ -8,7 +8,7 @@
 Method for creating grouped time series. 
 }
 \usage{
-gts(y, groups, gnames = rownames(groups))
+gts(y, groups, gnames = rownames(groups), characters)
 }
 \arguments{
   \item{y}{A matrix or multivariate time series contains the bottom level series.}
@@ -16,6 +16,10 @@ gts(y, groups, gnames = rownames(groups))
 each series when completely disaggregated, and one row for each grouping of the 
 time series. It allows either a numerical matrix or a matrix consisting of strings.}
   \item{gnames}{Specify the group names.}
+  \item{characters}{A list or integers indicate how to specify the bottom names.
+  The \code{groups} will be automatically generated. If it's non-hierarchy grouped
+  time series, integers are preferred; if it has one or more hierarchies within
+  the grouped time series, a list is preferred.}
 }
 \details{If the argument \code{groups} is a matrix consisting of strings, these
   characters can be used for labelling.}

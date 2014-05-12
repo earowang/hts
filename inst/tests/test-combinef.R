@@ -9,17 +9,6 @@ test_that("tests for hts at the bottom level", {
   expect_that(combinef(mts, nodes = node.list), throws_error())
 })
 
-test_that("tests for gts groups", {
-  set.seed(1234)
-  mts <- ts(5 + matrix(sort(rnorm(270)), nrow = 10, ncol = 27), 
-            start = c(2001, 1), frequency = 12)
-  g <- matrix(c(rep(1:3, each = 9), rep(c(rep(1, 3), rep(2, 3), rep(3, 3)), 3),
-              rep(1:3, 9)), nrow = 3, byrow = TRUE)
-  gts <- gts(mts, groups = g)
-
-  expect_that(combinef(allts(gts), groups = gts$groups), throws_error())
-})
-
 context("Tests on outputs")
 
 test_that("tests for hts", {

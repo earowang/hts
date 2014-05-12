@@ -33,6 +33,7 @@ combinef <- function(fcasts, nodes, groups, weights = NULL,
     }
   } else if (missing(nodes)) {  # gts class
     # To call Smatrix() properly
+    rownames(groups) <- NULL
     allgroups <- GmatrixG(groups)
     fcasts <- structure(list(all = fcasts, groups = allgroups), class = "gts")
     totalts <- sum(Mlevel(fcasts$groups))
