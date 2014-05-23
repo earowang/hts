@@ -1,6 +1,7 @@
 \name{forecast.gts}
 \Rdversion{1.1}
 \alias{forecast.gts}
+\alias{forecast.hts}
 \title{Forecast a hierarchical or grouped time series}
 \description{
 Methods for forecasting hierarchical or grouped time series.
