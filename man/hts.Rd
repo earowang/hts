@@ -10,15 +10,17 @@ hts(y, nodes, bnames = colnames(y), characters)
 }
 \arguments{
   \item{y}{A matrix or multivariate time series contain the bottom level series.}
-  \item{nodes}{A list contains the number of child nodes for each level except
-  for the bottom one. It indicates the hierarchical structure. The default is
+  \item{nodes}{A list contains the number of child nodes associated with each level,
+  which indicates the hierarchical structure. The default is
   a simple hierarchy with only 2 levels (i.e. total and bottom). If the argument
-  \code{characters} is specified, \code{nodes} will be automatically generated
-  within the function.}
+  \code{characters} is used, \code{nodes} will be automated within the function.}
   \item{bnames}{The names of the bottom time series.}
-  \item{characters}{A set of integers indicate how to split the \code{bnames}
-  in order to create labels and how to construct the node structure accordingly.
-  If it is specified, \code{nodes} can be left blank.}
+  \item{characters}{Integers indicate the segments in which the bottom level names
+  can be read in order to construct the corresponding node structure and its labels.
+  For instance, one of the bottom series is named "VICMelb" that implies the 3-level
+  hierarchy with "Total", followed by "State Level" and "City level" respectively;
+  \code{characters} will be specified as \code{c(3, 4)} referring to "VIC" of 3 characters 
+  and "Melb" of 4 characters. All the bottom names must be of the same length.}
 }
 \value{
   \item{bts}{Multivariate time series containing the bottom level series}
@@ -39,22 +41,20 @@ Optimal combination forecasts for hierarchical time series.
 
 \examples{
 # Example 1
-# The hierarchical structure looks like one root node associated with 2 child
-# nodes. These 2 child nodes have 3 and 2 sub-child nodes respectively.
+# The hierarchical structure looks like 2 child nodes associated with level 1,
+# which are followed by 3 and 2 sub-child nodes respectively at level 2.
 nodes <- list(2, c(3, 2))
 abc <- ts(5 + matrix(sort(rnorm(500)), ncol = 5, nrow = 100))
 x <- hts(abc, nodes)
 
 # Example 2
-# Suppose we've got the bottom names that can be useful for constructing labels
-# at higher levels. We need to specify how to split them in the argument
-# "characters".
-nodes <- list(2, c(2, 2), c(3, 2, 3, 2))
+# Suppose we've got the bottom names that can be useful for constructing the node
+# structure and the labels at higher levels. We need to specify how to split them 
+# in the argument "characters".
 abc <- ts(5 + matrix(sort(rnorm(1000)), ncol = 10, nrow = 100))
 colnames(abc) <- c("A10A", "A10B", "A10C", "A20A", "A20B",
                    "B30A", "B30B", "B40A", "B40B", "B40C")
-y <- hts(abc, nodes, characters = c(1, 2, 1))
+y <- hts(abc, characters = c(1, 2, 1))
 }
-
 
 \keyword{ts}
