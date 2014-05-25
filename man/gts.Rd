@@ -13,14 +13,27 @@ gts(y, groups, gnames = rownames(groups), characters)
 \arguments{
   \item{y}{A matrix or multivariate time series contains the bottom level series.}
   \item{groups}{Group matrix indicates the group structure, with one column for
-each series when completely disaggregated, and one row for each grouping of the 
-time series. It allows either a numerical matrix or a matrix consisting of strings.}
+  each series when completely disaggregated, and one row for each grouping of the 
+  time series. It allows either a numerical matrix or a matrix consisting of strings
+  that can be used for labelling. If the argument \code{characters} is used , the 
+  \code{groups} will be automatically generated within the function.}
   \item{gnames}{Specify the group names.}
-  \item{characters}{A list or integers indicate how to specify the bottom names.
-  The segmentation of these names will automatically generate the \code{groups}.}
+  \item{characters}{A list or integers indicates the segments in which bottom level
+  names can be read in order to construct the corresponding grouping matrix and its
+  labels. A \code{list} class is used when a grouped time series includes one or
+  more hierarchies. For example, a grouped time series involves a geographical grouping
+  and a product grouping, and each of them is associated with its 2-level hierarchy, 
+  like "VICMelbAB". The specification of \code{characters} is \code{list(c(3, 4), c(1, 1))},
+  where the first element \code{c(3, 4)} corresponds to the geographical hierarchy
+  with state "VIC" (3 characters) followed by city "Melb" (4 characters) and the 
+  second element to the product hierarchy with product "A" (1 character) and its 
+  sub-product "B" (1 character). The other case is a non-hierarchical grouped time
+  series, where integers are preferred. One bottom series named "VIC1F" represents
+  state, age and sex grouping variables and it leads to \code{characters = c(3, 1, 1)}
+  implying its non-hierarchical structure and its characters segments. All of
+  bottom level names must be of the same length and it only supports 2-way cross-products
+  at the stage.}
 }
-\details{If the argument \code{groups} is a matrix consisting of strings, these
-  characters can be used for labelling.}
 \value{
   \item{bts}{Multivariate time series contains the bottom level series}
   \item{groups}{Information about the groups of a grouped time series}
@@ -39,14 +52,31 @@ Optimal combination forecasts for hierarchical time series.
 }
 
 \examples{
+# Example 1 illustrating the usage of the "groups" argument
 abc <- ts(5 + matrix(sort(rnorm(1600)), ncol = 16, nrow = 100))
 sex <- rep(c("female", "male"), each = 8)
 state <- rep(c("NSW", "VIC", "QLD", "SA", "WA", "NT", "ACT", "TAS"), 2)
 gc <- rbind(sex, state)  # a matrix consists of strings.
 gn <- rbind(rep(1:2, each = 8), rep(1:8, 2))  # a numerical matrix
-rownames(gc) <- c("Sex", "State")
-x <- gts(abc, gc)
-y <- gts(abc, gn)
+rownames(gc) <- rownames(gn) <- c("Sex", "State")
+x <- gts(abc, groups = gc)
+y <- gts(abc, groups = gn)
+
+# Example 2 with two simple hierarchies (geography and product) to show the argument "characters"
+bnames1 <- c("VICMelbAA", "VICMelbAB", "VICGeelAA", "VICGeelAB",  
+             "VICMelbBA", "VICMelbBB", "VICGeelBA", "VICGeelBB",
+             "NSWSyndAA", "NSWSyndAB", "NSWWollAA", "NSWWollAB", 
+             "NSWSyndBA", "NSWSyndBB", "NSWWollBA", "NSWWollBB")
+bts1 <- matrix(ts(rnorm(160)), ncol = 16)
+colnames(bts1) <- bnames1
+x1 <- gts(bts1, characters = list(c(3, 4), c(1, 1)))
+
+# Example 3 with a non-hierarchical grouped time series of 3 grouping variables (state, age and sex)
+bnames2 <- c("VIC1F", "VIC1M", "VIC2F", "VIC2M", "VIC3F", "VIC3M",
+             "NSW1F", "NSW1F", "NSW2F", "NSW2M", "NSW3F", "NSW3M")
+bts2 <- matrix(ts(rnorm(120)), ncol = 12)
+colnames(bts2) <- bnames2
+x2 <- gts(bts2, characters = c(3, 1, 1))
 }
 
 \keyword{ts}

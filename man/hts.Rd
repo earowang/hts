@@ -13,7 +13,7 @@ hts(y, nodes, bnames = colnames(y), characters)
   \item{nodes}{A list contains the number of child nodes associated with each level,
   which indicates the hierarchical structure. The default is
   a simple hierarchy with only 2 levels (i.e. total and bottom). If the argument
-  \code{characters} is used, \code{nodes} will be automated within the function.}
+  \code{characters} is used, \code{nodes} will be automatically generated within the function.}
   \item{bnames}{The names of the bottom time series.}
   \item{characters}{Integers indicate the segments in which the bottom level names
   can be read in order to construct the corresponding node structure and its labels.
