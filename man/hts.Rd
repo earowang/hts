@@ -17,10 +17,11 @@ hts(y, nodes, bnames = colnames(y), characters)
   \item{bnames}{The names of the bottom time series.}
   \item{characters}{Integers indicate the segments in which the bottom level names
   can be read in order to construct the corresponding node structure and its labels.
-  For instance, one of the bottom series is named "VICMelb" that implies the 3-level
-  hierarchy with "Total", followed by "State Level" and "City level" respectively;
-  \code{characters} will be specified as \code{c(3, 4)} referring to "VIC" of 3 characters 
-  and "Melb" of 4 characters. All the bottom names must be of the same length.}
+  For instance, suppose one of the bottom series is named "VICMelb" referring to the city 
+  of Melbourne within the state of Victoria. Then \code{characters} would
+  be specified as \code{c(3, 4)} referring to states of 3 characters (e.g., "VIC") and 
+  cities of 4 characters (e.g., "Melb") All the bottom names must be of the same length,
+  with number of characters for each segment the same for all series.}
 }
 \value{
   \item{bts}{Multivariate time series containing the bottom level series}
@@ -35,7 +36,7 @@ Optimal combination forecasts for hierarchical time series.
 }
 \author{Earo Wang and Rob J Hyndman}
 
-\seealso{
+\seealso{\code{\link[hts]{gts}},
 \code{\link[hts]{accuracy.gts}}, \code{\link[hts]{forecast.gts}}, \code{\link[hts]{plot.gts}}
 }
 
