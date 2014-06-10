@@ -14,7 +14,7 @@ Methods for forecasting hierarchical or grouped time series.
                          fmethod = c("ets", "arima", "rw"), 
                          keep.fitted = FALSE, keep.resid = FALSE,
                          positive = FALSE, lambda = NULL, level, 
-                         weights = c("none", "sd", "nseries"),
+                         weights = c("sd", "none", "nseries"),
                          parallel = FALSE, num.cores = 2,
                          xreg = NULL, newxreg = NULL, ...) 
 }
@@ -54,6 +54,11 @@ R. J. Hyndman, R. A. Ahmed, G. Athanasopoulos and H.L. Shang (2011)
 Optimal combination forecasts for hierarchical time series.
 \emph{Computational Statistics and Data Analysis}, \bold{55}(9), 2579--2589.
 \url{http://robjhyndman.com/papers/hierarchical/}
+
+Hyndman, R. J., Lee, A., & Wang, E. (2014). 
+Fast computation of reconciled forecasts for hierarchical and grouped time series. 
+\emph{Working paper 17/14, Department of Econometrics & Business Statistics, Monash University.}
+\url{http://robjhyndman.com/working-papers/hgts/}
 
 Gross, C. and Sohl, J. (1990) Dissagregation methods to expedite product line forecasting,
 \emph{Journal of Forecasting}, \bold{9}, 233-254.
