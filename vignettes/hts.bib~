@@ -204,12 +204,3 @@
   timestamp = {2013.02.04}
 }
 
-@TECHREPORT{HLW14,
-  title       = {Fast computation of reconciled forecasts for hierarchical and grouped time series},
-  author      = "Hyndman, Rob J and Lee, Alan and Wang, Earo",
-  number      = "17/14",
-  institution = "Department of Econometrics \& Business Statistics, Monash University",
-  year        =  2014,
-type = {Working paper},
-url = {http://robjhyndman.com/working-papers/hgts/},
-}
