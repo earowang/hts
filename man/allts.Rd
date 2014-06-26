@@ -6,7 +6,7 @@ The time series from all levels of a hierarchical/grouped time series or a forec
 hierarchical/grouped time series are returned as a multivariate time series.
 }
 \usage{
-allts(y, forecasts=TRUE)
+allts(y, forecasts = TRUE)
 }
 
 \arguments{

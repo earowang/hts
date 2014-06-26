@@ -12,7 +12,8 @@ aggts(y, levels, forecasts = TRUE)
 \arguments{
   \item{y}{An object of class \code{{gts}}.}
   \item{levels}{Integer(s) or string(s) giving the specified level(s).}
-  \item{forecasts}{If \code{obj} contains forecasts and historical data, then \code{forecasts} indicates whether to return the forecasts or the historical data. Otherwise it is ignored.}
+  \item{forecasts}{If \code{y} contains forecasts and historical data, then \code{forecasts} 
+    indicates whether to return the forecasts or the historical data. Otherwise it is ignored.}
 }
 \author{Earo Wang}
 
