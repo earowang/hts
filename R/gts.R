@@ -12,7 +12,9 @@ gts <- function(y, groups, gnames = rownames(groups), characters) {
   #   A grouped time series.
   #
   # Error handling:
-  y <- as.ts(y)
+  if (!is.ts(y)) {
+    y <- as.ts(y)
+  }
 
   if (ncol(y) <= 1L) {
     stop("Argument y must be a multivariate time series.")

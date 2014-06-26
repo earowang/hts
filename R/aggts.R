@@ -48,6 +48,9 @@ aggts <- function(y, levels, forecasts = TRUE) {
   colnames(ally) <- unlist(labels[levels])
   tsp.y <- tsp(y$bts)
   ally <- ts(ally, start = tsp.y[1L], frequency = tsp.y[3L])
+  # Assign other attributes
+  class(ally) <- class(y$bts)
+  attr(ally, "msts") <- attr(y$bts, "msts")
   return(ally)
 }
 

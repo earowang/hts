@@ -14,7 +14,9 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
   #   A hierarchical time series.
   #
   # Error handling:
-  y <- as.ts(y)
+  if (!is.ts(y)) {
+    y <- as.ts(y)
+  }
 
   if (ncol(y) <= 1L) {
     stop("Argument y must be a multivariate time series.")

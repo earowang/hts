@@ -1,3 +1,6 @@
+v4.4 (xx 2014)
+* Allow multiple seasonal objects "msts" in hts() and gts().
+
 v4.3 (10 June 2014)
 * Fixed bug of the arg "include" in plot.gts, when there are not yearly data.
 * Fixed bug in combinef(), when it handles a simple hierarchy with 2 levels.
