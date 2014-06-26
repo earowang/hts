@@ -228,6 +228,9 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
   bfcasts <- ts(bfcasts, start = tsp.y[2L] + 1L/tsp.y[3L], 
                 frequency = tsp.y[3L])
   colnames(bfcasts) <- bnames
+  class(bfcasts) <- class(object$bts)
+  attr(bfcasts, "msts") <- attr(object$bts, "msts")
+
   if (keep.fitted) {
     bfits <- ts(fits, start = tsp.y[2L], frequency = tsp.y[3L])
     colnames(bfits) <- bnames
