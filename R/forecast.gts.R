@@ -156,7 +156,6 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
       }
     } else if (weights == "sd") {
       tmp.resid <- y - fits # it ensures resids are additive errors
-      class(tmp.resid) <- class(object)
       wvec <- 1/sqrt(colMeans(tmp.resid^2, na.rm = TRUE))
     }
   }
