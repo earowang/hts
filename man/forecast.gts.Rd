@@ -33,9 +33,9 @@ Methods for forecasting hierarchical or grouped time series.
   \item{level}{Level used for "middle-out" method (only used when \code{method="mo"})}
   \item{parallel}{If TRUE, import \code{parallel} package to allow parallel processing}
   \item{num.cores}{If parallel = TRUE, specify how many cores are going to be used}
-  \item{FUN}{It allows users to define their own forecasting function other than
-    the functions used in the \code{fmethod}. There's no use in the arguments \code{positive}
-  and \code{lambda}, if \code{FUN} is being used.}
+  \item{FUN}{It allows users to define their own fitted model that can be passed to the \code{forecast} function
+    to generate base forecasts such as \code{tbats} and \code{stlf}. There is no use in the 
+    arguments \code{positive} and \code{lambda}, if \code{FUN} is being used.}
   \item{xreg}{When \code{fmethod = "arima"}, a vector or matrix of external regressors, which must have the same number of rows as the original univariate time series}
   \item{newxreg}{When \code{fmethod = "arima"}, a vector or matrix of external regressors, which must have the same number of rows as the original univariate time series}
   \item{...}{Other arguments passing to \code{\link[forecast]{ets}} or \code{\link[forecast]{auto.arima}}}
@@ -74,6 +74,8 @@ Gross, C. and Sohl, J. (1990) Dissagregation methods to expedite product line fo
 }
 \examples{
 forecast(htseg1, h = 10, method = "bu", fmethod = "arima")
+
+\dontrun{forecast(htseg2, h = 10, method = "comb", FUN = function(x) tbats(x, use.parrallel = FALSE))}
 }
 \keyword{ts}
 
