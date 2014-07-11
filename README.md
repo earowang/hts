@@ -32,7 +32,7 @@ install_github("hts", "robjhyndman")
 # library(hts)
 demo(htseg1)  # hts example 1
 demo(htseg2)  # hts example 2
-demo(infangts)  # gts
+demo(infantgts)  # gts
 ```
 
 ## License
