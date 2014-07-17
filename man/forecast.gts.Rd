@@ -75,7 +75,8 @@ Gross, C. and Sohl, J. (1990) Dissagregation methods to expedite product line fo
 \examples{
 forecast(htseg1, h = 10, method = "bu", fmethod = "arima")
 
-\dontrun{forecast(htseg2, h = 10, method = "comb", FUN = function(x) tbats(x, use.parrallel = FALSE))}
+\dontrun{forecast(htseg2, h = 10, method = "comb", 
+                  FUN = function(x) tbats(x, use.parrallel = FALSE))}
 }
 \keyword{ts}
 
