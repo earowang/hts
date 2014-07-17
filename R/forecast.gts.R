@@ -112,24 +112,66 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
     return(out)
   }
 
-  if (parallel) { # parallel == TRUE
-    if (is.null(num.cores)) {
-      num.cores <- detectCores()
+  if (fmethod == "arima" && !is.null(c(xreg, newxreg)) 
+      && !is.vector(xreg) && !is.vector(newxreg)) {
+    # Error handling for args xreg and newxreg
+    nc.y <- ncol(y)
+    nr.y <- nrow(y)
+    # the dim of xreg and newreg should be equal to the dim of forecasting ts 
+    check.col <- all(nc.y == c(ncol(xreg), ncol(newxreg)))
+    check.row <- nr.y == nrow(xreg)
+    check.row.new <- h == nrow(newxreg)
+    if (!check.col) {
+      msg <- sprintf("The args xreg or newxreg should have %i columns.", nc.y)
+      stop(msg)
+    } else if (!check.row) {
+      msg <- sprintf("The arg xreg should have %i rows", nr.y)
+      stop(msg)
+    } else if (!check.row.new) {
+      msg <- sprintf("The arg newxreg should have %i rows", h)
+      stop(msg)
     }
-    cl <- makeCluster(num.cores)
-    loopout <- parSapplyLB(cl = cl, X = y, FUN = function(x) loopfn(x, ...), 
-                           simplify = FALSE)
-    stopCluster(cl = cl)
-  } else {  # parallel = FALSE
-    loopout <- lapply(y, function(x) loopfn(x, ...))
-  }
+    # parallel process not working and conventional forloop will be used instead
+    # because auto.arima and forecast.Arima use the same arg xreg, and lapply
+    # cannot be able to tell xreg and newxreg
+    parallel <- FALSE 
+    pfcasts <- matrix(, nrow = h, ncol = nc.y)
+    if (keep.fitted) {
+      fits <- matrix(, nrow = nr.y, ncol = nc.y)
+    }
+    if (keep.resid) {
+      resid <- matrix(, nrow = nr.y, ncol = nc.y)
+    }
+    for (i in 1L:nc.y) {
+      models <- auto.arima(y[, i], lambda = lambda, xreg = xreg[, i], ...)
+      pfcasts[, i] <- forecast(models, h = h, xreg = newxreg[, i])$mean
+      if (keep.fitted) {
+        fits[, i] <- fitted(models)
+      }
+      if (keep.resid) {
+        resid[, i] <- residuals(models)
+      }
+    }
+  } else {  # if xreg and newxreg are not used
+    if (parallel) { # parallel == TRUE
+      if (is.null(num.cores)) {
+        num.cores <- detectCores()
+      }
+      cl <- makeCluster(num.cores)
+      loopout <- parSapplyLB(cl = cl, X = y, FUN = function(x) loopfn(x, ...), 
+                             simplify = FALSE)
+      stopCluster(cl = cl)
+    } else {  # parallel = FALSE
+      loopout <- lapply(y, function(x) loopfn(x, ...))
+    }
 
-  pfcasts <- sapply(loopout, function(x) x$pfcasts)
-  if (keep.fitted) {
-    fits <- sapply(loopout, function(x) x$fitted)
-  }
-  if (keep.resid) {
-    resid <- sapply(loopout, function(x) x$resid)
+    pfcasts <- sapply(loopout, function(x) x$pfcasts)
+    if (keep.fitted) {
+      fits <- sapply(loopout, function(x) x$fitted)
+    }
+    if (keep.resid) {
+      resid <- sapply(loopout, function(x) x$resid)
+    }
   }
 
   if (is.vector(pfcasts)) {  # if h = 1, sapply returns a vector

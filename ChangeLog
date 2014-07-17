@@ -1,7 +1,8 @@
-v4.4 (xx 2014)
+v4.4 (17 July 2014)
 * Allowed multiple seasonal objects "msts" in hts() and gts().
 * Fixed bug of MASE in accuracy.gts().
 * Allowed user's defined forecasting function in forecast.gts().
+* Fixed bug of xreg and newxreg in forecast.gts(), when a matrix is passed.
 
 v4.3 (10 June 2014)
 * Fixed bug of the arg "include" in plot.gts, when there are not yearly data.
