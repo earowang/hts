@@ -94,14 +94,14 @@ forecast.gts <- function(object, h = ifelse(frequency(object) > 1L,
       } else if (fmethod == "arima") {
         models <- auto.arima(x, lambda = lambda, xreg = xreg, 
                              parallel = FALSE, ...)
-        out$pfcasts <- forecast(models, h = h, xreg = newxreg)$mean
+        out$pfcasts <- forecast(models, h = h, xreg = newxreg, PI = FALSE)$mean
       } else if (fmethod == "rw") {
         models <- rwf(x, h = h, lambda = lambda, ...)
         out$pfcasts <- models$mean
       }
     } else { # user defined function to produce point forecasts
       models <- FUN(x, ...)
-      out$pfcasts <- forecast(models, h = h)$mean
+      out$pfcasts <- forecast(models, h = h, PI = FALSE)$mean
     }
     if (keep.fitted) {
       out$fitted <- fitted(models)
