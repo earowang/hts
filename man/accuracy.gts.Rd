@@ -7,8 +7,9 @@ In-sample or out-of-sample accuracy measures for forecast grouped and hierarchic
 \description{
 Returns a range of summary measures of the forecast accuracy. The function measures 
 out-of-sample forecast accuracy based on (holdout data - forecasts) and in-sample 
-accuracy when setting \code{keep.fitted = TRUE} in the \code{\link[hts]{forecast.gts}}. 
-All measures are defined and discussed in Hyndman and Koehler (2006). 
+accuracy at the bottom level when setting \code{keep.fitted = TRUE} in the 
+\code{\link[hts]{forecast.gts}}. All measures are defined and discussed in Hyndman 
+and Koehler (2006). 
 }
 \usage{	
 accuracy.gts(fcasts, test, levels)
