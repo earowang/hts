@@ -45,7 +45,7 @@ Methods for forecasting hierarchical or grouped time series.
 }
 \value{A forecasted hierarchical/grouped time series of class \code{gts}.}
 \details{
-Base methods implemented include ETS, ARIMA and the naive (random walk) models, 
+Base methods implemented include ETS, ARIMA and the naive (random walk) models. 
 Forecasts are distributed in the hierarchy using bottom-up, top-down, middle-out and
 optimal combination methods. 
 
