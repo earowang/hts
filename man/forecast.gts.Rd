@@ -33,21 +33,30 @@ Methods for forecasting hierarchical or grouped time series.
   \item{level}{Level used for "middle-out" method (only used when \code{method="mo"})}
   \item{parallel}{If TRUE, import \code{parallel} package to allow parallel processing}
   \item{num.cores}{If parallel = TRUE, specify how many cores are going to be used}
-  \item{FUN}{It allows users to define their own fitted model that can be passed to the \code{forecast} function
-    to generate base forecasts such as \code{tbats} and \code{stlf}. There is no use in the 
-    arguments \code{positive} and \code{lambda}, if \code{FUN} is being used.}
+  \item{FUN}{A user-defined function that returns an object which can be passed to the 
+  \code{forecast} function. It is applied to all series in order to generate base forecasts. 
+  When \code{FUN} is not \code{NULL}, \code{fmethod}, \code{positive} and \code{lambda} are
+  all ignored. Suitable values for \code{FUN} are \code{\link[forecast]{tbats}} and 
+  \code{\link[forecast]{stlf}}.}
   \item{xreg}{When \code{fmethod = "arima"}, a vector or matrix of external regressors used for modelling, which must have the same number of rows as the original univariate time series}
   \item{newxreg}{When \code{fmethod = "arima"}, a vector or matrix of external regressors used for forecasting, which must have the same number of rows as the \code{h} forecast horizon}
-  \item{...}{Other arguments passing to \code{\link[forecast]{ets}} or \code{\link[forecast]{auto.arima}}}
+  \item{...}{Other arguments passed to \code{\link[forecast]{ets}}, 
+  \code{\link[forecast]{auto.arima}} or \code{FUN}.}
 }
 \value{A forecasted hierarchical/grouped time series of class \code{gts}.}
 \details{
-Base methods implemented include ETS, ARIMA and the naive (random walk) models.
+Base methods implemented include ETS, ARIMA and the naive (random walk) models, 
 Forecasts are distributed in the hierarchy using bottom-up, top-down, middle-out and
-optimal combination methods. Three top-down methods are available: the two Gross-Sohl
+optimal combination methods. 
+
+Three top-down methods are available: the two Gross-Sohl
 methods and the forecast-proportion approach of Hyndman, Ahmed, and Athanasopoulos (2011).
-The "middle-out" method \code{"mo"} uses bottom-up (\code{"bu"}) for levels higher than \code{level}
-and top-down forecast proportions (\code{"tdfp"}) for levels lower than \code{level}. For non-hierarchical grouped data, only bottom-up and combination methods are possible, as any method involving top-down disaggregation requires a hierarchical ordering of groups.
+The "middle-out" method \code{"mo"} uses bottom-up (\code{"bu"}) for levels higher than 
+\code{level} and top-down forecast proportions (\code{"tdfp"}) for levels lower than \code{level}. 
+
+For non-hierarchical grouped data, only bottom-up and combination methods are possible, as any method involving top-down disaggregation requires a hierarchical ordering of groups.
+
+When \code{xreg} and \code{newxreg} are passed, the same covariates are applied to every series in the hierarchy.
 }
 \references{
 G. Athanasopoulos, R. A. Ahmed and R. J. Hyndman (2009) Hierarchical forecasts for Australian domestic tourism,
@@ -76,7 +85,7 @@ Gross, C. and Sohl, J. (1990) Dissagregation methods to expedite product line fo
 forecast(htseg1, h = 10, method = "bu", fmethod = "arima")
 
 \dontrun{forecast(htseg2, h = 10, method = "comb", 
-                  FUN = function(x) tbats(x, use.parrallel = FALSE))}
+                  FUN = function(x) tbats(x, use.parallel = FALSE))}
 }
 \keyword{ts}
 
