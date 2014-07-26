@@ -19,9 +19,11 @@ accuracy.gts <- function(fcasts, test, levels) {
     stop("Argument test must be a grouped time series.")
   }
 
-  if (missing(test) && !is.null(fcasts$fitted)) {
+  if (missing(test) && !is.null(fcasts$fitted)) { # only returns bottom level
     x <- unclass(fcasts$histy)  # Unclass mts to matrix
     res <- x - unclass(fcasts$fitted)  # fcasts$residuals may contain errors
+    levels <- ifelse(is.hts(fcasts), length(fcasts$nodes), 
+                     nrow(fcasts$groups) - 1L)
   } else {
     f <- unclass(aggts(fcasts, levels, forecasts = TRUE))
     x <- unclass(aggts(test, levels))

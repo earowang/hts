@@ -115,7 +115,7 @@ InvS4g <- function(xgroup) {
 }
 
 
-# A function to generate the gmatrix based on bottome names
+# A function to generate the gmatrix based on bottom names
 CreateGmat <- function(bnames, characters) {
   total.len <- length(characters)
   sub.len <- c(0L, lapply(characters, length))
@@ -170,7 +170,7 @@ CreateGmat <- function(bnames, characters) {
     gmatrix <- rbind(gmatrix, new.list[[i]])
   }
   gmatrix <- gmatrix[!duplicated(gmatrix), , drop = FALSE]
-  # Remove bottome names if it has
+  # Remove bottom names if it has
   check <- try(which(gmatrix == bnames, arr.ind = TRUE)[1L, 1L], silent = TRUE)
   if (class(check) != "try-error") {
     gmatrix <- gmatrix[-check, ]

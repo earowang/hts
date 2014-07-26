@@ -19,9 +19,7 @@ summary.gts <- function(object, ...) {
     cat(paste("Forecast method:", fmethod), "\n")
     if (!is.null(object$fitted)) {
       cat("In-sample error measures at the bottom level: \n")
-      print(accuracy.gts(object, 
-                         levels = ifelse(is.hts(object), length(object$nodes),
-                                         nrow(object$groups) - 1L)))
+      print(accuracy.gts(object))
     }
   }
 }
