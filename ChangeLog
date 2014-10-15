@@ -1,6 +1,7 @@
 v4.5 ()
 * Fixed bug in accuracy.gts() when returning in-sample accuracy.
 * Fixed bug in forecast.gts() detecting the right default forecasting horizon.
+* Fixed bug in gts() for a gts with one grouping variable.
 
 v4.4 (22 July 2014)
 * Allowed multiple seasonal objects "msts" in hts() and gts().

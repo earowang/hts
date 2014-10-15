@@ -34,6 +34,9 @@ gts <- function(y, groups, gnames = rownames(groups), characters) {
       stop("Argument groups is misspecified.")
     }
   } else {
+    if (length(characters) == 1L) {
+      stop("The argument characters must have length greater than one.")
+    }
     if (!all(nchar(bnames)[1L] == nchar(bnames)[-1L])) {
       stop("The bottom names must be of the same length.")
     }
@@ -43,16 +46,18 @@ gts <- function(y, groups, gnames = rownames(groups), characters) {
     groups <- CreateGmat(bnames, characters)
   }
   # Construct gmatrix
-  groups <- as.matrix(groups)
-  nc.groups <- ncol(groups)
-  if (all(groups[1L, ] == rep(1L, nc.groups))) {
-    groups <- groups[-1L, ]
+  if (nrow(groups) != 2) {
+    groups <- as.matrix(groups)
+    nc.groups <- ncol(groups)
+    if (all(groups[1L, ] == rep(1L, nc.groups))) {
+      groups <- groups[-1L, ]
+    }
+    nr.groups <- nrow(groups)
+    if (all(groups[nr.groups, ] == seq(1L, nc.groups))) {
+      groups <- groups[-nr.groups, ]
+    }
+    gmat <- GmatrixG(groups)  # GmatrixG() defined below
   }
-  nr.groups <- nrow(groups)
-  if (all(groups[nr.groups, ] == seq(1L, nc.groups))) {
-    groups <- groups[-nr.groups, ]
-  }
-  gmat <- GmatrixG(groups)  # GmatrixG() defined below
 
   # Construct gnames
   nr.gmat <- nrow(gmat)
