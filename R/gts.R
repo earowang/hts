@@ -24,7 +24,6 @@ gts <- function(y, groups, gnames = rownames(groups), characters) {
     if (missing(groups)) {
       groups <- matrix(c(rep(1L, ncol(y)), seq(1L, ncol(y))), nrow = 2L, 
                      byrow = TRUE)
-      gmat <- groups
     } else if (!is.matrix(groups)) {
       stop("Argument groups must be a matrix.")
     } 
@@ -57,6 +56,8 @@ gts <- function(y, groups, gnames = rownames(groups), characters) {
       groups <- groups[-nr.groups, ]
     }
     gmat <- GmatrixG(groups)  # GmatrixG() defined below
+  } else {
+    gmat <- groups
   }
 
   # Construct gnames
