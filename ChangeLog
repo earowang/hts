@@ -1,4 +1,4 @@
-v4.5 ()
+v4.5 (4 Dec 2014)
 * Fixed bug in accuracy.gts() when returning in-sample accuracy.
 * Fixed bug in forecast.gts() detecting the right default forecasting horizon.
 * Fixed bug in gts() for a gts with one grouping variable.
