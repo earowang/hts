@@ -20,17 +20,13 @@ TdGsF <- function(fcasts, bts, topts) {
 
 TdFp <- function(fcasts, nodes) {
   # Top-down forecasts using forecast proportions
-  levels <- cumsum(Mnodes(nodes))
+  levels <- cumsum(hts:::Mnodes(nodes))
   # Split fcasts to a list
   l.levels <- length(levels)
-  flist <- vector(length = l.levels, mode = "list")
-  flist[[1L]] <- fcasts[, 1L]
-  for (i in 2L:l.levels) {
-    end <- levels[i]
-    start <- levels[i - 1L] + 1L
-    series <- seq(start, end)
-    flist[[i]] <- fcasts[, series]
-  }
+  flist <- lapply(2L:l.levels, function(x) {
+                    fcasts[, seq(levels[x - 1L] + 1L, levels[x])]
+                  })
+  flist <- c(list(fcasts[, 1L]), flist)
   if (is.vector(flist[[2L]])) {  # In case of h = 1
     new.flist <- vector(length = l.levels - 1L, mode = "list")
     for (j in 1L:(l.levels - 1L)) {

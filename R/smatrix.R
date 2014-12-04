@@ -22,12 +22,12 @@ Smatrix <- function(xts) {
   }
   num.bts <- ncol(gmat)
   sparse.S <- apply(gmat, 1L, function(x) {
-  ia <- as.integer(x)
-  uniq.g <- unique(ia)
-  ra <- as.integer(rep(1L, num.bts))
-  ja <- as.integer(1L:num.bts)
-  s <- as.matrix.csr(new("matrix.coo", ra = ra, ja = ja, ia = ia,
-         dimension = as.integer(c(length(uniq.g), num.bts))))
+    ia <- as.integer(x)
+    uniq.g <- unique(ia)
+    ra <- as.integer(rep(1L, num.bts))
+    ja <- as.integer(1L:num.bts)
+    s <- as.matrix.csr(new("matrix.coo", ra = ra, ja = ja, ia = ia,
+           dimension = as.integer(c(length(uniq.g), num.bts))))
   })
   sparse <- do.call("rbind", sparse.S)
   return(sparse)
