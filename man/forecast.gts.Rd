@@ -7,8 +7,8 @@
 Methods for forecasting hierarchical or grouped time series.
 }
 \usage{
-\S3method{forecast}{gts}(object, h = ifelse(frequency(object) > 1L,
-                         2L * frequency(object), 10L), 
+\S3method{forecast}{gts}(object, h = ifelse(frequency(object$bts) > 1L,
+                         2L * frequency(object$bts), 10L), 
                          method = c("comb", "bu", "mo", 
                                     "tdgsa", "tdgsf", "tdfp"),
                          fmethod = c("ets", "arima", "rw"), 

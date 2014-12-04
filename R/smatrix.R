@@ -13,40 +13,22 @@ smatrix <- function(xts) {
 }
 
 Smatrix <- function(xts) {
-  # S matrix in the sparse mode
+  # Sparse matrices stored in coordinate format
+  # gmatrix contains all the information to generate smatrix
   if (is.hts(xts)) {
     gmat <- GmatrixH(xts$nodes)
-    mnodes <- Mnodes(xts$nodes)
-    ntotal <- sum(mnodes)
-    nbts <- mnodes[length(mnodes)]
   } else {
     gmat <- xts$groups
-    mlevel <- Mlevel(xts$groups)
-    ntotal <- sum(mlevel)
-    nbts <- mlevel[length(mlevel)]
   }
-  # The number of non-zero elements
-  ra <- as.numeric(rep(1, nbts * nrow(gmat)))
-
-  # Create Iaslot
-  Iaslot <- function(xmat) as.integer(cumsum(c(1L, 
-                                      unlist(apply(xmat, 1, table)))))
-  # Create Jaslot
-  Jaslot <- function(xmat) {
-    ja <- vector(length = nrow(xmat), mode = "list")
-    uni.num <- apply(xmat, 1, unique)
-    if (is.matrix(uni.num)) {
-      uni.num <- split(uni.num, rep(1L:ncol(uni.num), each = nrow(uni.num)))
-    }
-    for (i in 1L:length(ja)) {
-      ja[[i]] <- unlist(sapply(uni.num[[i]], 
-                        function(x) which(xmat[i, ] %in% x), simplify = FALSE))
-    }
-    return(as.integer(unlist(ja)))
-  }
-
-  ia <- Iaslot(gmat)
-  ja <- Jaslot(gmat)
-  return(new("matrix.csr", ra = ra, ja = ja, ia = ia, 
-             dimension = as.integer(c(ntotal, nbts))))
+  num.bts <- ncol(gmat)
+  sparse.S <- apply(gmat, 1L, function(x) {
+  ia <- as.integer(x)
+  uniq.g <- unique(ia)
+  ra <- as.integer(rep(1L, num.bts))
+  ja <- as.integer(1L:num.bts)
+  s <- as.matrix.csr(new("matrix.coo", ra = ra, ja = ja, ia = ia,
+         dimension = as.integer(c(length(uniq.g), num.bts))))
+  })
+  sparse <- do.call("rbind", sparse.S)
+  return(sparse)
 }

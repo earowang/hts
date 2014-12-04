@@ -28,10 +28,11 @@ gts <- function(y, groups, gnames = rownames(groups), characters) {
       stop("Argument groups must be a matrix.")
     } 
     # Check whether groups is unique
-    bgroup <- unique(apply(groups, 2, paste, collapse = ""))
-    if (ncol(groups) != ncol(y) && length(bgroup) != ncol(y)) {
-      stop("Argument groups is misspecified.")
-    }
+    # But R takes so long to check due to the inefficiency with strings
+    # bgroup <- unique(apply(groups, 2, paste, collapse = ""))
+    # if (ncol(groups) != ncol(y) && length(bgroup) != ncol(y)) {
+    #   stop("Argument groups is misspecified.")
+    # }
   } else {
     if (length(characters) == 1L) {
       stop("The argument characters must have length greater than one.")
@@ -45,20 +46,7 @@ gts <- function(y, groups, gnames = rownames(groups), characters) {
     groups <- CreateGmat(bnames, characters)
   }
   # Construct gmatrix
-  if (nrow(groups) != 2) {
-    groups <- as.matrix(groups)
-    nc.groups <- ncol(groups)
-    if (all(groups[1L, ] == rep(1L, nc.groups))) {
-      groups <- groups[-1L, ]
-    }
-    nr.groups <- nrow(groups)
-    if (all(groups[nr.groups, ] == seq(1L, nc.groups))) {
-      groups <- groups[-nr.groups, ]
-    }
-    gmat <- GmatrixG(groups)  # GmatrixG() defined below
-  } else {
-    gmat <- groups
-  }
+  gmat <- GmatrixG(groups)  # GmatrixG() defined below
 
   # Construct gnames
   nr.gmat <- nrow(gmat)
@@ -98,7 +86,8 @@ GmatrixG <- function(xmat) {
     gmat  <- xmat
   }
   # Insert the first & last rows
-  gmat <- rbind(rep(1L, ncol(xmat)), gmat, seq(1L, ncol(xmat)))
+  nc.xmat <- ncol(xmat)
+  gmat <- rbind(rep(1L, nc.xmat), gmat, seq(1L, nc.xmat))
   gmat <- gmat[!duplicated(gmat), , drop = FALSE] # Remove possible duplicated
   return(structure(gmat, class = "gmatrix"))
 }
