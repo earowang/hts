@@ -186,13 +186,13 @@ print.gts <- function(x, ...) {
     cat("Hierarchical Time Series \n")
     cat(length(mn), "Levels \n")
     cat("Number of nodes at each level:", mn, "\n")
-    cat("Total number of series:", sum(mn), "\n")
+    cat("Total number of series:", sum(mn, na.rm = TRUE), "\n")
   } else {
     cat("Grouped Time Series \n")
     nlevels <- Mlevel(x$groups)
     cat(length(nlevels), "Levels \n")
     cat("Number of groups at each level:", nlevels, "\n")
-    cat("Total number of series:", sum(nlevels), "\n")
+    cat("Total number of series:", sum(nlevels, na.rm = TRUE), "\n")
   }
 
   if (is.null(x$histy)) {  # Original series
@@ -204,7 +204,7 @@ print.gts <- function(x, ...) {
     cat("Number of forecasts per series:", nrow(x$bts), "\n")
     cat("Top level series of forecasts: \n")
   }
-  topts <- ts(rowSums(x$bts), start = tsp(x$bts)[1L], 
+  topts <- ts(rowSums(x$bts, na.rm = TRUE), start = tsp(x$bts)[1L], 
               frequency = tsp(x$bts)[3L])
   print(topts)
 }
