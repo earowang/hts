@@ -1,10 +1,11 @@
-v4.5 (4 Dec 2014)
+v4.5 (x Jan 2015)
 * Fixed bug in accuracy.gts() when returning in-sample accuracy.
 * Fixed bug in forecast.gts() detecting the right default forecasting horizon.
 * Fixed bug in gts() for a gts with one grouping variable.
 * Speeded up Smatrix().
 * Make SparseM package as dependency.
 * Better handle missing values.
+* Speeded up combinef() for Alan's algorithm.
 
 v4.4 (22 July 2014)
 * Allowed multiple seasonal objects "msts" in hts() and gts().

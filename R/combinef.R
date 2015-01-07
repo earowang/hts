@@ -16,6 +16,9 @@ combinef <- function(fcasts, nodes, groups, weights = NULL,
   tspx <- tsp(fcasts)
   if (missing(groups)) { # hts class
     totalts <- sum(Mnodes(nodes))
+    if (!is.matrix(fcasts)) {
+      fcasts <- t(fcasts)
+    }
     if (ncol(fcasts) != totalts) {
       stop("Argument fcasts requires all the forecasts.")
     }
@@ -58,16 +61,7 @@ combinef <- function(fcasts, nodes, groups, weights = NULL,
 }
 
 # Combination approach 
-# Author: Alan Lee
-
-BasicC <- function(n) { 
-  k <- length(n)
-  c.list <- vector(length = k, mode = "list")
-  for (i in 1L:k) {
-    c.list[[i]] <- list(matrix(1/(n[i] + 1)), n[i])
-  }
-  return(c.list)
-}
+# Author: Alan Lee; largely improved by Earo Wang
 
 UpdateC <- function(c.list) {
   k <- length(c.list)
@@ -102,82 +96,66 @@ UpdateC <- function(c.list) {
   return(list(C = c.star, nvec = comb.vec))
 }
 
-CombineH <- function(fcasts, nList) {
-  nList <- c(1L, nList)
-  l <- length(nList)
-  n <- sum(unlist(nList))
-  levels <- rep(1L, n)
+CombineH <- function(fcasts, nodes) {
+  if (!is.matrix(fcasts)) {
+    fcasts <- t(fcasts)
+  }
+  # Split fcasts to a list
+  levels <- cumsum(Mnodes(nodes))
+  l.levels <- length(levels)
+  flist <- lapply(2L:l.levels, function(x) {
+                    fcasts[, seq(levels[x - 1L] + 1L, levels[x]), drop = FALSE]
+                  })
+  flist <- c(list(fcasts[, 1L, drop = FALSE]), flist)
+  rm(fcasts)
 
-  node <- 2L
-  for (l in 2L:l) {
-    for (i in 1L:length(nList[[l]])) {
-      for (j in 1:nList[[l]][i]) {
-        levels[node] <- l
-        node <- node + 1L
-      }
-    }
-  }
-  c.list <- BasicC(nList[[l]])
-  newl <- length(nList[[l]])
-  s.list <- vector(length = nrow(fcasts), mode = "list")
-  for (h in 1:nrow(fcasts)) {
-    y <- fcasts[h, ]
-    s.list[[h]] <- vector(length = newl, mode = "list")
-    m <- c(0L, cumsum(nList[[l]]))
-    for (i in 1L:newl) {
-      yy <- y[levels == l][(m[i] + 1L):m[i + 1L]]
-      s.list[[h]][[i]] <- yy + y[levels == l - 1L][i]
-    }
-  }
-  new.s.list <- vector(length = nrow(fcasts), mode = "list")
-  if (l == 2L) { # A simple hierarchy with only 2 levels
-    for (h in 1L:nrow(fcasts)) {
-      y <- fcasts[h, ]
-      new.c.list <- UpdateC(c.list[1L])
-      y0 <- y[levels == 1L]
-      new.s.list <- y0 + unlist(s.list[[h]][1L])
-      s.list[[h]] <- new.s.list
-    }
-    c.list <- list(new.c.list)
+  # Start with the last level
+  lenl <- length(levels)
+  lenn <- length(nodes)
+  last.nodes <- nodes[[lenn]]
+  last.len <- length(last.nodes)
+  cmat <- lapply(1:last.len, function(x) 
+                 list(matrix(1/(last.nodes[x] + 1)), last.nodes[x]))
+  idx <- c(0, cumsum(last.nodes))
+  smat <- lapply(1L:last.len, function(x) 
+            flist[[lenl]][, (idx[x] + 1L):idx[x + 1L], drop = FALSE] 
+            + flist[[lenl - 1L]][, x])
+
+  if (lenn == 1L) { # A simple hierarchy with only 2 levels
+    cmat <- UpdateC(cmat[1L])$C
+    smat <- apply(smat[[1L]], 2, function(x) x + flist[[1L]])
+    sums <- rowsum(t(smat), rep(1L:last.len, last.nodes))
+    comb <- smat - rep(cmat %*% sums, last.nodes)
   } else { # more than 2 levels
-    for (i in 1L:(l - 2L)) {
-      newl <- length(nList[[l - i]])
-      new.c.list <- vector(length = newl, mode = "list")
-      new.s.list <- vector(length = newl, mode = "list")
-      m <- c(0L, cumsum(nList[[l - i]]))
-      for (h in 1L:nrow(fcasts)) {
-        y <- fcasts[h, ]
-        for (j in 1L:newl) {
-          new.c.list[[j]] <- UpdateC(c.list[(m[j] + 1L):m[j + 1L]])
-          y0 <- y[levels == l - i - 1L][j]
-          new.s.list[[j]] <- y0 + unlist(s.list[[h]][(m[j] + 1L):m[j + 1L]])
-        }
-        s.list[[h]] <- new.s.list
+    # Recursively update C matrix from L - 1 to 1
+    for (i in 1L:(lenn - 1L)) {
+      newn <- nodes[[lenn - i]]
+      newl <- length(newn)
+      new.cmat <- vector(length = newl, mode = "list")
+      new.smat <- vector(length = newl, mode = "list")
+      idx <- c(0L, cumsum(newn))
+      for (j in 1L:newl) {
+        new.cmat[[j]] <- UpdateC(cmat[(idx[j] + 1L):idx[j + 1L]])
+        sblock <- smat[(idx[j] + 1L):idx[j + 1L]]
+        sblock <- do.call("cbind", sblock)
+        new.smat[[j]] <- flist[[lenl - i - 1L]][, j] + sblock
       }
-      c.list <- new.c.list
+      cmat <- new.cmat
+      smat <- new.smat
     }
+    cmat <- cmat[[1L]]$C
+    comb <- t(apply(smat[[1L]], 1, function(x) {
+                    sums <- rowsum(x, rep(1L:last.len, last.nodes))
+                    return(x - rep(cmat %*% sums, last.nodes))
+                    }))
   }
-  cc <- c.list[[1L]]$C
-  n <- nList[[l]]
-  comb <- matrix(, nrow = nrow(fcasts), ncol = sum(n))
-  for (h in 1L:nrow(fcasts)) {
-    sty <- unlist(s.list[[h]])
-    sums <- rowsum(sty, rep(1L:length(n), n))
-    comb[h, ] <- sty - rep(cc %*% sums, n)
-  }
+
+  colnames(comb) <- NULL
   return(comb)
 }
 
-BasicCw <- function(d0, d.list) {
-  l.d0 <- length(d0)
-  c.list <- vector(length = l.d0, mode = "list")
-  for (i in 1L:l.d0) {
-    c0 <- 1L/(d0[i] + sum(d.list[[i]]))
-    c.list[[i]] <- list(cmat = matrix(c0, 1L, 1L), m = i)
-  }
-  return(c.list)
-}
 
+# Combination with weights
 UpdateCw <- function(c.list, d1.vec, d0) {
   l.c <- length(c.list)
   comb.vec <- NULL
@@ -214,100 +192,75 @@ UpdateCw <- function(c.list, d1.vec, d0) {
   return(list(cmat = c.star, m = comb.vec))
 }
 
-SumSplit <- function(x, n) {
-  gr <- rep(1L:length(n), n)
-  out <- rowsum(x, gr)
-  return(out)
-}
-
 CombineHw <- function(fcasts, nodes, weights) {
-  H <- nrow(fcasts)
-  nodes <- c(1L, nodes)
-  l.nodes <- length(nodes)
-  n.nodes <- sum(nodes[[l.nodes]])
-  adj.fcasts <- matrix(, nrow = H, ncol = n.nodes)
-  n <- sum(unlist(nodes))
-  levels <- rep(1L, n)
-  labels <- 1L:n
-
-  node <- 2L
-  for (l in 2L:l.nodes) {
-    for (i in 1L:length(nodes[[l]])) {
-      for (j in 1L:nodes[[l]][i]) {
-        levels[node] <- l
-        node <- node + 1L
-      }
-    }
+  if (!is.matrix(fcasts)) {
+    fcasts <- t(fcasts)
   }
+  # Split fcasts to a list
+  levels <- cumsum(Mnodes(nodes))
+  l.levels <- length(levels)
+  flist <- lapply(2L:l.levels, function(x) {
+                    fcasts[, seq(levels[x - 1L] + 1L, levels[x]), drop = FALSE]
+                  })
+  flist <- c(list(fcasts[, 1L, drop = FALSE]), flist)
+  rm(fcasts)
+  # Split weights to a list
+  wlist <- lapply(2L:l.levels, function(x) {
+                    weights[seq(levels[x - 1L] + 1L, levels[x])]
+                  })
+  wlist <- c(list(weights[1L]), wlist)
 
-  k <- length(nodes[[l.nodes]])
-  d.list <- vector(length = k, mode = "list")
-  m <- c(0L, cumsum(nodes[[l.nodes]]))
-  for (i in 1L:k) {
-    d.list[[i]] <- 1/weights[levels == l.nodes][(m[i] + 1L):m[i + 1L]]
-  }
+  # Start with the last level
+  lenl <- length(levels)
+  lenn <- length(nodes)
+  last.nodes <- nodes[[lenn]]
+  last.len <- length(last.nodes)
+  lastg <- rep(1L:last.len, last.nodes)
+  dlist <- split(1/wlist[[l.levels]], lastg)
+  d1vec <- sapply(dlist, sum)
+  d0 <- 1/wlist[[l.levels - 1L]]
+  cmat <- lapply(1:last.len, function(x) 
+                 list(matrix(1L/(d0[x] + sum(dlist[[x]]))), x))
+  idx <- c(0, cumsum(last.nodes))
+  smat <- lapply(1L:last.len, function(x) {
+              yy <- flist[[lenl]][, (idx[x] + 1L):idx[x + 1L], drop = FALSE] *
+                    wlist[[lenl]][(idx[x] + 1L):idx[x + 1L]]
+              return(yy + flist[[lenl - 1L]][, x] * wlist[[lenl - 1L]][x])
+            })
 
-  d1.vec <- unlist(lapply(d.list, sum))
-  d0 <- 1/weights[levels == l.nodes - 1L]
-  c.list <- BasicCw(d0, d.list)
-
-  newl <- length(nodes[[l.nodes]])
-
-  sw.list <- vector(length = H, mode = "list")
-
-  for (h in 1L:H) {
-    fcast <- fcasts[h, ]
-    sw.list[[h]] <- vector(length = newl, mode = "list")
-    m <- c(0L, cumsum(nodes[[l.nodes]]))
-    for (i in 1L:newl) {
-      yy <- fcast[levels == l.nodes][(m[i] + 1L):m[i + 1L]] * 
-            weights[levels == l.nodes][(m[i] + 1L):m[i + 1L]]
-      sw.list[[h]][[i]] <- yy + fcast[levels == l.nodes - 1L][i] *
-            weights[levels == l.nodes - 1L][i]  
-    } 
-  }
-    
-  new.s.list <- vector(length = H, mode = "list")
-
-  if (l == 2L) { # A simple hierarchy with only 2 levels
-    d0 <- 1/weights[levels == 1L]
-    for (h in 1L:nrow(fcasts)) {
-      y <- fcasts[h, ]
-      new.c.list <- UpdateCw(c.list[1L], d1.vec, d0)
-      y0 <- y[levels == 1L]
-      w0 <- weights[levels == 1L]
-      new.s.list <- y0 * w0 + unlist(sw.list[[h]][1L])
-      sw.list[[h]] <- new.s.list
-    }
-    c.list <- list(new.c.list)
+  if (lenn == 1L) { # A simple hierarchy with only 2 levels
+    cmat <- UpdateCw(cmat[1L], d1vec, d0)$cmat
+    dvec <- unlist(dlist)
+    smat <- apply(smat[[1L]], 2, function(x) x + flist[[1L]] * wlist[[1L]])
+    sums <- rowsum(t(smat), rep(1L:last.len, last.nodes))
+    comb <- (smat - rep(cmat %*% sums, last.nodes)) * dvec
   } else { # more than 2 levels
-    for (i in 1L:(l.nodes - 2L)) {
-      newl <- length(nodes[[l.nodes - i]])
-      new.c.list <- vector(length = newl, mode = "list")
-      new.s.list <- vector(length = newl, mode = "list")
-      m <- c(0L, cumsum(nodes[[l.nodes - i]]))
-      d0 <- 1/weights[levels == l.nodes - i - 1L]
-      for (h in 1L:H) {
-        fcast <- fcasts[h, ]
-        for (j in 1L:newl) {
-          new.c.list[[j]] <- UpdateCw(c.list[(m[j] + 1L):m[j + 1L]], d1.vec, d0[j])
-          y0 <- fcast[levels == l.nodes - i - 1L][j]
-          w0 <- weights[levels == l.nodes - i - 1L][j]
-          new.s.list[[j]] <- y0 * w0 + unlist(sw.list[[h]][(m[j] + 1L):m[j + 1L]])
-        }
-        sw.list[[h]] <- new.s.list
+    # Recursively update C matrix from L - 1 to 1
+    for (i in 1L:(lenn - 1L)) {
+      d0 <- 1/wlist[[lenl - i - 1L]]
+      newn <- nodes[[lenn - i]]
+      newl <- length(newn)
+      new.cmat <- vector(length = newl, mode = "list")
+      new.smat <- vector(length = newl, mode = "list")
+      idx <- c(0L, cumsum(newn))
+      for (j in 1L:newl) {
+        new.cmat[[j]] <- UpdateCw(cmat[(idx[j] + 1L):idx[j + 1L]], d1vec, d0[j])
+        sblock <- smat[(idx[j] + 1L):idx[j + 1L]]
+        sblock <- do.call("cbind", sblock)
+        tmpw <- wlist[[lenl - i - 1L]][j]
+        new.smat[[j]] <- flist[[lenl - i - 1L]][, j] * tmpw + sblock
       }
-      c.list <- new.c.list
+      cmat <- new.cmat
+      smat <- new.smat
+      }
+      cmat <- cmat[[1L]]$cmat
+      dvec <- unlist(dlist)
+      comb <- t(apply(smat[[1L]], 1, function(x) {
+                      sums <- rowsum(x * dvec, rep(1L:last.len, last.nodes))
+                      return((x - rep(cmat %*% sums, last.nodes)) * dvec)
+                      }))
     }
-  }
 
-  cmat <- c.list[[1L]]$cmat
-  dvec <- unlist(d.list)
-  for (h in 1L:H) {
-    stwy <- unlist(sw.list[[h]])
-    tvec <- SumSplit(stwy * dvec, nodes[[l.nodes]])
-    adj.fcast <- (stwy - rep(cmat %*% tvec, nodes[[l.nodes]])) * dvec
-    adj.fcasts[h, ] <- adj.fcast
-  }
-  return(adj.fcasts)  # Only return fcasts at the bottom level
+  colnames(comb) <- NULL
+  return(comb)
 }
