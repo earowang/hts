@@ -4,7 +4,6 @@ v4.5 (4 Dec 2014)
 * Fixed bug in gts() for a gts with one grouping variable.
 * Speeded up Smatrix().
 * Make SparseM package as dependency.
-* Better handle missing values.
 
 v4.4 (22 July 2014)
 * Allowed multiple seasonal objects "msts" in hts() and gts().
