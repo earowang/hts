@@ -77,7 +77,8 @@ UpdateC <- function(c.list) {
   }
   d <- sum(comb.vec)
   div <- div + d
-  c.star <- matrix(, sum(nvec), sum(nvec))
+  sum.nvec <- sum(nvec)
+  c.star <- matrix(, sum.nvec, sum.nvec)
   hi <- cumsum(nvec)
   lo <- cumsum(c(1L, nvec[-length(nvec)]))
   for (i in 1:k) {
@@ -97,9 +98,7 @@ UpdateC <- function(c.list) {
 }
 
 CombineH <- function(fcasts, nodes) {
-  if (!is.matrix(fcasts)) {
-    fcasts <- t(fcasts)
-  }
+  class(fcasts) <- "matrix" # drop "ts" object to process faster
   # Split fcasts to a list
   levels <- cumsum(Mnodes(nodes))
   l.levels <- length(levels)
@@ -170,7 +169,8 @@ UpdateCw <- function(c.list, d1.vec, d0) {
     comb.vec <- c(comb.vec, m)
   }
 
-  c.star <- matrix(, nrow = length(comb.vec), ncol = length(comb.vec))
+  len.comb <- length(comb.vec)
+  c.star <- matrix(, nrow = len.comb, ncol = len.comb)
   hi <- cumsum(nvec)
   lo <- cumsum(c(1L, nvec[-length(nvec)]))
 
@@ -193,9 +193,7 @@ UpdateCw <- function(c.list, d1.vec, d0) {
 }
 
 CombineHw <- function(fcasts, nodes, weights) {
-  if (!is.matrix(fcasts)) {
-    fcasts <- t(fcasts)
-  }
+  class(fcasts) <- "matrix" # drop "ts" object to process faster
   # Split fcasts to a list
   levels <- cumsum(Mnodes(nodes))
   l.levels <- length(levels)
