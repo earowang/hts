@@ -12,8 +12,6 @@ combinef <- function(fcasts, nodes, groups, weights = NULL,
   # Return:
   #   Optimal forecasts
   keep <- match.arg(keep)
-  fcasts <- as.ts(fcasts)
-  tspx <- tsp(fcasts)
   if (missing(groups)) { # hts class
     totalts <- sum(Mnodes(nodes))
     if (!is.matrix(fcasts)) {
@@ -27,6 +25,9 @@ combinef <- function(fcasts, nodes, groups, weights = NULL,
     } else {
       bf <- CombineHw(fcasts, nodes, weights)  # with weights
     }
+
+    fcasts <- as.ts(fcasts)
+    tspx <- tsp(fcasts)
 
     if (keep == "gts") {
       bf <- ts(bf, start = tspx[1L], frequency = tspx[3L])
@@ -49,6 +50,9 @@ combinef <- function(fcasts, nodes, groups, weights = NULL,
     } else {
       bf <- CombineG(fcasts$all, smat, weights)
     }
+
+    fcasts <- as.ts(fcasts)
+    tspx <- tsp(fcasts)
 
     if (keep == "gts") {
       bf <- ts(bf, start = tspx[1L], frequency = tspx[3L])
