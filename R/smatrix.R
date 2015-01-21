@@ -9,9 +9,30 @@ smatrix <- function(xts) {
   if (!is.gts(xts)) {
     stop("Argument xts must be a gts object")
   }
-  return(as.matrix(Smatrix(xts)))
+  return(as.matrix(SmatrixM(xts)))
 }
 
+# This function returns a sparse matrix supported by Matrix pkg
+SmatrixM <- function(xts) { 
+  # Sparse matrices stored in coordinate format
+  # gmatrix contains all the information to generate smatrix
+  if (is.hts(xts)) {
+    gmat <- GmatrixH(xts$nodes)
+  } else {
+    gmat <- xts$groups
+  }
+  num.bts <- ncol(gmat)
+  sparse.S <- apply(gmat, 1L, function(x) {
+    ia <- as.integer(x)
+    ra <- as.integer(rep(1L, num.bts))
+    ja <- as.integer(1L:num.bts)
+    s <- sparseMatrix(i = ia, j = ja, x = ra)
+  })
+  sparse <- do.call("rBind", sparse.S)
+  return(sparse)
+}
+
+# This function returns a sparse matrix supported by SparseM pkg
 Smatrix <- function(xts) {
   # Sparse matrices stored in coordinate format
   # gmatrix contains all the information to generate smatrix
