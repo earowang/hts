@@ -13,8 +13,9 @@ using Rcpp::as;
 using Eigen::ConjugateGradient;
 typedef Eigen::MappedSparseMatrix<double> MSpMat;
 
+using namespace Rcpp;
 // [[Rcpp::export]]
-VectorXd cgm_c(SEXP As, SEXP bs) {
+VectorXd hts_cgm_c(SEXP As, SEXP bs) {
   const MSpMat A = as<MSpMat>(As);
   //const Map<MatrixXd> A(as<Map<MatrixXd> > (As));
   const Map<VectorXd> b(as<Map<VectorXd> > (bs));

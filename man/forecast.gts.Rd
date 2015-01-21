@@ -12,6 +12,7 @@ Methods for forecasting hierarchical or grouped time series.
                          method = c("comb", "bu", "mo", 
                                     "tdgsa", "tdgsf", "tdfp"),
                          fmethod = c("ets", "arima", "rw"), 
+                         algorithms = c("cg", "lu", "chol", "recursive", "slm"),
                          keep.fitted = FALSE, keep.resid = FALSE,
                          positive = FALSE, lambda = NULL, level, 
                          weights = c("sd", "none", "nseries"),
@@ -23,6 +24,7 @@ Methods for forecasting hierarchical or grouped time series.
   \item{h}{Forecast horizon}
   \item{method}{Method for distributing forecasts within the hierarchy. See details}
   \item{fmethod}{Forecasting method to use}
+  \item{algorithms}{An algorithm to be used for computing optimally reconciled forecasts.}
   \item{keep.fitted}{If TRUE, keep fitted values at the bottom level.}
   \item{keep.resid}{If TRUE, keep residuals at the bottom level.}
   \item{positive}{If TRUE, forecasts are forced to be strictly positive}
@@ -84,7 +86,7 @@ Gross, C. and Sohl, J. (1990) Dissagregation methods to expedite product line fo
 \examples{
 forecast(htseg1, h = 10, method = "bu", fmethod = "arima")
 
-\dontrun{forecast(htseg2, h = 10, method = "comb", 
+\dontrun{forecast(htseg2, h = 10, method = "comb", algorithms = "lu",
                   FUN = function(x) tbats(x, use.parallel = FALSE))}
 }
 \keyword{ts}

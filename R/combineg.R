@@ -1,4 +1,4 @@
-CombineG <- function(fcasts, S, weights = NULL) {
+SLM <- function(fcasts, S, weights = NULL) {
   class(fcasts) <- tsp(fcasts) <- NULL
   fcasts <- na.omit(fcasts) # In case of "NA"
   if (is.null(weights)) {
@@ -8,10 +8,10 @@ CombineG <- function(fcasts, S, weights = NULL) {
   }
   bottom <- nrow(S) - (ncol(S):1L) + 1L
   fitted.v <- as.matrix(S %*% coef)
-  if (is.vector(fitted.v)) {  # h = 1
-    out <- t(fitted.v[bottom])
-  } else {
-    out <- t(fitted.v[bottom, ])  # Only return bottom level
-  }
-  return(out)
+  # if (is.vector(fitted.v)) {  # h = 1
+  #   out <- t(fitted.v[bottom])
+  # } else {
+  #   out <- t(fitted.v[bottom, ])  # Only return bottom level
+  # }
+  return(fitted.v)
 }

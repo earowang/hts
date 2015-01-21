@@ -3,6 +3,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object$bts) > 1L,
                          method = c("comb", "bu", "mo", 
                                     "tdgsa", "tdgsf", "tdfp"),
                          fmethod = c("ets", "arima", "rw"), 
+                         algorithms = c("cg", "lu", "chol", "recursive", "slm"),
                          keep.fitted = FALSE, keep.resid = FALSE,
                          positive = FALSE, lambda = NULL, level, 
                          weights = c("sd", "none", "nseries"),
@@ -23,6 +24,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object$bts) > 1L,
   #   Point forecasts with other info chosen by the user.
   method <- match.arg(method)
   weights <- match.arg(weights)
+  alg <- match.arg(algorithms)
   if (is.null(FUN)) {
     fmethod <- match.arg(fmethod)
   }
@@ -171,22 +173,25 @@ forecast.gts <- function(object, h = ifelse(frequency(object$bts) > 1L,
 
   if (method == "comb") {
     if (weights == "none") {
-      bfcasts <- Comb(pfcasts, keep = "bottom")
+      bfcasts <- Comb(pfcasts, keep = "bottom", algorithms = alg)
     } else if (any(weights == c("sd", "nseries"))) {
-      bfcasts <- Comb(pfcasts, weights = wvec, keep = "bottom")
+      bfcasts <- Comb(pfcasts, weights = wvec, keep = "bottom", 
+                      algorithms = alg)
     } 
     if (keep.fitted) {
       if (weights == "none") {
-        fits <- Comb(fits, keep = "bottom")
+        fits <- Comb(fits, keep = "bottom", algorithms = alg)
       } else if (any(weights == c("sd", "nseries"))) {
-        fits <- Comb(fits, weights = wvec, keep = "bottom")
+        fits <- Comb(fits, weights = wvec, keep = "bottom",
+                     algorithms = alg)
       } 
     }
     if (keep.resid) {
       if (weights == "none") {
-        resid <- Comb(resid, keep = "bottom")
+        resid <- Comb(resid, keep = "bottom", algorithms = alg)
       } else if (any(weights == c("sd", "nseries"))) {
-        resid <- Comb(resid, weights = wvec, keep = "bottom")
+        resid <- Comb(resid, weights = wvec, keep = "bottom",
+                      algorithms = alg)
       } 
     }
   } else if (method == "bu") {

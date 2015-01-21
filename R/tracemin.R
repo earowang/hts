@@ -6,7 +6,9 @@
 # All these functions return a reverse reconciled matrix with all ts.
 
 # LU factorization (Matrix pkg)
-LU <- function(fcasts, S, weights, nts, nbts) {
+LU <- function(fcasts, S, weights) {
+  nts <- nrow(S)
+  nbts <- ncol(S)
   nagg <- nts - nbts
   seqagg <- 1L:nagg
   utmat <- cbind2(sparseMatrix(i = seqagg, j = seqagg, x = 1),
@@ -30,7 +32,9 @@ LU <- function(fcasts, S, weights, nts, nbts) {
 }
 
 # Conjugate Gradient (Matrix and RcppEigen pkgs)
-CG <- function(fcasts, S, weights, nts, nbts) {
+CG <- function(fcasts, S, weights) {
+  nts <- nrow(S)
+  nbts <- ncol(S)
   nagg <- nts - nbts
   seqagg <- 1L:nagg
   utmat <- cbind2(sparseMatrix(i = seqagg, j = seqagg, x = 1),
@@ -52,7 +56,9 @@ CG <- function(fcasts, S, weights, nts, nbts) {
 }
 
 # Cholesky factorization
-CHOL <- function(fcasts, S, weights, nts, nbts) {
+CHOL <- function(fcasts, S, weights) {
+  nts <- nrow(S)
+  nbts <- ncol(S)
   nagg <- nts - nbts
   seqagg <- 1L:nagg
   utmat <- cbind(as(nagg, "matrix.diag.csr"), -1 * S[1L:nagg, ])
