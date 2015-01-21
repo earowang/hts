@@ -2,12 +2,12 @@ Package: hts
 Type: Package
 Title: Hierarchical and grouped time series
 Version: 4.5
-Depends: forecast (>= 5.0), SparseM
-Imports: parallel, utils
+Depends: forecast (>= 5.0), SparseM, Matrix
+Imports: parallel, utils, Rcpp
 Suggests: testthat
 LazyLoad: yes
 LazyData: yes
-Author: Rob J Hyndman, Earo Wang and Alan Lee with contributions from Roman A Ahmed and Han Lin Shang to earlier versions of the package
+Author: Rob J Hyndman, Earo Wang and Alan Lee with contributions from Shanika Wickramasuriya
 Maintainer: Rob J Hyndman <Rob.Hyndman@monash.edu>
 BugReports: https://github.com/robjhyndman/hts/issues
 Description: Methods for analysing and forecasting hierarchical and grouped time series.
