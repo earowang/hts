@@ -118,6 +118,10 @@ forecast.gts <- function(object, h = ifelse(frequency(object$bts) > 1L,
     if (is.null(num.cores)) {
       num.cores <- detectCores()
     }
+    # Parallel start new process
+    lambda <- lambda
+    xreg <- xreg
+    newxreg <- newxreg
     cl <- makeCluster(num.cores)
     loopout <- parSapplyLB(cl = cl, X = y, FUN = function(x) loopfn(x, ...), 
                            simplify = FALSE)
