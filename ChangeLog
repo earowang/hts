@@ -1,4 +1,4 @@
-v4.5 (x Jan 2015)
+v4.5 (x Feb 2015)
 * Fixed bug in accuracy.gts() when returning in-sample accuracy.
 * Fixed bug in forecast.gts() detecting the right default forecasting horizon.
 * Fixed bug in gts() for a gts with one grouping variable.
@@ -6,6 +6,8 @@ v4.5 (x Jan 2015)
 * Make SparseM package as dependency.
 * Better handle missing values.
 * Speeded up combinef() for Alan's algorithm.
+* Added 3 new algorithms to the optimally reconciled approach.
+* Fixed bug in forecast.gts() when using external regressors with parallel.
 
 v4.4 (22 July 2014)
 * Allowed multiple seasonal objects "msts" in hts() and gts().
