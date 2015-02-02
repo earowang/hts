@@ -27,7 +27,7 @@ LU <- function(fcasts, S, weights) {
     lin.sol <- solve(lhs.l, rhs.l)
     p1 <- jmat %*% fcasts - (jmat %*% weights %*% t(utmat) %*% lin.sol)
   }
-  comb <- S %*% p1
+  comb <- as.matrix(S %*% p1)
   return(comb)
 }
 
@@ -51,7 +51,7 @@ CG <- function(fcasts, S, weights) {
     lin.sol <- as.matrix(cgm_c(lhs.l, rhs.l))
     p1 <- jmat %*% fcasts - (jmat %*% weights %*% t(utmat) %*% lin.sol)
   }
-  comb <- S %*% p1
+  comb <- as.matrix(S %*% p1)
   return(comb)
 }
 

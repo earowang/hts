@@ -2,9 +2,9 @@ SLM <- function(fcasts, S, weights = NULL) {
   class(fcasts) <- tsp(fcasts) <- NULL
   fcasts <- na.omit(fcasts) # In case of "NA"
   if (is.null(weights)) {
-    coef <- slm.fit(S, t(fcasts))$coefficients
+    coef <- slm.fit(S, fcasts)$coefficients
   } else {
-    coef <- slm.wfit(S, t(fcasts), weights = weights)$coefficients
+    coef <- slm.wfit(S, fcasts, weights = weights)$coefficients
   }
   bottom <- nrow(S) - (ncol(S):1L) + 1L
   fitted.v <- as.matrix(S %*% coef)

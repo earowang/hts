@@ -1,9 +1,11 @@
-// [[Rcpp::depends(RcppEigen)]]
 #include <Rcpp.h>
 #include <RcppEigen.h>
 #include <Eigen/IterativeLinearSolvers>
 //#include <Eigen/SparseCore>
 //#include <Eigen/Sparse>
+using namespace Eigen;
+using namespace Rcpp;
+
 using Eigen::SparseMatrix;
 using Eigen::MappedSparseMatrix;
 using Eigen::Map;
@@ -13,9 +15,9 @@ using Rcpp::as;
 using Eigen::ConjugateGradient;
 typedef Eigen::MappedSparseMatrix<double> MSpMat;
 
-using namespace Rcpp;
+// [[Rcpp::depends(RcppEigen)]]
 // [[Rcpp::export]]
-VectorXd hts_cgm_c(SEXP As, SEXP bs) {
+VectorXd cgm_c(SEXP As, SEXP bs) {
   const MSpMat A = as<MSpMat>(As);
   //const Map<MatrixXd> A(as<Map<MatrixXd> > (As));
   const Map<VectorXd> b(as<Map<VectorXd> > (bs));

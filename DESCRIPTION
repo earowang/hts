@@ -2,8 +2,8 @@ Package: hts
 Type: Package
 Title: Hierarchical and grouped time series
 Version: 4.5
-Depends: R (>= 3.0.2), forecast (>= 5.0), SparseM, Matrix, RcppEigen
-Imports: parallel, utils, Rcpp (>= 0.11.0)
+Depends: R (>= 3.0.2), forecast (>= 5.0), SparseM, Matrix
+Imports: parallel, utils, Rcpp (>= 0.11.0), RcppEigen
 Suggests: testthat
 LinkingTo: Rcpp (>= 0.11.0), RcppEigen
 LazyLoad: yes
