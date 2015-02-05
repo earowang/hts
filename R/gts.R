@@ -204,7 +204,7 @@ print.gts <- function(x, ...) {
     cat("Number of forecasts per series:", nrow(x$bts), "\n")
     cat("Top level series of forecasts: \n")
   }
-  topts <- ts(rowSums(x$bts), start = tsp(x$bts)[1L], 
+  topts <- ts(rowSums(x$bts, na.rm = TRUE), start = tsp(x$bts)[1L], 
               frequency = tsp(x$bts)[3L])
   print(topts)
 }
