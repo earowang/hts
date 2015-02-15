@@ -132,6 +132,7 @@ UpdateCw <- function(c.list, d1.vec, d0) {
 
 CombineHw <- function(fcasts, nodes, weights) {
   class(fcasts) <- "matrix" # drop "ts" object to process faster
+  h <- nrow(fcasts)
   # Split fcasts to a list
   levels <- cumsum(Mnodes(nodes))
   l.levels <- length(levels)
@@ -159,9 +160,12 @@ CombineHw <- function(fcasts, nodes, weights) {
                  list(matrix(1L/(d0[x] + sum(dlist[[x]]))), x))
   idx <- c(0, cumsum(last.nodes))
   smat <- lapply(1L:last.len, function(x) {
-              yy <- flist[[lenl]][, (idx[x] + 1L):idx[x + 1L], drop = FALSE] *
-                    wlist[[lenl]][(idx[x] + 1L):idx[x + 1L]]
-              return(yy + flist[[lenl - 1L]][, x] * wlist[[lenl - 1L]][x])
+                 yy <- sweep(flist[[lenl]][, (idx[x] + 1L):idx[x + 1L], 
+                             drop = FALSE], 2, 
+                             wlist[[lenl]][(idx[x] + 1L):idx[x + 1L]], "*")
+                 tmp.yy <- sweep(flist[[lenl - 1L]][, x, drop = FALSE], 2, 
+                                 wlist[[lenl - 1L]][x], "*")
+                 return(apply(yy, 2, function(x) x + tmp.yy))
             })
 
   if (lenn == 1L) { # A simple hierarchy with only 2 levels
@@ -180,21 +184,34 @@ CombineHw <- function(fcasts, nodes, weights) {
       new.smat <- vector(length = newl, mode = "list")
       idx <- c(0L, cumsum(newn))
       for (j in 1L:newl) {
-        new.cmat[[j]] <- UpdateCw(cmat[(idx[j] + 1L):idx[j + 1L]], d1vec, d0[j])
-        sblock <- smat[(idx[j] + 1L):idx[j + 1L]]
-        sblock <- do.call("cbind", sblock)
+        new.cmat[[j]] <- UpdateCw(cmat[(idx[j] + 1L):idx[j + 1L]], d1vec,
+                                        d0[j])
         tmpw <- wlist[[lenl - i - 1L]][j]
-        new.smat[[j]] <- flist[[lenl - i - 1L]][, j] * tmpw + sblock
+        tmps <- sweep(flist[[lenl - i - 1L]][, j, drop = FALSE], 2,
+                      tmpw, "*")
+        sblock <- smat[(idx[j] + 1L):idx[j + 1L]]
+        if (h == 1) {
+          sblock <- unlist(sblock)
+          new.smat[[j]] <- sblock + tmps
+        } else {
+          sblock <- do.call("cbind", sblock)
+          new.smat[[j]] <- apply(sblock, 2, function(x) x + tmps)
+        }
       }
       cmat <- new.cmat
       smat <- new.smat
       }
       cmat <- cmat[[1L]]$cmat
       dvec <- unlist(dlist)
-      comb <- t(apply(smat[[1L]], 1, function(x) {
-                      sums <- rowsum(x * dvec, rep(1L:last.len, last.nodes))
-                      return((x - rep(cmat %*% sums, last.nodes)) * dvec)
-                      }))
+      if (h == 1) {
+        sums <- rowsum(smat[[1L]] * dvec, rep(1L:last.len, last.nodes))
+        comb <- (smat[[1L]] - rep(cmat %*% sums, last.nodes)) * dvec
+      } else {
+        comb <- t(apply(smat[[1L]], 1, function(x) {
+                        sums <- rowsum(x * dvec, rep(1L:last.len, last.nodes))
+                        return((x - rep(cmat %*% sums, last.nodes)) * dvec)
+                        }))
+      }
     }
 
   colnames(comb) <- NULL

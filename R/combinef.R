@@ -25,6 +25,7 @@ combinef <- function(fcasts, nodes, groups, weights = NULL,
     if (!is.matrix(fcasts)) {
       fcasts <- t(fcasts)
     }
+    h <- nrow(fcasts)
     if (ncol(fcasts) != totalts) {
       stop("Argument fcasts requires all the forecasts.")
     }
@@ -64,10 +65,14 @@ combinef <- function(fcasts, nodes, groups, weights = NULL,
         gmat <- GmatrixH(nodes)
         levels <- 1L:nrow(gmat)
         # A function to aggregate the bts
-        rSum <- function(x) rowsum(t(bf), gmat[x, ], reorder = FALSE)
+        if (h == 1 && !is.null(weights)) {
+          rSum <- function(x) rowsum(as.matrix(bf), gmat[x, ], reorder = FALSE)
+        } else {
+          rSum <- function(x) rowsum(t(bf), gmat[x, ], reorder = FALSE)
+        }
         ally <- lapply(levels, rSum)
         # Convert lists to matrices
-        out <- matrix(unlist(sapply(ally, t)), nrow = nrow(bf))
+        out <- matrix(unlist(sapply(ally, t)), nrow = h)
       } else {
         out <- t(allf)
       }
