@@ -17,14 +17,14 @@ typedef Eigen::MappedSparseMatrix<double> MSpMat;
 
 // [[Rcpp::depends(RcppEigen)]]
 // [[Rcpp::export]]
-VectorXd cgm_c(SEXP As, SEXP bs) {
+MatrixXd cgm_c(SEXP As, SEXP bs) {
   const MSpMat A = as<MSpMat>(As);
   //const Map<MatrixXd> A(as<Map<MatrixXd> > (As));
-  const Map<VectorXd> b(as<Map<VectorXd> > (bs));
+  const Map<MatrixXd> b(as<Map<MatrixXd> > (bs));
   ConjugateGradient<SparseMatrix<double> > cg;
   cg.setTolerance(1e-06);
   //ConjugateGradient<MatrixXd> cg;
   //cg.compute(A);
-  VectorXd x=cg.compute(A).solve(b);
+  MatrixXd x=cg.compute(A).solve(b);
   return x;
 }

@@ -43,14 +43,14 @@ combinef <- function(fcasts, nodes, groups, weights = NULL,
       if (alg == "chol") {
         smat <- Smatrix(gmat)
         if (!is.null(weights)) {
-          weights <- as(weights, "matrix.diag.csr")
+          weights <- as(1/weights, "matrix.diag.csr")
         }
         allf <- CHOL(fcasts = fcasts, S = smat, weights = weights)
       } else {
         smat <- SmatrixM(gmat)
         if (!is.null(weights)) {
           seqts <- 1:totalts
-          weights <- sparseMatrix(i = seqts, j = seqts, x = weights)
+          weights <- sparseMatrix(i = seqts, j = seqts, x = 1/weights)
         }
         if (alg == "lu") {
           allf <- LU(fcasts = fcasts, S = smat, weights = weights)
@@ -103,7 +103,7 @@ combinef <- function(fcasts, nodes, groups, weights = NULL,
     if (alg == "chol") {
       smat <- Smatrix(gmat)
       if (!is.null(weights)) {
-        weights <- as(weights, "matrix.diag.csr")
+        weights <- as(1/weights, "matrix.diag.csr")
       }
       allf <- CHOL(fcasts = fcasts, S = smat, weights = weights)
     } else if (alg == "slm") {
@@ -113,7 +113,7 @@ combinef <- function(fcasts, nodes, groups, weights = NULL,
       smat <- SmatrixM(gmat)
       if (!is.null(weights)) {
         seqts <- 1:totalts
-        weights <- sparseMatrix(i = seqts, j = seqts, x = weights)
+        weights <- sparseMatrix(i = seqts, j = seqts, x = 1/weights)
       }
       if (alg == "lu") {
         allf <- LU(fcasts = fcasts, S = smat, weights = weights)

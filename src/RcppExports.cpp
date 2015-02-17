@@ -9,7 +9,7 @@ using namespace Eigen;
 using namespace Rcpp;
 
 // cgm_c
-VectorXd cgm_c(SEXP As, SEXP bs);
+MatrixXd cgm_c(SEXP As, SEXP bs);
 RcppExport SEXP hts_cgm_c(SEXP AsSEXP, SEXP bsSEXP) {
 BEGIN_RCPP
     SEXP __sexp_result;
@@ -17,7 +17,7 @@ BEGIN_RCPP
         Rcpp::RNGScope __rngScope;
         Rcpp::traits::input_parameter< SEXP >::type As(AsSEXP );
         Rcpp::traits::input_parameter< SEXP >::type bs(bsSEXP );
-        VectorXd __result = cgm_c(As, bs);
+        MatrixXd __result = cgm_c(As, bs);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }
     UNPROTECT(1);
