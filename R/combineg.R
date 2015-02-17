@@ -6,12 +6,6 @@ SLM <- function(fcasts, S, weights = NULL) {
   } else {
     coef <- slm.wfit(S, fcasts, weights = weights)$coefficients
   }
-  bottom <- nrow(S) - (ncol(S):1L) + 1L
   fitted.v <- as.matrix(S %*% coef)
-  # if (is.vector(fitted.v)) {  # h = 1
-  #   out <- t(fitted.v[bottom])
-  # } else {
-  #   out <- t(fitted.v[bottom, ])  # Only return bottom level
-  # }
   return(fitted.v)
 }

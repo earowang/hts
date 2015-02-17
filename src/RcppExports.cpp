@@ -3,7 +3,9 @@
 
 #include <RcppEigen.h>
 #include <Rcpp.h>
+#include <Eigen/IterativeLinearSolvers>
 
+using namespace Eigen;
 using namespace Rcpp;
 
 // cgm_c
