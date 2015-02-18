@@ -44,6 +44,7 @@ plot.gts <- function(x, include, levels, labels = TRUE, ...) {
   }
   levels <- as.integer(levels) + 1L
 
+  dots.list <- match.call(expand.dots = FALSE)$`...`
   opar <- par(mfrow = c(l.levels, 1L), mar = c(3, 4, 4, 2))
   on.exit(par(opar))
 
@@ -51,8 +52,7 @@ plot.gts <- function(x, include, levels, labels = TRUE, ...) {
     m <- Mnodes(x$nodes)[levels]
   } else {
     m <- Mlevel(x$groups)[levels]
-    x$labels <- c(Total = "Total", x$labels, 
-                  Bottom = list(colnames(x$bts)))
+    x$labels <- c(Total = "Total", x$labels, Bottom = list(colnames(x$bts)))
   }
 
   cs <- c(0L, cumsum(m))
@@ -64,15 +64,36 @@ plot.gts <- function(x, include, levels, labels = TRUE, ...) {
     cols <- rainbow(length(series))
     if(!is.null(x$histy)) {
       ylim <- range(histx[, series], fcasts[, series], na.rm = TRUE)
-      xlim <- range(time(histx), time(fcasts), na.rm = TRUE)
+      if (labels) {
+        strlabels <- max(strwidth(x$labels[levels], units = "inches"))
+        xlim <- range(time(histx)[1L] - strlabels - 1, time(fcasts), 
+                      na.rm = TRUE)
+      } else {
+        xlim <- range(time(histx), time(fcasts), na.rm = TRUE)
+      }
     } else {
       ylim <- range(histx[, series], na.rm = TRUE)
-      xlim <- range(time(histx), na.rm = TRUE)
+      if (labels) {
+        strlabels <- max(strwidth(x$labels[levels], units = "inches"))
+        timex <- time(histx)
+        xlim <- range(timex[1L] - strlabels - 1, timex, na.rm = TRUE)
+      } else {
+        xlim <- range(time(histx), na.rm = TRUE)
+      }
     }
-    plot(histx[, series, drop = FALSE], col = cols, xlim = xlim, ylim = ylim, 
-         xlab = "", ylab = "", main = names(x$labels)[levels][i], 
-         plot.type = "single", type = ifelse(length(1:include) == 1L, "p", "l"), 
-         ...)
+    if (is.null(dots.list$xlim)) {
+      plot(histx[, series, drop = FALSE], col = cols, xlim = xlim, ylim = ylim, 
+           xlab = "", ylab = "", main = names(x$labels)[levels][i], 
+           plot.type = "single", 
+           type = ifelse(length(1:include) == 1L, "p", "l"), 
+           ...)
+    } else {
+      plot(histx[, series, drop = FALSE], col = cols, ylim = ylim, 
+           xlab = "", ylab = "", main = names(x$labels)[levels][i], 
+           plot.type = "single", 
+           type = ifelse(length(1:include) == 1L, "p", "l"), 
+           ...)
+    }
 
     if (!is.null(x$histy)) {
       for (j in 1L:length(series)) {
