@@ -1,5 +1,5 @@
 combinef <- function(fcasts, nodes, groups, weights = NULL, 
-                     algorithms = c("cg", "lu", "chol", "recursive", "slm"),
+                     algorithms = c("lu", "cg", "chol", "recursive", "slm"),
                      keep = c("gts", "all", "bottom")) {
   # Construct optimal combination forecasts
   #
@@ -66,9 +66,11 @@ combinef <- function(fcasts, nodes, groups, weights = NULL,
         levels <- 1L:nrow(gmat)
         # A function to aggregate the bts
         if (h == 1 && !is.null(weights)) {
-          rSum <- function(x) rowsum(as.matrix(bf), gmat[x, ], reorder = FALSE)
+          rSum <- function(x) rowsum(as.matrix(bf), gmat[x, ], reorder = FALSE,
+                                     na.rm = TRUE)
         } else {
-          rSum <- function(x) rowsum(t(bf), gmat[x, ], reorder = FALSE)
+          rSum <- function(x) rowsum(t(bf), gmat[x, ], reorder = FALSE,
+                                     na.rm = TRUE)
         }
         ally <- lapply(levels, rSum)
         # Convert lists to matrices

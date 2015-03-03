@@ -7,7 +7,7 @@ Using the method of Hyndman et al. (2011), this function optimally combines the 
 }
 \usage{
 combinef(fcasts, nodes, groups, weights = NULL, 
-         algorithms = c("cg", "lu", "chol", "recursive", "slm"),
+         algorithms = c("lu", "cg", "chol", "recursive", "slm"),
          keep = c("gts", "all", "bottom"))
 }
 \arguments{

@@ -12,7 +12,7 @@ Methods for forecasting hierarchical or grouped time series.
                          method = c("comb", "bu", "mo", 
                                     "tdgsa", "tdgsf", "tdfp"),
                          fmethod = c("ets", "arima", "rw"), 
-                         algorithms = c("cg", "lu", "chol", "recursive", "slm"),
+                         algorithms = c("lu", "cg", "chol", "recursive", "slm"),
                          keep.fitted = FALSE, keep.resid = FALSE,
                          positive = FALSE, lambda = NULL, level, 
                          weights = c("sd", "none", "nseries"),
