@@ -1,5 +1,5 @@
-v4.5 (x Feb 2015)
-* Fixed bug in accuracy.gts() when returning in-sample accuracy.
+v4.5 (x March 2015)
+* Fixed bugs in accuracy.gts().
 * Fixed bug in forecast.gts() detecting the right default forecasting horizon.
 * Fixed bug in gts() for a gts with one grouping variable.
 * Speeded up Smatrix().
