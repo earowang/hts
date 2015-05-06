@@ -57,7 +57,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object$bts) > 1L,
   }
 
   # Remember the original keep.fitted argument for later
-  keepfitted <- keep.fitted
+  keep.fitted0 <- keep.fitted
   if (method == "comb" && weights == "sd") {
     keep.fitted <- TRUE
   }
@@ -250,21 +250,21 @@ forecast.gts <- function(object, h = ifelse(frequency(object$bts) > 1L,
   attr(bfcasts, "msts") <- attr(object$bts, "msts")
 
   if (keep.fitted) {
-    bfits <- ts(fits, start = tsp.y[2L], frequency = tsp.y[3L])
+    bfits <- ts(fits, start = tsp.y[1L], frequency = tsp.y[3L])
     colnames(bfits) <- bnames
   } 
   if (keep.resid) {
-    bresid <- ts(resid, start = tsp.y[2L], frequency = tsp.y[3L])
+    bresid <- ts(resid, start = tsp.y[1L], frequency = tsp.y[3L])
     colnames(bresid) <- bnames
   }
 
   # Output
   out <- list(bts = bfcasts, histy = object$bts, labels = object$labels,
               method = method, fmethod = fmethod)
-  if (exists("bfits") & keepfitted) {
+  if (keep.fitted0) {
     out$fitted <- bfits
   }
-  if (exists("bresid") & keep.resid) {
+  if (keep.resid) {
     out$residuals <- bresid
   }
   if (is.hts(object)) {
