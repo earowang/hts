@@ -19,7 +19,7 @@ combinef(fcasts, nodes, groups, weights = NULL,
   \item{keep}{Return a \code{gts} object or the the reconciled forecasts at the bottom level.}
 }
 \value{Return the reconciled \code{gts} object or forecasts at the bottom level.}
-\details{}
+
 \references{
 R. J. Hyndman, R. A. Ahmed, G. Athanasopoulos and H.L. Shang (2011) 
 Optimal combination forecasts for hierarchical time series. 
