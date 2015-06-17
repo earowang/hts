@@ -1,4 +1,4 @@
-v4.5 (x March 2015)
+v4.5 (17 June 2015)
 * Fixed bugs in accuracy.gts().
 * Fixed bug in forecast.gts() detecting the right default forecasting horizon.
 * Fixed bug in gts() for a gts with one grouping variable.
@@ -8,6 +8,7 @@ v4.5 (x March 2015)
 * Speeded up combinef() for Alan's algorithm.
 * Added 3 new algorithms to the optimally reconciled approach.
 * Fixed bug in forecast.gts() when using external regressors with parallel.
+* Fixed time attributes of fitted and residual series.
 
 v4.4 (22 July 2014)
 * Allowed multiple seasonal objects "msts" in hts() and gts().
