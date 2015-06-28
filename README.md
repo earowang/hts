@@ -11,7 +11,7 @@ the forecast-proportion approach of Hyndman, Ahmed, and Athanasopoulos (2011).
 
 ## Installation
 You can install the **stable** version on 
-[R CRAN](http://cran.r-project.org/web/packages/hts/index.html).
+[R CRAN](http://cran.r-project.org/package=hts).
 
 ```s
 install.packages('hts', dependencies = TRUE)
