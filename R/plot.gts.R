@@ -65,8 +65,8 @@ plot.gts <- function(x, include, levels, labels = TRUE, ...) {
     if(!is.null(x$histy)) {
       ylim <- range(histx[, series], fcasts[, series], na.rm = TRUE)
       if (labels) {
-        strlabels <- max(strwidth(x$labels[levels], units = "inches"))
-        xlim <- range(time(histx)[1L] - strlabels - 1, time(fcasts), 
+        strlabels <- max(strwidth(x$labels[levels], units = "figure"))
+        xlim <- range(time(histx)[1L] - strlabels, time(fcasts), 
                       na.rm = TRUE)
       } else {
         xlim <- range(time(histx), time(fcasts), na.rm = TRUE)
@@ -74,9 +74,9 @@ plot.gts <- function(x, include, levels, labels = TRUE, ...) {
     } else {
       ylim <- range(histx[, series], na.rm = TRUE)
       if (labels) {
-        strlabels <- max(strwidth(x$labels[levels], units = "inches"))
+        strlabels <- max(strwidth(x$labels[levels], units = "figure"))
         timex <- time(histx)
-        xlim <- range(timex[1L] - strlabels - 1, timex, na.rm = TRUE)
+        xlim <- range(timex[1L] - strlabels, timex, na.rm = TRUE)
       } else {
         xlim <- range(time(histx), na.rm = TRUE)
       }
