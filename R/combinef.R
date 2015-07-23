@@ -17,6 +17,7 @@ combinef <- function(fcasts, nodes, groups, weights = NULL,
   keep <- match.arg(keep)
   fcasts <- as.ts(fcasts)
   tspx <- tsp(fcasts)
+  cnames <- colnames(fcasts)
   if (missing(groups)) { # hts class
     if (alg == "slm") {
       stop("The slm algorithm does not support an hts object.")
@@ -130,6 +131,7 @@ combinef <- function(fcasts, nodes, groups, weights = NULL,
       bottom <- totalts - (ncol(smat):1L) + 1L
       bf <- t(allf[bottom, ])
       if (keep == "gts") {
+        colnames(bf) <- cnames[bottom]
         bf <- ts(bf, start = tspx[1L], frequency = tspx[3L])
         out <- suppressMessages(gts(bf, groups = groups))
       } else {

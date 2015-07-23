@@ -20,13 +20,22 @@ gts <- function(y, groups, gnames = rownames(groups), characters) {
     stop("Argument y must be a multivariate time series.")
   }
   bnames <- colnames(y)
+  nc.y <- ncol(y)
   if (missing(characters)) {
     if (missing(groups)) {
-      groups <- matrix(c(rep(1L, ncol(y)), seq(1L, ncol(y))), nrow = 2L, 
+      groups <- matrix(c(rep(1L, nc.y), seq(1L, nc.y)), nrow = 2L, 
                      byrow = TRUE)
     } else if (!is.matrix(groups)) {
       stop("Argument groups must be a matrix.")
-    } 
+    } else if (!is.character(groups[1L, ])) { # Check groups numeric matrix
+      if (all(groups[1L, ] == 1L)) { # if the first row is all 1's
+        groups <- groups[-1L, , drop = FALSE]
+      }
+      tmp.last <- nrow(groups)
+      if (all(groups[tmp.last, ] == seq(1L, nc.y))) { # if the last row is a seq
+        groups <- groups[-tmp.last, , drop = FALSE]
+      }
+    }
     # Check whether groups is unique
     # But R takes so long to check due to the inefficiency with strings
     # bgroup <- unique(apply(groups, 2, paste, collapse = ""))

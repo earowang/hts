@@ -1,3 +1,6 @@
+v4.6
+* Fixed bug in gts().
+
 v4.5 (17 June 2015)
 * Fixed bugs in accuracy.gts().
 * Fixed bug in forecast.gts() detecting the right default forecasting horizon.
