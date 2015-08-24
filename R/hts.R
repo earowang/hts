@@ -53,11 +53,12 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
       last.label <- paste("Level", length(nodes))
       b.list <- list(bnames)
       names(b.list) <- last.label
-      if (length(hn) == 1L) {  # In case of a simple hierarchy of 2 levels
-        labels <- c(hn, b.list)
-      } else {
-        labels <- c(hn[-length(hn)], b.list)
-      }
+      labels <- c(hn[-length(hn)], b.list)
+      # if (length(hn) == 1L) {  # In case of a simple hierarchy of 2 levels
+      #   labels <- c(hn, b.list)
+      # } else {
+      #   labels <- c(hn[-length(hn)], b.list)
+      # }
     }
   } else { # Specified "characters" automates the node structure
     if (!all(nchar(bnames)[1L] == nchar(bnames)[-1L])) {
@@ -130,11 +131,9 @@ InvS4h <- function(xlist) {
 # A function to set the default hierarchical names
 HierName <- function(xlist) {
   l.xlist <- length(xlist)
-  if (l.xlist == 1L) {
-    names.list <- list("Level 0" = "Total")
-  } else {
-    names.list <- list(length = l.xlist)
-    names.list[[1L]] <- LETTERS[1L:xlist[[1L]]]
+  names.list <- list(length = l.xlist)
+  names.list[[1L]] <- LETTERS[1L:xlist[[1L]]]
+  if (l.xlist > 1L) {
     for (i in 2L:l.xlist) {
       # Grab the individual letters at each level
       ind <- unlist(sapply(xlist[[i]], function(x) LETTERS[1:x]))
@@ -142,8 +141,8 @@ HierName <- function(xlist) {
       names.list[[i]] <- paste0(rep(names.list[[i - 1]], xlist[[i]]), ind)
     }
     names(names.list) <- paste("Level", 1L:l.xlist)
-    names.list <- c("Level 0" = "Total", names.list)
   }
+  names.list <- c("Level 0" = "Total", names.list)
   return(names.list)
 }
 
