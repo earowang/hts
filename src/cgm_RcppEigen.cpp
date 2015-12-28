@@ -17,7 +17,7 @@ typedef Eigen::MappedSparseMatrix<double> MSpMat;
 
 // [[Rcpp::depends(RcppEigen)]]
 // [[Rcpp::export]]
-MatrixXd cgm_c(SEXP As, SEXP bs) {
+Eigen::MatrixXd cgm_c(SEXP As, SEXP bs) {
   const MSpMat A = as<MSpMat>(As);
   //const Map<MatrixXd> A(as<Map<MatrixXd> > (As));
   const Map<MatrixXd> b(as<Map<MatrixXd> > (bs));
