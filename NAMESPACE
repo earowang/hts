@@ -10,7 +10,8 @@ accuracy.gts,
 plot.gts,
 summary.gts,
 combinef,
-smatrix
+smatrix,
+MinT
 )
 
 S3method(print, gts)
@@ -23,6 +24,7 @@ import(forecast)
 import(SparseM)
 import(parallel)
 import(Matrix)
+import(matrixcalc)
 importFrom("stats", "window")
 importFrom("utils", "combn")
 
