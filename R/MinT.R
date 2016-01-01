@@ -49,7 +49,7 @@ shrink.estim <- function(x, tar)
 
 
 # MinT - Trace minimization approach
-MinT <- function (fcasts, nodes, groups, residual, covariance = c("sam", "shr"), algorithms = c("lu", "cg", "chol"), keep = c("gts", "all", "bottom")) 
+MinT <- function (fcasts, nodes, groups, residual, covariance = c("shr", "sam"), algorithms = c("lu", "cg", "chol"), keep = c("gts", "all", "bottom")) 
 {
   alg <- match.arg(algorithms)
   keep <- match.arg(keep)
@@ -103,7 +103,6 @@ MinT <- function (fcasts, nodes, groups, residual, covariance = c("sam", "shr"),
     else {
       smat <- SmatrixM(gmat)
         if (!is.null(w.1)) {
-          seqts <- 1:totalts
           weights <- as(w.1, "sparseMatrix")
         }
         if (alg == "lu") {
@@ -147,7 +146,6 @@ MinT <- function (fcasts, nodes, groups, residual, covariance = c("sam", "shr"),
     else {
       smat <- SmatrixM(gmat)
       if (!is.null(w.1)) {
-        seqts <- 1:totalts
         weights <- as(w.1, "sparseMatrix")
       }
       if (alg == "lu") {
