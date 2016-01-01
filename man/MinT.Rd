@@ -3,18 +3,18 @@
 \alias{MinT}
 \title{Trace minimization for hierarchical or grouped time series}
 \description{
-  Using the method of Wickramasuriya et al. (2015), this function combines the forecasts at all levels of a hierarchical or grouped time series.
+Using the method of Wickramasuriya et al. (2015), this function combines the forecasts at all levels of a hierarchical or grouped time series. The \code{\link{forecast.gts}} calls this function when the \code{MinT} method is selected. 
 }
 \usage{
-  MinT(fcasts, nodes, groups, residual, covariance = c("sam", "shr"),
+  MinT(fcasts, nodes, groups, residual, covariance = c("shr", "sam"),
        algorithms = c("lu", "cg", "chol"), keep = c("gts", "all", "bottom")) 
 }
 \arguments{
-  \item{fcasts}{Matrix of forecasts for all levels of the hierarchical time series. Each row represents one forecast horizon and each column represents one time series from the hierarchy}
+  \item{fcasts}{Matrix of forecasts for all levels of a hierarchical or grouped time series. Each row represents one forecast horizon and each column represents one time series of aggregated or disaggregated forecasts.}
   \item{nodes}{If the object class is hts, a list contains the number of child nodes referring to hts.}
   \item{groups}{If the object is gts, a gmatrix is required, which is the same as groups in the function gts.}
-  \item{residuals}{Matrix of insample residuals for all time series in the hierarchy. Each column referring to one time series.}
-  \item{Covariance}{Type of the covariance matrix to be used. Sample covariance matrix ("sam") or shrinking towards a diagonal unequal variances ("shr").}
+  \item{residuals}{Matrix of insample residuals for all the aggregated and disaggregated time series. The columns must be in the same order as \code{fcasts}.}
+  \item{covariance}{Type of the covariance matrix to be used. Shrinking towards a diagonal unequal variances ("shr") or sample covariance matrix ("sam").}
   \item{algorithms}{Algorithm used to compute inverse of the matrices.}
   \item{keep}{Return a gts object or the reconciled forecasts at the bottom level.}
 }
@@ -26,10 +26,10 @@
   \emph{Working paper 17/14, Department of Econometrics & Business Statistics, Monash University.}
   \url{http://robjhyndman.com/working-papers/mint/}
   
-  Hyndman, R. J., Lee, A., & Wang, E. (2014). 
-  Fast computation of reconciled forecasts for hierarchical and grouped time series. 
-  \emph{Working paper 15/15, Department of Econometrics & Business Statistics, Monash University.}
-  \url{http://robjhyndman.com/working-papers/hgts/}
+Hyndman, R. J., Lee, A., & Wang, E. (2015). 
+Fast computation of reconciled forecasts for hierarchical and grouped time series. 
+\emph{Computational Statistics and Data Analysis}, \bold{97}, 16--32.
+\url{http://robjhyndman.com/papers/hgts/}
 }
 
 \author{Shanika L Wickramasuriya}
