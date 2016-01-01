@@ -239,7 +239,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object$bts) > 1L,
   # In case that accuracy.gts() is called later, since NA's have been omitted
   # to ensure slm to run without errors.
   if (method == "comb" && fmethod == "rw" 
-      && keep.fitted == TRUE && !is.hts(object)) {
+      && keep.fitted == TRUE && (alg == "slm" || alg == "chol")) {
     fits <- rbind(rep(NA, ncol(fits)), fits)
   }
 
