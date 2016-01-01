@@ -1,12 +1,13 @@
 forecast.gts <- function(object, h = ifelse(frequency(object$bts) > 1L,
                          2L * frequency(object$bts), 10L), 
                          method = c("comb", "bu", "mo", 
-                                    "tdgsa", "tdgsf", "tdfp"),
+                                    "tdgsa", "tdgsf", "tdfp", "MinT"),
                          fmethod = c("ets", "arima", "rw"), 
                          algorithms = c("lu", "cg", "chol", "recursive", "slm"),
                          keep.fitted = FALSE, keep.resid = FALSE,
                          positive = FALSE, lambda = NULL, level, 
                          weights = c("sd", "none", "nseries"),
+                         covariance = c("shr", "sam"),
                          parallel = FALSE, num.cores = 2, FUN = NULL,
                          xreg = NULL, newxreg = NULL, ...) {
   # Forecast hts or gts objects
@@ -24,6 +25,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object$bts) > 1L,
   #   Point forecasts with other info chosen by the user.
   method <- match.arg(method)
   weights <- match.arg(weights)
+  covariance <- match.arg(covariance)
   alg <- match.arg(algorithms)
   if (is.null(FUN)) {
     fmethod <- match.arg(fmethod)
@@ -58,7 +60,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object$bts) > 1L,
 
   # Remember the original keep.fitted argument for later
   keep.fitted0 <- keep.fitted
-  if (method == "comb" && weights == "sd") {
+  if ((method == "comb" && weights == "sd") || method == "MinT") {
     keep.fitted <- TRUE
   }
 
@@ -78,7 +80,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object$bts) > 1L,
   }
 
   # Set up forecast methods
-  if (any(method == c("comb", "tdfp"))) { # Combination or tdfp
+  if (any(method == c("comb", "tdfp", "MinT"))) { # Combination or tdfp
     y <- aggts(object)  # Grab all ts
   } else if (method == "bu") {  # Bottom-up approach
     y <- object$bts  # Only grab the bts
@@ -167,6 +169,17 @@ forecast.gts <- function(object, h = ifelse(frequency(object$bts) > 1L,
       wvec <- 1/sqrt(colMeans(tmp.resid^2, na.rm = TRUE))
     }
   }
+  
+  if (method == "MinT") {  # Assign class for MinT
+    class(pfcasts) <- class(object)
+    if (keep.fitted) {
+      class(fits) <- class(object)
+    }
+    if (keep.resid) {
+      class(resid) <- class(object)
+    }
+    tmp.resid <- na.omit(y - fits) 
+  }
 
   # An internal function to call combinef correctly
   Comb <- function(x, ...) {
@@ -174,6 +187,15 @@ forecast.gts <- function(object, h = ifelse(frequency(object$bts) > 1L,
       return(combinef(x, nodes = object$nodes, ... ))
     } else {
       return(combinef(x, groups = object$groups, ...))
+    }
+  }
+  
+  # An internal function to call MinT correctly
+  mint <- function(x, ...) {
+    if (is.hts(x)) {
+      return(MinT(x, nodes = object$nodes, ... ))
+    } else {
+      return(MinT(x, groups = object$groups, ...))
     }
   }
 
@@ -199,6 +221,17 @@ forecast.gts <- function(object, h = ifelse(frequency(object$bts) > 1L,
         resid <- Comb(resid, weights = wvec, keep = "bottom",
                       algorithms = alg)
       } 
+    }
+  } else if (method == "MinT") {
+    bfcasts <- mint(pfcasts, residual = tmp.resid, 
+                    covariance = covariance, keep = "bottom", algorithms = alg)
+    if (keep.fitted) {
+      fits <- mint(fits, residual = tmp.resid, 
+                   covariance = covariance, keep = "bottom", algorithms = alg)
+    }
+    if (keep.resid) {
+      resid <- mint(resid, residual = tmp.resid, 
+                    covariance = covariance, keep = "bottom", algorithms = alg)
     }
   } else if (method == "bu") {
     bfcasts <- pfcasts
@@ -237,8 +270,8 @@ forecast.gts <- function(object, h = ifelse(frequency(object$bts) > 1L,
   }
 
   # In case that accuracy.gts() is called later, since NA's have been omitted
-  # to ensure slm to run without errors.
-  if (method == "comb" && fmethod == "rw" 
+  # to ensure slm/chol to run without errors.
+  if ((method == "comb" || method == "MinT") && fmethod == "rw" 
       && keep.fitted == TRUE && (alg == "slm" || alg == "chol")) {
     fits <- rbind(rep(NA, ncol(fits)), fits)
   }
