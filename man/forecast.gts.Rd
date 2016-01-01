@@ -10,12 +10,13 @@ Methods for forecasting hierarchical or grouped time series.
 \S3method{forecast}{gts}(object, h = ifelse(frequency(object$bts) > 1L,
                          2L * frequency(object$bts), 10L), 
                          method = c("comb", "bu", "mo", 
-                                    "tdgsa", "tdgsf", "tdfp"),
+                                    "tdgsa", "tdgsf", "tdfp", "MinT"),
                          fmethod = c("ets", "arima", "rw"), 
                          algorithms = c("lu", "cg", "chol", "recursive", "slm"),
                          keep.fitted = FALSE, keep.resid = FALSE,
                          positive = FALSE, lambda = NULL, level, 
                          weights = c("sd", "none", "nseries"),
+                         covariance = c("shr", "sam"),
                          parallel = FALSE, num.cores = 2, FUN = NULL,
                          xreg = NULL, newxreg = NULL, ...) 
 }
@@ -32,6 +33,7 @@ Methods for forecasting hierarchical or grouped time series.
   \item{weights}{Weights used for "optimal combination" method. When \code{weights = "sd"},
   it takes account of the standard deviation of forecasts;
   when \code{weights} = "nseries", weights are equal to the inverse of row sums of the summing matrix.}
+  \item{covariance}{Type of the covariance matrix to be used. Shrinking towards a diagonal unequal variances ("shr") or sample covariance matrix   ("sam").}
   \item{level}{Level used for "middle-out" method (only used when \code{method="mo"})}
   \item{parallel}{If TRUE, import \code{parallel} package to allow parallel processing}
   \item{num.cores}{If parallel = TRUE, specify how many cores are going to be used}
@@ -69,10 +71,15 @@ Optimal combination forecasts for hierarchical time series.
 \emph{Computational Statistics and Data Analysis}, \bold{55}(9), 2579--2589.
 \url{http://robjhyndman.com/papers/hierarchical/}
 
-Hyndman, R. J., Lee, A., & Wang, E. (2014). 
+Hyndman, R. J., Lee, A., & Wang, E. (2015). 
 Fast computation of reconciled forecasts for hierarchical and grouped time series. 
-\emph{Working paper 17/14, Department of Econometrics & Business Statistics, Monash University.}
-\url{http://robjhyndman.com/working-papers/hgts/}
+\emph{Computational Statistics and Data Analysis}, \bold{97}, 16--32.
+\url{http://robjhyndman.com/papers/hgts/}
+
+Wickramasuriya, S. L., Athanasopoulos, G., & Hyndman, R. J. (2015). 
+  Forecasting hierarchical and grouped time series through trace minimization. 
+  \emph{Working paper 17/14, Department of Econometrics & Business Statistics, Monash University.}
+  \url{http://robjhyndman.com/working-papers/mint/}
 
 Gross, C. and Sohl, J. (1990) Dissagregation methods to expedite product line forecasting,
 \emph{Journal of Forecasting}, \bold{9}, 233-254.

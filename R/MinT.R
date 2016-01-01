@@ -43,7 +43,7 @@ shrink.estim <- function(x, tar)
 # nodes: If the object class is hts, a list contains the number of child nodes referring to hts.
 # groups: If the object is gts, a gmatrix is required, which is the same as groups in the function gts.
 # residuals: Matrix of insample residuals for all time series in the hierarchy. Each column referring to one time series.
-# Covariance: Type of the covariance matrix to be used. Sample covariance matrix ("sam") or shrinking towards a diagonal unequal variances ("shr").
+# covariance: Type of the covariance matrix to be used. Sample covariance matrix ("sam") or shrinking towards a diagonal unequal variances ("shr").
 # algorithms: Algorithm used to compute inverse of the matrices.
 # keep: Return a gts object or the reconciled forecasts at the bottom level.
 
