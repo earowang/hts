@@ -23,7 +23,7 @@ Using the method of Wickramasuriya et al. (2015), this function combines the for
 \references{
   Wickramasuriya, S. L., Athanasopoulos, G., & Hyndman, R. J. (2015). 
   Forecasting hierarchical and grouped time series through trace minimization. 
-  \emph{Working paper 17/14, Department of Econometrics & Business Statistics, Monash University.}
+  \emph{Working paper 15/15, Department of Econometrics & Business Statistics, Monash University.}
   \url{http://robjhyndman.com/working-papers/mint/}
   
 Hyndman, R. J., Lee, A., & Wang, E. (2015). 
@@ -35,7 +35,7 @@ Fast computation of reconciled forecasts for hierarchical and grouped time serie
 \author{Shanika L Wickramasuriya}
 
 \seealso{
-  \code{\link[hts]{hts}}, \code{\link[hts]{gts}}, \code{\link[hts]{combinef}}
+  \code{\link[hts]{hts}}, \code{\link[hts]{gts}}, \code{\link[hts]{forecast.gts}}, \code{\link[hts]{combinef}}
 }
 \keyword{ts}
 
