@@ -9,12 +9,13 @@ Methods for forecasting hierarchical or grouped time series.
 \usage{
 \S3method{forecast}{gts}(object, h = ifelse(frequency(object$bts) > 1L,
                          2L * frequency(object$bts), 10L), 
-                         method = c("comb", "bu", "mo", 
+                         method = c("MinT", "comb", "bu", "mo", 
                                     "tdgsa", "tdgsf", "tdfp"),
                          fmethod = c("ets", "arima", "rw"), 
                          algorithms = c("lu", "cg", "chol", "recursive", "slm"),
                          keep.fitted = FALSE, keep.resid = FALSE,
-                         positive = FALSE, lambda = NULL, level, 
+                         positive = FALSE, lambda = NULL, level,
+                         covariance = c("shr", "sam"),
                          weights = c("sd", "none", "nseries"),
                          parallel = FALSE, num.cores = 2, FUN = NULL,
                          xreg = NULL, newxreg = NULL, ...) 
@@ -24,15 +25,16 @@ Methods for forecasting hierarchical or grouped time series.
   \item{h}{Forecast horizon}
   \item{method}{Method for distributing forecasts within the hierarchy. See details}
   \item{fmethod}{Forecasting method to use}
-  \item{algorithms}{An algorithm to be used for computing optimally reconciled forecasts.}
+  \item{algorithms}{An algorithm to be used for computing optimally reconciled forecasts. \code{method = "MinT"} does not support \code{algorithms = "recursive"} or \code{algorithms = "slm"}}
   \item{keep.fitted}{If TRUE, keep fitted values at the bottom level.}
   \item{keep.resid}{If TRUE, keep residuals at the bottom level.}
   \item{positive}{If TRUE, forecasts are forced to be strictly positive}
   \item{lambda}{Box-Cox transformation parameter}
+  \item{covariance}{Type of the covariance matrix to be used with \code{method = "MinT"}. Shrinking towards a diagonal unequal variances ("shr") or sample covariance matrix ("sam").}
   \item{weights}{Weights used for "optimal combination" method. When \code{weights = "sd"},
   it takes account of the standard deviation of forecasts;
-  when \code{weights} = "nseries", weights are equal to the inverse of row sums of the summing matrix.}
-  \item{level}{Level used for "middle-out" method (only used when \code{method="mo"})}
+  when \code{weights = "nseries"}, weights are equal to the inverse of row sums of the summing matrix.}
+  \item{level}{Level used for "middle-out" method (only used when \code{method = "mo"})}
   \item{parallel}{If TRUE, import \code{parallel} package to allow parallel processing}
   \item{num.cores}{If parallel = TRUE, specify how many cores are going to be used}
   \item{FUN}{A user-defined function that returns an object which can be passed to the 
@@ -69,16 +71,21 @@ Optimal combination forecasts for hierarchical time series.
 \emph{Computational Statistics and Data Analysis}, \bold{55}(9), 2579--2589.
 \url{http://robjhyndman.com/papers/hierarchical/}
 
-Hyndman, R. J., Lee, A., & Wang, E. (2014). 
+Hyndman, R. J., Lee, A., & Wang, E. (2015). 
 Fast computation of reconciled forecasts for hierarchical and grouped time series. 
-\emph{Working paper 17/14, Department of Econometrics & Business Statistics, Monash University.}
-\url{http://robjhyndman.com/working-papers/hgts/}
+\emph{Computational Statistics and Data Analysis}, \bold{97}, 16--32.
+\url{http://robjhyndman.com/papers/hgts/}
+
+Wickramasuriya, S. L., Athanasopoulos, G., & Hyndman, R. J. (2015). 
+  Forecasting hierarchical and grouped time series through trace minimization. 
+  \emph{Working paper 15/15, Department of Econometrics & Business Statistics, Monash University.}
+  \url{http://robjhyndman.com/working-papers/mint/}
 
 Gross, C. and Sohl, J. (1990) Dissagregation methods to expedite product line forecasting,
 \emph{Journal of Forecasting}, \bold{9}, 233-254.
 }
 
-\author{Earo Wang and Rob J Hyndman}
+\author{Earo Wang, Rob J Hyndman and Shanika L Wickramasuriya}
 
 \seealso{
  \code{\link[hts]{hts}}, \code{\link[hts]{gts}}, \code{\link[hts]{plot.gts}}, \code{\link[hts]{accuracy.gts}}
