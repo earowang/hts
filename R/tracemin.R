@@ -5,6 +5,17 @@
 #        minimization
 # All these functions return a reverse reconciled matrix with all ts.
 
+#LU decomposition is fast but sometimes instable. Use QR decomposition of LU decomposition fails
+solveLUQR <- function(lhs.l, rhs.l) {
+  tryCatch(solve(lhs.l, rhs.l), error=function(cond){
+        
+        #browser()
+        warning("An error in LU decomposition occurred, the message was the following:\n", 
+            cond$message, "\n Trying QR decomposition instead...")
+        solve(qr(lhs.l), rhs.l)
+      })  
+} 
+
 # LU factorization (Matrix pkg)
 LU <- function(fcasts, S, weights) {
   nts <- nrow(S)
@@ -19,12 +30,12 @@ LU <- function(fcasts, S, weights) {
   if (is.null(weights)) {
     lhs.l <- utmat %*% t(utmat)
     lhs.l <- (t(lhs.l) + lhs.l)/2
-    lin.sol <- solve(lhs.l, rhs.l)
+    lin.sol <- solveLUQR(lhs.l, rhs.l)
     p1 <- jmat %*% fcasts - (jmat %*% t(utmat) %*% lin.sol)
   } else {
     lhs.l <- utmat %*% weights %*% t(utmat)
     lhs.l <- (t(lhs.l) + lhs.l)/2
-    lin.sol <- solve(lhs.l, rhs.l)
+    lin.sol <- solveLUQR(lhs.l, rhs.l)
     p1 <- jmat %*% fcasts - (jmat %*% weights %*% t(utmat) %*% lin.sol)
   }
   comb <- as.matrix(S %*% p1)
