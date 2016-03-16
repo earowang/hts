@@ -13,7 +13,7 @@ Using the method of Wickramasuriya et al. (2015), this function combines the for
   \item{fcasts}{Matrix of forecasts for all levels of a hierarchical or grouped time series. Each row represents one forecast horizon and each column represents one time series of aggregated or disaggregated forecasts.}
   \item{nodes}{If the object class is hts, a list contains the number of child nodes referring to hts.}
   \item{groups}{If the object is gts, a gmatrix is required, which is the same as groups in the function gts.}
-  \item{residuals}{Matrix of insample residuals for all the aggregated and disaggregated time series. The columns must be in the same order as \code{fcasts}.}
+  \item{residual}{Matrix of insample residuals for all the aggregated and disaggregated time series. The columns must be in the same order as \code{fcasts}.}
   \item{covariance}{Type of the covariance matrix to be used. Shrinking towards a diagonal unequal variances ("shr") or sample covariance matrix ("sam").}
   \item{algorithms}{Algorithm used to compute inverse of the matrices.}
   \item{keep}{Return a gts object or the reconciled forecasts at the bottom level.}
