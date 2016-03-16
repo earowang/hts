@@ -3,24 +3,19 @@
 
 #include <RcppEigen.h>
 #include <Rcpp.h>
-#include <Eigen/IterativeLinearSolvers>
 
 using namespace Eigen;
 using namespace Rcpp;
 
 // cgm_c
-MatrixXd cgm_c(SEXP As, SEXP bs);
+Eigen::MatrixXd cgm_c(SEXP As, SEXP bs);
 RcppExport SEXP hts_cgm_c(SEXP AsSEXP, SEXP bsSEXP) {
 BEGIN_RCPP
-    SEXP __sexp_result;
-    {
-        Rcpp::RNGScope __rngScope;
-        Rcpp::traits::input_parameter< SEXP >::type As(AsSEXP );
-        Rcpp::traits::input_parameter< SEXP >::type bs(bsSEXP );
-        MatrixXd __result = cgm_c(As, bs);
-        PROTECT(__sexp_result = Rcpp::wrap(__result));
-    }
-    UNPROTECT(1);
-    return __sexp_result;
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< SEXP >::type As(AsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type bs(bsSEXP);
+    __result = Rcpp::wrap(cgm_c(As, bs));
+    return __result;
 END_RCPP
 }

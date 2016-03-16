@@ -1,20 +1,20 @@
 # 3 algorithms for forecasting reconciliation through trace minimization
 # Only used for BLUF
 # Author: Shanika Wickramasuriya
-# Paper: Forecasting hierarchical and grouped time series through trace 
+# Paper: Forecasting hierarchical and grouped time series through trace
 #        minimization
 # All these functions return a reverse reconciled matrix with all ts.
 
-#LU decomposition is fast but sometimes instable. Use QR decomposition of LU decomposition fails
+#LU decomposition is fast but sometimes instable. Use QR decomposition if LU decomposition fails
 solveLUQR <- function(lhs.l, rhs.l) {
   tryCatch(solve(lhs.l, rhs.l), error=function(cond){
-        
+
         #browser()
-        warning("An error in LU decomposition occurred, the message was the following:\n", 
+        warning("An error in LU decomposition occurred, the message was the following:\n",
             cond$message, "\n Trying QR decomposition instead...")
         solve(qr(lhs.l), rhs.l)
-      })  
-} 
+      })
+}
 
 # LU factorization (Matrix pkg)
 LU <- function(fcasts, S, weights) {
