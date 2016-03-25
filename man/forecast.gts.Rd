@@ -8,17 +8,16 @@ Methods for forecasting hierarchical or grouped time series.
 }
 \usage{
 \S3method{forecast}{gts}(object, h = ifelse(frequency(object$bts) > 1L,
-                         2L * frequency(object$bts), 10L), 
-                         method = c("MinT", "comb", "bu", "mo", 
-                                    "tdgsa", "tdgsf", "tdfp"),
-                         fmethod = c("ets", "arima", "rw"), 
+                         2L * frequency(object$bts), 10L),
+                         method = c("comb", "bu", "mo","tdgsa", "tdgsf", "tdfp"),
+                         weights = c("wls", "ols", "mint", "nseries"),
+                         fmethod = c("ets", "arima", "rw"),
                          algorithms = c("lu", "cg", "chol", "recursive", "slm"),
+                         covariance = c("shr", "sam"),
                          keep.fitted = FALSE, keep.resid = FALSE,
                          positive = FALSE, lambda = NULL, level,
-                         covariance = c("shr", "sam"),
-                         weights = c("sd", "none", "nseries"),
                          parallel = FALSE, num.cores = 2, FUN = NULL,
-                         xreg = NULL, newxreg = NULL, ...) 
+                         xreg = NULL, newxreg = NULL, ...)
 }
 \arguments{
   \item{object}{Hierarchical or grouped time series object of class \code{{gts}}}
@@ -37,26 +36,26 @@ Methods for forecasting hierarchical or grouped time series.
   \item{level}{Level used for "middle-out" method (only used when \code{method = "mo"})}
   \item{parallel}{If TRUE, import \code{parallel} package to allow parallel processing}
   \item{num.cores}{If parallel = TRUE, specify how many cores are going to be used}
-  \item{FUN}{A user-defined function that returns an object which can be passed to the 
-  \code{forecast} function. It is applied to all series in order to generate base forecasts. 
+  \item{FUN}{A user-defined function that returns an object which can be passed to the
+  \code{forecast} function. It is applied to all series in order to generate base forecasts.
   When \code{FUN} is not \code{NULL}, \code{fmethod}, \code{positive} and \code{lambda} are
-  all ignored. Suitable values for \code{FUN} are \code{\link[forecast]{tbats}} and 
+  all ignored. Suitable values for \code{FUN} are \code{\link[forecast]{tbats}} and
   \code{\link[forecast]{stlf}}.}
   \item{xreg}{When \code{fmethod = "arima"}, a vector or matrix of external regressors used for modelling, which must have the same number of rows as the original univariate time series}
   \item{newxreg}{When \code{fmethod = "arima"}, a vector or matrix of external regressors used for forecasting, which must have the same number of rows as the \code{h} forecast horizon}
-  \item{...}{Other arguments passed to \code{\link[forecast]{ets}}, 
+  \item{...}{Other arguments passed to \code{\link[forecast]{ets}},
   \code{\link[forecast]{auto.arima}} or \code{FUN}.}
 }
 \value{A forecasted hierarchical/grouped time series of class \code{gts}.}
 \details{
-Base methods implemented include ETS, ARIMA and the naive (random walk) models. 
+Base methods implemented include ETS, ARIMA and the naive (random walk) models.
 Forecasts are distributed in the hierarchy using bottom-up, top-down, middle-out and
-optimal combination methods. 
+optimal combination methods.
 
 Three top-down methods are available: the two Gross-Sohl
 methods and the forecast-proportion approach of Hyndman, Ahmed, and Athanasopoulos (2011).
-The "middle-out" method \code{"mo"} uses bottom-up (\code{"bu"}) for levels higher than 
-\code{level} and top-down forecast proportions (\code{"tdfp"}) for levels lower than \code{level}. 
+The "middle-out" method \code{"mo"} uses bottom-up (\code{"bu"}) for levels higher than
+\code{level} and top-down forecast proportions (\code{"tdfp"}) for levels lower than \code{level}.
 
 For non-hierarchical grouped data, only bottom-up and combination methods are possible, as any method involving top-down disaggregation requires a hierarchical ordering of groups.
 
@@ -71,13 +70,13 @@ Optimal combination forecasts for hierarchical time series.
 \emph{Computational Statistics and Data Analysis}, \bold{55}(9), 2579--2589.
 \url{http://robjhyndman.com/papers/hierarchical/}
 
-Hyndman, R. J., Lee, A., & Wang, E. (2015). 
-Fast computation of reconciled forecasts for hierarchical and grouped time series. 
+Hyndman, R. J., Lee, A., & Wang, E. (2015).
+Fast computation of reconciled forecasts for hierarchical and grouped time series.
 \emph{Computational Statistics and Data Analysis}, \bold{97}, 16--32.
 \url{http://robjhyndman.com/papers/hgts/}
 
-Wickramasuriya, S. L., Athanasopoulos, G., & Hyndman, R. J. (2015). 
-  Forecasting hierarchical and grouped time series through trace minimization. 
+Wickramasuriya, S. L., Athanasopoulos, G., & Hyndman, R. J. (2015).
+  Forecasting hierarchical and grouped time series through trace minimization.
   \emph{Working paper 15/15, Department of Econometrics & Business Statistics, Monash University.}
   \url{http://robjhyndman.com/working-papers/mint/}
 

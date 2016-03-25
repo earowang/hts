@@ -9,7 +9,7 @@ LinkingTo: Rcpp (>= 0.11.0), RcppEigen
 LazyLoad: yes
 LazyData: yes
 ByteCompile: TRUE
-Author: Rob J Hyndman, Earo Wang and Alan Lee with contributions from Shanika Wickramasuriya
+Author: Rob J Hyndman, Earo Wang, Alan Lee, Shanika Wickramasuriya
 Maintainer: Rob J Hyndman <Rob.Hyndman@monash.edu>
 BugReports: https://github.com/robjhyndman/hts/issues
 Description: Methods for analysing and forecasting hierarchical and grouped time series.

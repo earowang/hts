@@ -1,5 +1,7 @@
-v4.6
-* Fixed bug in gts().
+v4.6 (March 2016)
+* Added mint option in forecast.gts
+* Added QR decomposition if LU decomposition fails
+* Bug fixes
 
 v4.5 (17 June 2015)
 * Fixed bugs in accuracy.gts().
@@ -37,25 +39,25 @@ v4.1 (3 Mar 2014)
 
 v4.0 (10 Feb 2014)
 * Speeded up all existing functions.
-* Restructured hts function. Argument g is replaced with nodes. Added bnames and 
+* Restructured hts function. Argument g is replaced with nodes. Added bnames and
 	characters to allow custom names.
 * Added argument gnames to gts function.
 * Argument groups in gts function allows the gmatrix with characters.
 * Added function aggts in which users can specify whatever levels they like.
 * Renamed Smatrix to smatrix.
 * Added summary.gts function.
-* Added more arguments to forecast.gts such as keep.fitted, keep.resid, lambda, 
+* Added more arguments to forecast.gts such as keep.fitted, keep.resid, lambda,
 	weights.
-* When setting method = "mo" in forecasts.gts, argument level started with 0 
+* When setting method = "mo" in forecasts.gts, argument level started with 0
 	rather than 1.
 * Import parallel package in order to support for parallel processing.
-* Added more criterions to accuracy.gts function. When keep.fitted = TRUE in 
-	forecast.gts function, accuracy.gts can also return in-sample error measures 
+* Added more criterions to accuracy.gts function. When keep.fitted = TRUE in
+	forecast.gts function, accuracy.gts can also return in-sample error measures
 	at the bottom level.
 * Dropped argument criterions in accuracy.gts function.
-* Added argument weights to combinef function. When it's a hts object, argument 
+* Added argument weights to combinef function. When it's a hts object, argument
 	nodes is used instead of the summing matrix.
-* combinef function returns either a gts object or time series at the bottom 
+* combinef function returns either a gts object or time series at the bottom
   level. Dropped arguments return and hierarchical.
 * Argument levels in plot.gts function allows more flexibilities.
 
@@ -64,10 +66,10 @@ v3.01 (7 May 2013)
 * Added the vignette
 
 v3.00 (7 March 2013)
-* Restructured gts objects and dropped hts objects. A flag indicates if gts is 
+* Restructured gts objects and dropped hts objects. A flag indicates if gts is
 	hierarchical.
 * gts objects can now contain forecasts as well as historical data.
-* Updated plot.gts function with an option to show historical data as well as 
+* Updated plot.gts function with an option to show historical data as well as
 	forecasts
 * Added the window.gts function
 * Moved SparseM from Depends to Imports
@@ -80,7 +82,7 @@ v2.01 (3 November 2011)
 
 v2.0 (2 September 2011)
 
-* Added grouped time series (gts) objects, and re-wrote many functions in order 
+* Added grouped time series (gts) objects, and re-wrote many functions in order
 	to handle them.
 * hts objects are now a subset of gts objects.
 * Some old hts methods have been replaced by gts methods.
