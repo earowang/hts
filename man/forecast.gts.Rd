@@ -23,24 +23,25 @@ Methods for forecasting hierarchical or grouped time series.
   \item{object}{Hierarchical or grouped time series object of class \code{{gts}}}
   \item{h}{Forecast horizon}
   \item{method}{Method for distributing forecasts within the hierarchy. See details}
-  \item{fmethod}{Forecasting method to use}
-  \item{algorithms}{An algorithm to be used for computing optimally reconciled forecasts. \code{method = "MinT"} does not support \code{algorithms = "recursive"} or \code{algorithms = "slm"}}
+  \item{weights}{Weights used for "optimal combination" method:
+    \code{weights="ols"} uses an unweighted combination (as described in Hyndman et al 2011);
+    \code{weights="wls"} uses weights based on forecast variances (as described in Hyndman et al 2015);
+    \code{weights="mint"} uses a full covariance estimate to determine the weights (as described in Hyndman et al 2016);
+    \code{weights="nseries"} uses weights based on the number of series aggregated at each node.}
+  \item{fmethod}{Forecasting method to use for each series.}
+  \item{algorithms}{An algorithm to be used for computing the combination forecasts (when \code{method=="comb"}). The combination forecasts are based on an ill-conditioned regression model. "lu" indicates LU decomposition is used; "cg" indicates a conjugate gradient method; "chol" corresponds to a Cholesky decomposition; "recursive" indicates the recursive hierarchical algorithm of Hyndman et al (2015); "slm" uses sparse linear regression. Note that \code{algorithms = "recursive"} and \code{algorithms = "slm"} cannot be used if \code{weights="mint"}.}
+  \item{covariance}{Type of the covariance matrix to be used with \code{weights="mint"}: either a shrinkage estimator (\code{"shr"}) with shrinkage towards the diagonal; or a sample covariance matrix (\code{"sam"}).}
   \item{keep.fitted}{If TRUE, keep fitted values at the bottom level.}
   \item{keep.resid}{If TRUE, keep residuals at the bottom level.}
-  \item{positive}{If TRUE, forecasts are forced to be strictly positive}
-  \item{lambda}{Box-Cox transformation parameter}
-  \item{covariance}{Type of the covariance matrix to be used with \code{method = "MinT"}. Shrinking towards a diagonal unequal variances ("shr") or sample covariance matrix ("sam").}
-  \item{weights}{Weights used for "optimal combination" method. When \code{weights = "sd"},
-  it takes account of the standard deviation of forecasts;
-  when \code{weights = "nseries"}, weights are equal to the inverse of row sums of the summing matrix.}
-  \item{level}{Level used for "middle-out" method (only used when \code{method = "mo"})}
-  \item{parallel}{If TRUE, import \code{parallel} package to allow parallel processing}
-  \item{num.cores}{If parallel = TRUE, specify how many cores are going to be used}
+  \item{positive}{If TRUE, forecasts are forced to be strictly positive (by setting \code{lambda=0}).}
+  \item{lambda}{Box-Cox transformation parameter.}
+  \item{level}{Level used for "middle-out" method (only used when \code{method = "mo"}).}
+  \item{parallel}{If TRUE, import \code{parallel} package to allow parallel processing.}
+  \item{num.cores}{If parallel = TRUE, specify how many cores are going to be used.}
   \item{FUN}{A user-defined function that returns an object which can be passed to the
   \code{forecast} function. It is applied to all series in order to generate base forecasts.
-  When \code{FUN} is not \code{NULL}, \code{fmethod}, \code{positive} and \code{lambda} are
-  all ignored. Suitable values for \code{FUN} are \code{\link[forecast]{tbats}} and
-  \code{\link[forecast]{stlf}}.}
+  When \code{FUN} is not \code{NULL}, \code{fmethod}, \code{positive} and \code{lambda} are all ignored. Suitable values for \code{FUN} are \code{\link[forecast]{tbats}} and
+  \code{\link[forecast]{stlf}} for example.}
   \item{xreg}{When \code{fmethod = "arima"}, a vector or matrix of external regressors used for modelling, which must have the same number of rows as the original univariate time series}
   \item{newxreg}{When \code{fmethod = "arima"}, a vector or matrix of external regressors used for forecasting, which must have the same number of rows as the \code{h} forecast horizon}
   \item{...}{Other arguments passed to \code{\link[forecast]{ets}},
