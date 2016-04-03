@@ -17,14 +17,15 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
   if (!is.ts(y)) {
     y <- as.ts(y)
   }
+  nbts <- ncol(y)
 
-  if (ncol(y) <= 1L) {
+  if (nbts <= 1L) {
     stop("Argument y must be a multivariate time series.")
   }
   if (missing(characters)) { # Arg "characters" not specified
     message("Since argument characters are not specified, the default labelling system is used.")
     if (missing(nodes)) {
-      nodes <- list(ncol(y))
+      nodes <- list(nbts)
     } 
     if (!is.list(nodes)) {
       stop("Argument nodes must be a list.")
@@ -32,7 +33,7 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
     if (length(nodes[[1L]]) != 1L) {
       stop("The root node cannot be empty.")
     }
-    if (sum(nodes[[length(nodes)]]) != ncol(y)) {
+    if (sum(nodes[[length(nodes)]]) != nbts) {
       stop("The number of terminal nodes is not consistent with the number of bottom time series.")
     }
     if (length(nodes) > 1L) {
@@ -70,6 +71,7 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
     c.nodes <- CreateNodes(bnames, characters)
     nodes <- c.nodes$nodes
     labels <- c.nodes$labels
+    y <- y[, c.nodes$index]
   }
 
   # Obtain other information
@@ -148,30 +150,29 @@ HierName <- function(xlist) {
 
 
 # A function to create nodes based on segmentation of bottom names
+# it also generate index for bottom time series
 CreateNodes <- function(bnames, characters) {
-  # Construct labels based on characters
   characters <- as.integer(characters)
   end <- cumsum(characters)
   start <- end - characters + 1L
-  token <- sapply(bnames, function(x) substring(x, start, end))
-  nr.token <- nrow(token)
-  labels.mat <- matrix(, nrow = nr.token, ncol = ncol(token))
-  nodes <- vector(length = nr.token, mode = "list")
-  labels.mat[1L, ] <- token[1L, ]
-  nodes[[1L]] <- length(unique(labels.mat[1L, ]))
-  for (i in 2L:nr.token) {
-    labels.mat[i, ] <- paste0(labels.mat[i - 1, ], token[i, ])
-    # Create nodes for each level
-    strings <- unique(labels.mat[i, ])
-    prefix <- substr(strings, start = 1L, stop = end[i - 1L])
-    nodes[[i]] <- tapply(strings, factor(prefix, unique(prefix)), length)
-  }
-  rownames(labels.mat) <- paste("Level", 1L:nrow(labels.mat))
-  labels <- c("Level 0" = "Total", apply(labels.mat, 1, unique))
-  out <- list(nodes = nodes, labels = labels)
+  token <- sapply(end, function(x) substring(bnames, 1L, x))
+  nc.token <- ncol(token)
+  unique.str <- apply(token, 2, unique)
+  nodes <- lapply(2L:nc.token, function(x) {
+                    prefix <- substr(unique.str[[x]], start = 1L,
+                                     stop = end[x - 1L])
+                    return(table(prefix, dnn = NULL))
+                      })
+  nodes <- c(length(unique.str[[1L]]), nodes)
+  # Construct labels based on characters
+  names(unique.str) <- paste("Level", 1L:nc.token)
+  extract.levels <- lapply(unique.str, function(x) levels(factor(x)))
+  labels <- c("Level 0" = "Total", extract.levels)
+  # Generate index for bottom time series
+  idx <- match(extract.levels[[nc.token]], token[, nc.token])
+  out <- list(nodes = nodes, labels = labels, index = idx)
   return(out)
 }
-
 
 # A function to check whether it's the "hts" class.
 is.hts <- function(xts) {
