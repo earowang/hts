@@ -80,7 +80,7 @@ CHOL <- function(fcasts, S, weights) {
   if (is.null(weights)) {
     lhs.l <- utmat %*% t(utmat)
     lhs.l <- (t(lhs.l) + lhs.l)/2
-    lin.sol <- SparseM::backsolve(chol(lhs.l), rhs.l)
+    lin.sol <- backsolve(chol(lhs.l), rhs.l)
     p1 <- jmat %*% fcasts - (jmat %*% t(utmat) %*% lin.sol)
   } else {
     lhs.l <- utmat %*% weights %*% t(utmat)
