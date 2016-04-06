@@ -1,6 +1,6 @@
 # hts
 [![Travis-CI Build Status](https://travis-ci.org/robjhyndman/hts.svg?branch=master)](https://travis-ci.org/robjhyndman/hts)
-[![Coverage Status](https://coveralls.io/repos/robjhyndman/hts/badge.svg?branch=master&service=github)](https://coveralls.io/r/robjhyndman/hts?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/robjhyndman/hts/badge.svg?branch=master)](https://coveralls.io/github/robjhyndman/hts?branch=master)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/hts)](https://cran.r-project.org/package=hts)
 [![Downloads](http://cranlogs.r-pkg.org/badges/hts)](https://cran.r-project.org/package=hts)
 [![Pending Pull-Requests](http://githubbadges.herokuapp.com/robjhyndman/hts/pulls.svg?style=flat)](https://github.com/robjhyndman/hts/pulls)
