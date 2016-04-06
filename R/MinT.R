@@ -1,9 +1,10 @@
+
 ## Arguments
 
 # x: Matrix of insample residuals for all time series in the hierarchy. Each column referring to one time series.
 
 # Target matrix for shrinking towards a diagonal matrix
-lowerD <- function(x) 
+lowerD <- function(x)
 {
   n <- nrow(x)
   return(diag(apply(x, 2, crossprod) / n))
@@ -15,9 +16,9 @@ lowerD <- function(x)
 # tar: Lower dimensional matrix.
 
 # Shrinked covariance matrix - Schafer and strimmer approach
-shrink.estim <- function(x, tar) 
+shrink.estim <- function(x, tar)
 {
-  if (is.matrix(x) == TRUE && is.numeric(x) == FALSE) 
+  if (is.matrix(x) == TRUE && is.numeric(x) == FALSE)
     stop("The data matrix must be numeric!")
   p <- ncol(x)
   n <- nrow(x)
@@ -31,13 +32,13 @@ shrink.estim <- function(x, tar)
   lambda <- sum(v)/sum(d)
   lambda <- max(min(lambda, 1), 0)
   shrink.cov <- lambda * tar + (1 - lambda) * covm
-  return(list(shrink.cov, c("The shrinkage intensity lambda is:", 
+  return(list(shrink.cov, c("The shrinkage intensity lambda is:",
                             round(lambda, digits = 4))))
 }
 
 ## Arguments
 
-#fcasts: Matrix of forecasts for all levels of the hierarchical time series. 
+#fcasts: Matrix of forecasts for all levels of the hierarchical time series.
 #        Each row represents one forecast horizon and each column represents one time series from the hierarchy
 
 # nodes: If the object class is hts, a list contains the number of child nodes referring to hts.
@@ -49,16 +50,17 @@ shrink.estim <- function(x, tar)
 
 
 # MinT - Trace minimization approach
-MinT <- function (fcasts, nodes, groups, residual, covariance = c("shr", "sam"), algorithms = c("lu", "cg", "chol"), keep = c("gts", "all", "bottom")) 
+MinT <- function (fcasts, nodes, groups, residual, covariance = c("shr", "sam"),
+  algorithms = c("lu", "cg", "chol"), keep = c("gts", "all", "bottom"))
 {
   alg <- match.arg(algorithms)
   keep <- match.arg(keep)
   covar <- match.arg(covariance)
   res <- residual
-  fcasts <- as.ts(fcasts)
-  tspx <- tsp(fcasts)
+  fcasts <- stats::as.ts(fcasts)
+  tspx <- stats::tsp(fcasts)
   cnames <- colnames(fcasts)
-  
+
   if(missing(residual))
   {
     stop("MinT needs insample residuals.")
@@ -66,7 +68,7 @@ MinT <- function (fcasts, nodes, groups, residual, covariance = c("shr", "sam"),
   if(covar=="sam")
   {
     n <- nrow(res)
-    w.1 <- crossprod(res) / n 
+    w.1 <- crossprod(res) / n
     if(is.positive.definite(w.1)==FALSE)
     {
       stop("MinT needs covariance matrix to be positive definite.")
@@ -103,7 +105,7 @@ MinT <- function (fcasts, nodes, groups, residual, covariance = c("shr", "sam"),
     else {
       smat <- SmatrixM(gmat)
         if (!is.null(w.1)) {
-          weights <- as(w.1, "sparseMatrix")
+          weights <-  methods::as(w.1, "sparseMatrix")
         }
         if (alg == "lu") {
           allf <- LU(fcasts = fcasts, S = smat, weights = weights)
@@ -146,7 +148,7 @@ MinT <- function (fcasts, nodes, groups, residual, covariance = c("shr", "sam"),
     else {
       smat <- SmatrixM(gmat)
       if (!is.null(w.1)) {
-        weights <- as(w.1, "sparseMatrix")
+        weights <-  methods::as(w.1, "sparseMatrix")
       }
       if (alg == "lu") {
         allf <- LU(fcasts = fcasts, S = smat, weights = weights)

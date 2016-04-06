@@ -117,10 +117,10 @@ forecast.gts <- function(object, h = ifelse(frequency(object$bts) > 1L,
       out$pfcasts <- forecast(models, h = h)$mean
     }
     if (keep.fitted) {
-      out$fitted <- fitted(models)
+      out$fitted <- stats::fitted(models)
     }
     if (keep.resid) {
-      out$resid <- residuals(models)
+      out$resid <- stats::residuals(models)
     }
     return(out)
   }
@@ -154,7 +154,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object$bts) > 1L,
   }
 
   # Set up basic info
-  tsp.y <- tsp(y)
+  tsp.y <- stats::tsp(y)
   bnames <- colnames(object$bts)
 
   if (method == "comb") {  # Assign class
@@ -176,7 +176,7 @@ forecast.gts <- function(object, h = ifelse(frequency(object$bts) > 1L,
       wvec <- 1/sqrt(colMeans(tmp.resid^2, na.rm = TRUE))
     }
     else if (weights == "mint") {
-      tmp.resid <- na.omit(y - fits)
+      tmp.resid <- stats::na.omit(y - fits)
     }
   }
 

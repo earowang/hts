@@ -1,12 +1,12 @@
 aggts <- function(y, levels, forecasts = TRUE) {
-  # 1. Display all time series from top to bottom. 
+  # 1. Display all time series from top to bottom.
   # 2. Bottom-up method.
   #
   # Args:
   #   y*: hts & gts objects.
   #   levels: hts levels (gts groups) can be specified by users. Default is all
   #     starting with level 0.
-  # 
+  #
   # Returns:
   #   The time series selected by users.
   #
@@ -46,7 +46,7 @@ aggts <- function(y, levels, forecasts = TRUE) {
   ally <- matrix(unlist(sapply(ally, t)), nrow = nrow(y$bts))
 
   colnames(ally) <- unlist(labels[levels])
-  tsp.y <- tsp(y$bts)
+  tsp.y <- stats::tsp(y$bts)
   ally <- ts(ally, start = tsp.y[1L], frequency = tsp.y[3L])
   # Assign other attributes
   class(ally) <- class(y$bts)

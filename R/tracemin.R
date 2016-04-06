@@ -26,7 +26,7 @@ LU <- function(fcasts, S, weights) {
                   -1 * S[1L:nagg, ])
   jmat <- sparseMatrix(i = 1L:nbts, j = (nagg + 1L):nts, x = rep(1L, nbts),
                        dims = c(nbts, nts))
-  rhs.l <- as(utmat %*% fcasts, "CsparseMatrix")
+  rhs.l <-  methods::as(utmat %*% fcasts, "CsparseMatrix")
   if (is.null(weights)) {
     lhs.l <- utmat %*% t(utmat)
     lhs.l <- (t(lhs.l) + lhs.l)/2
@@ -48,9 +48,9 @@ CG <- function(fcasts, S, weights) {
   nbts <- ncol(S)
   nagg <- nts - nbts
   seqagg <- 1L:nagg
-  utmat <- cbind2(sparseMatrix(i = seqagg, j = seqagg, x = 1),
+  utmat <- cbind2(Matrix::sparseMatrix(i = seqagg, j = seqagg, x = 1),
                   -1 * S[1L:nagg, ])
-  jmat <- sparseMatrix(i = 1L:nbts, j = (nagg + 1L):nts, x = rep(1L, nbts),
+  jmat <- Matrix::sparseMatrix(i = 1L:nbts, j = (nagg + 1L):nts, x = rep(1L, nbts),
                        dims = c(nbts, nts))
   rhs.l <- as.matrix(utmat %*% fcasts)
   if (is.null(weights)) {
@@ -68,19 +68,19 @@ CG <- function(fcasts, S, weights) {
 
 # Cholesky factorization
 CHOL <- function(fcasts, S, weights) {
-  fcasts <- t(na.omit(t(fcasts)))
+  fcasts <- t(stats::na.omit(t(fcasts)))
   nts <- nrow(S)
   nbts <- ncol(S)
   nagg <- nts - nbts
   seqagg <- 1L:nagg
-  utmat <- cbind(as(nagg, "matrix.diag.csr"), -1 * S[1L:nagg, ])
-  jmat <- new("matrix.csr", ra = rep(1L, nbts), ja = seq((nagg + 1L), nts),
+  utmat <- cbind(methods::as(nagg, "matrix.diag.csr"), -1 * S[1L:nagg, ])
+  jmat <- methods::new("matrix.csr", ra = rep(1L, nbts), ja = seq((nagg + 1L), nts),
               ia = 1L:(nbts + 1L), dimension = as.integer(c(nbts, nts)))
   rhs.l <- utmat %*% fcasts
   if (is.null(weights)) {
     lhs.l <- utmat %*% t(utmat)
     lhs.l <- (t(lhs.l) + lhs.l)/2
-    lin.sol <- backsolve(chol(lhs.l), rhs.l)
+    lin.sol <- SparseM::backsolve(chol(lhs.l), rhs.l)
     p1 <- jmat %*% fcasts - (jmat %*% t(utmat) %*% lin.sol)
   } else {
     lhs.l <- utmat %*% weights %*% t(utmat)

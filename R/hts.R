@@ -1,6 +1,6 @@
 hts <- function(y, nodes, bnames = colnames(y), characters) {
   # Construct the hierarchical time series.
-  # 
+  #
   # Args:
   #   y*: The bottom time series assigned by the user. Same lengths and no NA.
   #   nodes: A list contains the number of child nodes for each level except
@@ -15,7 +15,7 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
   #
   # Error handling:
   if (!is.ts(y)) {
-    y <- as.ts(y)
+    y <- stats::as.ts(y)
   }
   nbts <- ncol(y)
 
@@ -26,10 +26,10 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
     message("Since argument characters are not specified, the default labelling system is used.")
     if (missing(nodes)) {
       nodes <- list(nbts)
-    } 
+    }
     if (!is.list(nodes)) {
       stop("Argument nodes must be a list.")
-    } 
+    }
     if (length(nodes[[1L]]) != 1L) {
       stop("The root node cannot be empty.")
     }
@@ -77,7 +77,7 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
   # Obtain other information
   names(nodes) <- paste("Level", 1L:length(nodes))
 
-  output <- structure(list(bts = y, nodes = nodes, labels = labels), 
+  output <- structure(list(bts = y, nodes = nodes, labels = labels),
                       class = c("gts", "hts"))
   return(output)
 }

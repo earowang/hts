@@ -13,7 +13,7 @@ gts <- function(y, groups, gnames = rownames(groups), characters) {
   #
   # Error handling:
   if (!is.ts(y)) {
-    y <- as.ts(y)
+    y <- stats::as.ts(y)
   }
 
   if (ncol(y) <= 1L) {
@@ -23,7 +23,7 @@ gts <- function(y, groups, gnames = rownames(groups), characters) {
   nc.y <- ncol(y)
   if (missing(characters)) {
     if (missing(groups)) {
-      groups <- matrix(c(rep(1L, nc.y), seq(1L, nc.y)), nrow = 2L, 
+      groups <- matrix(c(rep(1L, nc.y), seq(1L, nc.y)), nrow = 2L,
                      byrow = TRUE)
     } else if (!is.matrix(groups)) {
       stop("Argument groups must be a matrix.")
@@ -64,7 +64,7 @@ gts <- function(y, groups, gnames = rownames(groups), characters) {
   } else if (is.null(gnames)) {
     message("Argument gnames is missing and the default labels are used.")
     gnames <- paste0("G", 1L:(nr.gmat - 2L))
-  } 
+  }
   colnames(gmat) <- bnames
   rownames(gmat) <- c("Total", gnames, "Bottom")
 
@@ -76,7 +76,7 @@ gts <- function(y, groups, gnames = rownames(groups), characters) {
     if (is.matrix(subnames)) {
       # Convert a matrix to a list
       subnames <- split(subnames, rep(1L:ncol(subnames), each = nrow(subnames)))
-    } 
+    }
     name.list <- mapply(paste0, full.groups, "/", subnames, SIMPLIFY = FALSE)
     names(name.list) <- gnames
   }
@@ -208,12 +208,12 @@ print.gts <- function(x, ...) {
     cat("Number of observations per series:", nrow(x$bts), "\n")
     cat("Top level series: \n")
   } else {
-    cat("Number of observations in each historical series:", 
+    cat("Number of observations in each historical series:",
         nrow(x$histy), "\n")
     cat("Number of forecasts per series:", nrow(x$bts), "\n")
     cat("Top level series of forecasts: \n")
   }
-  topts <- ts(rowSums(x$bts, na.rm = TRUE), start = tsp(x$bts)[1L], 
-              frequency = tsp(x$bts)[3L])
+  topts <- ts(rowSums(x$bts, na.rm = TRUE), start = stats::tsp(x$bts)[1L],
+              frequency = stats::tsp(x$bts)[3L])
   print(topts)
 }

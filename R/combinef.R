@@ -1,4 +1,4 @@
-combinef <- function(fcasts, nodes, groups, weights = NULL, 
+combinef <- function(fcasts, nodes, groups, weights = NULL,
                      algorithms = c("lu", "cg", "chol", "recursive", "slm"),
                      keep = c("gts", "all", "bottom")) {
   # Construct optimal combination forecasts
@@ -15,8 +15,8 @@ combinef <- function(fcasts, nodes, groups, weights = NULL,
   #   Optimal forecasts
   alg <- match.arg(algorithms)
   keep <- match.arg(keep)
-  fcasts <- as.ts(fcasts)
-  tspx <- tsp(fcasts)
+  fcasts <- stats::as.ts(fcasts)
+  tspx <- stats::tsp(fcasts)
   cnames <- colnames(fcasts)
   if (missing(groups)) { # hts class
     if (alg == "slm") {
@@ -44,7 +44,7 @@ combinef <- function(fcasts, nodes, groups, weights = NULL,
       if (alg == "chol") {
         smat <- Smatrix(gmat)
         if (!is.null(weights)) {
-          weights <- as(1/weights, "matrix.diag.csr")
+          weights <-  methods::as(1/weights, "matrix.diag.csr")
         }
         allf <- CHOL(fcasts = fcasts, S = smat, weights = weights)
       } else {
@@ -106,7 +106,7 @@ combinef <- function(fcasts, nodes, groups, weights = NULL,
     if (alg == "chol") {
       smat <- Smatrix(gmat)
       if (!is.null(weights)) {
-        weights <- as(1/weights, "matrix.diag.csr")
+        weights <-  methods::as(1/weights, "matrix.diag.csr")
       }
       allf <- CHOL(fcasts = fcasts, S = smat, weights = weights)
     } else if (alg == "slm") {
@@ -136,8 +136,8 @@ combinef <- function(fcasts, nodes, groups, weights = NULL,
         out <- suppressMessages(gts(bf, groups = groups))
       } else {
         out <- bf
-      } 
-    } 
+      }
+    }
   }
   return(out)
 }

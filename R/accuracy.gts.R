@@ -1,5 +1,5 @@
 accuracy.gts <- function(fcasts, test, levels) {
-  # Compute in-sample or out-of-sample accuracy measures 
+  # Compute in-sample or out-of-sample accuracy measures
   #
   # Args:
   #   fcasts: forcasts
@@ -23,12 +23,12 @@ accuracy.gts <- function(fcasts, test, levels) {
   {
     if(is.null(fcasts$fitted))
       stop("No fitted values available for historical times, and no actual values available for future times")
-    
+
     x <- unclass(fcasts$histy)  # Unclass mts to matrix
     res <- x - unclass(fcasts$fitted)  # fcasts$residuals may contain errors
-    levels <- ifelse(is.hts(fcasts), length(fcasts$nodes), 
+    levels <- ifelse(is.hts(fcasts), length(fcasts$nodes),
                      nrow(fcasts$groups) - 1L)
-  } 
+  }
   else {
     f <- unclass(aggts(fcasts, levels, forecasts = TRUE))
     x <- unclass(aggts(test, levels))
@@ -40,7 +40,7 @@ accuracy.gts <- function(fcasts, test, levels) {
   else
     histy <- aggts(fcasts, levels, forecasts = FALSE)
   if (!is.null(histy)) {
-    scale <- colMeans(abs(diff(histy, lag = max(1, frequency(histy)))), 
+    scale <- colMeans(abs(diff(histy, lag = max(1, stats::frequency(histy)))),
                       na.rm = TRUE)
     q <- sweep(res, 2, scale, "/")
     mase <- colMeans(abs(q), na.rm = TRUE)
