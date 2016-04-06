@@ -1,5 +1,6 @@
-v4.6 (March 2016)
-* Added mint option in forecast.gts
+v5.0 (April 2016)
+* Added mint option in forecast.gts (written by Shanika Wickramasuriya)
+* Allowed arbitrary ordering of bottom level time series in hts()
 * Added QR decomposition if LU decomposition fails
 * Bug fixes
 

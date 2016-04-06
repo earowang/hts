@@ -1,7 +1,7 @@
 Package: hts
 Type: Package
 Title: Hierarchical and Grouped Time Series
-Version: 4.6
+Version: 5.0
 Depends: R (>= 3.0.2), forecast (>= 5.0), SparseM, Matrix, matrixcalc
 Imports: parallel, utils
 Suggests: testthat
