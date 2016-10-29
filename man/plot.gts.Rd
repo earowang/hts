@@ -32,7 +32,8 @@ Optimal combination forecasts for hierarchical time series.
 \examples{
 plot(htseg1, levels = c(0, 2))
 plot(infantgts, include = 10, levels = "State")
-plot(infantgts, include = 10, levels = "State", col = colours()[100:107], lty = 1:8, color_lab = TRUE)
+plot(infantgts, include = 10, levels = "State", 
+    col = colours()[100:107], lty = 1:8, color_lab = TRUE)
 }
 \keyword{hplot}
 
