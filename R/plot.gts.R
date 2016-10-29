@@ -1,4 +1,5 @@
-plot.gts <- function(x, include, levels, labels = TRUE, ...) {
+plot.gts <- function(x, include, levels, labels = TRUE, 
+                     col = NULL, color_lab = FALSE, ...) {
   # Do plotting
   #
   # Args:
@@ -61,7 +62,11 @@ plot.gts <- function(x, include, levels, labels = TRUE, ...) {
     end <- cs[i + 1L]
     start <- cs[i] + 1L
     series <- seq(start, end)
-    cols <- grDevices::rainbow(length(series))
+    if(is.null(col)){
+      cols <- grDevices::rainbow(length(series))
+    } else {
+      cols <- col
+    }
     if(!is.null(x$histy)) {
       ylim <- range(histx[, series], fcasts[, series], na.rm = TRUE)
       if (labels) {
@@ -103,9 +108,14 @@ plot.gts <- function(x, include, levels, labels = TRUE, ...) {
     }
 
     if (labels) {
+      if(color_lab){
+        lab_col <- cols
+      } else {
+        lab_col <- par()$fg
+      }
       text(x = stats::tsp(histx)[1L] + 0.1, y = histx[1L, series] + 0.2,
            labels = unlist(x$labels[levels][i]),
-           cex = 0.9, adj = 1)
+           cex = 0.9, adj = 1, col = lab_col)
     }
   }
 }

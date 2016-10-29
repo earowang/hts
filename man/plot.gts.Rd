@@ -6,7 +6,7 @@
 Method for plotting grouped or hierarchical time series and their forecasts.
 }
 \usage{
-\S3method{plot}{gts}(x, include, levels, labels = TRUE, ...)
+\S3method{plot}{gts}(x, include, levels, labels = TRUE, col = NULL, color_lab = FALSE, ...)
 }
 
 \arguments{
@@ -15,6 +15,8 @@ Method for plotting grouped or hierarchical time series and their forecasts.
   \item{levels}{Integer(s) or string(s) giving the specified levels(s) to be plotted}
   
   \item{labels}{If \code{TRUE}, plot the labels next to each series}
+  \item{col}{Vector of colours, passed to \code{plot.ts} and to \code{lines}}
+  \item{color_lab}{If \code{TRUE}, colour the direct labels to match line colours.  If \code{FALSE} will be as per \code{par()$fg}.}
   \item{\dots}{Other arguments passing to \code{\link[graphics]{plot.default}}}
 }
 \author{Rob J Hyndman and Earo Wang}
@@ -30,6 +32,7 @@ Optimal combination forecasts for hierarchical time series.
 \examples{
 plot(htseg1, levels = c(0, 2))
 plot(infantgts, include = 10, levels = "State")
+plot(infantgts, include = 10, levels = "State", col = colours()[100:107], lty = 1:8, color_lab = TRUE)
 }
 \keyword{hplot}
 
