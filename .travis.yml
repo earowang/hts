@@ -1,20 +1,15 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
 language: r
-warnings_are_errors: true
 r:
   - oldrel
   - release
   - devel
-sudo: required
+sudo: false
 cache: packages
 
 r_github_packages:
   - jimhester/covr
-
-env:
- global:
-   - CRAN: http://cran.rstudio.com
 
 after_success:
   - Rscript -e 'library(covr); coveralls()'
