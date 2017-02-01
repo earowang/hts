@@ -1,5 +1,5 @@
 # hts
-f![Travis-CI Build Status](https://travis-ci.org/earowang/hts.svg?branch=master)](https://travis-ci.org/earowang/hts)
+[![Travis-CI Build Status](https://travis-ci.org/earowang/hts.svg?branch=master)](https://travis-ci.org/earowang/hts)
 [![Coverage Status](https://coveralls.io/repos/github/earowang/hts/badge.svg?branch=master)](https://coveralls.io/github/earowang/hts?branch=master)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/hts)](https://cran.r-project.org/package=hts)
 [![Downloads](http://cranlogs.r-pkg.org/badges/hts)](https://cran.r-project.org/package=hts)
