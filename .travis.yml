@@ -16,4 +16,4 @@ env:
     - R_CHECK_ARGS="--no-build-vignettes"
 
 after_success:
-  - Rscript -e 'library(covr); coveralls()'
+  - Rscript -e 'covr::codecov()'
