@@ -4,7 +4,7 @@ Version: 5.0.1
 Authors@R: c(
     person("Rob", "Hyndman", role = "aut"), 
     person("Alan", "Lee", role = "aut", comment = "Fast computation using recursive methods"),
-    person("Earo", "Wang", email = "earo.wang@gmail.com", role = c("aut", "cre"),
+    person("Earo", "Wang", email = "earo.wang@gmail.com", role = c("aut", "cre")),
     person("Shanika", "Wickramasuriya", role = c("ctb", "cph"), comment = "Forecasting via trace minimization")
     )
 Description: Methods for analysing and forecasting hierarchical and grouped time
