@@ -1,3 +1,34 @@
+#' Plot grouped or hierarchical time series
+#' 
+#' Method for plotting grouped or hierarchical time series and their forecasts.
+#' 
+#' 
+#' @param x An object of class \code{\link[hts]{gts}}.
+#' @param include Number of values from historical time series to include in
+#' the plot of forecasted group/hierarchical time series.
+#' @param levels Integer(s) or string(s) giving the specified levels(s) to be
+#' plotted
+#' @param labels If \code{TRUE}, plot the labels next to each series
+#' @param col Vector of colours, passed to \code{plot.ts} and to \code{lines}
+#' @param color_lab If \code{TRUE}, colour the direct labels to match line
+#' colours.  If \code{FALSE} will be as per \code{par()$fg}.
+#' @param \dots Other arguments passing to \code{\link[graphics]{plot.default}}
+#' @author Rob J Hyndman and Earo Wang
+#' @seealso \code{\link[hts]{aggts}}
+#' @references R. J. Hyndman, R. A. Ahmed, G. Athanasopoulos and H.L. Shang
+#' (2011) Optimal combination forecasts for hierarchical time series.
+#' \emph{Computational Statistics and Data Analysis}, \bold{55}(9), 2579--2589.
+#' \url{http://robjhyndman.com/papers/hierarchical/}
+#' @keywords hplot
+#' @method plot gts
+#' @examples
+#' 
+#' plot(htseg1, levels = c(0, 2))
+#' plot(infantgts, include = 10, levels = "State")
+#' plot(infantgts, include = 10, levels = "State", 
+#'     col = colours()[100:107], lty = 1:8, color_lab = TRUE)
+#' 
+#' @export
 plot.gts <- function(x, include, levels, labels = TRUE, 
                      col = NULL, color_lab = FALSE, ...) {
   # Do plotting

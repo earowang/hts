@@ -1,3 +1,110 @@
+#' Forecast a hierarchical or grouped time series
+#' 
+#' Methods for forecasting hierarchical or grouped time series.
+#' 
+#' Base methods implemented include ETS, ARIMA and the naive (random walk)
+#' models. Forecasts are distributed in the hierarchy using bottom-up,
+#' top-down, middle-out and optimal combination methods.
+#' 
+#' Three top-down methods are available: the two Gross-Sohl methods and the
+#' forecast-proportion approach of Hyndman, Ahmed, and Athanasopoulos (2011).
+#' The "middle-out" method \code{"mo"} uses bottom-up (\code{"bu"}) for levels
+#' higher than \code{level} and top-down forecast proportions (\code{"tdfp"})
+#' for levels lower than \code{level}.
+#' 
+#' For non-hierarchical grouped data, only bottom-up and combination methods
+#' are possible, as any method involving top-down disaggregation requires a
+#' hierarchical ordering of groups.
+#' 
+#' When \code{xreg} and \code{newxreg} are passed, the same covariates are
+#' applied to every series in the hierarchy.
+#' 
+#' @aliases forecast.gts forecast.hts
+#' @param object Hierarchical or grouped time series object of class
+#' \code{{gts}}
+#' @param h Forecast horizon
+#' @param method Method for distributing forecasts within the hierarchy. See
+#' details
+#' @param weights Weights used for "optimal combination" method:
+#' \code{weights="ols"} uses an unweighted combination (as described in Hyndman
+#' et al 2011); \code{weights="wls"} uses weights based on forecast variances
+#' (as described in Hyndman et al 2015); \code{weights="mint"} uses a full
+#' covariance estimate to determine the weights (as described in Hyndman et al
+#' 2016); \code{weights="nseries"} uses weights based on the number of series
+#' aggregated at each node.
+#' @param fmethod Forecasting method to use for each series.
+#' @param algorithms An algorithm to be used for computing the combination
+#' forecasts (when \code{method=="comb"}). The combination forecasts are based
+#' on an ill-conditioned regression model. "lu" indicates LU decomposition is
+#' used; "cg" indicates a conjugate gradient method; "chol" corresponds to a
+#' Cholesky decomposition; "recursive" indicates the recursive hierarchical
+#' algorithm of Hyndman et al (2015); "slm" uses sparse linear regression. Note
+#' that \code{algorithms = "recursive"} and \code{algorithms = "slm"} cannot be
+#' used if \code{weights="mint"}.
+#' @param covariance Type of the covariance matrix to be used with
+#' \code{weights="mint"}: either a shrinkage estimator (\code{"shr"}) with
+#' shrinkage towards the diagonal; or a sample covariance matrix
+#' (\code{"sam"}).
+#' @param keep.fitted If TRUE, keep fitted values at the bottom level.
+#' @param keep.resid If TRUE, keep residuals at the bottom level.
+#' @param positive If TRUE, forecasts are forced to be strictly positive (by
+#' setting \code{lambda=0}).
+#' @param lambda Box-Cox transformation parameter.
+#' @param level Level used for "middle-out" method (only used when \code{method
+#' = "mo"}).
+#' @param parallel If TRUE, import \code{parallel} package to allow parallel
+#' processing.
+#' @param num.cores If parallel = TRUE, specify how many cores are going to be
+#' used.
+#' @param FUN A user-defined function that returns an object which can be
+#' passed to the \code{forecast} function. It is applied to all series in order
+#' to generate base forecasts.  When \code{FUN} is not \code{NULL},
+#' \code{fmethod}, \code{positive} and \code{lambda} are all ignored. Suitable
+#' values for \code{FUN} are \code{\link[forecast]{tbats}} and
+#' \code{\link[forecast]{stlf}} for example.
+#' @param xreg When \code{fmethod = "arima"}, a vector or matrix of external
+#' regressors used for modelling, which must have the same number of rows as
+#' the original univariate time series
+#' @param newxreg When \code{fmethod = "arima"}, a vector or matrix of external
+#' regressors used for forecasting, which must have the same number of rows as
+#' the \code{h} forecast horizon
+#' @param ... Other arguments passed to \code{\link[forecast]{ets}},
+#' \code{\link[forecast]{auto.arima}} or \code{FUN}.
+#' @return A forecasted hierarchical/grouped time series of class \code{gts}.
+#' @author Earo Wang, Rob J Hyndman and Shanika L Wickramasuriya
+#' @seealso \code{\link[hts]{hts}}, \code{\link[hts]{gts}},
+#' \code{\link[hts]{plot.gts}}, \code{\link[hts]{accuracy.gts}}
+#' @references G. Athanasopoulos, R. A. Ahmed and R. J. Hyndman (2009)
+#' Hierarchical forecasts for Australian domestic tourism, \emph{International
+#' Journal of Forecasting}, \bold{25}, 146-166.
+#' 
+#' R. J. Hyndman, R. A. Ahmed, G. Athanasopoulos and H.L. Shang (2011) Optimal
+#' combination forecasts for hierarchical time series. \emph{Computational
+#' Statistics and Data Analysis}, \bold{55}(9), 2579--2589.
+#' \url{http://robjhyndman.com/papers/hierarchical/}
+#' 
+#' Hyndman, R. J., Lee, A., & Wang, E. (2015). Fast computation of reconciled
+#' forecasts for hierarchical and grouped time series. \emph{Computational
+#' Statistics and Data Analysis}, \bold{97}, 16--32.
+#' \url{http://robjhyndman.com/papers/hgts/}
+#' 
+#' Wickramasuriya, S. L., Athanasopoulos, G., & Hyndman, R. J. (2015).
+#' Forecasting hierarchical and grouped time series through trace minimization.
+#' \emph{Working paper 15/15, Department of Econometrics & Business Statistics,
+#' Monash University.} \url{http://robjhyndman.com/working-papers/mint/}
+#' 
+#' Gross, C. and Sohl, J. (1990) Dissagregation methods to expedite product
+#' line forecasting, \emph{Journal of Forecasting}, \bold{9}, 233-254.
+#' @keywords ts
+#' @method forecast gts
+#' @examples
+#' 
+#' forecast(htseg1, h = 10, method = "bu", fmethod = "arima")
+#' 
+#' \dontrun{forecast(htseg2, h = 10, method = "comb", algorithms = "lu",
+#'                   FUN = function(x) tbats(x, use.parallel = FALSE))}
+#' 
+#' @export
 forecast.gts <- function(object, h = ifelse(frequency(object$bts) > 1L,
                          2L * frequency(object$bts), 10L),
                          method = c("comb", "bu", "mo","tdgsa", "tdgsf", "tdfp"),

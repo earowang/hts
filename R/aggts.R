@@ -1,3 +1,24 @@
+#' Extract selected time series from a gts object
+#' 
+#' The time series from selected levels of a hierarchical/grouped time series
+#' or a forecasted hierarchical/grouped time series are returned as a
+#' multivariate time series.
+#' 
+#' 
+#' @param y An object of class \code{{gts}}.
+#' @param levels Integer(s) or string(s) giving the specified level(s).
+#' @param forecasts If \code{y} contains forecasts and historical data, then
+#' \code{forecasts} indicates whether to return the forecasts or the historical
+#' data. Otherwise it is ignored.
+#' @author Earo Wang
+#' @seealso \code{\link[hts]{allts}}
+#' @keywords ts
+#' @examples
+#' 
+#' aggts(htseg1, levels = c(0, 2))
+#' aggts(infantgts, levels = "State")
+#' 
+#' @export aggts
 aggts <- function(y, levels, forecasts = TRUE) {
   # 1. Display all time series from top to bottom.
   # 2. Bottom-up method.
@@ -56,6 +77,27 @@ aggts <- function(y, levels, forecasts = TRUE) {
 
 
 # A wrapper for aggts
+
+
+#' Extract all time series from a gts object
+#' 
+#' The time series from all levels of a hierarchical/grouped time series or a
+#' forecasted hierarchical/grouped time series are returned as a multivariate
+#' time series.
+#' 
+#' 
+#' @param y An object of class \code{\link[hts]{gts}}.
+#' @param forecasts If \code{y} contains forecasts and historical data, then
+#' \code{forecasts} indicates whether to return the forecasts or the historical
+#' data. Otherwise it is ignored.
+#' @author Rob J Hyndman
+#' @seealso \code{\link[hts]{aggts}}
+#' @keywords ts
+#' @examples
+#' 
+#' allts(htseg1)
+#' 
+#' @export allts
 allts <- function(y, forecasts = TRUE) {
   if (!is.gts(y)) {
     stop("Argument y must be either a hts or gts object.")

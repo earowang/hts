@@ -1,3 +1,24 @@
+#' Summing matrix for hierarchical or grouped time series
+#' 
+#' This function returns the summing matrix for a hierarchical or grouped time
+#' series, as defined in Hyndman et al. (2011).
+#' 
+#' 
+#' @param xts Hierarchical or grouped time series of class \code{gts}.
+#' @return A numerical matrix.
+#' @author Earo Wang
+#' @seealso \code{\link[hts]{hts}}, \code{\link[hts]{gts}},
+#' \code{\link[hts]{combinef}}
+#' @references R. J. Hyndman, R. A. Ahmed, G. Athanasopoulos and H.L. Shang
+#' (2011) Optimal combination forecasts for hierarchical time series.
+#' \emph{Computational Statistics and Data Analysis}, \bold{55}(9), 2579--2589.
+#' \url{http://robjhyndman.com/papers/hierarchical/}
+#' @keywords ts
+#' @examples
+#' 
+#' smatrix(htseg1)
+#' 
+#' @export smatrix
 smatrix <- function(xts) {
   # The summing matrix
   #
