@@ -66,7 +66,6 @@ fcasts1.comb <- forecast(
   htseg1, h = 4, method = "comb", fmethod = "ets", keep.fitted = TRUE
 )
 aggts4 <- aggts(fcasts1.comb)
-print(fcasts1.comb)  
 plot(fcasts1.comb, levels = 2)
 plot(fcasts1.comb, include = 5, levels = c(1, 2))
 ```
@@ -87,7 +86,6 @@ fcasts2.td <- forecast(
   data, h = 5, method = "tdgsa", fmethod = "ets", 
   keep.fitted = TRUE, keep.resid = TRUE
 )
-summary(fcasts2.td)
 plot(fcasts2.td, include = 5)
 plot(fcasts2.td, include = 5, levels = c(0, 2))
 ```
@@ -108,7 +106,6 @@ fcasts3.combsd <- forecast(
   infantgts, h = 4, method = "comb", fmethod = "ets",
   weights = "sd", keep.fitted = TRUE
 )
-summary(fcasts3.combsd)
 
 fcasts3.combn <- forecast(
   infantgts, h = 4, method = "comb", fmethod = "ets",

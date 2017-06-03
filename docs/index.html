@@ -80,108 +80,37 @@ devtools<span class="op">::</span><span class="kw">install_github</span>(<span c
 
 <span class="co"># hts example 1</span>
 <span class="kw">print</span>(htseg1)
-<span class="co">#&gt; $bts</span>
+<span class="co">#&gt; Hierarchical Time Series </span>
+<span class="co">#&gt; 3 Levels </span>
+<span class="co">#&gt; Number of nodes at each level: 1 2 5 </span>
+<span class="co">#&gt; Total number of series: 8 </span>
+<span class="co">#&gt; Number of observations per series: 10 </span>
+<span class="co">#&gt; Top level series: </span>
 <span class="co">#&gt; Time Series:</span>
 <span class="co">#&gt; Start = 1992 </span>
 <span class="co">#&gt; End = 2001 </span>
 <span class="co">#&gt; Frequency = 1 </span>
-<span class="co">#&gt;            AA        AB       AC       BA       BB</span>
-<span class="co">#&gt; 1992 7.862669  9.267647 10.08102 10.49276 11.04398</span>
-<span class="co">#&gt; 1993 8.340355  9.416544 10.08193 10.51712 11.12452</span>
-<span class="co">#&gt; 1994 8.549132  9.479022 10.11719 10.54013 11.24691</span>
-<span class="co">#&gt; 1995 8.597699  9.532376 10.14705 10.61220 11.35138</span>
-<span class="co">#&gt; 1996 8.770196  9.547591 10.16021 10.64932 11.48114</span>
-<span class="co">#&gt; 1997 8.837793  9.555664 10.17101 10.70736 11.57668</span>
-<span class="co">#&gt; 1998 8.893267  9.730347 10.28392 10.86323 11.93846</span>
-<span class="co">#&gt; 1999 8.933993  9.797294 10.29026 10.92463 11.99712</span>
-<span class="co">#&gt; 2000 9.133653  9.921262 10.34817 11.00622 12.16865</span>
-<span class="co">#&gt; 2001 9.152636 10.022783 10.46706 11.03531 12.53717</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $nodes</span>
-<span class="co">#&gt; $nodes$`Level 0`</span>
-<span class="co">#&gt; [1] 2</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $nodes$`Level 1`</span>
-<span class="co">#&gt; [1] 3 2</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $labels</span>
-<span class="co">#&gt; $labels$`Level 0`</span>
-<span class="co">#&gt; [1] "Total"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $labels$`Level 1`</span>
-<span class="co">#&gt; [1] "A" "B"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $labels$`Level 2`</span>
-<span class="co">#&gt; [1] "AA" "AB" "AC" "BA" "BB"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; attr(,"class")</span>
-<span class="co">#&gt; [1] "gts" "hts"</span>
+<span class="co">#&gt;  [1] 48.74808 49.48047 49.93238 50.24070 50.60846 50.84851 51.70922</span>
+<span class="co">#&gt;  [8] 51.94330 52.57796 53.21496</span>
 <span class="kw">summary</span>(htseg1)
-<span class="co">#&gt;        Length Class  Mode   </span>
-<span class="co">#&gt; bts    50     mts    numeric</span>
-<span class="co">#&gt; nodes   2     -none- list   </span>
-<span class="co">#&gt; labels  3     -none- list</span>
-<span class="kw"><a href="reference/aggts.html">aggts</a></span>(htseg1)
+<span class="co">#&gt; Hierarchical Time Series </span>
+<span class="co">#&gt; 3 Levels </span>
+<span class="co">#&gt; Number of nodes at each level: 1 2 5 </span>
+<span class="co">#&gt; Total number of series: 8 </span>
+<span class="co">#&gt; Number of observations per series: 10 </span>
+<span class="co">#&gt; Top level series: </span>
 <span class="co">#&gt; Time Series:</span>
 <span class="co">#&gt; Start = 1992 </span>
 <span class="co">#&gt; End = 2001 </span>
 <span class="co">#&gt; Frequency = 1 </span>
-<span class="co">#&gt;         Total        A        B       AA        AB       AC       BA</span>
-<span class="co">#&gt; 1992 48.74808 27.21134 21.53674 7.862669  9.267647 10.08102 10.49276</span>
-<span class="co">#&gt; 1993 49.48047 27.83883 21.64164 8.340355  9.416544 10.08193 10.51712</span>
-<span class="co">#&gt; 1994 49.93238 28.14535 21.78704 8.549132  9.479022 10.11719 10.54013</span>
-<span class="co">#&gt; 1995 50.24070 28.27712 21.96358 8.597699  9.532376 10.14705 10.61220</span>
-<span class="co">#&gt; 1996 50.60846 28.47800 22.13046 8.770196  9.547591 10.16021 10.64932</span>
-<span class="co">#&gt; 1997 50.84851 28.56447 22.28404 8.837793  9.555664 10.17101 10.70736</span>
-<span class="co">#&gt; 1998 51.70922 28.90753 22.80169 8.893267  9.730347 10.28392 10.86323</span>
-<span class="co">#&gt; 1999 51.94330 29.02155 22.92175 8.933993  9.797294 10.29026 10.92463</span>
-<span class="co">#&gt; 2000 52.57796 29.40308 23.17488 9.133653  9.921262 10.34817 11.00622</span>
-<span class="co">#&gt; 2001 53.21496 29.64248 23.57248 9.152636 10.022783 10.46706 11.03531</span>
-<span class="co">#&gt;            BB</span>
-<span class="co">#&gt; 1992 11.04398</span>
-<span class="co">#&gt; 1993 11.12452</span>
-<span class="co">#&gt; 1994 11.24691</span>
-<span class="co">#&gt; 1995 11.35138</span>
-<span class="co">#&gt; 1996 11.48114</span>
-<span class="co">#&gt; 1997 11.57668</span>
-<span class="co">#&gt; 1998 11.93846</span>
-<span class="co">#&gt; 1999 11.99712</span>
-<span class="co">#&gt; 2000 12.16865</span>
-<span class="co">#&gt; 2001 12.53717</span>
-<span class="kw"><a href="reference/aggts.html">aggts</a></span>(htseg1, <span class="dt">levels =</span> <span class="dv">1</span>)
-<span class="co">#&gt; Time Series:</span>
-<span class="co">#&gt; Start = 1992 </span>
-<span class="co">#&gt; End = 2001 </span>
-<span class="co">#&gt; Frequency = 1 </span>
-<span class="co">#&gt;             A        B</span>
-<span class="co">#&gt; 1992 27.21134 21.53674</span>
-<span class="co">#&gt; 1993 27.83883 21.64164</span>
-<span class="co">#&gt; 1994 28.14535 21.78704</span>
-<span class="co">#&gt; 1995 28.27712 21.96358</span>
-<span class="co">#&gt; 1996 28.47800 22.13046</span>
-<span class="co">#&gt; 1997 28.56447 22.28404</span>
-<span class="co">#&gt; 1998 28.90753 22.80169</span>
-<span class="co">#&gt; 1999 29.02155 22.92175</span>
-<span class="co">#&gt; 2000 29.40308 23.17488</span>
-<span class="co">#&gt; 2001 29.64248 23.57248</span>
-<span class="kw"><a href="reference/aggts.html">aggts</a></span>(htseg1, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">2</span>))
-<span class="co">#&gt; Time Series:</span>
-<span class="co">#&gt; Start = 1992 </span>
-<span class="co">#&gt; End = 2001 </span>
-<span class="co">#&gt; Frequency = 1 </span>
-<span class="co">#&gt;         Total       AA        AB       AC       BA       BB</span>
-<span class="co">#&gt; 1992 48.74808 7.862669  9.267647 10.08102 10.49276 11.04398</span>
-<span class="co">#&gt; 1993 49.48047 8.340355  9.416544 10.08193 10.51712 11.12452</span>
-<span class="co">#&gt; 1994 49.93238 8.549132  9.479022 10.11719 10.54013 11.24691</span>
-<span class="co">#&gt; 1995 50.24070 8.597699  9.532376 10.14705 10.61220 11.35138</span>
-<span class="co">#&gt; 1996 50.60846 8.770196  9.547591 10.16021 10.64932 11.48114</span>
-<span class="co">#&gt; 1997 50.84851 8.837793  9.555664 10.17101 10.70736 11.57668</span>
-<span class="co">#&gt; 1998 51.70922 8.893267  9.730347 10.28392 10.86323 11.93846</span>
-<span class="co">#&gt; 1999 51.94330 8.933993  9.797294 10.29026 10.92463 11.99712</span>
-<span class="co">#&gt; 2000 52.57796 9.133653  9.921262 10.34817 11.00622 12.16865</span>
-<span class="co">#&gt; 2001 53.21496 9.152636 10.022783 10.46706 11.03531 12.53717</span>
+<span class="co">#&gt;  [1] 48.74808 49.48047 49.93238 50.24070 50.60846 50.84851 51.70922</span>
+<span class="co">#&gt;  [8] 51.94330 52.57796 53.21496</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Labels: </span>
+<span class="co">#&gt; [1] "Level 0" "Level 1" "Level 2"</span>
+aggts1 &lt;-<span class="st"> </span><span class="kw"><a href="reference/aggts.html">aggts</a></span>(htseg1)
+aggts2 &lt;-<span class="st"> </span><span class="kw"><a href="reference/aggts.html">aggts</a></span>(htseg1, <span class="dt">levels =</span> <span class="dv">1</span>)
+aggts3 &lt;-<span class="st"> </span><span class="kw"><a href="reference/aggts.html">aggts</a></span>(htseg1, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">2</span>))
 <span class="kw">plot</span>(htseg1, <span class="dt">levels =</span> <span class="dv">1</span>)</code></pre></div>
 <p><img src="figure/hts-eg1-1.png" width="672"></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/smatrix.html">smatrix</a></span>(htseg1)  <span class="co"># Return the dense mode</span>
@@ -199,132 +128,54 @@ devtools<span class="op">::</span><span class="kw">install_github</span>(<span c
 fcasts1.bu &lt;-<span class="st"> </span><span class="kw">forecast</span>(
   htseg1, <span class="dt">h =</span> <span class="dv">4</span>, <span class="dt">method =</span> <span class="st">"bu"</span>, <span class="dt">fmethod =</span> <span class="st">"ets"</span>, <span class="dt">parallel =</span> <span class="ot">TRUE</span>
 )
-<span class="kw"><a href="reference/aggts.html">aggts</a></span>(fcasts1.bu)
+aggts4 &lt;-<span class="st"> </span><span class="kw"><a href="reference/aggts.html">aggts</a></span>(fcasts1.bu)
+<span class="kw">summary</span>(fcasts1.bu)
+<span class="co">#&gt; Hierarchical Time Series </span>
+<span class="co">#&gt; 3 Levels </span>
+<span class="co">#&gt; Number of nodes at each level: 1 2 5 </span>
+<span class="co">#&gt; Total number of series: 8 </span>
+<span class="co">#&gt; Number of observations in each historical series: 10 </span>
+<span class="co">#&gt; Number of forecasts per series: 4 </span>
+<span class="co">#&gt; Top level series of forecasts: </span>
 <span class="co">#&gt; Time Series:</span>
 <span class="co">#&gt; Start = 2002 </span>
 <span class="co">#&gt; End = 2005 </span>
 <span class="co">#&gt; Frequency = 1 </span>
-<span class="co">#&gt;        Total        A        B       AA       AB       AC       BA</span>
-<span class="co">#&gt; 2002 53.2149 29.64246 23.57244 9.152634 10.02277 10.46705 11.03531</span>
-<span class="co">#&gt; 2003 53.2149 29.64246 23.57244 9.152634 10.02277 10.46705 11.03531</span>
-<span class="co">#&gt; 2004 53.2149 29.64246 23.57244 9.152634 10.02277 10.46705 11.03531</span>
-<span class="co">#&gt; 2005 53.2149 29.64246 23.57244 9.152634 10.02277 10.46705 11.03531</span>
-<span class="co">#&gt;            BB</span>
-<span class="co">#&gt; 2002 12.53713</span>
-<span class="co">#&gt; 2003 12.53713</span>
-<span class="co">#&gt; 2004 12.53713</span>
-<span class="co">#&gt; 2005 12.53713</span>
-<span class="kw">summary</span>(fcasts1.bu)
-<span class="co">#&gt;         Length Class  Mode     </span>
-<span class="co">#&gt; bts     20     mts    numeric  </span>
-<span class="co">#&gt; histy   50     mts    numeric  </span>
-<span class="co">#&gt; labels   3     -none- list     </span>
-<span class="co">#&gt; method   1     -none- character</span>
-<span class="co">#&gt; fmethod  1     -none- character</span>
-<span class="co">#&gt; nodes    2     -none- list</span>
+<span class="co">#&gt; [1] 53.2149 53.2149 53.2149 53.2149</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Method: Bottom-up forecasts </span>
+<span class="co">#&gt; Forecast method: ETS</span>
 fcasts1.td &lt;-<span class="st"> </span><span class="kw">forecast</span>(
   htseg1, <span class="dt">h =</span> <span class="dv">4</span>, <span class="dt">method =</span> <span class="st">"tdfp"</span>, <span class="dt">fmethod =</span> <span class="st">"arima"</span>, <span class="dt">keep.fitted =</span> <span class="ot">TRUE</span>
 )
 <span class="kw">summary</span>(fcasts1.td)  <span class="co"># When keep.fitted = TRUE, return in-sample accuracy</span>
-<span class="co">#&gt;         Length Class  Mode     </span>
-<span class="co">#&gt; bts     20     mts    numeric  </span>
-<span class="co">#&gt; histy   50     mts    numeric  </span>
-<span class="co">#&gt; labels   3     -none- list     </span>
-<span class="co">#&gt; method   1     -none- character</span>
-<span class="co">#&gt; fmethod  1     -none- character</span>
-<span class="co">#&gt; fitted  50     mts    numeric  </span>
-<span class="co">#&gt; nodes    2     -none- list</span>
+<span class="co">#&gt; Hierarchical Time Series </span>
+<span class="co">#&gt; 3 Levels </span>
+<span class="co">#&gt; Number of nodes at each level: 1 2 5 </span>
+<span class="co">#&gt; Total number of series: 8 </span>
+<span class="co">#&gt; Number of observations in each historical series: 10 </span>
+<span class="co">#&gt; Number of forecasts per series: 4 </span>
+<span class="co">#&gt; Top level series of forecasts: </span>
+<span class="co">#&gt; Time Series:</span>
+<span class="co">#&gt; Start = 2002 </span>
+<span class="co">#&gt; End = 2005 </span>
+<span class="co">#&gt; Frequency = 1 </span>
+<span class="co">#&gt; [1] 53.71128 54.20760 54.70392 55.20024</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Method: Top-down forecasts using forecasts proportions </span>
+<span class="co">#&gt; Forecast method: Arima </span>
+<span class="co">#&gt; In-sample error measures at the bottom level: </span>
+<span class="co">#&gt;                AA           AB          AC          BA           BB</span>
+<span class="co">#&gt; ME   0.0007719336 0.0009183738 0.001003812 0.001043247  0.001087807</span>
+<span class="co">#&gt; RMSE 0.1298400018 0.0515879830 0.040306867 0.037462277  0.105015065</span>
+<span class="co">#&gt; MAE  0.0978321731 0.0436089571 0.033210387 0.027003846  0.081906948</span>
+<span class="co">#&gt; MAPE 1.1275970221 0.4534439625 0.323535559 0.251066115  0.691364891</span>
+<span class="co">#&gt; MPE  0.0367879336 0.0069220593 0.006785872 0.007787895 -0.011087494</span>
+<span class="co">#&gt; MASE 0.6825678136 0.5197483057 0.774250880 0.447950006  0.493684443</span>
 fcasts1.comb &lt;-<span class="st"> </span><span class="kw">forecast</span>(
   htseg1, <span class="dt">h =</span> <span class="dv">4</span>, <span class="dt">method =</span> <span class="st">"comb"</span>, <span class="dt">fmethod =</span> <span class="st">"ets"</span>, <span class="dt">keep.fitted =</span> <span class="ot">TRUE</span>
 )
-<span class="kw"><a href="reference/aggts.html">aggts</a></span>(fcasts1.comb)
-<span class="co">#&gt; Time Series:</span>
-<span class="co">#&gt; Start = 2002 </span>
-<span class="co">#&gt; End = 2005 </span>
-<span class="co">#&gt; Frequency = 1 </span>
-<span class="co">#&gt;         Total        A        B       AA       AB       AC       BA</span>
-<span class="co">#&gt; 2002 53.52186 29.77604 23.74583 9.226494 10.06002 10.48952 11.08129</span>
-<span class="co">#&gt; 2003 53.95209 29.96953 23.98255 9.333485 10.11398 10.52207 11.14408</span>
-<span class="co">#&gt; 2004 54.38231 30.16303 24.21928 9.440475 10.16794 10.55461 11.20687</span>
-<span class="co">#&gt; 2005 54.81253 30.35652 24.45600 9.547466 10.22190 10.58716 11.26965</span>
-<span class="co">#&gt;            BB</span>
-<span class="co">#&gt; 2002 12.66453</span>
-<span class="co">#&gt; 2003 12.83847</span>
-<span class="co">#&gt; 2004 13.01241</span>
-<span class="co">#&gt; 2005 13.18635</span>
-<span class="kw">print</span>(fcasts1.comb)  
-<span class="co">#&gt; $bts</span>
-<span class="co">#&gt; Time Series:</span>
-<span class="co">#&gt; Start = 2002 </span>
-<span class="co">#&gt; End = 2005 </span>
-<span class="co">#&gt; Frequency = 1 </span>
-<span class="co">#&gt;            AA       AB       AC       BA       BB</span>
-<span class="co">#&gt; 2002 9.226494 10.06002 10.48952 11.08129 12.66453</span>
-<span class="co">#&gt; 2003 9.333485 10.11398 10.52207 11.14408 12.83847</span>
-<span class="co">#&gt; 2004 9.440475 10.16794 10.55461 11.20687 13.01241</span>
-<span class="co">#&gt; 2005 9.547466 10.22190 10.58716 11.26965 13.18635</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $histy</span>
-<span class="co">#&gt; Time Series:</span>
-<span class="co">#&gt; Start = 1992 </span>
-<span class="co">#&gt; End = 2001 </span>
-<span class="co">#&gt; Frequency = 1 </span>
-<span class="co">#&gt;            AA        AB       AC       BA       BB</span>
-<span class="co">#&gt; 1992 7.862669  9.267647 10.08102 10.49276 11.04398</span>
-<span class="co">#&gt; 1993 8.340355  9.416544 10.08193 10.51712 11.12452</span>
-<span class="co">#&gt; 1994 8.549132  9.479022 10.11719 10.54013 11.24691</span>
-<span class="co">#&gt; 1995 8.597699  9.532376 10.14705 10.61220 11.35138</span>
-<span class="co">#&gt; 1996 8.770196  9.547591 10.16021 10.64932 11.48114</span>
-<span class="co">#&gt; 1997 8.837793  9.555664 10.17101 10.70736 11.57668</span>
-<span class="co">#&gt; 1998 8.893267  9.730347 10.28392 10.86323 11.93846</span>
-<span class="co">#&gt; 1999 8.933993  9.797294 10.29026 10.92463 11.99712</span>
-<span class="co">#&gt; 2000 9.133653  9.921262 10.34817 11.00622 12.16865</span>
-<span class="co">#&gt; 2001 9.152636 10.022783 10.46706 11.03531 12.53717</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $labels</span>
-<span class="co">#&gt; $labels$`Level 0`</span>
-<span class="co">#&gt; [1] "Total"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $labels$`Level 1`</span>
-<span class="co">#&gt; [1] "A" "B"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $labels$`Level 2`</span>
-<span class="co">#&gt; [1] "AA" "AB" "AC" "BA" "BB"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $method</span>
-<span class="co">#&gt; [1] "comb"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $fmethod</span>
-<span class="co">#&gt; [1] "ets"</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $fitted</span>
-<span class="co">#&gt; Time Series:</span>
-<span class="co">#&gt; Start = 1992 </span>
-<span class="co">#&gt; End = 2001 </span>
-<span class="co">#&gt; Frequency = 1 </span>
-<span class="co">#&gt;            AA       AB       AC       BA       BB</span>
-<span class="co">#&gt; 1992 7.961007 9.316365 10.11063 10.47954 11.00555</span>
-<span class="co">#&gt; 1993 8.086162 9.380361 10.14901 10.51746 11.11241</span>
-<span class="co">#&gt; 1994 8.406427 9.449875 10.10204 10.54646 11.20581</span>
-<span class="co">#&gt; 1995 8.596873 9.503103 10.13172 10.57413 11.34110</span>
-<span class="co">#&gt; 1996 8.699505 9.583717 10.17802 10.65257 11.46323</span>
-<span class="co">#&gt; 1997 8.894878 9.610479 10.19815 10.69791 11.61576</span>
-<span class="co">#&gt; 1998 9.038816 9.657048 10.23216 10.76628 11.73992</span>
-<span class="co">#&gt; 1999 9.006894 9.787638 10.31848 10.89522 12.02710</span>
-<span class="co">#&gt; 2000 9.098355 9.880182 10.34026 10.99247 12.18507</span>
-<span class="co">#&gt; 2001 9.229538 9.969617 10.37733 11.07017 12.34581</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $nodes</span>
-<span class="co">#&gt; $nodes$`Level 0`</span>
-<span class="co">#&gt; [1] 2</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $nodes$`Level 1`</span>
-<span class="co">#&gt; [1] 3 2</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; attr(,"class")</span>
-<span class="co">#&gt; [1] "gts" "hts"</span>
+aggts4 &lt;-<span class="st"> </span><span class="kw"><a href="reference/aggts.html">aggts</a></span>(fcasts1.comb)
 <span class="kw">plot</span>(fcasts1.comb, <span class="dt">levels =</span> <span class="dv">2</span>)</code></pre></div>
 <p><img src="figure/hts-eg1-2.png" width="672"></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(fcasts1.comb, <span class="dt">include =</span> <span class="dv">5</span>, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</code></pre></div>
@@ -374,16 +225,6 @@ fcasts2.td &lt;-<span class="st"> </span><span class="kw">forecast</span>(
   data, <span class="dt">h =</span> <span class="dv">5</span>, <span class="dt">method =</span> <span class="st">"tdgsa"</span>, <span class="dt">fmethod =</span> <span class="st">"ets"</span>, 
   <span class="dt">keep.fitted =</span> <span class="ot">TRUE</span>, <span class="dt">keep.resid =</span> <span class="ot">TRUE</span>
 )
-<span class="kw">summary</span>(fcasts2.td)
-<span class="co">#&gt;           Length Class  Mode     </span>
-<span class="co">#&gt; bts        50    mts    numeric  </span>
-<span class="co">#&gt; histy     110    mts    numeric  </span>
-<span class="co">#&gt; labels      4    -none- list     </span>
-<span class="co">#&gt; method      1    -none- character</span>
-<span class="co">#&gt; fmethod     1    -none- character</span>
-<span class="co">#&gt; fitted    110    mts    numeric  </span>
-<span class="co">#&gt; residuals 110    mts    numeric  </span>
-<span class="co">#&gt; nodes       3    -none- list</span>
 <span class="kw">plot</span>(fcasts2.td, <span class="dt">include =</span> <span class="dv">5</span>)</code></pre></div>
 <p><img src="figure/hts-eg2-1.png" width="672"></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(fcasts2.td, <span class="dt">include =</span> <span class="dv">5</span>, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">2</span>))</code></pre></div>
@@ -397,93 +238,8 @@ fcasts2.td &lt;-<span class="st"> </span><span class="kw">forecast</span>(
 <p><img src="figure/gts-eg-1.png" width="672"></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
 fcasts3.comb &lt;-<span class="st"> </span><span class="kw">forecast</span>(infantgts, <span class="dt">h =</span> <span class="dv">4</span>, <span class="dt">method =</span> <span class="st">"comb"</span>, <span class="dt">fmethod =</span> <span class="st">"ets"</span>)
-<span class="kw"><a href="reference/aggts.html">aggts</a></span>(fcasts3.comb, <span class="dt">levels =</span> <span class="dv">1</span>)
-<span class="co">#&gt; Time Series:</span>
-<span class="co">#&gt; Start = 2004 </span>
-<span class="co">#&gt; End = 2007 </span>
-<span class="co">#&gt; Frequency = 1 </span>
-<span class="co">#&gt;      Sex/female Sex/male</span>
-<span class="co">#&gt; 2004   513.5419 672.7095</span>
-<span class="co">#&gt; 2005   490.9157 666.5980</span>
-<span class="co">#&gt; 2006   468.2894 660.4866</span>
-<span class="co">#&gt; 2007   445.6631 654.3751</span>
-<span class="kw"><a href="reference/aggts.html">aggts</a></span>(fcasts3.comb, <span class="dt">levels =</span> <span class="dv">1</span>, <span class="dt">forecasts =</span> <span class="ot">FALSE</span>)
-<span class="co">#&gt; Time Series:</span>
-<span class="co">#&gt; Start = 1933 </span>
-<span class="co">#&gt; End = 2003 </span>
-<span class="co">#&gt; Frequency = 1 </span>
-<span class="co">#&gt;      Sex/female Sex/male</span>
-<span class="co">#&gt; 1933       1924     2502</span>
-<span class="co">#&gt; 1934       2097     2698</span>
-<span class="co">#&gt; 1935       1963     2538</span>
-<span class="co">#&gt; 1936       2145     2668</span>
-<span class="co">#&gt; 1937       2007     2565</span>
-<span class="co">#&gt; 1938       1942     2685</span>
-<span class="co">#&gt; 1939       2014     2712</span>
-<span class="co">#&gt; 1940       2131     2766</span>
-<span class="co">#&gt; 1941       2344     3023</span>
-<span class="co">#&gt; 1942       2339     3096</span>
-<span class="co">#&gt; 1943       2387     3071</span>
-<span class="co">#&gt; 1944       2091     2728</span>
-<span class="co">#&gt; 1945       2056     2685</span>
-<span class="co">#&gt; 1946       2221     2922</span>
-<span class="co">#&gt; 1947       2254     2977</span>
-<span class="co">#&gt; 1948       2121     2857</span>
-<span class="co">#&gt; 1949       1997     2624</span>
-<span class="co">#&gt; 1950       2010     2662</span>
-<span class="co">#&gt; 1951       2161     2749</span>
-<span class="co">#&gt; 1952       2049     2774</span>
-<span class="co">#&gt; 1953       2081     2662</span>
-<span class="co">#&gt; 1954       1938     2608</span>
-<span class="co">#&gt; 1955       1946     2625</span>
-<span class="co">#&gt; 1956       2047     2583</span>
-<span class="co">#&gt; 1957       2058     2693</span>
-<span class="co">#&gt; 1958       1996     2590</span>
-<span class="co">#&gt; 1959       2121     2794</span>
-<span class="co">#&gt; 1960       2015     2652</span>
-<span class="co">#&gt; 1961       2010     2690</span>
-<span class="co">#&gt; 1962       2070     2791</span>
-<span class="co">#&gt; 1963       2016     2636</span>
-<span class="co">#&gt; 1964       1895     2508</span>
-<span class="co">#&gt; 1965       1767     2357</span>
-<span class="co">#&gt; 1966       1737     2328</span>
-<span class="co">#&gt; 1967       1784     2421</span>
-<span class="co">#&gt; 1968       1841     2452</span>
-<span class="co">#&gt; 1969       1923     2584</span>
-<span class="co">#&gt; 1970       1902     2718</span>
-<span class="co">#&gt; 1971       2125     2684</span>
-<span class="co">#&gt; 1972       1888     2577</span>
-<span class="co">#&gt; 1973       1732     2356</span>
-<span class="co">#&gt; 1974       1648     2326</span>
-<span class="co">#&gt; 1975       1389     1952</span>
-<span class="co">#&gt; 1976       1391     1770</span>
-<span class="co">#&gt; 1977       1205     1629</span>
-<span class="co">#&gt; 1978       1157     1575</span>
-<span class="co">#&gt; 1979       1116     1441</span>
-<span class="co">#&gt; 1980       1055     1383</span>
-<span class="co">#&gt; 1981       1011     1354</span>
-<span class="co">#&gt; 1982       1060     1425</span>
-<span class="co">#&gt; 1983       1047     1302</span>
-<span class="co">#&gt; 1984        925     1259</span>
-<span class="co">#&gt; 1985       1075     1398</span>
-<span class="co">#&gt; 1986        918     1244</span>
-<span class="co">#&gt; 1987        896     1235</span>
-<span class="co">#&gt; 1988        916     1227</span>
-<span class="co">#&gt; 1989        882     1136</span>
-<span class="co">#&gt; 1990        926     1223</span>
-<span class="co">#&gt; 1991        802     1049</span>
-<span class="co">#&gt; 1992        775     1073</span>
-<span class="co">#&gt; 1993        680      918</span>
-<span class="co">#&gt; 1994        658      866</span>
-<span class="co">#&gt; 1995        660      806</span>
-<span class="co">#&gt; 1996        624      843</span>
-<span class="co">#&gt; 1997        608      744</span>
-<span class="co">#&gt; 1998        555      706</span>
-<span class="co">#&gt; 1999        601      812</span>
-<span class="co">#&gt; 2000        567      725</span>
-<span class="co">#&gt; 2001        562      751</span>
-<span class="co">#&gt; 2002        572      699</span>
-<span class="co">#&gt; 2003        530      677</span>
+agg_gts1 &lt;-<span class="st"> </span><span class="kw"><a href="reference/aggts.html">aggts</a></span>(fcasts3.comb, <span class="dt">levels =</span> <span class="dv">1</span>)
+agg_gts2 &lt;-<span class="st"> </span><span class="kw"><a href="reference/aggts.html">aggts</a></span>(fcasts3.comb, <span class="dt">levels =</span> <span class="dv">1</span>, <span class="dt">forecasts =</span> <span class="ot">FALSE</span>)
 <span class="kw">plot</span>(fcasts3.comb)</code></pre></div>
 <p><img src="figure/gts-eg-2.png" width="672"></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(fcasts3.comb, <span class="dt">include =</span> <span class="dv">5</span>, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</code></pre></div>
@@ -493,50 +249,11 @@ fcasts3.combsd &lt;-<span class="st"> </span><span class="kw">forecast</span>(
   infantgts, <span class="dt">h =</span> <span class="dv">4</span>, <span class="dt">method =</span> <span class="st">"comb"</span>, <span class="dt">fmethod =</span> <span class="st">"ets"</span>,
   <span class="dt">weights =</span> <span class="st">"sd"</span>, <span class="dt">keep.fitted =</span> <span class="ot">TRUE</span>
 )
-<span class="kw"><a href="reference/aggts.html">aggts</a></span>(fcasts3.combsd, <span class="dt">levels =</span> <span class="dv">1</span>)
-<span class="co">#&gt; Time Series:</span>
-<span class="co">#&gt; Start = 2004 </span>
-<span class="co">#&gt; End = 2007 </span>
-<span class="co">#&gt; Frequency = 1 </span>
-<span class="co">#&gt;      Sex/female Sex/male</span>
-<span class="co">#&gt; 2004   513.5419 672.7095</span>
-<span class="co">#&gt; 2005   490.9157 666.5980</span>
-<span class="co">#&gt; 2006   468.2894 660.4866</span>
-<span class="co">#&gt; 2007   445.6631 654.3751</span>
-<span class="kw">summary</span>(fcasts3.combsd)
-<span class="co">#&gt;         Length Class   Mode     </span>
-<span class="co">#&gt; bts       64   mts     numeric  </span>
-<span class="co">#&gt; histy   1136   mts     numeric  </span>
-<span class="co">#&gt; labels     2   -none-  list     </span>
-<span class="co">#&gt; method     1   -none-  character</span>
-<span class="co">#&gt; fmethod    1   -none-  character</span>
-<span class="co">#&gt; fitted  1136   mts     numeric  </span>
-<span class="co">#&gt; groups    64   gmatrix numeric</span>
 
 fcasts3.combn &lt;-<span class="st"> </span><span class="kw">forecast</span>(
   infantgts, <span class="dt">h =</span> <span class="dv">4</span>, <span class="dt">method =</span> <span class="st">"comb"</span>, <span class="dt">fmethod =</span> <span class="st">"ets"</span>,
   <span class="dt">weights =</span> <span class="st">"nseries"</span>, <span class="dt">keep.resid =</span> <span class="ot">TRUE</span>
-)
-<span class="kw"><a href="reference/aggts.html">aggts</a></span>(fcasts3.combn, <span class="dt">levels =</span> <span class="dv">3</span>)
-<span class="co">#&gt; Time Series:</span>
-<span class="co">#&gt; Start = 2004 </span>
-<span class="co">#&gt; End = 2007 </span>
-<span class="co">#&gt; Frequency = 1 </span>
-<span class="co">#&gt;      NSW female VIC female QLD female SA female WA female NT female</span>
-<span class="co">#&gt; 2004   170.1027   121.2634  103.75624  35.67006  46.72033 12.049177</span>
-<span class="co">#&gt; 2005   159.6834   120.4511   98.79675  34.85778  45.90805 10.439765</span>
-<span class="co">#&gt; 2006   149.2640   119.6388   93.83726  34.04550  45.09577  8.830352</span>
-<span class="co">#&gt; 2007   138.8447   118.8266   88.87778  33.23322  44.28349  7.220939</span>
-<span class="co">#&gt;      ACT female TAS female NSW male VIC male QLD male  SA male  WA male</span>
-<span class="co">#&gt; 2004   6.060038   20.78827 211.1664 184.2918 134.3276 35.09971 53.21625</span>
-<span class="co">#&gt; 2005   5.107381   19.97599 208.4218 184.0622 133.0403 34.87011 52.98665</span>
-<span class="co">#&gt; 2006   4.154725   19.16371 205.6772 183.8326 131.7530 34.64051 52.75705</span>
-<span class="co">#&gt; 2007   3.202069   18.35143 202.9326 183.6030 130.4657 34.41091 52.52745</span>
-<span class="co">#&gt;       NT male ACT male TAS male</span>
-<span class="co">#&gt; 2004 21.00825 13.60149 21.74516</span>
-<span class="co">#&gt; 2005 20.79164 13.79302 21.51556</span>
-<span class="co">#&gt; 2006 20.57504 13.98456 21.28596</span>
-<span class="co">#&gt; 2007 20.35843 14.17609 21.05636</span></code></pre></div>
+)</code></pre></div>
 </div>
 </div>
 <div id="license" class="section level2">

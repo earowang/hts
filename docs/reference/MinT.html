@@ -148,7 +148,7 @@ Statistics and Data Analysis</em>, <b>97</b>, 16--32.
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p><code><a href='hts.html'>hts</a></code>, <code><a href='gts.html'>gts</a></code>,
+    <p><code><a href='hts.html'>hts</a></code>, <code><a href='gts-class.html'>gts</a></code>,
 <code><a href='forecast.gts.html'>forecast.gts</a></code>, <code><a href='combinef.html'>combinef</a></code></p>
     
 
@@ -177,7 +177,7 @@ Statistics and Data Analysis</em>, <b>97</b>, 16--32.
 <span class='fu'>not_run</span>({
   <span class='no'>abc</span> <span class='kw'>&lt;-</span> <span class='fu'>ts</span>(<span class='fl'>5</span> + <span class='fu'>matrix</span>(<span class='fu'>sort</span>(<span class='fu'>rnorm</span>(<span class='fl'>200</span>)), <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>50</span>))
   <span class='no'>g</span> <span class='kw'>&lt;-</span> <span class='fu'>rbind</span>(<span class='fu'>c</span>(<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>2</span>), <span class='fu'>c</span>(<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>1</span>,<span class='fl'>2</span>))
-  <span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gts.html'>gts</a></span>(<span class='no'>abc</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='no'>g</span>)
+  <span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gts-class.html'>gts</a></span>(<span class='no'>abc</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='no'>g</span>)
   <span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fl'>12</span>
   <span class='no'>ally</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='aggts.html'>aggts</a></span>(<span class='no'>y</span>)
   <span class='no'>n</span> <span class='kw'>&lt;-</span> <span class='fu'>nrow</span>(<span class='no'>ally</span>)
