@@ -28,7 +28,7 @@ You can also install the **development** version from
 
 ```r
 # install.packages("devtools")
-devtools::install_github("robjhyndman/hts")
+devtools::install_github("earowang/hts")
 ```
 
 ## Usage
