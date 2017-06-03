@@ -1,5 +1,6 @@
 %\VignetteIndexEntry{The hts Package}
 %\VignetteDepends{forecast}
+%\VignetteEngine{knitr::knitr}
 %\VignetteKeywords{Hierarchical and grouped time series}
 %\VignettePackage{hts}
 
@@ -67,7 +68,7 @@ E-mail: \email{H.Shang@soton.ac.uk} \\
 
 
 \begin{document}
-\SweaveOpts{concordance=FALSE}
+%% \SweaveOpts{concordance=FALSE}
 
 %% For graphics
 %% <<fig=TRUE,eval=TRUE, height=, width=>>=

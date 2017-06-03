@@ -12,3 +12,4 @@ hts.Rproj
 *.log
 *.fdb_latexmk
 hts.tex
+inst/doc
