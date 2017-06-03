@@ -1,3 +1,7 @@
+#' @rdname gts-class
+#' @param object Either \code{hts} or \code{gts} object.
+#' @method summary gts
+#' @export
 summary.gts <- function(object, ...) {
   print(object)
   if (is.null(object$histy)) {

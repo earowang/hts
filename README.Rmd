@@ -46,9 +46,9 @@ library(hts)
 # hts example 1
 print(htseg1)
 summary(htseg1)
-aggts(htseg1)
-aggts(htseg1, levels = 1)
-aggts(htseg1, levels = c(0, 2))
+aggts1 <- aggts(htseg1)
+aggts2 <- aggts(htseg1, levels = 1)
+aggts3 <- aggts(htseg1, levels = c(0, 2))
 plot(htseg1, levels = 1)
 smatrix(htseg1)  # Return the dense mode
 
@@ -56,7 +56,7 @@ smatrix(htseg1)  # Return the dense mode
 fcasts1.bu <- forecast(
   htseg1, h = 4, method = "bu", fmethod = "ets", parallel = TRUE
 )
-aggts(fcasts1.bu)
+aggts4 <- aggts(fcasts1.bu)
 summary(fcasts1.bu)
 fcasts1.td <- forecast(
   htseg1, h = 4, method = "tdfp", fmethod = "arima", keep.fitted = TRUE
@@ -65,7 +65,7 @@ summary(fcasts1.td)  # When keep.fitted = TRUE, return in-sample accuracy
 fcasts1.comb <- forecast(
   htseg1, h = 4, method = "comb", fmethod = "ets", keep.fitted = TRUE
 )
-aggts(fcasts1.comb)
+aggts4 <- aggts(fcasts1.comb)
 print(fcasts1.comb)  
 plot(fcasts1.comb, levels = 2)
 plot(fcasts1.comb, include = 5, levels = c(1, 2))
@@ -99,8 +99,8 @@ plot(fcasts2.td, include = 5, levels = c(0, 2))
 plot(infantgts, levels = 1)
 
 fcasts3.comb <- forecast(infantgts, h = 4, method = "comb", fmethod = "ets")
-aggts(fcasts3.comb, levels = 1)
-aggts(fcasts3.comb, levels = 1, forecasts = FALSE)
+agg_gts1 <- aggts(fcasts3.comb, levels = 1)
+agg_gts2 <- aggts(fcasts3.comb, levels = 1, forecasts = FALSE)
 plot(fcasts3.comb)
 plot(fcasts3.comb, include = 5, levels = c(1, 2))
 
@@ -108,15 +108,12 @@ fcasts3.combsd <- forecast(
   infantgts, h = 4, method = "comb", fmethod = "ets",
   weights = "sd", keep.fitted = TRUE
 )
-aggts(fcasts3.combsd, levels = 1)
 summary(fcasts3.combsd)
 
 fcasts3.combn <- forecast(
   infantgts, h = 4, method = "comb", fmethod = "ets",
   weights = "nseries", keep.resid = TRUE
 )
-aggts(fcasts3.combn, levels = 3)
-
 ```
 
 ## License

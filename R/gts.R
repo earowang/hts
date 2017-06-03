@@ -2,7 +2,7 @@
 #' 
 #' Method for creating grouped time series.
 #' 
-#' 
+#' @rdname gts-class
 #' @aliases gts print.gts summary.gts
 #' @param y A matrix or multivariate time series contains the bottom level
 #' series.
@@ -37,6 +37,7 @@
 #' \code{characters} only supports 2-way cross-products for grouping variables.
 #' Specifying \code{groups} is more general (but more complicated), as any
 #' combination of grouping variables can be used.
+#' @param ... Extra arguments passed to \code{print} and \code{summary}.
 #' @return \item{bts}{Multivariate time series contains the bottom level
 #' series} \item{groups}{Information about the groups of a grouped time series}
 #' \item{labels}{Information about the labels that are used for plotting.}
@@ -267,6 +268,10 @@ is.gts <- function(xts) {
   is.element("gts", class(xts))
 }
 
+#' @rdname gts-class
+#' @param x Either \code{hts} or \code{gts} object.
+#' @method print gts
+#' @export
 # Print "gts" on the screen
 print.gts <- function(x, ...) {
   if (is.hts(x)) {

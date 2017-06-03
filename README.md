@@ -34,108 +34,37 @@ library(hts)
 
 # hts example 1
 print(htseg1)
-#> $bts
+#> Hierarchical Time Series 
+#> 3 Levels 
+#> Number of nodes at each level: 1 2 5 
+#> Total number of series: 8 
+#> Number of observations per series: 10 
+#> Top level series: 
 #> Time Series:
 #> Start = 1992 
 #> End = 2001 
 #> Frequency = 1 
-#>            AA        AB       AC       BA       BB
-#> 1992 7.862669  9.267647 10.08102 10.49276 11.04398
-#> 1993 8.340355  9.416544 10.08193 10.51712 11.12452
-#> 1994 8.549132  9.479022 10.11719 10.54013 11.24691
-#> 1995 8.597699  9.532376 10.14705 10.61220 11.35138
-#> 1996 8.770196  9.547591 10.16021 10.64932 11.48114
-#> 1997 8.837793  9.555664 10.17101 10.70736 11.57668
-#> 1998 8.893267  9.730347 10.28392 10.86323 11.93846
-#> 1999 8.933993  9.797294 10.29026 10.92463 11.99712
-#> 2000 9.133653  9.921262 10.34817 11.00622 12.16865
-#> 2001 9.152636 10.022783 10.46706 11.03531 12.53717
-#> 
-#> $nodes
-#> $nodes$`Level 0`
-#> [1] 2
-#> 
-#> $nodes$`Level 1`
-#> [1] 3 2
-#> 
-#> 
-#> $labels
-#> $labels$`Level 0`
-#> [1] "Total"
-#> 
-#> $labels$`Level 1`
-#> [1] "A" "B"
-#> 
-#> $labels$`Level 2`
-#> [1] "AA" "AB" "AC" "BA" "BB"
-#> 
-#> 
-#> attr(,"class")
-#> [1] "gts" "hts"
+#>  [1] 48.74808 49.48047 49.93238 50.24070 50.60846 50.84851 51.70922
+#>  [8] 51.94330 52.57796 53.21496
 summary(htseg1)
-#>        Length Class  Mode   
-#> bts    50     mts    numeric
-#> nodes   2     -none- list   
-#> labels  3     -none- list
-aggts(htseg1)
+#> Hierarchical Time Series 
+#> 3 Levels 
+#> Number of nodes at each level: 1 2 5 
+#> Total number of series: 8 
+#> Number of observations per series: 10 
+#> Top level series: 
 #> Time Series:
 #> Start = 1992 
 #> End = 2001 
 #> Frequency = 1 
-#>         Total        A        B       AA        AB       AC       BA
-#> 1992 48.74808 27.21134 21.53674 7.862669  9.267647 10.08102 10.49276
-#> 1993 49.48047 27.83883 21.64164 8.340355  9.416544 10.08193 10.51712
-#> 1994 49.93238 28.14535 21.78704 8.549132  9.479022 10.11719 10.54013
-#> 1995 50.24070 28.27712 21.96358 8.597699  9.532376 10.14705 10.61220
-#> 1996 50.60846 28.47800 22.13046 8.770196  9.547591 10.16021 10.64932
-#> 1997 50.84851 28.56447 22.28404 8.837793  9.555664 10.17101 10.70736
-#> 1998 51.70922 28.90753 22.80169 8.893267  9.730347 10.28392 10.86323
-#> 1999 51.94330 29.02155 22.92175 8.933993  9.797294 10.29026 10.92463
-#> 2000 52.57796 29.40308 23.17488 9.133653  9.921262 10.34817 11.00622
-#> 2001 53.21496 29.64248 23.57248 9.152636 10.022783 10.46706 11.03531
-#>            BB
-#> 1992 11.04398
-#> 1993 11.12452
-#> 1994 11.24691
-#> 1995 11.35138
-#> 1996 11.48114
-#> 1997 11.57668
-#> 1998 11.93846
-#> 1999 11.99712
-#> 2000 12.16865
-#> 2001 12.53717
-aggts(htseg1, levels = 1)
-#> Time Series:
-#> Start = 1992 
-#> End = 2001 
-#> Frequency = 1 
-#>             A        B
-#> 1992 27.21134 21.53674
-#> 1993 27.83883 21.64164
-#> 1994 28.14535 21.78704
-#> 1995 28.27712 21.96358
-#> 1996 28.47800 22.13046
-#> 1997 28.56447 22.28404
-#> 1998 28.90753 22.80169
-#> 1999 29.02155 22.92175
-#> 2000 29.40308 23.17488
-#> 2001 29.64248 23.57248
-aggts(htseg1, levels = c(0, 2))
-#> Time Series:
-#> Start = 1992 
-#> End = 2001 
-#> Frequency = 1 
-#>         Total       AA        AB       AC       BA       BB
-#> 1992 48.74808 7.862669  9.267647 10.08102 10.49276 11.04398
-#> 1993 49.48047 8.340355  9.416544 10.08193 10.51712 11.12452
-#> 1994 49.93238 8.549132  9.479022 10.11719 10.54013 11.24691
-#> 1995 50.24070 8.597699  9.532376 10.14705 10.61220 11.35138
-#> 1996 50.60846 8.770196  9.547591 10.16021 10.64932 11.48114
-#> 1997 50.84851 8.837793  9.555664 10.17101 10.70736 11.57668
-#> 1998 51.70922 8.893267  9.730347 10.28392 10.86323 11.93846
-#> 1999 51.94330 8.933993  9.797294 10.29026 10.92463 11.99712
-#> 2000 52.57796 9.133653  9.921262 10.34817 11.00622 12.16865
-#> 2001 53.21496 9.152636 10.022783 10.46706 11.03531 12.53717
+#>  [1] 48.74808 49.48047 49.93238 50.24070 50.60846 50.84851 51.70922
+#>  [8] 51.94330 52.57796 53.21496
+#> 
+#> Labels: 
+#> [1] "Level 0" "Level 1" "Level 2"
+aggts1 <- aggts(htseg1)
+aggts2 <- aggts(htseg1, levels = 1)
+aggts3 <- aggts(htseg1, levels = c(0, 2))
 plot(htseg1, levels = 1)
 ```
 
@@ -157,132 +86,67 @@ smatrix(htseg1)  # Return the dense mode
 fcasts1.bu <- forecast(
   htseg1, h = 4, method = "bu", fmethod = "ets", parallel = TRUE
 )
-aggts(fcasts1.bu)
+aggts4 <- aggts(fcasts1.bu)
+summary(fcasts1.bu)
+#> Hierarchical Time Series 
+#> 3 Levels 
+#> Number of nodes at each level: 1 2 5 
+#> Total number of series: 8 
+#> Number of observations in each historical series: 10 
+#> Number of forecasts per series: 4 
+#> Top level series of forecasts: 
 #> Time Series:
 #> Start = 2002 
 #> End = 2005 
 #> Frequency = 1 
-#>        Total        A        B       AA       AB       AC       BA
-#> 2002 53.2149 29.64246 23.57244 9.152634 10.02277 10.46705 11.03531
-#> 2003 53.2149 29.64246 23.57244 9.152634 10.02277 10.46705 11.03531
-#> 2004 53.2149 29.64246 23.57244 9.152634 10.02277 10.46705 11.03531
-#> 2005 53.2149 29.64246 23.57244 9.152634 10.02277 10.46705 11.03531
-#>            BB
-#> 2002 12.53713
-#> 2003 12.53713
-#> 2004 12.53713
-#> 2005 12.53713
-summary(fcasts1.bu)
-#>         Length Class  Mode     
-#> bts     20     mts    numeric  
-#> histy   50     mts    numeric  
-#> labels   3     -none- list     
-#> method   1     -none- character
-#> fmethod  1     -none- character
-#> nodes    2     -none- list
+#> [1] 53.2149 53.2149 53.2149 53.2149
+#> 
+#> Method: Bottom-up forecasts 
+#> Forecast method: ETS
 fcasts1.td <- forecast(
   htseg1, h = 4, method = "tdfp", fmethod = "arima", keep.fitted = TRUE
 )
 summary(fcasts1.td)  # When keep.fitted = TRUE, return in-sample accuracy
-#>         Length Class  Mode     
-#> bts     20     mts    numeric  
-#> histy   50     mts    numeric  
-#> labels   3     -none- list     
-#> method   1     -none- character
-#> fmethod  1     -none- character
-#> fitted  50     mts    numeric  
-#> nodes    2     -none- list
+#> Hierarchical Time Series 
+#> 3 Levels 
+#> Number of nodes at each level: 1 2 5 
+#> Total number of series: 8 
+#> Number of observations in each historical series: 10 
+#> Number of forecasts per series: 4 
+#> Top level series of forecasts: 
+#> Time Series:
+#> Start = 2002 
+#> End = 2005 
+#> Frequency = 1 
+#> [1] 53.71128 54.20760 54.70392 55.20024
+#> 
+#> Method: Top-down forecasts using forecasts proportions 
+#> Forecast method: Arima 
+#> In-sample error measures at the bottom level: 
+#>                AA           AB          AC          BA           BB
+#> ME   0.0007719336 0.0009183738 0.001003812 0.001043247  0.001087807
+#> RMSE 0.1298400018 0.0515879830 0.040306867 0.037462277  0.105015065
+#> MAE  0.0978321731 0.0436089571 0.033210387 0.027003846  0.081906948
+#> MAPE 1.1275970221 0.4534439625 0.323535559 0.251066115  0.691364891
+#> MPE  0.0367879336 0.0069220593 0.006785872 0.007787895 -0.011087494
+#> MASE 0.6825678136 0.5197483057 0.774250880 0.447950006  0.493684443
 fcasts1.comb <- forecast(
   htseg1, h = 4, method = "comb", fmethod = "ets", keep.fitted = TRUE
 )
-aggts(fcasts1.comb)
-#> Time Series:
-#> Start = 2002 
-#> End = 2005 
-#> Frequency = 1 
-#>         Total        A        B       AA       AB       AC       BA
-#> 2002 53.52186 29.77604 23.74583 9.226494 10.06002 10.48952 11.08129
-#> 2003 53.95209 29.96953 23.98255 9.333485 10.11398 10.52207 11.14408
-#> 2004 54.38231 30.16303 24.21928 9.440475 10.16794 10.55461 11.20687
-#> 2005 54.81253 30.35652 24.45600 9.547466 10.22190 10.58716 11.26965
-#>            BB
-#> 2002 12.66453
-#> 2003 12.83847
-#> 2004 13.01241
-#> 2005 13.18635
+aggts4 <- aggts(fcasts1.comb)
 print(fcasts1.comb)  
-#> $bts
+#> Hierarchical Time Series 
+#> 3 Levels 
+#> Number of nodes at each level: 1 2 5 
+#> Total number of series: 8 
+#> Number of observations in each historical series: 10 
+#> Number of forecasts per series: 4 
+#> Top level series of forecasts: 
 #> Time Series:
 #> Start = 2002 
 #> End = 2005 
 #> Frequency = 1 
-#>            AA       AB       AC       BA       BB
-#> 2002 9.226494 10.06002 10.48952 11.08129 12.66453
-#> 2003 9.333485 10.11398 10.52207 11.14408 12.83847
-#> 2004 9.440475 10.16794 10.55461 11.20687 13.01241
-#> 2005 9.547466 10.22190 10.58716 11.26965 13.18635
-#> 
-#> $histy
-#> Time Series:
-#> Start = 1992 
-#> End = 2001 
-#> Frequency = 1 
-#>            AA        AB       AC       BA       BB
-#> 1992 7.862669  9.267647 10.08102 10.49276 11.04398
-#> 1993 8.340355  9.416544 10.08193 10.51712 11.12452
-#> 1994 8.549132  9.479022 10.11719 10.54013 11.24691
-#> 1995 8.597699  9.532376 10.14705 10.61220 11.35138
-#> 1996 8.770196  9.547591 10.16021 10.64932 11.48114
-#> 1997 8.837793  9.555664 10.17101 10.70736 11.57668
-#> 1998 8.893267  9.730347 10.28392 10.86323 11.93846
-#> 1999 8.933993  9.797294 10.29026 10.92463 11.99712
-#> 2000 9.133653  9.921262 10.34817 11.00622 12.16865
-#> 2001 9.152636 10.022783 10.46706 11.03531 12.53717
-#> 
-#> $labels
-#> $labels$`Level 0`
-#> [1] "Total"
-#> 
-#> $labels$`Level 1`
-#> [1] "A" "B"
-#> 
-#> $labels$`Level 2`
-#> [1] "AA" "AB" "AC" "BA" "BB"
-#> 
-#> 
-#> $method
-#> [1] "comb"
-#> 
-#> $fmethod
-#> [1] "ets"
-#> 
-#> $fitted
-#> Time Series:
-#> Start = 1992 
-#> End = 2001 
-#> Frequency = 1 
-#>            AA       AB       AC       BA       BB
-#> 1992 7.961007 9.316365 10.11063 10.47954 11.00555
-#> 1993 8.086162 9.380361 10.14901 10.51746 11.11241
-#> 1994 8.406427 9.449875 10.10204 10.54646 11.20581
-#> 1995 8.596873 9.503103 10.13172 10.57413 11.34110
-#> 1996 8.699505 9.583717 10.17802 10.65257 11.46323
-#> 1997 8.894878 9.610479 10.19815 10.69791 11.61576
-#> 1998 9.038816 9.657048 10.23216 10.76628 11.73992
-#> 1999 9.006894 9.787638 10.31848 10.89522 12.02710
-#> 2000 9.098355 9.880182 10.34026 10.99247 12.18507
-#> 2001 9.229538 9.969617 10.37733 11.07017 12.34581
-#> 
-#> $nodes
-#> $nodes$`Level 0`
-#> [1] 2
-#> 
-#> $nodes$`Level 1`
-#> [1] 3 2
-#> 
-#> 
-#> attr(,"class")
-#> [1] "gts" "hts"
+#> [1] 53.52186 53.95209 54.38231 54.81253
 plot(fcasts1.comb, levels = 2)
 ```
 
@@ -339,15 +203,36 @@ fcasts2.td <- forecast(
   keep.fitted = TRUE, keep.resid = TRUE
 )
 summary(fcasts2.td)
-#>           Length Class  Mode     
-#> bts        50    mts    numeric  
-#> histy     110    mts    numeric  
-#> labels      4    -none- list     
-#> method      1    -none- character
-#> fmethod     1    -none- character
-#> fitted    110    mts    numeric  
-#> residuals 110    mts    numeric  
-#> nodes       3    -none- list
+#> Hierarchical Time Series 
+#> 4 Levels 
+#> Number of nodes at each level: 1 2 4 10 
+#> Total number of series: 17 
+#> Number of observations in each historical series: 11 
+#> Number of forecasts per series: 5 
+#> Top level series of forecasts: 
+#> Time Series:
+#> Start = 2003 
+#> End = 2007 
+#> Frequency = 1 
+#> [1] 1.273401 1.588504 1.903607 2.218710 2.533814
+#> 
+#> Method: Top-down forecasts based on the average historical proportions 
+#> Forecast method: ETS 
+#> In-sample error measures at the bottom level: 
+#>            A10A       A10B       A10C        A20A        A20B         B30A
+#> ME    -3.078268  -1.745391  -1.224382  -0.7686908  -0.3310768    0.3292895
+#> RMSE   4.965263   2.799012   1.958883   1.2352996   0.5443681    0.5296102
+#> MAE    3.748304   2.125358   1.482615   0.9377466   0.4161939    0.3985344
+#> MAPE 188.887337 200.346295 207.045750 200.7373009 199.8010762 1541.6396082
+#> MPE  140.564159 155.447413 166.179284 155.4362954 127.9841464 1513.8144177
+#> MASE  35.480518  65.765326 115.790440  73.8739792  28.1658362   16.3206628
+#>             B30B       B30C       B40A       B40B
+#> ME     0.7266444   1.042012   1.840709   3.212842
+#> RMSE   1.1756978   1.684995   2.982228   5.198359
+#> MAE    0.8894648   1.278269   2.243009   3.945942
+#> MAPE 254.0019540 252.473588 282.009560 253.691729
+#> MPE  214.7989198 212.414710 247.233647 212.910572
+#> MASE  98.9205307 105.060497  43.214274  95.808712
 plot(fcasts2.td, include = 5)
 ```
 
@@ -371,93 +256,8 @@ plot(infantgts, levels = 1)
 ``` r
 
 fcasts3.comb <- forecast(infantgts, h = 4, method = "comb", fmethod = "ets")
-aggts(fcasts3.comb, levels = 1)
-#> Time Series:
-#> Start = 2004 
-#> End = 2007 
-#> Frequency = 1 
-#>      Sex/female Sex/male
-#> 2004   513.5419 672.7095
-#> 2005   490.9157 666.5980
-#> 2006   468.2894 660.4866
-#> 2007   445.6631 654.3751
-aggts(fcasts3.comb, levels = 1, forecasts = FALSE)
-#> Time Series:
-#> Start = 1933 
-#> End = 2003 
-#> Frequency = 1 
-#>      Sex/female Sex/male
-#> 1933       1924     2502
-#> 1934       2097     2698
-#> 1935       1963     2538
-#> 1936       2145     2668
-#> 1937       2007     2565
-#> 1938       1942     2685
-#> 1939       2014     2712
-#> 1940       2131     2766
-#> 1941       2344     3023
-#> 1942       2339     3096
-#> 1943       2387     3071
-#> 1944       2091     2728
-#> 1945       2056     2685
-#> 1946       2221     2922
-#> 1947       2254     2977
-#> 1948       2121     2857
-#> 1949       1997     2624
-#> 1950       2010     2662
-#> 1951       2161     2749
-#> 1952       2049     2774
-#> 1953       2081     2662
-#> 1954       1938     2608
-#> 1955       1946     2625
-#> 1956       2047     2583
-#> 1957       2058     2693
-#> 1958       1996     2590
-#> 1959       2121     2794
-#> 1960       2015     2652
-#> 1961       2010     2690
-#> 1962       2070     2791
-#> 1963       2016     2636
-#> 1964       1895     2508
-#> 1965       1767     2357
-#> 1966       1737     2328
-#> 1967       1784     2421
-#> 1968       1841     2452
-#> 1969       1923     2584
-#> 1970       1902     2718
-#> 1971       2125     2684
-#> 1972       1888     2577
-#> 1973       1732     2356
-#> 1974       1648     2326
-#> 1975       1389     1952
-#> 1976       1391     1770
-#> 1977       1205     1629
-#> 1978       1157     1575
-#> 1979       1116     1441
-#> 1980       1055     1383
-#> 1981       1011     1354
-#> 1982       1060     1425
-#> 1983       1047     1302
-#> 1984        925     1259
-#> 1985       1075     1398
-#> 1986        918     1244
-#> 1987        896     1235
-#> 1988        916     1227
-#> 1989        882     1136
-#> 1990        926     1223
-#> 1991        802     1049
-#> 1992        775     1073
-#> 1993        680      918
-#> 1994        658      866
-#> 1995        660      806
-#> 1996        624      843
-#> 1997        608      744
-#> 1998        555      706
-#> 1999        601      812
-#> 2000        567      725
-#> 2001        562      751
-#> 2002        572      699
-#> 2003        530      677
+agg_gts1 <- aggts(fcasts3.comb, levels = 1)
+agg_gts2 <- aggts(fcasts3.comb, levels = 1, forecasts = FALSE)
 plot(fcasts3.comb)
 ```
 
@@ -475,50 +275,49 @@ fcasts3.combsd <- forecast(
   infantgts, h = 4, method = "comb", fmethod = "ets",
   weights = "sd", keep.fitted = TRUE
 )
-aggts(fcasts3.combsd, levels = 1)
+summary(fcasts3.combsd)
+#> Grouped Time Series 
+#> 4 Levels 
+#> Number of groups at each level: 1 2 8 16 
+#> Total number of series: 27 
+#> Number of observations in each historical series: 71 
+#> Number of forecasts per series: 4 
+#> Top level series of forecasts: 
 #> Time Series:
 #> Start = 2004 
 #> End = 2007 
 #> Frequency = 1 
-#>      Sex/female Sex/male
-#> 2004   513.5419 672.7095
-#> 2005   490.9157 666.5980
-#> 2006   468.2894 660.4866
-#> 2007   445.6631 654.3751
-summary(fcasts3.combsd)
-#>         Length Class   Mode     
-#> bts       64   mts     numeric  
-#> histy   1136   mts     numeric  
-#> labels     2   -none-  list     
-#> method     1   -none-  character
-#> fmethod    1   -none-  character
-#> fitted  1136   mts     numeric  
-#> groups    64   gmatrix numeric
+#> [1] 1186.251 1157.514 1128.776 1100.038
+#> 
+#> Method: Optimal combination forecasts 
+#> Forecast method: ETS 
+#> In-sample error measures at the bottom level: 
+#>       NSW female VIC female QLD female  SA female  WA female   NT female
+#> ME    2.67801971  -3.891006  3.6842227 -0.9442843 -0.3160882   0.2229132
+#> RMSE 49.63474255  39.926658 29.3232649 17.8752210 19.1821988  11.8457268
+#> MAE  36.45890700  30.690563 22.5996456 12.6073679 14.6690266   7.5225635
+#> MAPE  6.65729877   8.723297  9.2855552 11.8658597 12.3364268  59.4921825
+#> MPE   0.01485184  -2.199968  0.2070257 -3.3637430 -2.2944685 -27.8184522
+#> MASE  0.90855233   0.939781  0.7909876  0.8059505  0.9023127   1.1275791
+#>      ACT female TAS female   NSW male   VIC male  QLD male    SA male
+#> ME    0.6957455 -1.9691405 -8.8518517 -6.5942736 -2.075320 -1.9874845
+#> RMSE  4.4518673 12.0671580 63.4746798 47.4415369 27.130488 21.1063089
+#> MAE   3.4097890  8.6528343 47.4780637 37.6812780 21.251206 15.6553245
+#> MAPE        Inf 14.8631941  7.0916256  8.3730732  7.027799 12.3787569
+#> MPE        -Inf -6.1664536 -2.3270206 -2.3400289 -1.410862 -4.4955258
+#> MASE  0.8345637  0.8240795  0.9203723  0.9430424  0.947506  0.8601827
+#>         WA male    NT male    ACT male   TAS male
+#> ME   -1.7575813   0.484230  -0.3857071 -2.3084463
+#> RMSE 19.0321452  13.425137   5.5750925 11.9823403
+#> MAE  14.4176042   8.240797   4.0969108  8.5820839
+#> MAPE  9.7699651  49.996253  49.9145862 14.8631814
+#> MPE  -2.9231241 -14.695598 -30.8042542 -6.8844239
+#> MASE  0.9027122   1.243224   0.8240913  0.8173413
 
 fcasts3.combn <- forecast(
   infantgts, h = 4, method = "comb", fmethod = "ets",
   weights = "nseries", keep.resid = TRUE
 )
-aggts(fcasts3.combn, levels = 3)
-#> Time Series:
-#> Start = 2004 
-#> End = 2007 
-#> Frequency = 1 
-#>      NSW female VIC female QLD female SA female WA female NT female
-#> 2004   170.1027   121.2634  103.75624  35.67006  46.72033 12.049177
-#> 2005   159.6834   120.4511   98.79675  34.85778  45.90805 10.439765
-#> 2006   149.2640   119.6388   93.83726  34.04550  45.09577  8.830352
-#> 2007   138.8447   118.8266   88.87778  33.23322  44.28349  7.220939
-#>      ACT female TAS female NSW male VIC male QLD male  SA male  WA male
-#> 2004   6.060038   20.78827 211.1664 184.2918 134.3276 35.09971 53.21625
-#> 2005   5.107381   19.97599 208.4218 184.0622 133.0403 34.87011 52.98665
-#> 2006   4.154725   19.16371 205.6772 183.8326 131.7530 34.64051 52.75705
-#> 2007   3.202069   18.35143 202.9326 183.6030 130.4657 34.41091 52.52745
-#>       NT male ACT male TAS male
-#> 2004 21.00825 13.60149 21.74516
-#> 2005 20.79164 13.79302 21.51556
-#> 2006 20.57504 13.98456 21.28596
-#> 2007 20.35843 14.17609 21.05636
 ```
 
 License

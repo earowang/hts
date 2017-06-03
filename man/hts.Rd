@@ -26,6 +26,8 @@ Then \code{characters} would be specified as \code{c(3, 4)} referring to
 states of 3 characters (e.g., "VIC") and cities of 4 characters (e.g.,
 "Melb") All the bottom names must be of the same length, with number of
 characters for each segment the same for all series.}
+
+\item{...}{Extra arguments passed to \code{print} and \code{summary}.}
 }
 \value{
 \item{bts}{Multivariate time series containing the bottom level

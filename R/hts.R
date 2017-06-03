@@ -19,6 +19,7 @@
 #' states of 3 characters (e.g., "VIC") and cities of 4 characters (e.g.,
 #' "Melb") All the bottom names must be of the same length, with number of
 #' characters for each segment the same for all series.
+#' @param ... Extra arguments passed to \code{print} and \code{summary}.
 #' @return \item{bts}{Multivariate time series containing the bottom level
 #' series} \item{nodes}{Information about the nodes of a hierarchical time
 #' series} \item{labels}{Information about the labels that are used for
