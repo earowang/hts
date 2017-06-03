@@ -2,3 +2,8 @@ template:
   params:
     bootswatch: united
 
+authors:
+  Rob J Hyndman:
+    href: http://robjhyndman.com
+  Earo Wang:
+    href: http://earo.me
