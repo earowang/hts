@@ -2,4 +2,6 @@
 ^\.Rproj\.user$
 ^\.travis\.yml$
 ^docs$
+^figure$
 ^_pkgdown\.yml$
+^README\.Rmd$

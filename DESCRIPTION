@@ -26,12 +26,13 @@ Suggests:
     testthat,
     knitr,
     rmarkdown
-LinkingTo: Rcpp (>= 0.11.0),
+LinkingTo: 
+    Rcpp (>= 0.11.0),
     RcppEigen
 LazyLoad: yes
 LazyData: yes
 ByteCompile: TRUE
-URL: https://github.com/earowang/hts
+URL: https://pkg.earo.me/hts
 BugReports: https://github.com/earowang/hts/issues
 License: GPL (>= 2)
 RoxygenNote: 6.0.1
