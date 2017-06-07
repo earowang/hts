@@ -4,7 +4,8 @@
 * Replaced `ChangeLog` with a `NEWS.md` file to track changes to the package.
 * Used `roxygen2` to generate and manage reference. Thanks to Yihui's `Rd2roxygen` package for easy conversion.
 * Enabled `pkgdown` support.
-* Allowed more control of colour in `plot.gts`.
+* Allowed more control of colour in `plot.gts` (Thanks to @ellisp for the pull request #25).
+* Exported the `is.hts` and `is.gts` functions (as per [#29](https://github.com/earowang/hts/issues/29)).
 
 # hts 5.0 (April 2016)
 

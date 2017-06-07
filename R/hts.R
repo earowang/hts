@@ -3,6 +3,7 @@
 #' Method for creating hierarchical time series.
 #' 
 #' 
+#' @rdname hts-class
 #' @param y A matrix or multivariate time series contain the bottom level
 #' series.
 #' @param nodes A list contains the number of child nodes associated with each
@@ -228,6 +229,9 @@ CreateNodes <- function(bnames, characters) {
   return(out)
 }
 
+#' @rdname hts-class
+#' @param xts \code{hts} object.
+#' @export
 # A function to check whether it's the "hts" class.
 is.hts <- function(xts) {
   is.element("hts", class(xts))

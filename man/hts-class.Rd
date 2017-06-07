@@ -2,9 +2,12 @@
 % Please edit documentation in R/hts.R
 \name{hts}
 \alias{hts}
+\alias{is.hts}
 \title{Create a hierarchical time series}
 \usage{
 hts(y, nodes, bnames = colnames(y), characters)
+
+is.hts(xts)
 }
 \arguments{
 \item{y}{A matrix or multivariate time series contain the bottom level
@@ -26,6 +29,8 @@ Then \code{characters} would be specified as \code{c(3, 4)} referring to
 states of 3 characters (e.g., "VIC") and cities of 4 characters (e.g.,
 "Melb") All the bottom names must be of the same length, with number of
 characters for each segment the same for all series.}
+
+\item{xts}{\code{hts} object.}
 
 \item{...}{Extra arguments passed to \code{print} and \code{summary}.}
 }

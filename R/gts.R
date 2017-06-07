@@ -262,7 +262,9 @@ CreateGmat <- function(bnames, characters) {
   return(gmatrix)
 }
 
-
+#' @rdname gts-class
+#' @param xts \code{gts} object.
+#' @export
 # A function to check whether it's the "gts" class.
 is.gts <- function(xts) {
   is.element("gts", class(xts))

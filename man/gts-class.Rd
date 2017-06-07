@@ -4,11 +4,14 @@
 \alias{gts}
 \alias{print.gts}
 \alias{summary.gts}
+\alias{is.gts}
 \alias{print.gts}
 \alias{summary.gts}
 \title{Create a grouped time series}
 \usage{
 gts(y, groups, gnames = rownames(groups), characters)
+
+is.gts(xts)
 
 \method{print}{gts}(x, ...)
 
@@ -51,6 +54,8 @@ all bottom level names must be of the same length. Currently, the use of
 \code{characters} only supports 2-way cross-products for grouping variables.
 Specifying \code{groups} is more general (but more complicated), as any
 combination of grouping variables can be used.}
+
+\item{xts}{\code{gts} object.}
 
 \item{x}{Either \code{hts} or \code{gts} object.}
 
