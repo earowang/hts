@@ -1,4 +1,4 @@
-# hts 6.0.0.9999
+# hts 5.1.0.9999
 
 * Earo Wang took over maintenance of the package from Rob J Hyndman.
 * Replaced `ChangeLog` with a `NEWS.md` file to track changes to the package.
