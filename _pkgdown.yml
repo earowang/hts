@@ -7,3 +7,13 @@ authors:
     href: http://robjhyndman.com
   Earo Wang:
     href: http://earo.me
+
+navbar:
+  type: default
+  left:
+    - text: "Reference"
+      href: reference/index.html
+    - text: "Articles"
+      href: https://CRAN.R-project.org/package=hts/vignettes/hts.pdf
+    - text: "News"
+      href: news/index.html
