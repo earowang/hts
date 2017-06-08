@@ -3,11 +3,17 @@
 \name{hts}
 \alias{hts}
 \alias{is.hts}
+\alias{print.hts}
+\alias{summary.hts}
 \title{Create a hierarchical time series}
 \usage{
 hts(y, nodes, bnames = colnames(y), characters)
 
 is.hts(xts)
+
+\method{print}{hts}(x, ...)
+
+\method{summary}{hts}(object, ...)
 }
 \arguments{
 \item{y}{A matrix or multivariate time series contain the bottom level
@@ -32,7 +38,11 @@ characters for each segment the same for all series.}
 
 \item{xts}{\code{hts} object.}
 
+\item{x}{\code{hts} object.}
+
 \item{...}{Extra arguments passed to \code{print} and \code{summary}.}
+
+\item{object}{\code{hts} object.}
 }
 \value{
 \item{bts}{Multivariate time series containing the bottom level

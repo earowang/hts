@@ -161,8 +161,10 @@ gts <- function(y, groups, gnames = rownames(groups), characters) {
     names(name.list) <- gnames
   }
 
-  return(structure(list(bts = y, groups = gmat, labels = name.list),
-                        class = "gts"))
+  return(structure(
+    list(bts = y, groups = gmat, labels = name.list),
+    class = c("gts", "mts", "ts", "matrix")
+  ))
 }
 
 
@@ -271,24 +273,16 @@ is.gts <- function(xts) {
 }
 
 #' @rdname gts-class
-#' @param x Either \code{hts} or \code{gts} object.
+#' @param x \code{gts} object.
 #' @method print gts
 #' @export
 # Print "gts" on the screen
 print.gts <- function(x, ...) {
-  if (is.hts(x)) {
-    mn <- Mnodes(x$nodes)
-    cat("Hierarchical Time Series \n")
-    cat(length(mn), "Levels \n")
-    cat("Number of nodes at each level:", mn, "\n")
-    cat("Total number of series:", sum(mn), "\n")
-  } else {
-    cat("Grouped Time Series \n")
-    nlevels <- Mlevel(x$groups)
-    cat(length(nlevels), "Levels \n")
-    cat("Number of groups at each level:", nlevels, "\n")
-    cat("Total number of series:", sum(nlevels), "\n")
-  }
+  cat("Grouped Time Series \n")
+  nlevels <- Mlevel(x$groups)
+  cat(length(nlevels), "Levels \n")
+  cat("Number of groups at each level:", nlevels, "\n")
+  cat("Total number of series:", sum(nlevels), "\n")
 
   if (is.null(x$histy)) {  # Original series
     cat("Number of observations per series:", nrow(x$bts), "\n")
@@ -302,4 +296,34 @@ print.gts <- function(x, ...) {
   topts <- ts(rowSums(x$bts, na.rm = TRUE), start = stats::tsp(x$bts)[1L],
               frequency = stats::tsp(x$bts)[3L])
   print(topts)
+}
+
+#' @rdname gts-class
+#' @param object \code{gts} object.
+#' @method summary gts
+#' @export
+summary.gts <- function(object, ...) {
+  print(object)
+  if (is.null(object$histy)) {
+    cat("\n")
+    cat("Labels: \n")
+    print(names(object$labels))
+  } else {
+    method <- switch(object$method,
+    comb = "Optimal combination forecasts",
+    bu = "Bottom-up forecasts",
+    mo = "Middle-out forecasts",
+    tdgsa = "Top-down forecasts based on the average historical proportions",
+    tdgsf = "Top-down forecasts based on the proportion of historical averages",
+    tdfp = "Top-down forecasts using forecasts proportions")
+    fmethod <- switch(object$fmethod, ets = "ETS", arima = "Arima", 
+                      rw = "Random walk")
+    cat("\n")
+    cat(paste("Method:", method), "\n")
+    cat(paste("Forecast method:", fmethod), "\n")
+    if (!is.null(object$fitted)) {
+      cat("In-sample error measures at the bottom level: \n")
+      print(accuracy.gts(object))
+    }
+  }
 }

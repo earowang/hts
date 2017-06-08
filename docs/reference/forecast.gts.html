@@ -262,8 +262,10 @@ line forecasting, <em>Journal of Forecasting</em>, <b>9</b>, 233-254.</p>
 #&gt;  [1] 53.71128 54.20760 54.70392 55.20024 55.69656 56.19288 56.68920 57.18552
 #&gt;  [9] 57.68184 58.17816</div><div class='input'>
 <span class='fu'>not_run</span>({
-  <span class='fu'>forecast</span>(<span class='no'>htseg2</span>, <span class='kw'>h</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"comb"</span>, <span class='kw'>algorithms</span> <span class='kw'>=</span> <span class='st'>"lu"</span>,
-                    <span class='kw'>FUN</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'>tbats</span>(<span class='no'>x</span>, <span class='kw'>use.parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>))
+    <span class='fu'>forecast</span>(
+      <span class='no'>htseg2</span>, <span class='kw'>h</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"comb"</span>, <span class='kw'>algorithms</span> <span class='kw'>=</span> <span class='st'>"lu"</span>,
+      <span class='kw'>FUN</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'>tbats</span>(<span class='no'>x</span>, <span class='kw'>use.parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+    )
 })</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

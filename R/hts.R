@@ -132,8 +132,10 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
   # Obtain other information
   names(nodes) <- paste("Level", 1L:length(nodes))
 
-  output <- structure(list(bts = y, nodes = nodes, labels = labels),
-                      class = c("gts", "hts"))
+  output <- structure(
+    list(bts = y, nodes = nodes, labels = labels),
+    class = c("hts", "gts", "mts", "ts", "matrix")
+  )
   return(output)
 }
 
@@ -235,4 +237,38 @@ CreateNodes <- function(bnames, characters) {
 # A function to check whether it's the "hts" class.
 is.hts <- function(xts) {
   is.element("hts", class(xts))
+}
+
+#' @rdname hts-class
+#' @param x \code{hts} object.
+#' @method print hts
+#' @export
+# Print "hts" on the screen
+print.hts <- function(x, ...) {
+  mn <- Mnodes(x$nodes)
+  cat("Hierarchical Time Series \n")
+  cat(length(mn), "Levels \n")
+  cat("Number of nodes at each level:", mn, "\n")
+  cat("Total number of series:", sum(mn), "\n")
+
+  if (is.null(x$histy)) {  # Original series
+    cat("Number of observations per series:", nrow(x$bts), "\n")
+    cat("Top level series: \n")
+  } else {
+    cat("Number of observations in each historical series:",
+        nrow(x$histy), "\n")
+    cat("Number of forecasts per series:", nrow(x$bts), "\n")
+    cat("Top level series of forecasts: \n")
+  }
+  topts <- ts(rowSums(x$bts, na.rm = TRUE), start = stats::tsp(x$bts)[1L],
+              frequency = stats::tsp(x$bts)[3L])
+  print(topts)
+}
+
+#' @rdname hts-class
+#' @param object \code{hts} object.
+#' @method summary hts
+#' @export
+summary.hts <- function(object, ...) {
+  NextMethod()
 }

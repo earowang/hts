@@ -101,21 +101,27 @@
 #' 
 #' forecast(htseg1, h = 10, method = "bu", fmethod = "arima")
 #' 
-#' \dontrun{forecast(htseg2, h = 10, method = "comb", algorithms = "lu",
-#'                   FUN = function(x) tbats(x, use.parallel = FALSE))}
+#' \dontrun{
+#'   forecast(
+#'     htseg2, h = 10, method = "comb", algorithms = "lu",
+#'     FUN = function(x) tbats(x, use.parallel = FALSE)
+#'   )
+#' }
 #' 
 #' @export
-forecast.gts <- function(object, h = ifelse(frequency(object$bts) > 1L,
-                         2L * frequency(object$bts), 10L),
-                         method = c("comb", "bu", "mo","tdgsa", "tdgsf", "tdfp"),
-                         weights = c("wls", "ols", "mint", "nseries"),
-                         fmethod = c("ets", "arima", "rw"),
-                         algorithms = c("lu", "cg", "chol", "recursive", "slm"),
-                         covariance = c("shr", "sam"),
-                         keep.fitted = FALSE, keep.resid = FALSE,
-                         positive = FALSE, lambda = NULL, level,
-                         parallel = FALSE, num.cores = 2, FUN = NULL,
-                         xreg = NULL, newxreg = NULL, ...) {
+forecast.gts <- function(
+  object, 
+  h = ifelse(frequency(object$bts) > 1L, 2L * frequency(object$bts), 10L),
+  method = c("comb", "bu", "mo","tdgsa", "tdgsf", "tdfp"),
+  weights = c("wls", "ols", "mint", "nseries"),
+  fmethod = c("ets", "arima", "rw"),
+  algorithms = c("lu", "cg", "chol", "recursive", "slm"),
+  covariance = c("shr", "sam"),
+  keep.fitted = FALSE, keep.resid = FALSE,
+  positive = FALSE, lambda = NULL, level,
+  parallel = FALSE, num.cores = 2, FUN = NULL,
+  xreg = NULL, newxreg = NULL, ...
+) {
   # Forecast hts or gts objects
   #
   # Args:
