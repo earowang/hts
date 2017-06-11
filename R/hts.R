@@ -243,6 +243,7 @@ is.hts <- function(xts) {
 #' @param x \code{hts} object.
 #' @method print hts
 #' @export
+#' @export print.hts
 # Print "hts" on the screen
 print.hts <- function(x, ...) {
   mn <- Mnodes(x$nodes)
@@ -269,6 +270,7 @@ print.hts <- function(x, ...) {
 #' @param object \code{hts} object.
 #' @method summary hts
 #' @export
+#' @export summary.hts
 summary.hts <- function(object, ...) {
   NextMethod()
 }

@@ -109,6 +109,7 @@
 #' }
 #' 
 #' @export
+#' @export forecast.gts
 forecast.gts <- function(
   object, 
   h = ifelse(frequency(object$bts) > 1L, 2L * frequency(object$bts), 10L),

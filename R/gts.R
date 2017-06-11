@@ -77,7 +77,7 @@
 #' colnames(bts2) <- bnames2
 #' x2 <- gts(bts2, characters = c(3, 1, 1))
 #' 
-#' @export gts
+#' @export
 gts <- function(y, groups, gnames = rownames(groups), characters) {
   # Construct the grouped time series.
   #
@@ -276,6 +276,7 @@ is.gts <- function(xts) {
 #' @param x \code{gts} object.
 #' @method print gts
 #' @export
+#' @export print.gts
 # Print "gts" on the screen
 print.gts <- function(x, ...) {
   cat("Grouped Time Series \n")
@@ -302,6 +303,7 @@ print.gts <- function(x, ...) {
 #' @param object \code{gts} object.
 #' @method summary gts
 #' @export
+#' @export summary.gts
 summary.gts <- function(object, ...) {
   print(object)
   if (is.null(object$histy)) {

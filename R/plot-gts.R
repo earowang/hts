@@ -29,6 +29,7 @@
 #'     col = colours()[100:107], lty = 1:8, color_lab = TRUE)
 #' 
 #' @export
+#' @export plot.gts
 plot.gts <- function(x, include, levels, labels = TRUE, 
                      col = NULL, color_lab = FALSE, ...) {
   # Do plotting
