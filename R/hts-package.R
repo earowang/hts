@@ -15,10 +15,10 @@
 #' 
 #' @name hts-package
 #' @docType package
-#' @author Rob J Hyndman, Earo Wang and Alan Lee with contributions from Roman
-#' A Ahmed and Han Lin Shang to earlier versions of the package
+#' @author Rob J Hyndman, Alan Lee, Earo Wang and Shanika L Wickramasuriya with 
+#' contributions from Roman A Ahmed and Han Lin Shang to earlier versions of the 
+#' package
 #' 
-#' Maintainer: Rob J Hyndman <Rob.Hyndman@@monash.edu>
 #' @references G. Athanasopoulos, R. A. Ahmed and R. J. Hyndman (2009)
 #' Hierarchical forecasts for Australian domestic tourism, \emph{International
 #' Journal of Forecasting}, \bold{25}, 146-166.
@@ -32,6 +32,10 @@
 #' forecasts for hierarchical and grouped time series.  \emph{Working paper
 #' 17/14, Department of Econometrics & Business Statistics, Monash University.}
 #' \url{http://robjhyndman.com/working-papers/hgts/}
+#' Wickramasuriya, S. L., Athanasopoulos, G., & Hyndman, R. J. (2015). 
+#' Forecasting hierarchical and grouped time series through trace minimization. 
+#' \emph{Working paper 15/15, Department of Econometrics & Business Statistics, 
+#' Monash University.} \url{http://robjhyndman.com/working-papers/mint/}
 #' @keywords package
 NULL
 

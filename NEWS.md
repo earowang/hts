@@ -1,11 +1,12 @@
-# hts 5.1.0.9999
+# hts 5.1.0 (18 Jun 2017)
 
 * Earo Wang took over maintenance of the package from Rob J Hyndman.
 * Replaced `ChangeLog` with a `NEWS.md` file to track changes to the package.
-* Used `roxygen2` to generate and manage reference. Thanks to Yihui's `Rd2roxygen` package for easy conversion.
+* Used `roxygen2` to generate and manage reference. Thanks to Yihui's `Rd2roxygen` package for hassle-free conversion.
 * Enabled `pkgdown` support.
 * Allowed more control of colour in `plot.gts` (Thanks to @ellisp for the pull request #25).
 * Exported the `is.hts` and `is.gts` functions (as per [#29](https://github.com/earowang/hts/issues/29)).
+* Registered `accurary` as an S3 method from `forecast::accuracy`.
 
 # hts 5.0 (April 2016)
 

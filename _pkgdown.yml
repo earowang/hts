@@ -13,7 +13,7 @@ navbar:
   left:
     - text: "Reference"
       href: reference/index.html
-    - text: "Articles"
+    - text: "Vignettes"
       href: https://CRAN.R-project.org/package=hts/vignettes/hts.pdf
     - text: "News"
       href: news/index.html

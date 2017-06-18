@@ -55,7 +55,7 @@ hierarchical model — accuracy.gts • hts</title>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
-  <a href="https://CRAN.R-project.org/package=hts/vignettes/hts.pdf">Articles</a>
+  <a href="https://CRAN.R-project.org/package=hts/vignettes/hts.pdf">Vignettes</a>
 </li>
 <li>
   <a href="../news/index.html">News</a>
@@ -63,7 +63,12 @@ hierarchical model — accuracy.gts • hts</title>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/earowang/hts">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -87,13 +92,14 @@ TRUE</code> in the <code><a href='forecast.gts.html'>forecast.gts</a></code>. Al
 discussed in Hyndman and Koehler (2006).</p>
     
 
-    <pre class="usage"><span class='fu'>accuracy.gts</span>(<span class='no'>fcasts</span>, <span class='no'>test</span>, <span class='no'>levels</span>)</pre>
+    <pre class="usage"><span class='co'># S3 method for gts</span>
+<span class='fu'>accuracy</span>(<span class='no'>f</span>, <span class='no'>test</span>, <span class='no'>levels</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>fcasts</th>
+      <th>f</th>
       <td><p>An object of class <code>gts</code>, containing the forecasted
 hierarchical or grouped time series. In-sample accuracy at the bottom level
 returns when <code>test</code> is missing.</p></td>
@@ -105,8 +111,11 @@ hierarchical time series</p></td>
     </tr>
     <tr>
       <th>levels</th>
-      <td><p>Return the specified level(s), when carrying out out-of-sample
-accuracy.</p></td>
+      <td><p>Return the specified level(s), when carrying out out-of-sample</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Extra arguments to be ignored</p></td>
     </tr>
     </table>
     
@@ -142,7 +151,7 @@ forecast accuracy, <em>International Journal of Forecasting</em>, <b>22</b>,
 <span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'>window</span>(<span class='no'>htseg2</span>, <span class='kw'>start</span> <span class='kw'>=</span> <span class='fl'>1992</span>, <span class='kw'>end</span> <span class='kw'>=</span> <span class='fl'>2002</span>)
 <span class='no'>test</span> <span class='kw'>&lt;-</span> <span class='fu'>window</span>(<span class='no'>htseg2</span>, <span class='kw'>start</span> <span class='kw'>=</span> <span class='fl'>2003</span>)
 <span class='no'>fcasts</span> <span class='kw'>&lt;-</span> <span class='fu'>forecast</span>(<span class='no'>data</span>, <span class='kw'>h</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"bu"</span>)
-<span class='fu'>accuracy.gts</span>(<span class='no'>fcasts</span>, <span class='no'>test</span>)</div><div class='output co'>#&gt;           Total          A         B         A10          A20        B30
+<span class='fu'>accuracy</span>(<span class='no'>fcasts</span>, <span class='no'>test</span>)</div><div class='output co'>#&gt;           Total          A         B         A10          A20        B30
 #&gt; ME    0.4347799  0.1281219 0.3066580  0.06567732   0.06244457 0.04230739
 #&gt; RMSE  0.5176613  0.1493112 0.3703306  0.08262583   0.06792688 0.04460145
 #&gt; MAE   0.4347799  0.1281219 0.3066580  0.06980285   0.06244457 0.04230739
@@ -162,7 +171,7 @@ forecast accuracy, <em>International Journal of Forecasting</em>, <b>22</b>,
 #&gt; MAE    0.03452726 0.03369417 0.04248867 0.03416726  0.2409048
 #&gt; MAPE  11.52223630 7.37361306 6.59428670 2.54862422 10.7931448
 #&gt; MPE  -11.28938443 7.37361306 6.59428670 1.77591212 10.7931448
-#&gt; MASE   1.41395014 3.74724837 3.49213005 0.65827359  5.8492447</div><div class='input'><span class='fu'>accuracy.gts</span>(<span class='no'>fcasts</span>, <span class='no'>test</span>, <span class='kw'>levels</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt;               A         B
+#&gt; MASE   1.41395014 3.74724837 3.49213005 0.65827359  5.8492447</div><div class='input'><span class='fu'>accuracy</span>(<span class='no'>fcasts</span>, <span class='no'>test</span>, <span class='kw'>levels</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt;               A         B
 #&gt; ME    0.1281219 0.3066580
 #&gt; RMSE  0.1493112 0.3703306
 #&gt; MAE   0.1281219 0.3066580
