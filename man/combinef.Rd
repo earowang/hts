@@ -44,7 +44,7 @@ is selected.
 ally <- aggts(htseg1)
 allf <- matrix(NA, nrow = h, ncol = ncol(ally))
 for(i in 1:ncol(ally))
-	allf[,i] <- forecast(auto.arima(ally[,i]), h = h, PI = FALSE)$mean
+	allf[,i] <- forecast(auto.arima(ally[,i]), h = h)$mean
 allf <- ts(allf, start = 51)
 y.f <- combinef(allf, htseg1$nodes, weights = NULL, keep = "gts", algorithms = "lu")
 plot(y.f)}

@@ -5,18 +5,19 @@
 \title{In-sample or out-of-sample accuracy measures for forecast grouped and
 hierarchical model}
 \usage{
-accuracy.gts(fcasts, test, levels)
+\method{accuracy}{gts}(f, test, levels, ...)
 }
 \arguments{
-\item{fcasts}{An object of class \code{gts}, containing the forecasted
+\item{f}{An object of class \code{gts}, containing the forecasted
 hierarchical or grouped time series. In-sample accuracy at the bottom level
 returns when \code{test} is missing.}
 
 \item{test}{An object of class \code{gts}, containing the holdout
 hierarchical time series}
 
-\item{levels}{Return the specified level(s), when carrying out out-of-sample
-accuracy.}
+\item{levels}{Return the specified level(s), when carrying out out-of-sample}
+
+\item{...}{Extra arguments to be ignored}
 }
 \value{
 Matrix giving forecast accuracy measures. \item{ME}{Mean Error}
@@ -41,8 +42,8 @@ seasonal time series.
 data <- window(htseg2, start = 1992, end = 2002)
 test <- window(htseg2, start = 2003)
 fcasts <- forecast(data, h = 5, method = "bu")
-accuracy.gts(fcasts, test)
-accuracy.gts(fcasts, test, levels = 1)
+accuracy(fcasts, test)
+accuracy(fcasts, test, levels = 1)
 
 }
 \references{
