@@ -11,13 +11,13 @@
 #' non-seasonal time series, and in-sample seasonal naive forecasts for
 #' seasonal time series.
 #' 
-#' @param fcasts An object of class \code{gts}, containing the forecasted
+#' @param f An object of class \code{gts}, containing the forecasted
 #' hierarchical or grouped time series. In-sample accuracy at the bottom level
 #' returns when \code{test} is missing.
 #' @param test An object of class \code{gts}, containing the holdout
 #' hierarchical time series
 #' @param levels Return the specified level(s), when carrying out out-of-sample
-#' accuracy.
+#' @param ...  Extra arguments to be ignored
 #' @return Matrix giving forecast accuracy measures. \item{ME}{Mean Error}
 #' \item{RMSE}{Root Mean Square Error} \item{MAE}{Mean Absolute Error}
 #' \item{MAPE}{Mean Absolute Percentage Error} \item{MPE}{Mean Percentage
@@ -29,20 +29,22 @@
 #' forecast accuracy, \emph{International Journal of Forecasting}, \bold{22},
 #' 679-688.
 #' @keywords error
+#' @method accuracy gts
 #' @examples
 #' 
 #' data <- window(htseg2, start = 1992, end = 2002)
 #' test <- window(htseg2, start = 2003)
 #' fcasts <- forecast(data, h = 5, method = "bu")
-#' accuracy.gts(fcasts, test)
-#' accuracy.gts(fcasts, test, levels = 1)
+#' accuracy(fcasts, test)
+#' accuracy(fcasts, test, levels = 1)
 #' 
+#' @export
 #' @export accuracy.gts
-accuracy.gts <- function(fcasts, test, levels) {
+accuracy.gts <- function(f, test, levels, ...) {
   # Compute in-sample or out-of-sample accuracy measures
   #
   # Args:
-  #   fcasts: forcasts
+  #   f: forcasts
   #   test: Test set. If it's missing, default is in-sample accuracy for the
   #         bottom level, when keep.fitted is set to TRUE in the forecast.gts().
   #   levels: If computing out-of-sample accuracy, users can select whatever
@@ -52,8 +54,8 @@ accuracy.gts <- function(fcasts, test, levels) {
   #   Accuracy measures
   #
   # Error Handling:
-  if (!is.gts(fcasts)) {
-    stop("Argument fcasts must be a grouped time series.")
+  if (!is.gts(f)) {
+    stop("Argument f must be a grouped time series.")
   }
   if (!missing(test) && !is.gts(test)) {
     stop("Argument test must be a grouped time series.")
@@ -61,24 +63,24 @@ accuracy.gts <- function(fcasts, test, levels) {
 
   if (missing(test))
   {
-    if(is.null(fcasts$fitted))
+    if(is.null(f$fitted))
       stop("No fitted values available for historical times, and no actual values available for future times")
 
-    x <- unclass(fcasts$histy)  # Unclass mts to matrix
-    res <- x - unclass(fcasts$fitted)  # fcasts$residuals may contain errors
-    levels <- ifelse(is.hts(fcasts), length(fcasts$nodes),
-                     nrow(fcasts$groups) - 1L)
+    x <- unclass(f$histy)  # Unclass mts to matrix
+    res <- x - unclass(f$fitted)  # f$residuals may contain errors
+    levels <- ifelse(is.hts(f), length(f$nodes),
+                     nrow(f$groups) - 1L)
   }
   else {
-    f <- unclass(aggts(fcasts, levels, forecasts = TRUE))
+    fcasts <- unclass(aggts(f, levels, forecasts = TRUE))
     x <- unclass(aggts(test, levels))
-    res <- x - f
+    res <- x - fcasts
   }
 
-  if(is.null(fcasts$histy))
+  if(is.null(f$histy))
     histy <- NULL
   else
-    histy <- aggts(fcasts, levels, forecasts = FALSE)
+    histy <- aggts(f, levels, forecasts = FALSE)
   if (!is.null(histy)) {
     scale <- colMeans(abs(diff(histy, lag = max(1, stats::frequency(histy)))),
                       na.rm = TRUE)
@@ -99,8 +101,8 @@ accuracy.gts <- function(fcasts, test, levels) {
     out <- rbind(out, mase)
     rownames(out)[6L] <- "MASE"
   }
-  if (exists("f")) {
-    colnames(out) <- colnames(f)
+  if (exists("fcasts")) {
+    colnames(out) <- colnames(fcasts)
   }
   return(out)
 }
