@@ -3,7 +3,7 @@
 hts
 ===
 
-[![Travis-CI Build Status](https://travis-ci.org/earowang/hts.svg?branch=master)](https://travis-ci.org/earowang/hts) [![codecov](https://codecov.io/gh/earowang/hts/branch/master/graph/badge.svg)](https://codecov.io/gh/earowang/hts) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/hts)](https://cran.r-project.org/package=hts) [![Downloads](http://cranlogs.r-pkg.org/badges/hts)](https://cran.r-project.org/package=hts) [![Pending Pull-Requests](http://githubbadges.herokuapp.com/earowang/hts/pulls.svg?style=flat)](https://github.com/earowang/hts/pulls)
+[![Travis-CI Build Status](https://travis-ci.org/earowang/hts.svg?branch=master)](https://travis-ci.org/earowang/hts) [![codecov](https://codecov.io/gh/earowang/hts/branch/master/graph/badge.svg)](https://codecov.io/gh/earowang/hts) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/hts)](https://cran.r-project.org/package=hts) [![Downloads](http://cranlogs.r-pkg.org/badges/hts)](https://cran.r-project.org/package=hts)
 
 The R package *hts* presents functions to create, plot and forecast hierarchical and grouped time series.
 
