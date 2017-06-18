@@ -2,7 +2,8 @@
 ^\.Rproj\.user$
 ^\.travis\.yml$
 ^docs$
-^figure$
 ^_pkgdown\.yml$
 ^README\.Rmd$
 ^Makefile$
+^NEWS$
+^cran-comments.md$

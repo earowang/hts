@@ -68,7 +68,7 @@ aggts3 <- aggts(htseg1, levels = c(0, 2))
 plot(htseg1, levels = 1)
 ```
 
-![](figure/hts-eg1-1.png)
+![](man/figure/hts-eg1-1.png)
 
 ``` r
 smatrix(htseg1)  # Return the dense mode
@@ -137,13 +137,13 @@ aggts4 <- aggts(fcasts1.comb)
 plot(fcasts1.comb, levels = 2)
 ```
 
-![](figure/hts-eg1-2.png)
+![](man/figure/hts-eg1-2.png)
 
 ``` r
 plot(fcasts1.comb, include = 5, levels = c(1, 2))
 ```
 
-![](figure/hts-eg1-3.png)
+![](man/figure/hts-eg1-3.png)
 
 ### Example 2: hierarchical time series
 
@@ -192,13 +192,13 @@ fcasts2.td <- forecast(
 plot(fcasts2.td, include = 5)
 ```
 
-![](figure/hts-eg2-1.png)
+![](man/figure/hts-eg2-1.png)
 
 ``` r
 plot(fcasts2.td, include = 5, levels = c(0, 2))
 ```
 
-![](figure/hts-eg2-2.png)
+![](man/figure/hts-eg2-2.png)
 
 ### Example 3: grouped time series
 
@@ -207,7 +207,7 @@ plot(fcasts2.td, include = 5, levels = c(0, 2))
 plot(infantgts, levels = 1)
 ```
 
-![](figure/gts-eg-1.png)
+![](man/figure/gts-eg-1.png)
 
 ``` r
 
@@ -217,13 +217,13 @@ agg_gts2 <- aggts(fcasts3.comb, levels = 1, forecasts = FALSE)
 plot(fcasts3.comb)
 ```
 
-![](figure/gts-eg-2.png)
+![](man/figure/gts-eg-2.png)
 
 ``` r
 plot(fcasts3.comb, include = 5, levels = c(1, 2))
 ```
 
-![](figure/gts-eg-3.png)
+![](man/figure/gts-eg-3.png)
 
 ``` r
 

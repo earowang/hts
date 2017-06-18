@@ -119,7 +119,7 @@ aggts1 &lt;-<span class="st"> </span><span class="kw"><a href="reference/aggts.h
 aggts2 &lt;-<span class="st"> </span><span class="kw"><a href="reference/aggts.html">aggts</a></span>(htseg1, <span class="dt">levels =</span> <span class="dv">1</span>)
 aggts3 &lt;-<span class="st"> </span><span class="kw"><a href="reference/aggts.html">aggts</a></span>(htseg1, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">2</span>))
 <span class="kw">plot</span>(htseg1, <span class="dt">levels =</span> <span class="dv">1</span>)</code></pre></div>
-<p><img src="figure/hts-eg1-1.png" width="672"></p>
+<p><img src="man/figure/hts-eg1-1.png" width="672"></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="reference/smatrix.html">smatrix</a></span>(htseg1)  <span class="co"># Return the dense mode</span>
 <span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span>
 <span class="co">#&gt; [1,]    1    1    1    1    1</span>
@@ -184,9 +184,9 @@ fcasts1.comb &lt;-<span class="st"> </span><span class="kw">forecast</span>(
 )
 aggts4 &lt;-<span class="st"> </span><span class="kw"><a href="reference/aggts.html">aggts</a></span>(fcasts1.comb)
 <span class="kw">plot</span>(fcasts1.comb, <span class="dt">levels =</span> <span class="dv">2</span>)</code></pre></div>
-<p><img src="figure/hts-eg1-2.png" width="672"></p>
+<p><img src="man/figure/hts-eg1-2.png" width="672"></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(fcasts1.comb, <span class="dt">include =</span> <span class="dv">5</span>, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</code></pre></div>
-<p><img src="figure/hts-eg1-3.png" width="672"></p>
+<p><img src="man/figure/hts-eg1-3.png" width="672"></p>
 </div>
 <div id="example-2-hierarchical-time-series" class="section level3">
 <h3 class="hasAnchor">
@@ -233,24 +233,24 @@ fcasts2.td &lt;-<span class="st"> </span><span class="kw">forecast</span>(
   <span class="dt">keep.fitted =</span> <span class="ot">TRUE</span>, <span class="dt">keep.resid =</span> <span class="ot">TRUE</span>
 )
 <span class="kw">plot</span>(fcasts2.td, <span class="dt">include =</span> <span class="dv">5</span>)</code></pre></div>
-<p><img src="figure/hts-eg2-1.png" width="672"></p>
+<p><img src="man/figure/hts-eg2-1.png" width="672"></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(fcasts2.td, <span class="dt">include =</span> <span class="dv">5</span>, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">2</span>))</code></pre></div>
-<p><img src="figure/hts-eg2-2.png" width="672"></p>
+<p><img src="man/figure/hts-eg2-2.png" width="672"></p>
 </div>
 <div id="example-3-grouped-time-series" class="section level3">
 <h3 class="hasAnchor">
 <a href="#example-3-grouped-time-series" class="anchor"></a>Example 3: grouped time series</h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># gts example</span>
 <span class="kw">plot</span>(infantgts, <span class="dt">levels =</span> <span class="dv">1</span>)</code></pre></div>
-<p><img src="figure/gts-eg-1.png" width="672"></p>
+<p><img src="man/figure/gts-eg-1.png" width="672"></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
 fcasts3.comb &lt;-<span class="st"> </span><span class="kw">forecast</span>(infantgts, <span class="dt">h =</span> <span class="dv">4</span>, <span class="dt">method =</span> <span class="st">"comb"</span>, <span class="dt">fmethod =</span> <span class="st">"ets"</span>)
 agg_gts1 &lt;-<span class="st"> </span><span class="kw"><a href="reference/aggts.html">aggts</a></span>(fcasts3.comb, <span class="dt">levels =</span> <span class="dv">1</span>)
 agg_gts2 &lt;-<span class="st"> </span><span class="kw"><a href="reference/aggts.html">aggts</a></span>(fcasts3.comb, <span class="dt">levels =</span> <span class="dv">1</span>, <span class="dt">forecasts =</span> <span class="ot">FALSE</span>)
 <span class="kw">plot</span>(fcasts3.comb)</code></pre></div>
-<p><img src="figure/gts-eg-2.png" width="672"></p>
+<p><img src="man/figure/gts-eg-2.png" width="672"></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(fcasts3.comb, <span class="dt">include =</span> <span class="dv">5</span>, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</code></pre></div>
-<p><img src="figure/gts-eg-3.png" width="672"></p>
+<p><img src="man/figure/gts-eg-3.png" width="672"></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
 fcasts3.combsd &lt;-<span class="st"> </span><span class="kw">forecast</span>(
   infantgts, <span class="dt">h =</span> <span class="dv">4</span>, <span class="dt">method =</span> <span class="st">"comb"</span>, <span class="dt">fmethod =</span> <span class="st">"ets"</span>,
