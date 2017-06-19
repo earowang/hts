@@ -97,7 +97,7 @@ gts <- function(y, groups, gnames = rownames(groups), characters) {
   }
 
   if (ncol(y) <= 1L) {
-    stop("Argument y must be a multivariate time series.")
+    stop("Argument y must be a multivariate time series.", call. = FALSE)
   }
   bnames <- colnames(y)
   nc.y <- ncol(y)
@@ -106,7 +106,7 @@ gts <- function(y, groups, gnames = rownames(groups), characters) {
       groups <- matrix(c(rep(1L, nc.y), seq(1L, nc.y)), nrow = 2L,
                      byrow = TRUE)
     } else if (!is.matrix(groups)) {
-      stop("Argument groups must be a matrix.")
+      stop("Argument groups must be a matrix.", call. = FALSE)
     } else if (!is.character(groups[1L, ])) { # Check groups numeric matrix
       if (all(groups[1L, ] == 1L)) { # if the first row is all 1's
         groups <- groups[-1L, , drop = FALSE]
@@ -124,10 +124,10 @@ gts <- function(y, groups, gnames = rownames(groups), characters) {
     # }
   } else {
     if (length(characters) == 1L) {
-      stop("The argument characters must have length greater than one.")
+      stop("The argument characters must have length greater than one.", call. = FALSE)
     }
     if (!all(nchar(bnames)[1L] == nchar(bnames)[-1L])) {
-      stop("The bottom names must be of the same length.")
+      stop("The bottom names must be of the same length.", call. = FALSE)
     }
     if (any(nchar(bnames) != sum(unlist(characters)))) {
       warning("The argument characters is not fully specified for the bottom names.")

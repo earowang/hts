@@ -81,7 +81,7 @@ combinef <- function(fcasts, nodes, groups, weights = NULL,
   cnames <- colnames(fcasts)
   if (missing(groups)) { # hts class
     if (alg == "slm") {
-      stop("The slm algorithm does not support an hts object.")
+      stop("The slm algorithm does not support an hts object.", call. = FALSE)
     }
     totalts <- sum(Mnodes(nodes))
     if (!is.matrix(fcasts)) {
@@ -89,7 +89,7 @@ combinef <- function(fcasts, nodes, groups, weights = NULL,
     }
     h <- nrow(fcasts)
     if (ncol(fcasts) != totalts) {
-      stop("Argument fcasts requires all the forecasts.")
+      stop("Argument fcasts requires all the forecasts.", call. = FALSE)
     }
     if (alg == "recursive") { # only nodes to be needed
       # CombineH only returns bottom time series
@@ -154,14 +154,14 @@ combinef <- function(fcasts, nodes, groups, weights = NULL,
     }
   } else if (missing(nodes)) {  # gts class
     if (alg == "recursive") {
-      stop("The recursive algorithm does not support a gts object.")
+      stop("The recursive algorithm does not support a gts object.", call. = FALSE)
     }
     # To call Smatrix() properly
     rownames(groups) <- NULL
     gmat <- GmatrixG(groups)
     totalts <- sum(Mlevel(gmat))
     if (ncol(fcasts) != totalts) {
-      stop("Argument fcasts requires all the forecasts.")
+      stop("Argument fcasts requires all the forecasts.", call. = FALSE)
     }
     fcasts <- t(fcasts)
     if (alg == "chol") {

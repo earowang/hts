@@ -75,7 +75,7 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
   nbts <- ncol(y)
 
   if (nbts <= 1L) {
-    stop("Argument y must be a multivariate time series.")
+    stop("Argument y must be a multivariate time series.", call. = FALSE)
   }
   if (missing(characters)) { # Arg "characters" not specified
     message("Since argument characters are not specified, the default labelling system is used.")
@@ -83,19 +83,19 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
       nodes <- list(nbts)
     }
     if (!is.list(nodes)) {
-      stop("Argument nodes must be a list.")
+      stop("Argument nodes must be a list.", call. = FALSE)
     }
     if (length(nodes[[1L]]) != 1L) {
-      stop("The root node cannot be empty.")
+      stop("The root node cannot be empty.", call. = FALSE)
     }
     if (sum(nodes[[length(nodes)]]) != nbts) {
-      stop("The number of terminal nodes is not consistent with the number of bottom time series.")
+      stop("The number of terminal nodes is not consistent with the number of bottom time series.", call. = FALSE)
     }
     if (length(nodes) > 1L) {
       for (i in 1L:(length(nodes) - 1L)) {
         if (sum(nodes[[i]]) != length(nodes[[i + 1]])) {
           error <- sprintf("The number of nodes for the level %i is not equal to the number of series of level %i.", i - 1L, i)
-          stop(error)
+          stop(error, call. = FALSE)
         }
       }
     }
@@ -118,7 +118,7 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
     }
   } else { # Specified "characters" automates the node structure
     if (!all(nchar(bnames)[1L] == nchar(bnames)[-1L])) {
-      stop("The bottom names must be of the same length.")
+      stop("The bottom names must be of the same length.", call. = FALSE)
     }
     if (any(nchar(bnames) != sum(characters))) {
       warning("The argument characters is not fully specified for the bottom names.")

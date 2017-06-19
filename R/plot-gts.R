@@ -45,7 +45,7 @@ plot.gts <- function(x, include, levels, labels = TRUE,
   #
   # Error Handling:
   if (!is.gts(x)) {
-    stop("Argument x must be either hts or gts object.")
+    stop("Argument x must be either hts or gts object.", call. = FALSE)
   }
 
   if (!is.null(x$histy)) {

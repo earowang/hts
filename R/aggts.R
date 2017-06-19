@@ -33,7 +33,7 @@ aggts <- function(y, levels, forecasts = TRUE) {
   #
   # Error Handling:
   if (!is.gts(y)) {
-    stop("Argument y must be either a hts or gts object.")
+    stop("Argument y must be either a hts or gts object.", call. = FALSE)
   }
 
   if (!forecasts) {
@@ -100,7 +100,7 @@ aggts <- function(y, levels, forecasts = TRUE) {
 #' @export allts
 allts <- function(y, forecasts = TRUE) {
   if (!is.gts(y)) {
-    stop("Argument y must be either a hts or gts object.")
+    stop("Argument y must be either a hts or gts object.", call. = FALSE)
   }
   aggts(y = y, forecasts = forecasts)
 }

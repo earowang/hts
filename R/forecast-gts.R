@@ -153,24 +153,24 @@ forecast.gts <- function(
   }
   # Error Handling:
   if (!is.gts(object)) {
-    stop("Argument object must be either a hts or gts object.")
+    stop("Argument object must be either a hts or gts object.", call. = FALSE)
   }
   if (h < 1L) {
-    stop("Argument h must be positive.")
+    stop("Argument h must be positive.", call. = FALSE)
   }
   if (!is.hts(object) &&
       is.element(method, c("mo", "tdgsf", "tdgsa", "tdfp"))) {
-    stop("Argument method is not appropriate for a non-hierarchical time series.")
+    stop("Argument method is not appropriate for a non-hierarchical time series.", call. = FALSE)
   }
   if (method == "mo" && missing(level)) {
-    stop("Please specify argument level for the middle-out method.")
+    stop("Please specify argument level for the middle-out method.", call. = FALSE)
   }
 
   # Set up lambda for arg "positive" when lambda is missing
   if (is.null(lambda)) {
     if (positive) {
       if (any(object$bts <= 0L, na.rm=FALSE)) {
-        stop("All data must be positive.")
+        stop("All data must be positive.", call. = FALSE)
       } else {
         lambda <- 0
       }
@@ -189,7 +189,7 @@ forecast.gts <- function(
   if (method == "mo") {
     len <- length(object$nodes)
     if (level < 0L || level > len) {
-      stop("Argument level is out of the range.")
+      stop("Argument level is out of the range.", call. = FALSE)
     } else if (level == 0L) {
       method <- "tdfp"
     } else if (level == len) {

@@ -28,7 +28,7 @@ smatrix <- function(xts) {
   # Returns:
   #   S matrix in the dense mode
   if (!is.gts(xts)) {
-    stop("Argument xts must be a gts object")
+    stop("Argument xts must be a gts object", call. = FALSE)
   }
   if (is.hts(xts)) {
     gmat <- GmatrixH(xts$nodes)

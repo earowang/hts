@@ -55,16 +55,16 @@ accuracy.gts <- function(f, test, levels, ...) {
   #
   # Error Handling:
   if (!is.gts(f)) {
-    stop("Argument f must be a grouped time series.")
+    stop("Argument f must be a grouped time series.", call. = FALSE)
   }
   if (!missing(test) && !is.gts(test)) {
-    stop("Argument test must be a grouped time series.")
+    stop("Argument test must be a grouped time series.", call. = FALSE)
   }
 
   if (missing(test))
   {
     if(is.null(f$fitted))
-      stop("No fitted values available for historical times, and no actual values available for future times")
+      stop("No fitted values available for historical times, and no actual values available for future times", call. = FALSE)
 
     x <- unclass(f$histy)  # Unclass mts to matrix
     res <- x - unclass(f$fitted)  # f$residuals may contain errors
