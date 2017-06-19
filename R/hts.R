@@ -139,6 +139,16 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
   return(output)
 }
 
+#' Get nodes from an hts object
+#' 
+#' @param y An hts object
+#' series.
+#' @export
+get_nodes <- function(y) {
+  if(!is.hts(y)) stop("'y' must be an hts object.", call. = FALSE)
+  return(y$nodes)
+}
+
 
 # A function to convert the nodes list to gmatrix
 GmatrixH <- function(xlist) {

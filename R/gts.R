@@ -168,6 +168,16 @@ gts <- function(y, groups, gnames = rownames(groups), characters) {
 }
 
 
+#' Get grouping matrix from a gts object
+#' 
+#' @param y A gts object.
+#' @export
+get_groups <- function(y) {
+  if(all(is.hts(y) && is.gts(y))) stop("'y' must be grouped time series.", call. = FALSE)
+  return(y$groups)
+}
+
+
 # A function to convert groups to gmatrix
 GmatrixG <- function(xmat) {
   if (is.character(xmat)) {

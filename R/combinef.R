@@ -42,7 +42,7 @@
 #' for(i in 1:ncol(ally))
 #' 	allf[,i] <- forecast(auto.arima(ally[,i]), h = h)$mean
 #' allf <- ts(allf, start = 51)
-#' y.f <- combinef(allf, htseg1$nodes, weights = NULL, keep = "gts", algorithms = "lu")
+#' y.f <- combinef(allf, get_nodes(htseg1), weights = NULL, keep = "gts", algorithms = "lu")
 #' plot(y.f)}
 #' 
 #' # gts example
@@ -55,7 +55,7 @@
 #' for(i in 1:ncol(ally))
 #'   allf[,i] <- forecast(auto.arima(ally[,i]),h = h)$mean
 #' allf <- ts(allf, start = 51)
-#' y.f <- combinef(allf, groups = g, keep ="gts", algorithms = "lu")
+#' y.f <- combinef(allf, groups = get_groups(y), keep ="gts", algorithms = "lu")
 #' plot(y.f)}
 #' 
 #' @export combinef
