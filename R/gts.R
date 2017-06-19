@@ -163,7 +163,7 @@ gts <- function(y, groups, gnames = rownames(groups), characters) {
 
   return(structure(
     list(bts = y, groups = gmat, labels = name.list),
-    class = c("gts", "mts", "ts", "matrix")
+    class = c("gts")
   ))
 }
 

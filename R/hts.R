@@ -134,7 +134,7 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
 
   output <- structure(
     list(bts = y, nodes = nodes, labels = labels),
-    class = c("hts", "gts", "mts", "ts", "matrix")
+    class = c("hts", "gts")
   )
   return(output)
 }

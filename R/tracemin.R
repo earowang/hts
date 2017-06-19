@@ -18,7 +18,6 @@ solveLUQR <- function(lhs.l, rhs.l) {
 
 # LU factorization (Matrix pkg)
 LU <- function(fcasts, S, weights) {
-  fcasts <- unclass(fcasts)
   nts <- nrow(S)
   nbts <- ncol(S)
   nagg <- nts - nbts
@@ -45,7 +44,6 @@ LU <- function(fcasts, S, weights) {
 
 # Conjugate Gradient (Matrix and RcppEigen pkgs)
 CG <- function(fcasts, S, weights) {
-  fcasts <- unclass(fcasts)
   nts <- nrow(S)
   nbts <- ncol(S)
   nagg <- nts - nbts
@@ -70,7 +68,6 @@ CG <- function(fcasts, S, weights) {
 
 # Cholesky factorization
 CHOL <- function(fcasts, S, weights) {
-  fcasts <- unclass(fcasts)
   fcasts <- t(stats::na.omit(t(fcasts)))
   nts <- nrow(S)
   nbts <- ncol(S)

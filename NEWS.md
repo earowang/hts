@@ -1,3 +1,7 @@
+# hts 5.1.1
+
+* The `hts` and `gts` don't actually fit into `mts`, `ts` and `matrix` classes, and hence `mts`, `ts` and `matrix` classes are dropped.
+
 # hts 5.1.0 (18 Jun 2017)
 
 * Earo Wang took over maintenance of the package from Rob J Hyndman.
