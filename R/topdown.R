@@ -35,7 +35,7 @@ TdFp <- function(fcasts, nodes) {
     }
 
     # Calculate proportions
-    prop <- flist[[2L]]/new.flist[[1L]]
+    prop <- c(flist[[2L]]) / c(new.flist[[1L]])
     if (l.levels > 2L) {
       for (k in 2L:(l.levels - 1L)) {
         prop <- rep(prop, nodes[[k]])
