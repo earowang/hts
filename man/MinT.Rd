@@ -59,7 +59,10 @@ for(i in 1:p)
 allf <- ts(allf, start = 51)
 y.f <- MinT(allf, get_nodes(htseg1), residual = res, covariance = "shr", 
   keep = "gts", algorithms = "lu")
-plot(y.f)}
+plot(y.f)
+y.f_cg <- MinT(allf, get_nodes(htseg1), residual = res, covariance = "shr", 
+  keep = "all", algorithms = "cg")
+}
   
 # gts example
 \dontrun{abc <- ts(5 + matrix(sort(rnorm(200)), ncol = 4, nrow = 50))
