@@ -1,4 +1,4 @@
-# hts 5.1.1
+# hts 5.2.0 (20 Jun 2017)
 
 * The `hts` and `gts` don't actually fit into `mts`, `ts` and `matrix` classes, and hence `mts`, `ts` and `matrix` classes are dropped.
 * Added helper functions `get_nodes` for `hts` and `get_groups` for `gts`.
