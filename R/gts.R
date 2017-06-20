@@ -168,9 +168,7 @@ gts <- function(y, groups, gnames = rownames(groups), characters) {
 }
 
 
-#' Get grouping matrix from a gts object
-#' 
-#' @param y A gts object.
+#' @rdname helper-functions
 #' @export
 get_groups <- function(y) {
   if(all(is.hts(y) && is.gts(y))) stop("'y' must be grouped time series.", call. = FALSE)

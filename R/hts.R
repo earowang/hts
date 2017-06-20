@@ -139,9 +139,10 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
   return(output)
 }
 
-#' Get nodes from an hts object
+#' Get nodes/groups from an hts/gts object
 #' 
-#' @param y An hts object
+#' @rdname helper-functions
+#' @param y An hts or gts object
 #' series.
 #' @export
 get_nodes <- function(y) {
