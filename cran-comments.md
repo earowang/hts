@@ -2,7 +2,7 @@
 
 It's a re-submission due to one of URLs is broken in the DESCRIPTION file, and now it's fixed. Thanks.
 
-My apologies for submitting a new version since only 2 days after last update. I'm aware of CRAN polices, but I introduced an error to last version that isn't compatible with `matrix` class. It's likely to break users' code. I fix this issue along with others for this version. Sorry for the inconvenience.
+My apologies for submitting a new version since only 3 days after last update. I'm aware of CRAN polices, but I introduced an error to last version that isn't compatible with `matrix` class. It's likely to break users' code. I fix this issue along with others for this version. Sorry for the inconvenience.
 
 ## Test environments
 * local OS X install, R 3.4.0
@@ -17,7 +17,7 @@ There was 1 NOTE:
 
 Maintainer: ‘Earo Wang <earo.wang@gmail.com>’
 
-Days since last update: 2
+Days since last update: 3
 
 ## Reverse dependencies
 
