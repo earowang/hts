@@ -32,7 +32,7 @@ LinkingTo:
 LazyLoad: yes
 LazyData: yes
 ByteCompile: TRUE
-URL: https://pkg.earo.me/hts, https://github.com/earowang/hts
+URL: http://pkg.earo.me/hts, https://github.com/earowang/hts
 BugReports: https://github.com/earowang/hts/issues
 License: GPL (>= 2)
 RoxygenNote: 6.0.1
