@@ -3,6 +3,7 @@
 * The `hts` and `gts` don't actually fit into `mts`, `ts` and `matrix` classes, and hence `mts`, `ts` and `matrix` classes are dropped.
 * Added helper functions `get_nodes` for `hts` and `get_groups` for `gts`.
 * Fixed `forecast(method = "tdfp", h = 1)` issue ([#32](https://github.com/earowang/hts/issues/32)).
+* Fixed `forecast(FUN = hybridModel)` when `newxreg` is present ([#28](https://github.com/earowang/hts/issues/28)).
 
 # hts 5.1.0 (18 Jun 2017)
 

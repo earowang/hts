@@ -228,7 +228,11 @@ forecast.gts <- function(
       }
     } else { # user defined function to produce point forecasts
       models <- FUN(x, ...)
-      out$pfcasts <- forecast(models, h = h)$mean
+      if (is.null(newxreg)) {
+        out$pfcasts <- forecast(models, h = h)$mean
+      } else {
+        out$pfcasts <- forecast(models, h = h, xreg = newxreg)$mean
+      }
     }
     if (keep.fitted) {
       out$fitted <- stats::fitted(models)
