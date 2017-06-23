@@ -1,3 +1,7 @@
+# hts 5.1.5
+
+* Fixed hts authorship in the DESCRIPTION file
+
 # hts 5.1.4 (20 Jun 2017)
 
 * The `hts` and `gts` don't actually fit into `mts`, `ts` and `matrix` classes, and hence `mts`, `ts` and `matrix` classes are dropped.
