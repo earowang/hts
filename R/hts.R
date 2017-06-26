@@ -219,18 +219,40 @@ HierName <- function(xlist) {
 
 # A function to create nodes based on segmentation of bottom names
 # it also generate index for bottom time series
-CreateNodes <- function(bnames, characters) {
-  characters <- as.integer(characters)
-  end <- cumsum(characters)
-  start <- end - characters + 1L
-  token <- sapply(end, function(x) substring(bnames, 1L, x))
-  nc.token <- ncol(token)
-  unique.str <- apply(token, 2, unique)
-  nodes <- lapply(2L:nc.token, function(x) {
-                    prefix <- substr(unique.str[[x]], start = 1L,
-                                     stop = end[x - 1L])
-                    return(table(prefix, dnn = NULL))
-                      })
+CreateNodes <- function(bnames, characters, sep=NULL) {
+  if (is.null(sep)) {
+    characters <- as.integer(characters)
+    end <- cumsum(characters)
+    start <- end - characters + 1L
+    token <- sapply(end, function(x) substring(bnames, 1L, x))
+    nc.token <- ncol(token)
+    unique.str <- apply(token, 2, unique)
+    nodes <- lapply(2L:nc.token, function(x) {
+      prefix <- substr(unique.str[[x]], start = 1L,
+                       stop = end[x - 1L])
+      return(table(prefix, dnn = NULL))
+    })
+    # if any seperator is specified
+  } else {
+    bnames <- strsplit(bnames, sep)
+    token <- sapply(1:length(bnames), function(x) {
+      sapply(1:length(bnames[[x]]), function(z) {paste(bnames[[x]][1:z], collapse="")})
+      
+    })
+    token <- t(token)
+    nc.token <- ncol(token)
+    unique.str <- apply(token, 2, unique)
+    nodes <- lapply(2L:nc.token, function(x) {
+      prefix <- sapply(1:length(unique.str[[x]]), function (z) {
+        sapply(1:length(unique.str[[x-1]]), function (w) {
+          str_extract(unique.str[[x]][z], pattern = unique.str[[x-1]][w])
+        })
+      }, USE.NAMES = FALSE)
+      prefix <- as.vector(t(prefix))
+      prefix <- prefix[!is.na(prefix)]
+      return(table(prefix, dnn = NULL))
+    })
+  }
   nodes <- c(length(unique.str[[1L]]), nodes)
   # Construct labels based on characters
   names(unique.str) <- paste("Level", 1L:nc.token)
