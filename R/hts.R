@@ -53,7 +53,7 @@
 #' y <- hts(abc, characters = c(1, 2, 1))
 #' 
 #' @export hts
-hts <- function(y, nodes, bnames = colnames(y), characters) {
+hts <- function (y, nodes, bnames = colnames(y), characters=NULL, sep=NULL) {
   # Construct the hierarchical time series.
   #
   # Args:
@@ -73,69 +73,64 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
     y <- stats::as.ts(y)
   }
   nbts <- ncol(y)
-
   if (nbts <= 1L) {
-    stop("Argument y must be a multivariate time series.", call. = FALSE)
+    stop("Argument y must be a multivariate time series.")
   }
-  if (missing(characters)) { # Arg "characters" not specified
-    message("Since argument characters are not specified, the default labelling system is used.")
+  if (is.null(characters) && is.null(sep)) {
+    message("Since argument characters or argument sep are not specified, the default labelling system is used.")
     if (missing(nodes)) {
       nodes <- list(nbts)
     }
     if (!is.list(nodes)) {
-      stop("Argument nodes must be a list.", call. = FALSE)
+      stop("Argument nodes must be a list.")
     }
     if (length(nodes[[1L]]) != 1L) {
-      stop("The root node cannot be empty.", call. = FALSE)
+      stop("The root node cannot be empty.")
     }
     if (sum(nodes[[length(nodes)]]) != nbts) {
-      stop("The number of terminal nodes is not consistent with the number of bottom time series.", call. = FALSE)
+      stop("The number of terminal nodes is not consistent with the number of bottom time series.")
     }
     if (length(nodes) > 1L) {
       for (i in 1L:(length(nodes) - 1L)) {
         if (sum(nodes[[i]]) != length(nodes[[i + 1]])) {
-          error <- sprintf("The number of nodes for the level %i is not equal to the number of series of level %i.", i - 1L, i)
-          stop(error, call. = FALSE)
+          error <- sprintf("The number of nodes for the level %i is not equal to the number of series of level %i.", 
+                           i - 1L, i)
+          stop(error)
         }
       }
     }
-
-    # Construct the level labels
     if (is.null(bnames)) {
-      labels <- HierName(nodes) # HierName() defined below
+      labels <- HierName(nodes)
       colnames(y) <- unlist(labels[length(labels)])
-    } else {  # Keep bts names if specified
+    }
+    else {
       hn <- HierName(nodes)
       last.label <- paste("Level", length(nodes))
       b.list <- list(bnames)
       names(b.list) <- last.label
       labels <- c(hn[-length(hn)], b.list)
-      # if (length(hn) == 1L) {  # In case of a simple hierarchy of 2 levels
-      #   labels <- c(hn, b.list)
-      # } else {
-      #   labels <- c(hn[-length(hn)], b.list)
-      # }
     }
-  } else { # Specified "characters" automates the node structure
-    if (!all(nchar(bnames)[1L] == nchar(bnames)[-1L])) {
-      stop("The bottom names must be of the same length.", call. = FALSE)
+  }
+  else {
+    if (!is.null(characters) && !is.null(sep)) {
+      stop("Only argument characters or argument sep can be specified")
     }
-    if (any(nchar(bnames) != sum(characters))) {
-      warning("The argument characters is not fully specified for the bottom names.")
+    if (!is.null(characters)) {
+      if (!all(nchar(bnames)[1L] == nchar(bnames)[-1L])) {
+        stop("The bottom names must be of the same length.")
+      }
+      if (any(nchar(bnames) != sum(characters))) {
+        warning("The argument characters is not fully specified for the bottom names.")
+      }
     }
-    c.nodes <- CreateNodes(bnames, characters)
+    c.nodes <- CreateNodes(bnames, characters, sep)
     nodes <- c.nodes$nodes
     labels <- c.nodes$labels
     y <- y[, c.nodes$index]
   }
-
-  # Obtain other information
   names(nodes) <- paste("Level", 1L:length(nodes))
-
-  output <- structure(
-    list(bts = y, nodes = nodes, labels = labels),
-    class = c("hts", "gts")
-  )
+  output <- structure(list(bts = y, nodes = nodes, labels = labels), 
+                      class = c("gts", "hts"))
   return(output)
 }
 
