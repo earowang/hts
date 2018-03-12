@@ -4,7 +4,6 @@ symbols.rds
 .Rhistory
 .Rproj.user
 hts.Rproj
-.Rbuildignore
 *.bbl
 *.blg
 *.dvi
@@ -13,3 +12,4 @@ hts.Rproj
 *.log
 *.fdb_latexmk
 hts.tex
+inst/doc

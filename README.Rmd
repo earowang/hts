@@ -1,0 +1,116 @@
+---
+output:
+  github_document:
+    html_preview: false
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.path = "man/figure/")
+```
+
+# hts
+[![Travis-CI Build Status](https://travis-ci.org/earowang/hts.svg?branch=master)](https://travis-ci.org/earowang/hts)
+[![codecov](https://codecov.io/gh/earowang/hts/branch/master/graph/badge.svg)](https://codecov.io/gh/earowang/hts)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/hts)](https://cran.r-project.org/package=hts)
+[![Downloads](http://cranlogs.r-pkg.org/badges/hts)](https://cran.r-project.org/package=hts)
+
+The R package *hts* presents functions to create, plot and forecast hierarchical and grouped time series. 
+
+## Installation
+You can install the **stable** version on
+[R CRAN](https://cran.r-project.org/package=hts).
+
+```r
+install.packages('hts', dependencies = TRUE)
+```
+
+You can also install the **development** version from
+[Github](https://github.com/robjhyndman/gts)
+
+```r
+# install.packages("devtools")
+devtools::install_github("earowang/hts")
+```
+
+## Usage
+
+### Example 1: hierarchical time series
+
+```{r hts-eg1, echo = TRUE}
+library(hts)
+
+# hts example 1
+print(htseg1)
+summary(htseg1)
+aggts1 <- aggts(htseg1)
+aggts2 <- aggts(htseg1, levels = 1)
+aggts3 <- aggts(htseg1, levels = c(0, 2))
+plot(htseg1, levels = 1)
+smatrix(htseg1)  # Return the dense mode
+
+# Forecasts
+fcasts1.bu <- forecast(
+  htseg1, h = 4, method = "bu", fmethod = "ets", parallel = TRUE
+)
+aggts4 <- aggts(fcasts1.bu)
+summary(fcasts1.bu)
+fcasts1.td <- forecast(
+  htseg1, h = 4, method = "tdfp", fmethod = "arima", keep.fitted = TRUE
+)
+summary(fcasts1.td)  # When keep.fitted = TRUE, return in-sample accuracy
+fcasts1.comb <- forecast(
+  htseg1, h = 4, method = "comb", fmethod = "ets", keep.fitted = TRUE
+)
+aggts4 <- aggts(fcasts1.comb)
+plot(fcasts1.comb, levels = 2)
+plot(fcasts1.comb, include = 5, levels = c(1, 2))
+```
+
+### Example 2: hierarchical time series
+
+```{r hts-eg2, echo = TRUE}
+# hts example 2
+data <- window(htseg2, start = 1992, end = 2002)
+test <- window(htseg2, start = 2003)
+fcasts2.mo <- forecast(
+  data, h = 5, method = "mo", fmethod = "ets", level = 1,
+  keep.fitted = TRUE, keep.resid = TRUE
+)
+accuracy.gts(fcasts2.mo, test)
+accuracy.gts(fcasts2.mo, test, levels = 1)
+fcasts2.td <- forecast(
+  data, h = 5, method = "tdgsa", fmethod = "ets", 
+  keep.fitted = TRUE, keep.resid = TRUE
+)
+plot(fcasts2.td, include = 5)
+plot(fcasts2.td, include = 5, levels = c(0, 2))
+```
+
+### Example 3: grouped time series
+
+```{r gts-eg, echo = TRUE}
+# gts example
+plot(infantgts, levels = 1)
+
+fcasts3.comb <- forecast(infantgts, h = 4, method = "comb", fmethod = "ets")
+agg_gts1 <- aggts(fcasts3.comb, levels = 1)
+agg_gts2 <- aggts(fcasts3.comb, levels = 1, forecasts = FALSE)
+plot(fcasts3.comb)
+plot(fcasts3.comb, include = 5, levels = c(1, 2))
+
+fcasts3.combsd <- forecast(
+  infantgts, h = 4, method = "comb", fmethod = "ets",
+  weights = "sd", keep.fitted = TRUE
+)
+
+fcasts3.combn <- forecast(
+  infantgts, h = 4, method = "comb", fmethod = "ets",
+  weights = "nseries", keep.resid = TRUE
+)
+```
+
+## License
+
+This package is free and open source software, licensed under GPL (>= 2).

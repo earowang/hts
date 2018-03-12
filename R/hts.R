@@ -1,3 +1,58 @@
+#' Create a hierarchical time series
+#' 
+#' Method for creating hierarchical time series.
+#' 
+#' 
+#' @rdname hts-class
+#' @param y A matrix or multivariate time series contain the bottom level
+#' series.
+#' @param nodes A list contains the number of child nodes associated with each
+#' level, which indicates the hierarchical structure. The default is a simple
+#' hierarchy with only 2 levels (i.e. total and bottom). If the argument
+#' \code{characters} is used, \code{nodes} will be automatically generated
+#' within the function.
+#' @param bnames The names of the bottom time series.
+#' @param characters Integers indicate the segments in which the bottom level
+#' names can be read in order to construct the corresponding node structure and
+#' its labels.  For instance, suppose one of the bottom series is named
+#' "VICMelb" referring to the city of Melbourne within the state of Victoria.
+#' Then \code{characters} would be specified as \code{c(3, 4)} referring to
+#' states of 3 characters (e.g., "VIC") and cities of 4 characters (e.g.,
+#' "Melb") All the bottom names must be of the same length, with number of
+#' characters for each segment the same for all series.
+#' @param ... Extra arguments passed to \code{print} and \code{summary}.
+#' @return \item{bts}{Multivariate time series containing the bottom level
+#' series} \item{nodes}{Information about the nodes of a hierarchical time
+#' series} \item{labels}{Information about the labels that are used for
+#' plotting.}
+#' @author Earo Wang and Rob J Hyndman
+#' @seealso \code{\link[hts]{gts}}, \code{\link[hts]{accuracy.gts}},
+#' \code{\link[hts]{forecast.gts}}, \code{\link[hts]{plot.gts}}
+#' @references R. J. Hyndman, R. A. Ahmed, G. Athanasopoulos and H.L. Shang
+#' (2011) Optimal combination forecasts for hierarchical time series.
+#' \emph{Computational Statistics and Data Analysis}, \bold{55}(9), 2579--2589.
+#' \url{http://robjhyndman.com/papers/hierarchical/}
+#' @keywords ts
+#' @examples
+#' 
+#' # Example 1
+#' # The hierarchical structure looks like 2 child nodes associated with level 1,
+#' # which are followed by 3 and 2 sub-child nodes respectively at level 2.
+#' nodes <- list(2, c(3, 2))
+#' abc <- ts(5 + matrix(sort(rnorm(500)), ncol = 5, nrow = 100))
+#' x <- hts(abc, nodes)
+#' 
+#' # Example 2
+#' # Suppose we've got the bottom names that can be useful for constructing the node
+#' # structure and the labels at higher levels. We need to specify how to split them 
+#' # in the argument "characters".
+#' library(hts)
+#' abc <- ts(5 + matrix(sort(rnorm(1000)), ncol = 10, nrow = 100))
+#' colnames(abc) <- c("A10A", "A10B", "A10C", "A20A", "A20B",
+#'                    "B30A", "B30B", "B30C", "B40A", "B40B")
+#' y <- hts(abc, characters = c(1, 2, 1))
+#' 
+#' @export hts
 hts <- function(y, nodes, bnames = colnames(y), characters) {
   # Construct the hierarchical time series.
   #
@@ -20,7 +75,7 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
   nbts <- ncol(y)
 
   if (nbts <= 1L) {
-    stop("Argument y must be a multivariate time series.")
+    stop("Argument y must be a multivariate time series.", call. = FALSE)
   }
   if (missing(characters)) { # Arg "characters" not specified
     message("Since argument characters are not specified, the default labelling system is used.")
@@ -28,19 +83,19 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
       nodes <- list(nbts)
     }
     if (!is.list(nodes)) {
-      stop("Argument nodes must be a list.")
+      stop("Argument nodes must be a list.", call. = FALSE)
     }
     if (length(nodes[[1L]]) != 1L) {
-      stop("The root node cannot be empty.")
+      stop("The root node cannot be empty.", call. = FALSE)
     }
     if (sum(nodes[[length(nodes)]]) != nbts) {
-      stop("The number of terminal nodes is not consistent with the number of bottom time series.")
+      stop("The number of terminal nodes is not consistent with the number of bottom time series.", call. = FALSE)
     }
     if (length(nodes) > 1L) {
       for (i in 1L:(length(nodes) - 1L)) {
         if (sum(nodes[[i]]) != length(nodes[[i + 1]])) {
           error <- sprintf("The number of nodes for the level %i is not equal to the number of series of level %i.", i - 1L, i)
-          stop(error)
+          stop(error, call. = FALSE)
         }
       }
     }
@@ -63,7 +118,7 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
     }
   } else { # Specified "characters" automates the node structure
     if (!all(nchar(bnames)[1L] == nchar(bnames)[-1L])) {
-      stop("The bottom names must be of the same length.")
+      stop("The bottom names must be of the same length.", call. = FALSE)
     }
     if (any(nchar(bnames) != sum(characters))) {
       warning("The argument characters is not fully specified for the bottom names.")
@@ -77,9 +132,22 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
   # Obtain other information
   names(nodes) <- paste("Level", 1L:length(nodes))
 
-  output <- structure(list(bts = y, nodes = nodes, labels = labels),
-                      class = c("gts", "hts"))
+  output <- structure(
+    list(bts = y, nodes = nodes, labels = labels),
+    class = c("hts", "gts")
+  )
   return(output)
+}
+
+#' Get nodes/groups from an hts/gts object
+#' 
+#' @rdname helper-functions
+#' @param y An hts or gts object
+#' series.
+#' @export
+get_nodes <- function(y) {
+  if(!is.hts(y)) stop("'y' must be an hts object.", call. = FALSE)
+  return(y$nodes)
 }
 
 
@@ -174,7 +242,46 @@ CreateNodes <- function(bnames, characters) {
   return(out)
 }
 
+#' @rdname hts-class
+#' @param xts \code{hts} object.
+#' @export
 # A function to check whether it's the "hts" class.
 is.hts <- function(xts) {
   is.element("hts", class(xts))
+}
+
+#' @rdname hts-class
+#' @param x \code{hts} object.
+#' @method print hts
+#' @export
+#' @export print.hts
+# Print "hts" on the screen
+print.hts <- function(x, ...) {
+  mn <- Mnodes(x$nodes)
+  cat("Hierarchical Time Series \n")
+  cat(length(mn), "Levels \n")
+  cat("Number of nodes at each level:", mn, "\n")
+  cat("Total number of series:", sum(mn), "\n")
+
+  if (is.null(x$histy)) {  # Original series
+    cat("Number of observations per series:", nrow(x$bts), "\n")
+    cat("Top level series: \n")
+  } else {
+    cat("Number of observations in each historical series:",
+        nrow(x$histy), "\n")
+    cat("Number of forecasts per series:", nrow(x$bts), "\n")
+    cat("Top level series of forecasts: \n")
+  }
+  topts <- ts(rowSums(x$bts, na.rm = TRUE), start = stats::tsp(x$bts)[1L],
+              frequency = stats::tsp(x$bts)[3L])
+  print(topts)
+}
+
+#' @rdname hts-class
+#' @param object \code{hts} object.
+#' @method summary hts
+#' @export
+#' @export summary.hts
+summary.hts <- function(object, ...) {
+  NextMethod()
 }

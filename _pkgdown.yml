@@ -1,0 +1,19 @@
+template:
+  params:
+    bootswatch: united
+
+authors:
+  Rob Hyndman:
+    href: http://robjhyndman.com
+  Earo Wang:
+    href: http://earo.me
+
+navbar:
+  type: default
+  left:
+    - text: "Reference"
+      href: reference/index.html
+    - text: "Vignettes"
+      href: https://CRAN.R-project.org/package=hts/vignettes/hts.pdf
+    - text: "News"
+      href: news/index.html
