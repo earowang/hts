@@ -186,8 +186,12 @@ GmatrixG <- function(xmat) {
   }
   # Insert the first & last rows
   nc.xmat <- ncol(xmat)
-  gmat <- rbind(rep(1L, nc.xmat), gmat, seq(1L, nc.xmat))
-  gmat <- gmat[!duplicated(gmat), , drop = FALSE] # Remove possible duplicated
+  gmat <- rbind(
+    if (all(gmat[1,] == rep(1L, nc.xmat))) NULL else rep(1L, nc.xmat),
+    gmat,
+    if (all(gmat[NROW(gmat),] == seq(1L, nc.xmat))) NULL else seq(1L, nc.xmat)
+  )
+  #gmat <- gmat[!duplicated(gmat), , drop = FALSE] # Remove possible duplicated... make smarter above.
   return(structure(gmat, class = "gmatrix"))
 }
 

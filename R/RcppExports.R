@@ -2,6 +2,6 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 cgm_c <- function(As, bs) {
-    .Call('hts_cgm_c', PACKAGE = 'hts', As, bs)
+    .Call('_hts_cgm_c', PACKAGE = 'hts', As, bs)
 }
 

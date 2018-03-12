@@ -8,7 +8,7 @@ using namespace Rcpp;
 
 // cgm_c
 Eigen::MatrixXd cgm_c(SEXP As, SEXP bs);
-RcppExport SEXP hts_cgm_c(SEXP AsSEXP, SEXP bsSEXP) {
+RcppExport SEXP _hts_cgm_c(SEXP AsSEXP, SEXP bsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
