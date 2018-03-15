@@ -20,7 +20,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"hts_cgm_c", (DL_FUNC) &hts_cgm_c, 2},
+    {"_hts_cgm_c", (DL_FUNC) &_hts_cgm_c, 2},
     {NULL, NULL, 0}
 };
 
