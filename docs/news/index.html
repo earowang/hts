@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>All news • hts</title>
+<title>Changelog • hts</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -18,12 +18,14 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
+<meta property="og:title" content="Changelog" />
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -62,12 +64,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/earowang/hts">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -80,20 +77,23 @@
 
   <div class="col-md-9">
     <div class="page-header">
-      <h1>Change log <small>All releases</small></h1>
+      <h1>Change log <small></small></h1>
+      
     </div>
 
     <div class="contents">
     <div id="hts-5-1-5" class="section level1">
-<h1 class="hasAnchor">
-<a href="#hts-5-1-5" class="anchor"></a>hts 5.1.5</h1>
+<h1 class="page-header">
+<a href="#hts-5-1-5" class="anchor"></a>hts 5.1.5<small> Unreleased </small>
+</h1>
 <ul>
 <li>Fixed hts authorship in the DESCRIPTION file</li>
 </ul>
 </div>
     <div id="hts-5-1-4-20-jun-2017" class="section level1">
-<h1 class="hasAnchor">
-<a href="#hts-5-1-4-20-jun-2017" class="anchor"></a>hts 5.1.4 (20 Jun 2017)</h1>
+<h1 class="page-header">
+<a href="#hts-5-1-4-20-jun-2017" class="anchor"></a>hts 5.1.4 (20 Jun 2017)<small> 2017-06-21 </small>
+</h1>
 <ul>
 <li>The <code>hts</code> and <code>gts</code> don’t actually fit into <code>mts</code>, <code>ts</code> and <code>matrix</code> classes, and hence <code>mts</code>, <code>ts</code> and <code>matrix</code> classes are dropped.</li>
 <li>Added helper functions <code>get_nodes</code> for <code>hts</code> and <code>get_groups</code> for <code>gts</code>.</li>
@@ -102,21 +102,23 @@
 </ul>
 </div>
     <div id="hts-5-1-0-18-jun-2017" class="section level1">
-<h1 class="hasAnchor">
-<a href="#hts-5-1-0-18-jun-2017" class="anchor"></a>hts 5.1.0 (18 Jun 2017)</h1>
+<h1 class="page-header">
+<a href="#hts-5-1-0-18-jun-2017" class="anchor"></a>hts 5.1.0 (18 Jun 2017)<small> 2017-06-18 </small>
+</h1>
 <ul>
 <li>Earo Wang took over maintenance of the package from Rob J Hyndman.</li>
 <li>Replaced <code>ChangeLog</code> with a <code>NEWS.md</code> file to track changes to the package.</li>
 <li>Used <code>roxygen2</code> to generate and manage reference. Thanks to Yihui’s <code>Rd2roxygen</code> package for hassle-free conversion.</li>
 <li>Enabled <code>pkgdown</code> support.</li>
-<li>Allowed more control of colour in <code>plot.gts</code> (Thanks to @ellisp for the pull request #25).</li>
+<li>Allowed more control of colour in <code>plot.gts</code> (Thanks to <a href='http://github.com/ellisp'>@ellisp</a> for the pull request #25).</li>
 <li>Exported the <code>is.hts</code> and <code>is.gts</code> functions (as per <a href="https://github.com/earowang/hts/issues/29">#29</a>).</li>
-<li>Registered <code>accurary</code> as an S3 method from <code>forecast::accuracy</code>.</li>
+<li>Registered <code>accurary</code> as an S3 method from <code><a href="http://www.rdocumentation.org/packages/forecast/topics/accuracy">forecast::accuracy</a></code>.</li>
 </ul>
 </div>
     <div id="hts-5-0-april-2016" class="section level1">
-<h1 class="hasAnchor">
-<a href="#hts-5-0-april-2016" class="anchor"></a>hts 5.0 (April 2016)</h1>
+<h1 class="page-header">
+<a href="#hts-5-0-april-2016" class="anchor"></a>hts 5.0 (April 2016)<small> 2016-04-06 </small>
+</h1>
 <ul>
 <li>Added mint option in forecast.gts (written by Shanika Wickramasuriya)</li>
 <li>Allowed arbitrary ordering of bottom level time series in hts()</li>
@@ -125,8 +127,9 @@
 </ul>
 </div>
     <div id="hts-4-5-17-june-2015" class="section level1">
-<h1 class="hasAnchor">
-<a href="#hts-4-5-17-june-2015" class="anchor"></a>hts 4.5 (17 June 2015)</h1>
+<h1 class="page-header">
+<a href="#hts-4-5-17-june-2015" class="anchor"></a>hts 4.5 (17 June 2015)<small> 2015-06-29 </small>
+</h1>
 <ul>
 <li>Fixed bugs in accuracy.gts().</li>
 <li>Fixed bug in forecast.gts() detecting the right default forecasting horizon.</li>
@@ -141,8 +144,9 @@
 </ul>
 </div>
     <div id="hts-4-4-22-july-2014" class="section level1">
-<h1 class="hasAnchor">
-<a href="#hts-4-4-22-july-2014" class="anchor"></a>hts 4.4 (22 July 2014)</h1>
+<h1 class="page-header">
+<a href="#hts-4-4-22-july-2014" class="anchor"></a>hts 4.4 (22 July 2014)<small> 2014-07-23 </small>
+</h1>
 <ul>
 <li>Allowed multiple seasonal objects “msts” in hts() and gts().</li>
 <li>Fixed bug of MASE in accuracy.gts().</li>
@@ -150,8 +154,9 @@
 </ul>
 </div>
     <div id="hts-4-3-10-june-2014" class="section level1">
-<h1 class="hasAnchor">
-<a href="#hts-4-3-10-june-2014" class="anchor"></a>hts 4.3 (10 June 2014)</h1>
+<h1 class="page-header">
+<a href="#hts-4-3-10-june-2014" class="anchor"></a>hts 4.3 (10 June 2014)<small> 2014-06-10 </small>
+</h1>
 <ul>
 <li>Fixed bug of the arg “include” in plot.gts, when there are not yearly data.</li>
 <li>Fixed bug in combinef(), when it handles a simple hierarchy with 2 levels.</li>
@@ -162,16 +167,18 @@
 </ul>
 </div>
     <div id="hts-4-2-25-mar-2014" class="section level1">
-<h1 class="hasAnchor">
-<a href="#hts-4-2-25-mar-2014" class="anchor"></a>hts 4.2 (25 Mar 2014)</h1>
+<h1 class="page-header">
+<a href="#hts-4-2-25-mar-2014" class="anchor"></a>hts 4.2 (25 Mar 2014)<small> 2014-04-09 </small>
+</h1>
 <ul>
 <li>Fixed Next.Generic error in accuracy.gts.</li>
 <li>Adjust weights = sd.</li>
 </ul>
 </div>
     <div id="hts-4-1-3-mar-2014" class="section level1">
-<h1 class="hasAnchor">
-<a href="#hts-4-1-3-mar-2014" class="anchor"></a>hts 4.1 (3 Mar 2014)</h1>
+<h1 class="page-header">
+<a href="#hts-4-1-3-mar-2014" class="anchor"></a>hts 4.1 (3 Mar 2014)<small> 2014-03-07 </small>
+</h1>
 <ul>
 <li>Set the default parallel processes to 2.</li>
 <li>Fixed three dots in parallel computing for forecast.gts.</li>
@@ -179,8 +186,9 @@
 </ul>
 </div>
     <div id="hts-4-0-10-feb-2014" class="section level1">
-<h1 class="hasAnchor">
-<a href="#hts-4-0-10-feb-2014" class="anchor"></a>hts 4.0 (10 Feb 2014)</h1>
+<h1 class="page-header">
+<a href="#hts-4-0-10-feb-2014" class="anchor"></a>hts 4.0 (10 Feb 2014)<small> 2014-02-10 </small>
+</h1>
 <ul>
 <li>Speeded up all existing functions.</li>
 <li>Restructured hts function. Argument g is replaced with nodes. Added bnames and characters to allow custom names.</li>
@@ -200,16 +208,18 @@
 </ul>
 </div>
     <div id="hts-3-01-7-may-2013" class="section level1">
-<h1 class="hasAnchor">
-<a href="#hts-3-01-7-may-2013" class="anchor"></a>hts 3.01 (7 May 2013)</h1>
+<h1 class="page-header">
+<a href="#hts-3-01-7-may-2013" class="anchor"></a>hts 3.01 (7 May 2013)<small> 2013-05-07 </small>
+</h1>
 <ul>
 <li>Added the infantgts data</li>
 <li>Added the vignette</li>
 </ul>
 </div>
     <div id="hts-3-00-7-march-2013" class="section level1">
-<h1 class="hasAnchor">
-<a href="#hts-3-00-7-march-2013" class="anchor"></a>hts 3.00 (7 March 2013)</h1>
+<h1 class="page-header">
+<a href="#hts-3-00-7-march-2013" class="anchor"></a>hts 3.00 (7 March 2013)<small> 2013-03-07 </small>
+</h1>
 <ul>
 <li>Restructured gts objects and dropped hts objects. A flag indicates if gts is hierarchical.</li>
 <li>gts objects can now contain forecasts as well as historical data.</li>
@@ -219,22 +229,25 @@
 </ul>
 </div>
     <div id="hts-2-02-3-november-2011" class="section level1">
-<h1 class="hasAnchor">
-<a href="#hts-2-02-3-november-2011" class="anchor"></a>hts 2.02 (3 November 2011)</h1>
+<h1 class="page-header">
+<a href="#hts-2-02-3-november-2011" class="anchor"></a>hts 2.02 (3 November 2011)<small> 2011-11-07 </small>
+</h1>
 <ul>
 <li>Bug fixes to cope with much bigger hierarchies</li>
 </ul>
 </div>
     <div id="hts-2-01-3-november-2011" class="section level1">
-<h1 class="hasAnchor">
-<a href="#hts-2-01-3-november-2011" class="anchor"></a>hts 2.01 (3 November 2011)</h1>
+<h1 class="page-header">
+<a href="#hts-2-01-3-november-2011" class="anchor"></a>hts 2.01 (3 November 2011)<small> 2011-11-03 </small>
+</h1>
 <ul>
 <li>Changed hierarchical naming convention to allow much bigger hierarchies.</li>
 </ul>
 </div>
     <div id="hts-2-0-2-september-2011" class="section level1">
-<h1 class="hasAnchor">
-<a href="#hts-2-0-2-september-2011" class="anchor"></a>hts 2.0 (2 September 2011)</h1>
+<h1 class="page-header">
+<a href="#hts-2-0-2-september-2011" class="anchor"></a>hts 2.0 (2 September 2011)<small> 2011-09-02 </small>
+</h1>
 <ul>
 <li>Added grouped time series (gts) objects, and re-wrote many functions in order to handle them.</li>
 <li>hts objects are now a subset of gts objects.</li>
@@ -276,7 +289,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
@@ -284,3 +297,4 @@
 
   </body>
 </html>
+

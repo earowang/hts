@@ -1,17 +1,16 @@
 Package: hts
 Title: Hierarchical and Grouped Time Series
-Version: 5.1.4.9999
+Version: 5.1.5
 Authors@R: c(
-    person("Rob", "Hyndman", role = c("aut", "cre"), email = "rob.hyndman@monash.edu"), 
+    person("Rob", "Hyndman", role = "aut", comment = "Package creator"), 
     person("Alan", "Lee", role = "aut", comment = "Fast computation using recursive methods"),
-    person("Earo", "Wang", role = "aut", email = "earo.wang@gmail.com"),
-    person("Shanika", "Wickramasuriya", role = "aut", comment = "Forecasting via trace minimization")
+    person("Earo", "Wang", role = c("aut", "cre"), email = "earo.wang@gmail.com"),
+    person("Shanika", "Wickramasuriya", role = "aut", comment = "Reconciliation via trace minimization")
     )
-Maintainer: Earo Wang <earo.wang@gmail.com>
 Description: Methods for analysing and forecasting hierarchical and grouped time
     series.
 Depends:
-    R (>= 3.0.2),
+    R (>= 3.2.0),
     forecast (>= 8.1)
 Imports:
     SparseM,
@@ -33,8 +32,9 @@ LinkingTo:
 LazyLoad: yes
 LazyData: yes
 ByteCompile: TRUE
-URL: http://pkg.earo.me/hts, https://github.com/earowang/hts
+URL: http://pkg.earo.me/hts
 BugReports: https://github.com/earowang/hts/issues
 License: GPL (>= 2)
-RoxygenNote: 6.0.1
 VignetteBuilder: knitr
+RoxygenNote: 6.0.1
+Roxygen: list(markdown = TRUE, roclets=c('rd', 'collate', 'namespace'))

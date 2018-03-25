@@ -29,14 +29,14 @@ Hyndman, R. J., Lee, A., & Wang, E. (2014).  Fast computation of reconciled
 forecasts for hierarchical and grouped time series.  \emph{Working paper
 17/14, Department of Econometrics & Business Statistics, Monash University.}
 \url{http://robjhyndman.com/working-papers/hgts/}
-Wickramasuriya, S. L., Athanasopoulos, G., & Hyndman, R. J. (2015). 
-Forecasting hierarchical and grouped time series through trace minimization. 
-\emph{Working paper 15/15, Department of Econometrics & Business Statistics, 
+Wickramasuriya, S. L., Athanasopoulos, G., & Hyndman, R. J. (2015).
+Forecasting hierarchical and grouped time series through trace minimization.
+\emph{Working paper 15/15, Department of Econometrics & Business Statistics,
 Monash University.} \url{http://robjhyndman.com/working-papers/mint/}
 }
 \author{
-Rob J Hyndman, Alan Lee, Earo Wang and Shanika L Wickramasuriya with 
-contributions from Roman A Ahmed and Han Lin Shang to earlier versions of the 
+Rob J Hyndman, Alan Lee, Earo Wang and Shanika L Wickramasuriya with
+contributions from Roman A Ahmed and Han Lin Shang to earlier versions of the
 package
 }
 \keyword{package}

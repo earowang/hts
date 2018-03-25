@@ -49,7 +49,7 @@ SmatrixM <- function(gmat) {
     ja <- as.integer(1L:num.bts)
     s <- sparseMatrix(i = ia, j = ja, x = ra)
   })
-  sparse <- do.call("rBind", sparse.S)
+  sparse <- do.call("rbind", sparse.S)
   return(sparse)
 }
 

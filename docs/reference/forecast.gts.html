@@ -18,12 +18,17 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+<meta property="og:title" content="Forecast a hierarchical or grouped time series — forecast.gts" />
 
+<meta property="og:description" content="Methods for forecasting hierarchical or grouped time series." />
+<meta name="twitter:card" content="summary" />
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -62,12 +67,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/earowang/hts">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -80,6 +80,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Forecast a hierarchical or grouped time series</h1>
+    
     </div>
 
     
@@ -233,15 +234,15 @@ Journal of Forecasting</em>, <b>25</b>, 146-166.</p>
 <p>R. J. Hyndman, R. A. Ahmed, G. Athanasopoulos and H.L. Shang (2011) Optimal
 combination forecasts for hierarchical time series. <em>Computational
 Statistics and Data Analysis</em>, <b>55</b>(9), 2579--2589.
-<a href = 'http://robjhyndman.com/papers/hierarchical/'>http://robjhyndman.com/papers/hierarchical/</a></p>
+<a href='http://robjhyndman.com/papers/hierarchical/'>http://robjhyndman.com/papers/hierarchical/</a></p>
 <p>Hyndman, R. J., Lee, A., &amp; Wang, E. (2015). Fast computation of reconciled
 forecasts for hierarchical and grouped time series. <em>Computational
 Statistics and Data Analysis</em>, <b>97</b>, 16--32.
-<a href = 'http://robjhyndman.com/papers/hgts/'>http://robjhyndman.com/papers/hgts/</a></p>
+<a href='http://robjhyndman.com/papers/hgts/'>http://robjhyndman.com/papers/hgts/</a></p>
 <p>Wickramasuriya, S. L., Athanasopoulos, G., &amp; Hyndman, R. J. (2015).
 Forecasting hierarchical and grouped time series through trace minimization.
 <em>Working paper 15/15, Department of Econometrics &amp; Business Statistics,
-Monash University.</em> <a href = 'http://robjhyndman.com/working-papers/mint/'>http://robjhyndman.com/working-papers/mint/</a></p>
+Monash University.</em> <a href='http://robjhyndman.com/working-papers/mint/'>http://robjhyndman.com/working-papers/mint/</a></p>
 <p>Gross, C. and Sohl, J. (1990) Dissagregation methods to expedite product
 line forecasting, <em>Journal of Forecasting</em>, <b>9</b>, 233-254.</p>
     
@@ -266,8 +267,7 @@ line forecasting, <em>Journal of Forecasting</em>, <b>9</b>, 233-254.</p>
 #&gt; Frequency = 1 
 #&gt;  [1] 53.71128 54.20760 54.70392 55.20024 55.69656 56.19288 56.68920 57.18552
 #&gt;  [9] 57.68184 58.17816</div><div class='input'>
-
-  <span class='fu'>forecast</span>(
+</div><div class='input'>  <span class='fu'>forecast</span>(
     <span class='no'>htseg2</span>, <span class='kw'>h</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"comb"</span>, <span class='kw'>algorithms</span> <span class='kw'>=</span> <span class='st'>"lu"</span>,
     <span class='kw'>FUN</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'>tbats</span>(<span class='no'>x</span>, <span class='kw'>use.parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
   )</div><div class='output co'>#&gt; <span class='warning'>Warning: optim() did not converge.</span></div><div class='output co'>#&gt; Hierarchical Time Series 
@@ -283,7 +283,6 @@ line forecasting, <em>Journal of Forecasting</em>, <b>9</b>, 233-254.</p>
 #&gt; Frequency = 1 
 #&gt;  [1] 2.603739 2.819605 3.068565 3.315324 3.559987 3.802653 4.043420 4.282377
 #&gt;  [9] 4.519610 4.755202</div><div class='input'>
-
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -315,7 +314,7 @@ Earo Wang, Rob J Hyndman and Shanika L Wickramasuriya
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
@@ -323,3 +322,4 @@ Earo Wang, Rob J Hyndman and Shanika L Wickramasuriya
 
   </body>
 </html>
+

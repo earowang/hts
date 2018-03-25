@@ -18,12 +18,19 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+<meta property="og:title" content="Simple examples of hierarchical time series. — htseg1" />
 
+<meta property="og:description" content="These are simulated data. htseg1 has three levels with a total of 8
+series each of length 10. htseg2 has four levels with a total of 17
+series each of length 16." />
+<meta name="twitter:card" content="summary" />
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -62,12 +69,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/earowang/hts">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -80,6 +82,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Simple examples of hierarchical time series.</h1>
+    
     </div>
 
     
@@ -98,12 +101,12 @@ series each of length 16.</p>
     <p>R. J. Hyndman, R. A. Ahmed, G. Athanasopoulos and H.L. Shang
 (2011) Optimal combination forecasts for hierarchical time series.
 <em>Computational Statistics and Data Analysis</em>, <b>55</b>(9), 2579--2589.
-<a href = 'http://robjhyndman.com/papers/hierarchical/'>http://robjhyndman.com/papers/hierarchical/</a></p>
+<a href='http://robjhyndman.com/papers/hierarchical/'>http://robjhyndman.com/papers/hierarchical/</a></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'>plot</span>(<span class='no'>htseg1</span>)</div><img src='htseg1-2.png' alt='' width='540' height='400' /><div class='input'>
+<span class='fu'>plot</span>(<span class='no'>htseg1</span>)</div><div class='img'><img src='htseg1-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -126,7 +129,7 @@ series each of length 16.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
@@ -134,3 +137,4 @@ series each of length 16.</p>
 
   </body>
 </html>
+

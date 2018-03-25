@@ -18,12 +18,14 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-
+<meta property="og:title" content="Function reference" />
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -62,12 +64,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/earowang/hts">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -81,7 +78,7 @@
     <div class="page-header">
       <h1>
         Reference
-        <small>version&nbsp;5.1.4.9999</small>
+        <small>version&nbsp;5.1.5</small>
       </h1>
     </div>
 
@@ -103,50 +100,56 @@
         <tr>
           <!--  -->
           <td>
-            <p><code><a href="accuracy.gts.html">accuracy</a></code> </p>
+            <p><code><a href="MinT.html">MinT()</a></code> </p>
+          </td>
+          <td><p>Trace minimization for hierarchical or grouped time series</p></td>
+        </tr><tr>
+          <!--  -->
+          <td>
+            <p><code><a href="accuracy.gts.html">accuracy(<i>&lt;gts&gt;</i>)</a></code> </p>
           </td>
           <td><p>In-sample or out-of-sample accuracy measures for forecast grouped and
 hierarchical model</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="aggts.html">aggts</a></code> </p>
+            <p><code><a href="aggts.html">aggts()</a></code> </p>
           </td>
           <td><p>Extract selected time series from a gts object</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="allts.html">allts</a></code> </p>
+            <p><code><a href="allts.html">allts()</a></code> </p>
           </td>
           <td><p>Extract all time series from a gts object</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="combinef.html">combinef</a></code> </p>
+            <p><code><a href="combinef.html">combinef()</a></code> </p>
           </td>
           <td><p>Optimally combine forecasts from a hierarchical or grouped time series</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="forecast.gts.html">forecast.gts</a></code> </p>
+            <p><code><a href="forecast.gts.html">forecast(<i>&lt;gts&gt;</i>)</a></code> </p>
           </td>
           <td><p>Forecast a hierarchical or grouped time series</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="gts-class.html">gts</a></code> <code><a href="gts-class.html">is.gts</a></code> <code><a href="gts-class.html">print</a></code> <code><a href="gts-class.html">summary</a></code> </p>
+            <p><code><a href="gts-class.html">gts()</a></code> <code><a href="gts-class.html">is.gts()</a></code> <code><a href="gts-class.html">print(<i>&lt;gts&gt;</i>)</a></code> <code><a href="gts-class.html">summary(<i>&lt;gts&gt;</i>)</a></code> </p>
           </td>
           <td><p>Create a grouped time series</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="helper-functions.html">get_groups</a></code> <code><a href="helper-functions.html">get_nodes</a></code> </p>
+            <p><code><a href="helper-functions.html">get_groups()</a></code> <code><a href="helper-functions.html">get_nodes()</a></code> </p>
           </td>
           <td><p>Get nodes/groups from an hts/gts object</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="hts-class.html">hts</a></code> <code><a href="hts-class.html">is.hts</a></code> <code><a href="hts-class.html">print</a></code> <code><a href="hts-class.html">summary</a></code> </p>
+            <p><code><a href="hts-class.html">hts()</a></code> <code><a href="hts-class.html">is.hts()</a></code> <code><a href="hts-class.html">print(<i>&lt;hts&gt;</i>)</a></code> <code><a href="hts-class.html">summary(<i>&lt;hts&gt;</i>)</a></code> </p>
           </td>
           <td><p>Create a hierarchical time series</p></td>
         </tr><tr>
@@ -170,25 +173,19 @@ hierarchical model</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="MinT.html">MinT</a></code> </p>
-          </td>
-          <td><p>Trace minimization for hierarchical or grouped time series</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="plot.gts.html">plot</a></code> </p>
+            <p><code><a href="plot.gts.html">plot(<i>&lt;gts&gt;</i>)</a></code> </p>
           </td>
           <td><p>Plot grouped or hierarchical time series</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="smatrix.html">smatrix</a></code> </p>
+            <p><code><a href="smatrix.html">smatrix()</a></code> </p>
           </td>
           <td><p>Summing matrix for hierarchical or grouped time series</p></td>
         </tr><tr>
           <!--  -->
           <td>
-            <p><code><a href="window.gts.html">window</a></code> </p>
+            <p><code><a href="window.gts.html">window(<i>&lt;gts&gt;</i>)</a></code> </p>
           </td>
           <td><p>Time window of a gts object</p></td>
         </tr>
@@ -211,7 +208,7 @@ hierarchical model</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
@@ -219,3 +216,4 @@ hierarchical model</p></td>
 
   </body>
 </html>
+

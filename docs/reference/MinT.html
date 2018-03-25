@@ -18,12 +18,20 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+<meta property="og:title" content="Trace minimization for hierarchical or grouped time series — MinT" />
 
+<meta property="og:description" content="Using the method of Wickramasuriya et al. (2015), this function combines the
+forecasts at all levels of a hierarchical or grouped time series. The
+forecast.gts calls this function when the MinT method
+is selected." />
+<meta name="twitter:card" content="summary" />
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -62,12 +70,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/earowang/hts">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -80,6 +83,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Trace minimization for hierarchical or grouped time series</h1>
+    
     </div>
 
     
@@ -145,11 +149,11 @@ level.</p>
 (2015).  Forecasting hierarchical and grouped time series through trace
 minimization.  <em>Working paper 15/15, Department of Econometrics &amp;
 Business Statistics, Monash University.</em>
-<a href = 'http://robjhyndman.com/working-papers/mint/'>http://robjhyndman.com/working-papers/mint/</a></p>
+<a href='http://robjhyndman.com/working-papers/mint/'>http://robjhyndman.com/working-papers/mint/</a></p>
 <p>Hyndman, R. J., Lee, A., &amp; Wang, E. (2015).  Fast computation of reconciled
 forecasts for hierarchical and grouped time series.  <em>Computational
 Statistics and Data Analysis</em>, <b>97</b>, 16--32.
-<a href = 'http://robjhyndman.com/papers/hgts/'>http://robjhyndman.com/papers/hgts/</a></p>
+<a href='http://robjhyndman.com/papers/hgts/'>http://robjhyndman.com/papers/hgts/</a></p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -159,8 +163,8 @@ Statistics and Data Analysis</em>, <b>97</b>, 16--32.
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='co'># hts example</span>
-<span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fl'>12</span>
+# hts example
+</div><div class='input'><span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fl'>12</span>
 <span class='no'>ally</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='aggts.html'>aggts</a></span>(<span class='no'>htseg1</span>)
 <span class='no'>n</span> <span class='kw'>&lt;-</span> <span class='fu'>nrow</span>(<span class='no'>ally</span>)
 <span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'>ncol</span>(<span class='no'>ally</span>)
@@ -175,12 +179,10 @@ Statistics and Data Analysis</em>, <b>97</b>, 16--32.
 <span class='no'>allf</span> <span class='kw'>&lt;-</span> <span class='fu'>ts</span>(<span class='no'>allf</span>, <span class='kw'>start</span> <span class='kw'>=</span> <span class='fl'>51</span>)
 <span class='no'>y.f</span> <span class='kw'>&lt;-</span> <span class='fu'>MinT</span>(<span class='no'>allf</span>, <span class='fu'><a href='helper-functions.html'>get_nodes</a></span>(<span class='no'>htseg1</span>), <span class='kw'>residual</span> <span class='kw'>=</span> <span class='no'>res</span>, <span class='kw'>covariance</span> <span class='kw'>=</span> <span class='st'>"shr"</span>,
   <span class='kw'>keep</span> <span class='kw'>=</span> <span class='st'>"gts"</span>, <span class='kw'>algorithms</span> <span class='kw'>=</span> <span class='st'>"lu"</span>)
-<span class='fu'>plot</span>(<span class='no'>y.f</span>)</div><img src='MinT-2.png' alt='' width='540' height='400' /><div class='input'><span class='no'>y.f_cg</span> <span class='kw'>&lt;-</span> <span class='fu'>MinT</span>(<span class='no'>allf</span>, <span class='fu'><a href='helper-functions.html'>get_nodes</a></span>(<span class='no'>htseg1</span>), <span class='kw'>residual</span> <span class='kw'>=</span> <span class='no'>res</span>, <span class='kw'>covariance</span> <span class='kw'>=</span> <span class='st'>"shr"</span>,
-  <span class='kw'>keep</span> <span class='kw'>=</span> <span class='st'>"all"</span>, <span class='kw'>algorithms</span> <span class='kw'>=</span> <span class='st'>"cg"</span>)
-
-
-<span class='co'># gts example</span>
-<span class='no'>abc</span> <span class='kw'>&lt;-</span> <span class='fu'>ts</span>(<span class='fl'>5</span> + <span class='fu'>matrix</span>(<span class='fu'>sort</span>(<span class='fu'>rnorm</span>(<span class='fl'>200</span>)), <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>50</span>))
+<span class='fu'>plot</span>(<span class='no'>y.f</span>)</div><div class='img'><img src='MinT-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>y.f_cg</span> <span class='kw'>&lt;-</span> <span class='fu'>MinT</span>(<span class='no'>allf</span>, <span class='fu'><a href='helper-functions.html'>get_nodes</a></span>(<span class='no'>htseg1</span>), <span class='kw'>residual</span> <span class='kw'>=</span> <span class='no'>res</span>, <span class='kw'>covariance</span> <span class='kw'>=</span> <span class='st'>"shr"</span>,
+  <span class='kw'>keep</span> <span class='kw'>=</span> <span class='st'>"all"</span>, <span class='kw'>algorithms</span> <span class='kw'>=</span> <span class='st'>"cg"</span>)</div><div class='input'>  
+# gts example
+</div><div class='input'><span class='no'>abc</span> <span class='kw'>&lt;-</span> <span class='fu'>ts</span>(<span class='fl'>5</span> + <span class='fu'>matrix</span>(<span class='fu'>sort</span>(<span class='fu'>rnorm</span>(<span class='fl'>200</span>)), <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>50</span>))
 <span class='no'>g</span> <span class='kw'>&lt;-</span> <span class='fu'>rbind</span>(<span class='fu'>c</span>(<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>2</span>), <span class='fu'>c</span>(<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>1</span>,<span class='fl'>2</span>))
 <span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gts-class.html'>gts</a></span>(<span class='no'>abc</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='no'>g</span>)</div><div class='output co'>#&gt; <span class='message'>Argument gnames is missing and the default labels are used.</span></div><div class='input'><span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fl'>12</span>
 <span class='no'>ally</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='aggts.html'>aggts</a></span>(<span class='no'>y</span>)
@@ -197,7 +199,7 @@ Statistics and Data Analysis</em>, <b>97</b>, 16--32.
 <span class='no'>allf</span> <span class='kw'>&lt;-</span> <span class='fu'>ts</span>(<span class='no'>allf</span>, <span class='kw'>start</span> <span class='kw'>=</span> <span class='fl'>51</span>)
 <span class='no'>y.f</span> <span class='kw'>&lt;-</span> <span class='fu'>MinT</span>(<span class='no'>allf</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='fu'><a href='helper-functions.html'>get_groups</a></span>(<span class='no'>y</span>), <span class='kw'>residual</span> <span class='kw'>=</span> <span class='no'>res</span>, <span class='kw'>covariance</span> <span class='kw'>=</span> <span class='st'>"shr"</span>,
   <span class='kw'>keep</span> <span class='kw'>=</span> <span class='st'>"gts"</span>, <span class='kw'>algorithms</span> <span class='kw'>=</span> <span class='st'>"lu"</span>)
-<span class='fu'>plot</span>(<span class='no'>y.f</span>)</div><img src='MinT-6.png' alt='' width='540' height='400' /><div class='input'>
+<span class='fu'>plot</span>(<span class='no'>y.f</span>)</div><div class='img'><img src='MinT-2.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -227,7 +229,7 @@ Shanika L Wickramasuriya
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
@@ -235,3 +237,4 @@ Shanika L Wickramasuriya
 
   </body>
 </html>
+

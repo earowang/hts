@@ -18,12 +18,17 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+<meta property="og:title" content="Plot grouped or hierarchical time series — plot.gts" />
 
+<meta property="og:description" content="Method for plotting grouped or hierarchical time series and their forecasts." />
+<meta name="twitter:card" content="summary" />
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -62,12 +67,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/earowang/hts">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -80,6 +80,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Plot grouped or hierarchical time series</h1>
+    
     </div>
 
     
@@ -131,7 +132,7 @@ colours.  If <code>FALSE</code> will be as per <code>par()$fg</code>.</p></td>
     <p>R. J. Hyndman, R. A. Ahmed, G. Athanasopoulos and H.L. Shang
 (2011) Optimal combination forecasts for hierarchical time series.
 <em>Computational Statistics and Data Analysis</em>, <b>55</b>(9), 2579--2589.
-<a href = 'http://robjhyndman.com/papers/hierarchical/'>http://robjhyndman.com/papers/hierarchical/</a></p>
+<a href='http://robjhyndman.com/papers/hierarchical/'>http://robjhyndman.com/papers/hierarchical/</a></p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -140,8 +141,8 @@ colours.  If <code>FALSE</code> will be as per <code>par()$fg</code>.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'>plot</span>(<span class='no'>htseg1</span>, <span class='kw'>levels</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>2</span>))</div><img src='plot.gts-2.png' alt='' width='540' height='400' /><div class='input'><span class='fu'>plot</span>(<span class='no'>infantgts</span>, <span class='kw'>include</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>levels</span> <span class='kw'>=</span> <span class='st'>"State"</span>)</div><img src='plot.gts-4.png' alt='' width='540' height='400' /><div class='input'><span class='fu'>plot</span>(<span class='no'>infantgts</span>, <span class='kw'>include</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>levels</span> <span class='kw'>=</span> <span class='st'>"State"</span>,
-    <span class='kw'>col</span> <span class='kw'>=</span> <span class='fu'>colours</span>()[<span class='fl'>100</span>:<span class='fl'>107</span>], <span class='kw'>lty</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>8</span>, <span class='kw'>color_lab</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><img src='plot.gts-6.png' alt='' width='540' height='400' /><div class='input'>
+<span class='fu'>plot</span>(<span class='no'>htseg1</span>, <span class='kw'>levels</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>2</span>))</div><div class='img'><img src='plot.gts-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plot</span>(<span class='no'>infantgts</span>, <span class='kw'>include</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>levels</span> <span class='kw'>=</span> <span class='st'>"State"</span>)</div><div class='img'><img src='plot.gts-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plot</span>(<span class='no'>infantgts</span>, <span class='kw'>include</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>levels</span> <span class='kw'>=</span> <span class='st'>"State"</span>,
+    <span class='kw'>col</span> <span class='kw'>=</span> <span class='fu'>colours</span>()[<span class='fl'>100</span>:<span class='fl'>107</span>], <span class='kw'>lty</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>8</span>, <span class='kw'>color_lab</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='img'><img src='plot.gts-3.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -169,7 +170,7 @@ Rob J Hyndman and Earo Wang
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
@@ -177,3 +178,4 @@ Rob J Hyndman and Earo Wang
 
   </body>
 </html>
+

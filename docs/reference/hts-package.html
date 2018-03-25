@@ -18,12 +18,25 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+<meta property="og:title" content="Hierarchical and grouped time series — hts-package" />
 
+<meta property="og:description" content="This package presents functions to create, plot and forecast hierarchical
+and grouped time series. In forecasting hierarchical and grouped time
+series, the base methods implemented include ETS, ARIMA and the naive
+(random walk) models. Forecasts for grouped time series are calibrated using
+bottom-up and optimal combination methods. Forecasts for hierarchical time
+series are distributed in the hierarchy using bottom-up, top-down,
+middle-out and optimal combination methods. Three top-down methods are
+available: the two Gross-Sohl methods and the forecast-proportion approach
+of Hyndman, Ahmed, and Athanasopoulos (2011)." />
+<meta name="twitter:card" content="summary" />
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -62,12 +75,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/earowang/hts">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -80,6 +88,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Hierarchical and grouped time series</h1>
+    
     </div>
 
     
@@ -103,15 +112,15 @@ Journal of Forecasting</em>, <b>25</b>, 146-166.</p>
 <p>R. J. Hyndman, R. A. Ahmed, G. Athanasopoulos and H.L. Shang (2011) Optimal
 combination forecasts for hierarchical time series.  <em>Computational
 Statistics and Data Analysis</em>, <b>55</b>(9), 2579--2589.
-<a href = 'http://robjhyndman.com/papers/hierarchical/'>http://robjhyndman.com/papers/hierarchical/</a></p>
+<a href='http://robjhyndman.com/papers/hierarchical/'>http://robjhyndman.com/papers/hierarchical/</a></p>
 <p>Hyndman, R. J., Lee, A., &amp; Wang, E. (2014).  Fast computation of reconciled
 forecasts for hierarchical and grouped time series.  <em>Working paper
 17/14, Department of Econometrics &amp; Business Statistics, Monash University.</em>
-<a href = 'http://robjhyndman.com/working-papers/hgts/'>http://robjhyndman.com/working-papers/hgts/</a>
-Wickramasuriya, S. L., Athanasopoulos, G., &amp; Hyndman, R. J. (2015). 
-Forecasting hierarchical and grouped time series through trace minimization. 
-<em>Working paper 15/15, Department of Econometrics &amp; Business Statistics, 
-Monash University.</em> <a href = 'http://robjhyndman.com/working-papers/mint/'>http://robjhyndman.com/working-papers/mint/</a></p>
+<a href='http://robjhyndman.com/working-papers/hgts/'>http://robjhyndman.com/working-papers/hgts/</a>
+Wickramasuriya, S. L., Athanasopoulos, G., &amp; Hyndman, R. J. (2015).
+Forecasting hierarchical and grouped time series through trace minimization.
+<em>Working paper 15/15, Department of Econometrics &amp; Business Statistics,
+Monash University.</em> <a href='http://robjhyndman.com/working-papers/mint/'>http://robjhyndman.com/working-papers/mint/</a></p>
     
 
   </div>
@@ -124,8 +133,8 @@ Monash University.</em> <a href = 'http://robjhyndman.com/working-papers/mint/'>
 
     <h2>Author</h2>
     
-Rob J Hyndman, Alan Lee, Earo Wang and Shanika L Wickramasuriya with 
-contributions from Roman A Ahmed and Han Lin Shang to earlier versions of the 
+Rob J Hyndman, Alan Lee, Earo Wang and Shanika L Wickramasuriya with
+contributions from Roman A Ahmed and Han Lin Shang to earlier versions of the
 package
 
   </div>
@@ -137,7 +146,7 @@ package
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
@@ -145,3 +154,4 @@ package
 
   </body>
 </html>
+
