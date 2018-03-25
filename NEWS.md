@@ -1,15 +1,18 @@
 # hts 5.1.5
 
 * Fixed hts authorship in the DESCRIPTION file
+* Updated reference
+* Replaced `rBind` with `rbind` due to Matrix new release
+* Depends on R (>= 3.2.0)
 
-# hts 5.1.4 (20 Jun 2017)
+# hts 5.1.4
 
 * The `hts` and `gts` don't actually fit into `mts`, `ts` and `matrix` classes, and hence `mts`, `ts` and `matrix` classes are dropped.
 * Added helper functions `get_nodes` for `hts` and `get_groups` for `gts`.
 * Fixed `forecast(method = "tdfp", h = 1)` issue ([#32](https://github.com/earowang/hts/issues/32)).
 * Fixed `forecast(FUN = hybridModel)` when `newxreg` is present ([#28](https://github.com/earowang/hts/issues/28)).
 
-# hts 5.1.0 (18 Jun 2017)
+# hts 5.1.0
 
 * Earo Wang took over maintenance of the package from Rob J Hyndman.
 * Replaced `ChangeLog` with a `NEWS.md` file to track changes to the package.
@@ -19,14 +22,14 @@
 * Exported the `is.hts` and `is.gts` functions (as per [#29](https://github.com/earowang/hts/issues/29)).
 * Registered `accurary` as an S3 method from `forecast::accuracy`.
 
-# hts 5.0 (April 2016)
+# hts 5.0
 
 * Added mint option in forecast.gts (written by Shanika Wickramasuriya)
 * Allowed arbitrary ordering of bottom level time series in hts()
 * Added QR decomposition if LU decomposition fails
 * Bug fixes
 
-# hts 4.5 (17 June 2015)
+# hts 4.5
 
 * Fixed bugs in accuracy.gts().
 * Fixed bug in forecast.gts() detecting the right default forecasting horizon.
@@ -39,13 +42,13 @@
 * Fixed bug in forecast.gts() when using external regressors with parallel.
 * Fixed time attributes of fitted and residual series.
 
-# hts 4.4 (22 July 2014)
+# hts 4.4
 
 * Allowed multiple seasonal objects "msts" in hts() and gts().
 * Fixed bug of MASE in accuracy.gts().
 * Allowed user's defined forecasting function in forecast.gts().
 
-# hts 4.3 (10 June 2014)
+# hts 4.3
 
 * Fixed bug of the arg "include" in plot.gts, when there are not yearly data.
 * Fixed bug in combinef(), when it handles a simple hierarchy with 2 levels.
@@ -54,18 +57,18 @@
 * Added a new reference to combinef() man.
 * Made 'sd' the default weight in forecast.gts().
 
-# hts 4.2 (25 Mar 2014)
+# hts 4.2
 
 * Fixed Next.Generic error in accuracy.gts.
 * Adjust weights = sd.
 
-# hts 4.1 (3 Mar 2014)
+# hts 4.1
 
 * Set the default parallel processes to 2.
 * Fixed three dots in parallel computing for forecast.gts.
 * Speeded up the topdown approaches.
 
-# hts 4.0 (10 Feb 2014)
+# hts 4.0
 
 * Speeded up all existing functions.
 * Restructured hts function. Argument g is replaced with nodes. Added bnames and
@@ -90,12 +93,12 @@
   level. Dropped arguments return and hierarchical.
 * Argument levels in plot.gts function allows more flexibilities.
 
-# hts 3.01 (7 May 2013)
+# hts 3.01
 
 * Added the infantgts data
 * Added the vignette
 
-# hts 3.00 (7 March 2013)
+# hts 3.00
 
 * Restructured gts objects and dropped hts objects. A flag indicates if gts is
 	hierarchical.
@@ -105,15 +108,15 @@
 * Added the window.gts function
 * Moved SparseM from Depends to Imports
 
-# hts 2.02 (3 November 2011)
+# hts 2.02
 
 * Bug fixes to cope with much bigger hierarchies
 
-# hts 2.01 (3 November 2011)
+# hts 2.01
 
 * Changed hierarchical naming convention to allow much bigger hierarchies.
 
-# hts 2.0 (2 September 2011)
+# hts 2.0
 
 * Added grouped time series (gts) objects, and re-wrote many functions in order
 	to handle them.
