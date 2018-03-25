@@ -7,8 +7,10 @@ Authors@R: c(
     person("Earo", "Wang", role = c("aut", "cre"), email = "earo.wang@gmail.com"),
     person("Shanika", "Wickramasuriya", role = "aut", comment = "Reconciliation via trace minimization")
     )
-Description: Methods for analysing and forecasting hierarchical and grouped time
-    series.
+Description: Provides methods for analysing and forecasting hierarchical and 
+    grouped time series. The available reconciliation methods include bottom-up,
+    top-down, optimal combination (Hyndman et al. 2011) <doi:10.1016/j.csda.2011.03.006>, 
+    and trace minimization (Wickramasuriya et al. 2018) <doi:10.1080/01621459.2018.1448825>.
 Depends:
     R (>= 3.2.0),
     forecast (>= 8.1)

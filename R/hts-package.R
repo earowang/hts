@@ -1,5 +1,3 @@
-
-
 #' Hierarchical and grouped time series
 #' 
 #' This package presents functions to create, plot and forecast hierarchical
