@@ -1,30 +1,35 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-hts
-===
 
-[![Travis-CI Build Status](https://travis-ci.org/earowang/hts.svg?branch=master)](https://travis-ci.org/earowang/hts) [![codecov](https://codecov.io/gh/earowang/hts/branch/master/graph/badge.svg)](https://codecov.io/gh/earowang/hts) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/hts)](https://cran.r-project.org/package=hts) [![Downloads](http://cranlogs.r-pkg.org/badges/hts)](https://cran.r-project.org/package=hts)
+# hts
 
-The R package *hts* presents functions to create, plot and forecast hierarchical and grouped time series.
+[![Travis-CI Build
+Status](https://travis-ci.org/earowang/hts.svg?branch=master)](https://travis-ci.org/earowang/hts)
+[![codecov](https://codecov.io/gh/earowang/hts/branch/master/graph/badge.svg)](https://codecov.io/gh/earowang/hts)
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/hts)](https://cran.r-project.org/package=hts)
+[![Downloads](http://cranlogs.r-pkg.org/badges/hts)](https://cran.r-project.org/package=hts)
 
-Installation
-------------
+The R package *hts* presents functions to create, plot and forecast
+hierarchical and grouped time series.
 
-You can install the **stable** version on [R CRAN](https://cran.r-project.org/package=hts).
+## Installation
+
+You can install the **stable** version on [R
+CRAN](https://cran.r-project.org/package=hts).
 
 ``` r
 install.packages('hts', dependencies = TRUE)
 ```
 
-You can also install the **development** version from [Github](https://github.com/robjhyndman/gts)
+You can also install the **development** version from
+[Github](https://github.com/robjhyndman/gts)
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("earowang/hts")
 ```
 
-Usage
------
+## Usage
 
 ### Example 1: hierarchical time series
 
@@ -68,7 +73,7 @@ aggts3 <- aggts(htseg1, levels = c(0, 2))
 plot(htseg1, levels = 1)
 ```
 
-![](man/figure/hts-eg1-1.png)
+![](man/figure/hts-eg1-1.png)<!-- -->
 
 ``` r
 smatrix(htseg1)  # Return the dense mode
@@ -137,13 +142,13 @@ aggts4 <- aggts(fcasts1.comb)
 plot(fcasts1.comb, levels = 2)
 ```
 
-![](man/figure/hts-eg1-2.png)
+![](man/figure/hts-eg1-2.png)<!-- -->
 
 ``` r
 plot(fcasts1.comb, include = 5, levels = c(1, 2))
 ```
 
-![](man/figure/hts-eg1-3.png)
+![](man/figure/hts-eg1-3.png)<!-- -->
 
 ### Example 2: hierarchical time series
 
@@ -192,13 +197,13 @@ fcasts2.td <- forecast(
 plot(fcasts2.td, include = 5)
 ```
 
-![](man/figure/hts-eg2-1.png)
+![](man/figure/hts-eg2-1.png)<!-- -->
 
 ``` r
 plot(fcasts2.td, include = 5, levels = c(0, 2))
 ```
 
-![](man/figure/hts-eg2-2.png)
+![](man/figure/hts-eg2-2.png)<!-- -->
 
 ### Example 3: grouped time series
 
@@ -207,7 +212,7 @@ plot(fcasts2.td, include = 5, levels = c(0, 2))
 plot(infantgts, levels = 1)
 ```
 
-![](man/figure/gts-eg-1.png)
+![](man/figure/gts-eg-1.png)<!-- -->
 
 ``` r
 
@@ -217,13 +222,13 @@ agg_gts2 <- aggts(fcasts3.comb, levels = 1, forecasts = FALSE)
 plot(fcasts3.comb)
 ```
 
-![](man/figure/gts-eg-2.png)
+![](man/figure/gts-eg-2.png)<!-- -->
 
 ``` r
 plot(fcasts3.comb, include = 5, levels = c(1, 2))
 ```
 
-![](man/figure/gts-eg-3.png)
+![](man/figure/gts-eg-3.png)<!-- -->
 
 ``` r
 
@@ -238,7 +243,7 @@ fcasts3.combn <- forecast(
 )
 ```
 
-License
--------
+## License
 
-This package is free and open source software, licensed under GPL (&gt;= 2).
+This package is free and open source software, licensed under GPL (\>=
+2).

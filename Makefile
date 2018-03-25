@@ -1,6 +1,9 @@
 document:
 	Rscript -e "devtools::document()"
 
+readme:
+	Rscript -e "rmarkdown::render('README.Rmd'); pkgdown::build_home()"
+
 build:
 	Rscript -e "devtools::build()"
 
@@ -20,4 +23,4 @@ release:
 	Rscript -e "devtools::release()"
 
 pkgdown:
-	Rscript -e "library(pkgdown); clean_site(); init_site(); build_home(); build_reference(run_dont_run = TRUE); build_news()"
+	Rscript -e "pkgdown::build_site(run_dont_run = TRUE)"
