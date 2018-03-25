@@ -11,7 +11,7 @@ install:
 	Rscript -e "devtools::install(build_vignettes = TRUE, upgrade_dependencies = FALSE)"
 
 revdep-check:
-	Rscript -e "devtools::revdep_check(); devtools::revdep_check_summary(); devtools::revdep_check_print_problems()"
+	Rscript -e "devtools::revdep_check(); devtools::revdep_check_save_summary(); devtools::revdep_check_print_problems()"
 
 winbuild:
 	Rscript -e "devtools::build_win(version = 'R-devel', quiet = TRUE)"

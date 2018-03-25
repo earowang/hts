@@ -4,66 +4,50 @@
 
 |setting  |value                        |
 |:--------|:----------------------------|
-|version  |R version 3.4.0 (2017-04-21) |
-|system   |x86_64, darwin16.5.0         |
-|ui       |RStudio (1.1.247)            |
+|version  |R version 3.4.4 (2018-03-15) |
+|system   |x86_64, linux-gnu            |
+|ui       |X11                          |
 |language |(EN)                         |
-|collate  |en_AU.UTF-8                  |
-|tz       |Australia/Brisbane           |
-|date     |2017-06-18                   |
+|collate  |en_US.UTF-8                  |
+|tz       |Australia/Melbourne          |
+|date     |2018-03-25                   |
 
 ## Packages
 
-|package   |*  |version    |date       |source                             |
-|:---------|:--|:----------|:----------|:----------------------------------|
-|hts       |*  |5.1.0      |2017-06-18 |local (earowang/hts@NA)            |
-|rmarkdown |   |1.6.0.9000 |2017-06-18 |Github (rstudio/rmarkdown@7669d66) |
+|package |*  |version |date       |source                  |
+|:-------|:--|:-------|:----------|:-----------------------|
+|hts     |   |5.1.5   |2018-03-25 |local (earowang/hts@NA) |
 
 # Check results
 
-3 packages
+4 packages
 
 |package |version | errors| warnings| notes|
 |:-------|:-------|------:|--------:|-----:|
-|corset  |0.1-3   |      1|        0|     0|
+|corset  |0.1-4   |      0|        0|     0|
 |gtop    |0.2.0   |      0|        0|     0|
-|thief   |0.2     |      0|        0|     0|
+|thief   |0.3     |      0|        0|     0|
+|tsibble |0.1.3   |      0|        0|     0|
 
-## corset (0.1-3)
+## corset (0.1-4)
 Maintainer: Fran Urbano <viraltux@gmail.com>
 
-1 error  | 0 warnings | 0 notes
-
-```
-checking tests ... ERROR
-  Running ‘testthat.R’
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  1. Error: Corset - class gts/hts  (@test-bezier.R#142) -------------------------
-  invalid 'length.out' value
-  1: corset(x, "bezier") at testthat/test-bezier.R:142
-  
-  2. Error: Corset - class gts/hts  (@test-exp.R#143) ----------------------------
-  invalid 'length.out' value
-  1: corset(x, "exp") at testthat/test-exp.R:143
-  
-  testthat results ================================================================
-  OK: 21 SKIPPED: 4 FAILED: 2
-  1. Error: Corset - class gts/hts  (@test-bezier.R#142) 
-  2. Error: Corset - class gts/hts  (@test-exp.R#143) 
-  
-  Error: testthat unit tests failed
-  Execution halted
-```
+0 errors | 0 warnings | 0 notes
 
 ## gtop (0.2.0)
 Maintainer: Jairo Cugliari <Jairo.Cugliari@univ-lyon2.fr>
 
 0 errors | 0 warnings | 0 notes
 
-## thief (0.2)
+## thief (0.3)
 Maintainer: Rob Hyndman <Rob.Hyndman@monash.edu>  
 Bug reports: https://github.com/robjhyndman/thief/issues
+
+0 errors | 0 warnings | 0 notes
+
+## tsibble (0.1.3)
+Maintainer: Earo Wang <earo.wang@gmail.com>  
+Bug reports: https://github.com/earowang/tsibble/issues
 
 0 errors | 0 warnings | 0 notes
 
