@@ -21,11 +21,22 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Function reference" />
+
+<meta property="og:image" content="/logo.png" />
+<meta name="twitter:card" content="summary" />
+
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -48,8 +59,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">hts</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">hts</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">5.1.5.9000</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -66,6 +81,7 @@
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -73,125 +89,121 @@
       
       </header>
 
-      <div class="row">
-  <div class="col-md-9">
+<div class="row">
+  <div class="contents col-md-9">
     <div class="page-header">
-      <h1>
-        Reference
-        <small>version&nbsp;5.1.5</small>
-      </h1>
+      <h1>Reference</h1>
     </div>
 
-    <div class="contents">
-      <table class="ref-index">
+    <table class="ref-index">
 
-      <colgroup>
-        <col class="alias" />
-        <col class="title" />
-      </colgroup>
+    <colgroup>
+      
+      <col class="alias" />
+      <col class="title" />
+    </colgroup>
 
-      <tbody>
-        <tr>
-          <th colspan="2">
-            <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-            <p class="section-desc"></p>
-          </th>
-        </tr>
-        <tr>
-          <!--  -->
-          <td>
-            <p><code><a href="MinT.html">MinT()</a></code> </p>
-          </td>
-          <td><p>Trace minimization for hierarchical or grouped time series</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="accuracy.gts.html">accuracy(<i>&lt;gts&gt;</i>)</a></code> </p>
-          </td>
-          <td><p>In-sample or out-of-sample accuracy measures for forecast grouped and
+    <tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="MinT.html">MinT()</a></code> </p>
+        </td>
+        <td><p>Trace minimization for hierarchical or grouped time series</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="accuracy.gts.html">accuracy(<i>&lt;gts&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>In-sample or out-of-sample accuracy measures for forecast grouped and
 hierarchical model</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="aggts.html">aggts()</a></code> </p>
-          </td>
-          <td><p>Extract selected time series from a gts object</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="allts.html">allts()</a></code> </p>
-          </td>
-          <td><p>Extract all time series from a gts object</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="combinef.html">combinef()</a></code> </p>
-          </td>
-          <td><p>Optimally combine forecasts from a hierarchical or grouped time series</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="forecast.gts.html">forecast(<i>&lt;gts&gt;</i>)</a></code> </p>
-          </td>
-          <td><p>Forecast a hierarchical or grouped time series</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="gts-class.html">gts()</a></code> <code><a href="gts-class.html">is.gts()</a></code> <code><a href="gts-class.html">print(<i>&lt;gts&gt;</i>)</a></code> <code><a href="gts-class.html">summary(<i>&lt;gts&gt;</i>)</a></code> </p>
-          </td>
-          <td><p>Create a grouped time series</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="helper-functions.html">get_groups()</a></code> <code><a href="helper-functions.html">get_nodes()</a></code> </p>
-          </td>
-          <td><p>Get nodes/groups from an hts/gts object</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="hts-class.html">hts()</a></code> <code><a href="hts-class.html">is.hts()</a></code> <code><a href="hts-class.html">print(<i>&lt;hts&gt;</i>)</a></code> <code><a href="hts-class.html">summary(<i>&lt;hts&gt;</i>)</a></code> </p>
-          </td>
-          <td><p>Create a hierarchical time series</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="hts-package.html">hts-package</a></code> </p>
-          </td>
-          <td><p>Hierarchical and grouped time series</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="htseg1.html">htseg1</a></code> </p>
-          </td>
-          <td><p>Simple examples of hierarchical time series.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="infantgts.html">infantgts</a></code> </p>
-          </td>
-          <td><p>Regional infant mortality counts across Australia from 1933 to 2003.</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="plot.gts.html">plot(<i>&lt;gts&gt;</i>)</a></code> </p>
-          </td>
-          <td><p>Plot grouped or hierarchical time series</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="smatrix.html">smatrix()</a></code> </p>
-          </td>
-          <td><p>Summing matrix for hierarchical or grouped time series</p></td>
-        </tr><tr>
-          <!--  -->
-          <td>
-            <p><code><a href="window.gts.html">window(<i>&lt;gts&gt;</i>)</a></code> </p>
-          </td>
-          <td><p>Time window of a gts object</p></td>
-        </tr>
-      </tbody>
-      </table>
-    </div>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="aggts.html">aggts()</a></code> </p>
+        </td>
+        <td><p>Extract selected time series from a gts object</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="allts.html">allts()</a></code> </p>
+        </td>
+        <td><p>Extract all time series from a gts object</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="combinef.html">combinef()</a></code> </p>
+        </td>
+        <td><p>Optimally combine forecasts from a hierarchical or grouped time series</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="forecast.gts.html">forecast(<i>&lt;gts&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Forecast a hierarchical or grouped time series</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="gts-class.html">gts()</a></code> <code><a href="gts-class.html">is.gts()</a></code> <code><a href="gts-class.html">print(<i>&lt;gts&gt;</i>)</a></code> <code><a href="gts-class.html">summary(<i>&lt;gts&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Create a grouped time series</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="helper-functions.html">get_groups()</a></code> <code><a href="helper-functions.html">get_nodes()</a></code> </p>
+        </td>
+        <td><p>Get nodes/groups from an hts/gts object</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="hts-class.html">hts()</a></code> <code><a href="hts-class.html">is.hts()</a></code> <code><a href="hts-class.html">print(<i>&lt;hts&gt;</i>)</a></code> <code><a href="hts-class.html">summary(<i>&lt;hts&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Create a hierarchical time series</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="hts-package.html">hts-package</a></code> </p>
+        </td>
+        <td><p>Hierarchical and grouped time series</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="htseg1.html">htseg1</a></code> </p>
+        </td>
+        <td><p>Simple examples of hierarchical time series.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="infantgts.html">infantgts</a></code> </p>
+        </td>
+        <td><p>Regional infant mortality counts across Australia from 1933 to 2003.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="plot.gts.html">plot(<i>&lt;gts&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Plot grouped or hierarchical time series</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="smatrix.html">smatrix()</a></code> </p>
+        </td>
+        <td><p>Summing matrix for hierarchical or grouped time series</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="window.gts.html">window(<i>&lt;gts&gt;</i>)</a></code> </p>
+        </td>
+        <td><p>Time window of a gts object</p></td>
+      </tr>
+    </tbody>
+    </table>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -213,6 +225,8 @@ hierarchical model</p></td>
 
       </footer>
    </div>
+
+  
 
   </body>
 </html>

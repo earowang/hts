@@ -21,14 +21,24 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Create a grouped time series — gts" />
 
 <meta property="og:description" content="Method for creating grouped time series." />
+
+<meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -51,8 +61,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">hts</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">hts</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">5.1.5.9000</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -69,6 +83,7 @@
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -76,16 +91,19 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Create a grouped time series</h1>
     
+    <div class="hidden name"><code>gts-class.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Method for creating grouped time series.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>gts</span>(<span class='no'>y</span>, <span class='no'>groups</span>, <span class='kw'>gnames</span> <span class='kw'>=</span> <span class='fu'>rownames</span>(<span class='no'>groups</span>), <span class='no'>characters</span>)
 
@@ -97,7 +115,7 @@
 <span class='co'># S3 method for gts</span>
 <span class='fu'>summary</span>(<span class='no'>object</span>, <span class='no'>...</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -181,8 +199,8 @@ series</p></dd> <dt>groups</dt><dd><p>Information about the groups of a grouped 
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p><code><a href='hts-class.html'>hts</a></code>, <code><a href='accuracy.gts.html'>accuracy.gts</a></code>,
-<code><a href='forecast.gts.html'>forecast.gts</a></code>, <code><a href='plot.gts.html'>plot.gts</a></code></p>
+    <div class='dont-index'><p><code><a href='hts-class.html'>hts</a></code>, <code><a href='accuracy.gts.html'>accuracy.gts</a></code>,
+<code><a href='forecast.gts.html'>forecast.gts</a></code>, <code><a href='plot.gts.html'>plot.gts</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -245,6 +263,8 @@ Earo Wang and Rob J Hyndman
 
       </footer>
    </div>
+
+  
 
   </body>
 </html>

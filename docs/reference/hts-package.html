@@ -21,10 +21,15 @@
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
+<!-- sticky kit -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Hierarchical and grouped time series — hts-package" />
 
 <meta property="og:description" content="This package presents functions to create, plot and forecast hierarchical
@@ -36,7 +41,12 @@ series are distributed in the hierarchy using bottom-up, top-down,
 middle-out and optimal combination methods. Three top-down methods are
 available: the two Gross-Sohl methods and the forecast-proportion approach
 of Hyndman, Ahmed, and Athanasopoulos (2011)." />
+
+<meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -59,8 +69,12 @@ of Hyndman, Ahmed, and Athanasopoulos (2011)." />
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">hts</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">hts</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">5.1.5.9000</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -77,6 +91,7 @@ of Hyndman, Ahmed, and Athanasopoulos (2011)." />
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -84,13 +99,15 @@ of Hyndman, Ahmed, and Athanasopoulos (2011)." />
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Hierarchical and grouped time series</h1>
     
+    <div class="hidden name"><code>hts-package.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>This package presents functions to create, plot and forecast hierarchical
 and grouped time series. In forecasting hierarchical and grouped time
@@ -102,6 +119,7 @@ middle-out and optimal combination methods. Three top-down methods are
 available: the two Gross-Sohl methods and the forecast-proportion approach
 of Hyndman, Ahmed, and Athanasopoulos (2011).</p>
     
+    </div>
 
         
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
@@ -149,6 +167,8 @@ package
 
       </footer>
    </div>
+
+  
 
   </body>
 </html>
