@@ -291,7 +291,7 @@ forecast.gts <- function(
       }
     } else if (weights == "wls") {
       tmp.resid <- y - fits # it ensures resids are additive errors
-      wvec <- 1/sqrt(colMeans(tmp.resid^2, na.rm = TRUE))
+      wvec <- 1/colMeans(tmp.resid^2, na.rm = TRUE)
     }
     else if (weights == "mint") {
       tmp.resid <- stats::na.omit(y - fits)

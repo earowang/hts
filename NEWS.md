@@ -1,3 +1,7 @@
+# hts 5.1.5.9000
+
+* Fixed bug in `forecast(weights = "wls")` for removing the squared root, as it's been done in following functions.
+
 # hts 5.1.5
 
 * Fixed hts authorship in the DESCRIPTION file

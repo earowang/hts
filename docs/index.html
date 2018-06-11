@@ -8,10 +8,13 @@
 <title>Hierarchical and Grouped Time Series • hts</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/united/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="jquery.sticky-kit.min.js"></script><script src="pkgdown.js"></script><meta property="og:title" content="Hierarchical and Grouped Time Series">
-<meta property="og:description" content="Methods for analysing and forecasting hierarchical and grouped time
-    series.">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
+<script src="pkgdown.js"></script><meta property="og:title" content="Hierarchical and Grouped Time Series">
+<meta property="og:description" content="Provides methods for analysing and forecasting hierarchical and 
+    grouped time series. The available forecast methods include bottom-up,
+    top-down, optimal combination reconciliation (Hyndman et al. 2011) 
+    &lt;doi:10.1016/j.csda.2011.03.006&gt;, and trace minimization reconciliation
+    (Wickramasuriya et al. 2018) &lt;doi:10.1080/01621459.2018.1448825&gt;.">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -19,7 +22,7 @@
 <![endif]-->
 </head>
 <body>
-    <div class="container template-vignette">
+    <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -28,8 +31,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">hts</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="index.html">hts</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">5.1.5.9000</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
@@ -52,16 +59,16 @@
 
       
       </header><div class="row">
-  <div class="col-md-9">
+  <div class="col-md-9 contents">
     
 
     
     
-<div class="contents">
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <div id="hts" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#hts" class="anchor"></a>hts</h1></div>
+<a href="#hts" class="anchor"></a>hts <img src="reference/figures/logo.png" align="right">
+</h1></div>
 
 <p>The R package <em>hts</em> presents functions to create, plot and forecast hierarchical and grouped time series.</p>
 <div id="installation" class="section level2">
@@ -116,7 +123,7 @@
 <a class="sourceLine" id="cb3-35" data-line-number="35">aggts2 &lt;-<span class="st"> </span><span class="kw"><a href="reference/aggts.html">aggts</a></span>(htseg1, <span class="dt">levels =</span> <span class="dv">1</span>)</a>
 <a class="sourceLine" id="cb3-36" data-line-number="36">aggts3 &lt;-<span class="st"> </span><span class="kw"><a href="reference/aggts.html">aggts</a></span>(htseg1, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">2</span>))</a>
 <a class="sourceLine" id="cb3-37" data-line-number="37"><span class="kw">plot</span>(htseg1, <span class="dt">levels =</span> <span class="dv">1</span>)</a></code></pre></div>
-<p><img src="man/figure/hts-eg1-1.png" width="672"></p>
+<p><img src="man/figure/hts-eg1-1.png" width="700"></p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="reference/smatrix.html">smatrix</a></span>(htseg1)  <span class="co"># Return the dense mode</span></a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></a>
 <a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co">#&gt; [1,]    1    1    1    1    1</span></a>
@@ -181,9 +188,9 @@
 <a class="sourceLine" id="cb4-62" data-line-number="62">)</a>
 <a class="sourceLine" id="cb4-63" data-line-number="63">aggts4 &lt;-<span class="st"> </span><span class="kw"><a href="reference/aggts.html">aggts</a></span>(fcasts1.comb)</a>
 <a class="sourceLine" id="cb4-64" data-line-number="64"><span class="kw">plot</span>(fcasts1.comb, <span class="dt">levels =</span> <span class="dv">2</span>)</a></code></pre></div>
-<p><img src="man/figure/hts-eg1-2.png" width="672"></p>
+<p><img src="man/figure/hts-eg1-2.png" width="700"></p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">plot</span>(fcasts1.comb, <span class="dt">include =</span> <span class="dv">5</span>, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</a></code></pre></div>
-<p><img src="man/figure/hts-eg1-3.png" width="672"></p>
+<p><img src="man/figure/hts-eg1-3.png" width="700"></p>
 </div>
 <div id="example-2-hierarchical-time-series" class="section level3">
 <h3 class="hasAnchor">
@@ -196,58 +203,58 @@
 <a class="sourceLine" id="cb6-6" data-line-number="6">  <span class="dt">keep.fitted =</span> <span class="ot">TRUE</span>, <span class="dt">keep.resid =</span> <span class="ot">TRUE</span></a>
 <a class="sourceLine" id="cb6-7" data-line-number="7">)</a>
 <a class="sourceLine" id="cb6-8" data-line-number="8"><span class="kw"><a href="reference/accuracy.gts.html">accuracy.gts</a></span>(fcasts2.mo, test)</a>
-<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt;            Total          A          B        A10         A20         B30</span></a>
-<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt; ME    -0.1794783 -0.2486428 0.06916451 -0.1954860 -0.05315684 -0.02399186</span></a>
-<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt; RMSE   0.1818643  0.2732218 0.13585344  0.2180641  0.05572214  0.03144802</span></a>
-<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt; MAE    0.1794783  0.2486428 0.11251209  0.1954860  0.05315684  0.02399186</span></a>
-<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">#&gt; MAPE  11.1268019  8.4004312 2.27814495  7.5371465 14.49009308  1.69936058</span></a>
-<a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co">#&gt; MPE  -11.1268019  8.4004312 1.30221674  7.5371465 14.49009308 -1.69936058</span></a>
-<a class="sourceLine" id="cb6-15" data-line-number="15"><span class="co">#&gt; MASE   0.5663497  1.3950200 0.81137939  1.2966219  1.93505737  0.52639468</span></a>
-<a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co">#&gt;             B40        A10A       A10B         A10C        A20A</span></a>
-<a class="sourceLine" id="cb6-17" data-line-number="17"><span class="co">#&gt; ME   0.09315637 -0.03774880 -0.1649411  0.007203920 -0.04105604</span></a>
-<a class="sourceLine" id="cb6-18" data-line-number="18"><span class="co">#&gt; RMSE 0.16498366  0.05205754  0.1779641  0.012753680  0.04696434</span></a>
-<a class="sourceLine" id="cb6-19" data-line-number="19"><span class="co">#&gt; MAE  0.13636607  0.03873088  0.1649411  0.009838328  0.04105604</span></a>
-<a class="sourceLine" id="cb6-20" data-line-number="20"><span class="co">#&gt; MAPE 3.85101876  3.11436103 20.5656022  1.774154141 13.39804861</span></a>
-<a class="sourceLine" id="cb6-21" data-line-number="21"><span class="co">#&gt; MPE  2.45900161  3.04078646 20.5656022 -1.351777719 13.39804861</span></a>
-<a class="sourceLine" id="cb6-22" data-line-number="22"><span class="co">#&gt; MASE 1.46488456  0.36661690  5.1038016  0.768361455  3.23432001</span></a>
-<a class="sourceLine" id="cb6-23" data-line-number="23"><span class="co">#&gt;             A20B         B30A       B30B       B30C       B40A      B40B</span></a>
-<a class="sourceLine" id="cb6-24" data-line-number="24"><span class="co">#&gt; ME   -0.01210080  -0.05065830 0.01324339 0.01342306 -0.0495926 0.1427490</span></a>
-<a class="sourceLine" id="cb6-25" data-line-number="25"><span class="co">#&gt; RMSE  0.01432307   0.05944454 0.01485743 0.01599316  0.0728362 0.2349335</span></a>
-<a class="sourceLine" id="cb6-26" data-line-number="26"><span class="co">#&gt; MAE   0.01228684   0.05065830 0.01324339 0.01342306  0.0495926 0.1800119</span></a>
-<a class="sourceLine" id="cb6-27" data-line-number="27"><span class="co">#&gt; MAPE 15.88898042  16.89941739 2.89472660 2.07537753  3.6008092 8.1543683</span></a>
-<a class="sourceLine" id="cb6-28" data-line-number="28"><span class="co">#&gt; MPE  15.22048749 -16.89941739 2.89472660 2.07537753 -3.6008092 6.1053561</span></a>
-<a class="sourceLine" id="cb6-29" data-line-number="29"><span class="co">#&gt; MASE  0.83150955   2.07454397 1.47284424 1.10323688  0.9554614 4.3707453</span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt;           Total          A          B        A10          A20         B30</span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt; ME   -0.1463168 -0.2229191 0.07660233 -0.2283919  0.005472780 -0.01989880</span></a>
+<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt; RMSE  0.1500119  0.2452066 0.14257606  0.2523329  0.009805797  0.02928379</span></a>
+<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt; MAE   0.1463168  0.2229191 0.11693106  0.2283919  0.009268225  0.02409282</span></a>
+<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">#&gt; MAPE  9.3179712  7.5314777 2.36244104  8.7993966  2.460560011  1.71428541</span></a>
+<a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co">#&gt; MPE  -9.3179712  7.5314777 1.45433283  8.7993966 -1.631079601 -1.39920296</span></a>
+<a class="sourceLine" id="cb6-15" data-line-number="15"><span class="co">#&gt; MASE  0.4617075  1.2506962 0.84324674  1.5148807  0.337389275  0.52860991</span></a>
+<a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co">#&gt;             B40        A10A       A10B          A10C         A20A</span></a>
+<a class="sourceLine" id="cb6-17" data-line-number="17"><span class="co">#&gt; ME   0.09650113 -0.05448806 -0.1733829 -0.0005209908  0.007965591</span></a>
+<a class="sourceLine" id="cb6-18" data-line-number="18"><span class="co">#&gt; RMSE 0.17060895  0.06809235  0.1867174  0.0100661166  0.012682474</span></a>
+<a class="sourceLine" id="cb6-19" data-line-number="19"><span class="co">#&gt; MAE  0.14102388  0.05448806  0.1733829  0.0088897199  0.010413971</span></a>
+<a class="sourceLine" id="cb6-20" data-line-number="20"><span class="co">#&gt; MAPE 3.98260313  4.37476593 21.6158413  1.5612291069  3.334410408</span></a>
+<a class="sourceLine" id="cb6-21" data-line-number="21"><span class="co">#&gt; MPE  2.54768302  4.37476593 21.6158413  0.0605205225 -2.607467068</span></a>
+<a class="sourceLine" id="cb6-22" data-line-number="22"><span class="co">#&gt; MASE 1.51492018  0.51577051  5.3650162  0.6942763126  0.820393749</span></a>
+<a class="sourceLine" id="cb6-23" data-line-number="23"><span class="co">#&gt;              A20B       B30A        B30B        B30C        B40A      B40B</span></a>
+<a class="sourceLine" id="cb6-24" data-line-number="24"><span class="co">#&gt; ME   -0.002492811 0.01212900 -0.01099794 -0.02102986 -0.04273559 0.1392367</span></a>
+<a class="sourceLine" id="cb6-25" data-line-number="25"><span class="co">#&gt; RMSE  0.008654148 0.01311771  0.01422607  0.02442915  0.06656885 0.2344656</span></a>
+<a class="sourceLine" id="cb6-26" data-line-number="26"><span class="co">#&gt; MAE   0.007052515 0.01212900  0.01099794  0.02102986  0.04273559 0.1811449</span></a>
+<a class="sourceLine" id="cb6-27" data-line-number="27"><span class="co">#&gt; MAPE 13.402921842 4.13200908  2.39939647  3.26532975  3.09570196 8.2253477</span></a>
+<a class="sourceLine" id="cb6-28" data-line-number="28"><span class="co">#&gt; MPE  -2.981389244 4.13200908 -2.39939647 -3.26532975 -3.09570196 5.9207223</span></a>
+<a class="sourceLine" id="cb6-29" data-line-number="29"><span class="co">#&gt; MASE  0.477277465 0.49670326  1.22312029  1.72843722  0.82335272 4.3982548</span></a>
 <a class="sourceLine" id="cb6-30" data-line-number="30"><span class="kw"><a href="reference/accuracy.gts.html">accuracy.gts</a></span>(fcasts2.mo, test, <span class="dt">levels =</span> <span class="dv">1</span>)</a>
 <a class="sourceLine" id="cb6-31" data-line-number="31"><span class="co">#&gt;               A          B</span></a>
-<a class="sourceLine" id="cb6-32" data-line-number="32"><span class="co">#&gt; ME   -0.2486428 0.06916451</span></a>
-<a class="sourceLine" id="cb6-33" data-line-number="33"><span class="co">#&gt; RMSE  0.2732218 0.13585344</span></a>
-<a class="sourceLine" id="cb6-34" data-line-number="34"><span class="co">#&gt; MAE   0.2486428 0.11251209</span></a>
-<a class="sourceLine" id="cb6-35" data-line-number="35"><span class="co">#&gt; MAPE  8.4004312 2.27814495</span></a>
-<a class="sourceLine" id="cb6-36" data-line-number="36"><span class="co">#&gt; MPE   8.4004312 1.30221674</span></a>
-<a class="sourceLine" id="cb6-37" data-line-number="37"><span class="co">#&gt; MASE  1.3950200 0.81137939</span></a>
+<a class="sourceLine" id="cb6-32" data-line-number="32"><span class="co">#&gt; ME   -0.2229191 0.07660233</span></a>
+<a class="sourceLine" id="cb6-33" data-line-number="33"><span class="co">#&gt; RMSE  0.2452066 0.14257606</span></a>
+<a class="sourceLine" id="cb6-34" data-line-number="34"><span class="co">#&gt; MAE   0.2229191 0.11693106</span></a>
+<a class="sourceLine" id="cb6-35" data-line-number="35"><span class="co">#&gt; MAPE  7.5314777 2.36244104</span></a>
+<a class="sourceLine" id="cb6-36" data-line-number="36"><span class="co">#&gt; MPE   7.5314777 1.45433283</span></a>
+<a class="sourceLine" id="cb6-37" data-line-number="37"><span class="co">#&gt; MASE  1.2506962 0.84324674</span></a>
 <a class="sourceLine" id="cb6-38" data-line-number="38">fcasts2.td &lt;-<span class="st"> </span><span class="kw">forecast</span>(</a>
 <a class="sourceLine" id="cb6-39" data-line-number="39">  data, <span class="dt">h =</span> <span class="dv">5</span>, <span class="dt">method =</span> <span class="st">"tdgsa"</span>, <span class="dt">fmethod =</span> <span class="st">"ets"</span>, </a>
 <a class="sourceLine" id="cb6-40" data-line-number="40">  <span class="dt">keep.fitted =</span> <span class="ot">TRUE</span>, <span class="dt">keep.resid =</span> <span class="ot">TRUE</span></a>
 <a class="sourceLine" id="cb6-41" data-line-number="41">)</a>
 <a class="sourceLine" id="cb6-42" data-line-number="42"><span class="kw">plot</span>(fcasts2.td, <span class="dt">include =</span> <span class="dv">5</span>)</a></code></pre></div>
-<p><img src="man/figure/hts-eg2-1.png" width="672"></p>
+<p><img src="man/figure/hts-eg2-1.png" width="700"></p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">plot</span>(fcasts2.td, <span class="dt">include =</span> <span class="dv">5</span>, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">2</span>))</a></code></pre></div>
-<p><img src="man/figure/hts-eg2-2.png" width="672"></p>
+<p><img src="man/figure/hts-eg2-2.png" width="700"></p>
 </div>
 <div id="example-3-grouped-time-series" class="section level3">
 <h3 class="hasAnchor">
 <a href="#example-3-grouped-time-series" class="anchor"></a>Example 3: grouped time series</h3>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># gts example</span></a>
 <a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw">plot</span>(infantgts, <span class="dt">levels =</span> <span class="dv">1</span>)</a></code></pre></div>
-<p><img src="man/figure/gts-eg-1.png" width="672"></p>
+<p><img src="man/figure/gts-eg-1.png" width="700"></p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"></a>
 <a class="sourceLine" id="cb9-2" data-line-number="2">fcasts3.comb &lt;-<span class="st"> </span><span class="kw">forecast</span>(infantgts, <span class="dt">h =</span> <span class="dv">4</span>, <span class="dt">method =</span> <span class="st">"comb"</span>, <span class="dt">fmethod =</span> <span class="st">"ets"</span>)</a>
 <a class="sourceLine" id="cb9-3" data-line-number="3">agg_gts1 &lt;-<span class="st"> </span><span class="kw"><a href="reference/aggts.html">aggts</a></span>(fcasts3.comb, <span class="dt">levels =</span> <span class="dv">1</span>)</a>
 <a class="sourceLine" id="cb9-4" data-line-number="4">agg_gts2 &lt;-<span class="st"> </span><span class="kw"><a href="reference/aggts.html">aggts</a></span>(fcasts3.comb, <span class="dt">levels =</span> <span class="dv">1</span>, <span class="dt">forecasts =</span> <span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb9-5" data-line-number="5"><span class="kw">plot</span>(fcasts3.comb)</a></code></pre></div>
-<p><img src="man/figure/gts-eg-2.png" width="672"></p>
+<p><img src="man/figure/gts-eg-2.png" width="700"></p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">plot</span>(fcasts3.comb, <span class="dt">include =</span> <span class="dv">5</span>, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</a></code></pre></div>
-<p><img src="man/figure/gts-eg-3.png" width="672"></p>
+<p><img src="man/figure/gts-eg-3.png" width="700"></p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"></a>
 <a class="sourceLine" id="cb11-2" data-line-number="2">fcasts3.combsd &lt;-<span class="st"> </span><span class="kw">forecast</span>(</a>
 <a class="sourceLine" id="cb11-3" data-line-number="3">  infantgts, <span class="dt">h =</span> <span class="dv">4</span>, <span class="dt">method =</span> <span class="st">"comb"</span>, <span class="dt">fmethod =</span> <span class="st">"ets"</span>,</a>
@@ -264,7 +271,6 @@
 <h2 class="hasAnchor">
 <a href="#license" class="anchor"></a>License</h2>
 <p>This package is free and open source software, licensed under GPL (&gt;= 2).</p>
-</div>
 </div>
 </div>
   </div>
@@ -324,6 +330,8 @@
 
       </footer>
 </div>
+
+  
 
   </body>
 </html>
