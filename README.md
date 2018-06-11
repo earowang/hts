@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# hts <img src="man/figures/logo.png" align="right" />
+# hts <img src="man/figure/logo.png" align="right" />
 
 [![Travis-CI Build
 Status](https://travis-ci.org/earowang/hts.svg?branch=master)](https://travis-ci.org/earowang/hts)
