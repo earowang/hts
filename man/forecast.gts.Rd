@@ -5,14 +5,26 @@
 \alias{forecast.hts}
 \title{Forecast a hierarchical or grouped time series}
 \usage{
-\method{forecast}{gts}(object, h = ifelse(frequency(object$bts) > 1L, 2L *
-  frequency(object$bts), 10L), method = c("comb", "bu", "mo", "tdgsa",
-  "tdgsf", "tdfp"), weights = c("wls", "ols", "mint", "nseries"),
-  fmethod = c("ets", "arima", "rw"), algorithms = c("lu", "cg", "chol",
-  "recursive", "slm"), covariance = c("shr", "sam"), keep.fitted = FALSE,
-  keep.resid = FALSE, positive = FALSE, lambda = NULL, level,
-  parallel = FALSE, num.cores = 2, FUN = NULL, xreg = NULL,
-  newxreg = NULL, ...)
+\method{forecast}{gts}(
+  object,
+  h = ifelse(frequency(object$bts) > 1L, 2L * frequency(object$bts), 10L),
+  method = c("comb", "bu", "mo", "tdgsa", "tdgsf", "tdfp"),
+  weights = c("wls", "ols", "mint", "nseries"),
+  fmethod = c("ets", "arima", "rw"),
+  algorithms = c("lu", "cg", "chol", "recursive", "slm"),
+  covariance = c("shr", "sam"),
+  keep.fitted = FALSE,
+  keep.resid = FALSE,
+  positive = FALSE,
+  lambda = NULL,
+  level,
+  parallel = FALSE,
+  num.cores = 2,
+  FUN = NULL,
+  xreg = NULL,
+  newxreg = NULL,
+  ...
+)
 }
 \arguments{
 \item{object}{Hierarchical or grouped time series object of class

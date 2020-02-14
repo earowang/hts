@@ -4,8 +4,15 @@
 \alias{MinT}
 \title{Trace minimization for hierarchical or grouped time series}
 \usage{
-MinT(fcasts, nodes, groups, residual, covariance = c("shr", "sam"),
-  algorithms = c("lu", "cg", "chol"), keep = c("gts", "all", "bottom"))
+MinT(
+  fcasts,
+  nodes,
+  groups,
+  residual,
+  covariance = c("shr", "sam"),
+  algorithms = c("lu", "cg", "chol"),
+  keep = c("gts", "all", "bottom")
+)
 }
 \arguments{
 \item{fcasts}{Matrix of forecasts for all levels of a hierarchical or

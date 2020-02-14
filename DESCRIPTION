@@ -39,5 +39,5 @@ URL: http://pkg.earo.me/hts
 BugReports: https://github.com/earowang/hts/issues
 License: GPL (>= 2)
 VignetteBuilder: knitr
-RoxygenNote: 6.0.1
+RoxygenNote: 7.0.2
 Roxygen: list(markdown = TRUE, roclets=c('rd', 'collate', 'namespace'))

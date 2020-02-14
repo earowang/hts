@@ -4,8 +4,7 @@
 \alias{plot.gts}
 \title{Plot grouped or hierarchical time series}
 \usage{
-\method{plot}{gts}(x, include, levels, labels = TRUE, col = NULL,
-  color_lab = FALSE, ...)
+\method{plot}{gts}(x, include, levels, labels = TRUE, col = NULL, color_lab = FALSE, ...)
 }
 \arguments{
 \item{x}{An object of class \code{\link[hts]{gts}}.}

@@ -4,8 +4,14 @@
 \alias{combinef}
 \title{Optimally combine forecasts from a hierarchical or grouped time series}
 \usage{
-combinef(fcasts, nodes, groups, weights = NULL, algorithms = c("lu", "cg",
-  "chol", "recursive", "slm"), keep = c("gts", "all", "bottom"))
+combinef(
+  fcasts,
+  nodes,
+  groups,
+  weights = NULL,
+  algorithms = c("lu", "cg", "chol", "recursive", "slm"),
+  keep = c("gts", "all", "bottom")
+)
 }
 \arguments{
 \item{fcasts}{Matrix of forecasts for all levels of the hierarchical time
