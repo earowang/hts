@@ -186,7 +186,7 @@ MinT <- function (fcasts, nodes, groups, residual, covariance = c("shr", "sam"),
       if (!is.null(w.1)) {
         w.1 <- as.matrix.csr(w.1)
       }
-      allf <- CHOL(fcasts = fcasts, S = smat, weights = w.1)
+      allf <- CHOL(fcasts = fcasts, S = smat, weights = w.1, allow.changes = FALSE)
       }
     else {
       smat <- SmatrixM(gmat)
@@ -194,10 +194,10 @@ MinT <- function (fcasts, nodes, groups, residual, covariance = c("shr", "sam"),
           weights <-  methods::as(w.1, "sparseMatrix")
         }
         if (alg == "lu") {
-          allf <- LU(fcasts = fcasts, S = smat, weights = weights)
+          allf <- LU(fcasts = fcasts, S = smat, weights = weights, allow.changes = FALSE)
         }
         else if (alg == "cg") {
-          allf <- CG(fcasts = fcasts, S = smat, weights = weights)
+          allf <- CG(fcasts = fcasts, S = smat, weights = weights, allow.changes = FALSE)
         }
       }
 
@@ -229,7 +229,7 @@ MinT <- function (fcasts, nodes, groups, residual, covariance = c("shr", "sam"),
       if (!is.null(w.1)) {
         weights <- as.matrix.csr(w.1)
       }
-      allf <- CHOL(fcasts = fcasts, S = smat, weights = weights)
+      allf <- CHOL(fcasts = fcasts, S = smat, weights = weights, allow.changes = FALSE)
     }
     else {
       smat <- SmatrixM(gmat)
@@ -237,10 +237,10 @@ MinT <- function (fcasts, nodes, groups, residual, covariance = c("shr", "sam"),
         weights <-  methods::as(w.1, "sparseMatrix")
       }
       if (alg == "lu") {
-        allf <- LU(fcasts = fcasts, S = smat, weights = weights)
+        allf <- LU(fcasts = fcasts, S = smat, weights = weights, allow.changes = FALSE)
       }
       else if (alg == "cg") {
-        allf <- CG(fcasts = fcasts, S = smat, weights = weights)
+        allf <- CG(fcasts = fcasts, S = smat, weights = weights, allow.changes = FALSE)
       }
     }
     if (keep == "all") {
