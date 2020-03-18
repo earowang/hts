@@ -59,7 +59,7 @@
 #' plot(y.f)}
 #' 
 #' @export combinef
-combinef <- function(fcasts, nodes, groups, weights = NULL, nonnegative = FALSE, 
+combinef <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, nonnegative = FALSE, 
                      parallel = FALSE, num.cores = 2,
                      algorithms = c("lu", "cg", "chol", "recursive", "slm"),
                      keep = c("gts", "all", "bottom"), ...) {
@@ -79,6 +79,11 @@ combinef <- function(fcasts, nodes, groups, weights = NULL, nonnegative = FALSE,
   #
   # Return:
   #   Optimal (non-negative) reconciled forecasts
+  
+  if (is.null(nodes) && is.null(groups)) {
+    stop("Please specify the hierarchical or the grouping structure.", call. = FALSE)
+  }
+  
   alg <- match.arg(algorithms)
   keep <- match.arg(keep)
   fcasts <- stats::as.ts(fcasts)
@@ -86,7 +91,7 @@ combinef <- function(fcasts, nodes, groups, weights = NULL, nonnegative = FALSE,
   cnames <- colnames(fcasts)
   
   if (!nonnegative) {
-    if (missing(groups)) { # hts class
+    if (is.null(groups)) { # hts class
       if (alg == "slm") {
         stop("The slm algorithm does not support an hts object.", call. = FALSE)
       }
@@ -159,7 +164,7 @@ combinef <- function(fcasts, nodes, groups, weights = NULL, nonnegative = FALSE,
           out <- bf
         }
       }
-    } else if (missing(nodes)) {  # gts class
+    } else if (is.null(nodes)) {  # gts class
       if (alg == "recursive") {
         stop("The recursive algorithm does not support a gts object.", call. = FALSE)
       }
@@ -224,7 +229,7 @@ combinef <- function(fcasts, nodes, groups, weights = NULL, nonnegative = FALSE,
       }
     }
     bf <- ts(t(bf), start = tspx[1L], frequency = tspx[3L])
-    if (missing(groups)) {
+    if (is.null(groups)) {
       if (keep == "bottom") {
         out <- bf
       } else {
