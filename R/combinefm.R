@@ -1,4 +1,4 @@
-combinefm <- function(fcasts, nodes, groups, smat, weights, alg) 
+combinefm <- function(fcasts, nodes = NULL, groups = NULL, smat, weights, alg) 
 {
   totalts <- nrow(smat)
   if (!is.matrix(fcasts)) {
@@ -8,7 +8,7 @@ combinefm <- function(fcasts, nodes, groups, smat, weights, alg)
     stop("Argument fcasts requires all the forecasts.")
   }
   
-  if (missing(groups)) { # hts class
+  if (is.null(groups)) { # hts class
     # Other algorithms return all time series
     fcasts <- t(fcasts)
     if (alg == "chol") {
@@ -27,7 +27,7 @@ combinefm <- function(fcasts, nodes, groups, smat, weights, alg)
         allf <- CG(fcasts = fcasts, S = smat, weights = weights, allow.changes = TRUE)
       }
     }
-  } else {# gts class
+  } else if (is.null(nodes)) {# gts class
     fcasts <- t(fcasts)
     if (alg == "chol") {
       if (!is.null(weights)) {
