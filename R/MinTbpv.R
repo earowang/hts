@@ -20,11 +20,11 @@ MinTm <- function(fcasts, smat, vmat, alg)
 
 
 
-MinTbpv <- function(fcasts, nodes, groups, res, covar,
+MinTbpv <- function(fcasts, nodes = NULL, groups = NULL, res, covar,
                     alg, ptype = c("fixed", "random"), pbar = 10, gtol = sqrt(.Machine$double.eps))
 {
   ptype <- match.arg(ptype)
-  if (missing(groups)) { # hts class
+  if (is.null(groups)) { # hts class
     gmat <- GmatrixH(nodes)
     if (alg == "chol") {
       smat <- Smatrix(gmat)
@@ -41,9 +41,9 @@ MinTbpv <- function(fcasts, nodes, groups, res, covar,
     nb <- ncol(smat) # number of bottom level series
     nt <- nrow(smat) # total no of series
     nxb <- nt - nb # no of series, except the bottom level
-    ifcasts <- MinT(fcasts = fcasts, nodes = nodes, residual = res, covariance = covar, algorithms = alg, keep = "all") 
+    ifcasts <- MinT(fcasts = fcasts, nodes = nodes, groups = groups, residual = res, covariance = covar, algorithms = alg, keep = "all") 
     b <- ifcasts[(nxb + 1):nt] # initial solution-bottom level
-  } else if (missing(nodes)) { # gts class
+  } else if (is.null(nodes)) { # gts class
     rownames(groups) <- NULL
     gmat <- GmatrixG(groups)
     if (alg == "chol") {
@@ -61,7 +61,7 @@ MinTbpv <- function(fcasts, nodes, groups, res, covar,
     nb <- ncol(smat) # number of bottom level series
     nt <- nrow(smat) # total no of series
     nxb <- nt - nb # no of series, except the bottom level
-    ifcasts <- MinT(fcasts = fcasts, groups = groups, residual = res, algorithms = alg, keep = "all") # initial solution
+    ifcasts <- MinT(fcasts = fcasts, nodes =  nodes, groups = groups, residual = res, algorithms = alg, keep = "all") # initial solution
     b <- ifcasts[(nxb + 1):nt] # initial solution-bottom level
   }
   
