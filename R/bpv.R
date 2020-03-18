@@ -1,8 +1,8 @@
-bpv <- function(fcasts, nodes, groups, weights = NULL, alg,
+bpv <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, alg,
                 ptype = c("fixed", "random"), pbar = 10, gtol = sqrt(.Machine$double.eps))
 {
   ptype <- match.arg(ptype)
-  if (missing(groups)) { # hts class
+  if (is.null(groups)) { # hts class
     gmat <- GmatrixH(nodes)
     if (alg == "chol") {
       smat <- Smatrix(gmat)
@@ -21,7 +21,7 @@ bpv <- function(fcasts, nodes, groups, weights = NULL, alg,
     nxb <- nt - nb # no of series, except the bottom level
     ifcasts <- combinef(fcasts = fcasts, nodes = nodes, weights = weights, algorithms = alg, keep = "all") 
     b <- ifcasts[(nxb + 1):nt] # initial solution-bottom level
-  } else if (missing(nodes)) { # gts class
+  } else if (is.null(nodes)) { # gts class
     rownames(groups) <- NULL
     gmat <- GmatrixG(groups)
     if (alg == "chol") {
@@ -131,7 +131,7 @@ bpv <- function(fcasts, nodes, groups, weights = NULL, alg,
       fset <- union(fset[!fset %in% i1], i2)
       gset <- union(gset[!gset %in% i2], i1)
       
-      if (missing(groups)) { # class hts
+      if (is.null(groups)) { # class hts
         # gset0 <- 1:nbot %in% gset
         # active <- which(gset0 == TRUE) # active indices at the bottom level
         allf <- numeric(nt)
@@ -168,7 +168,7 @@ bpv <- function(fcasts, nodes, groups, weights = NULL, alg,
             allf[c(1:nxb, (fset + nxb))] <- as.numeric(tmp)
           }
         }
-      } else if (missing(nodes)) { # class gts
+      } else if (is.null(nodes)) { # class gts
         allf <- numeric(nt)
         uwts <- weights
         
