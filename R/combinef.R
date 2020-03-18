@@ -226,10 +226,10 @@ combinef <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, nonneg
           num.cores <- detectCores()
         }
         cl <- makeCluster(num.cores)
-        bf <- parSapplyLB(cl = cl, X = lst.fc, bpv, nodes, groups, weights = weights, alg = alg, ..., simplify = TRUE)
+        bf <- parSapplyLB(cl = cl, X = lst.fc, bpv, nodes = nodes, groups = groups, weights = weights, alg = alg, ..., simplify = TRUE)
         stopCluster(cl = cl)
       } else {
-        bf <- sapply(lst.fc, bpv, nodes, groups, weights = weights, alg = alg, ...)
+        bf <- sapply(lst.fc, bpv, nodes = nodes, groups = groups, weights = weights, alg = alg, ...)
       }
     }
     bf <- ts(t(bf), start = tspx[1L], frequency = tspx[3L])
