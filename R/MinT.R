@@ -35,19 +35,6 @@ shrink.estim <- function(x, tar)
                             round(lambda, digits = 4))))
 }
 
-## Arguments
-
-#fcasts: Matrix of forecasts for all levels of the hierarchical time series.
-#        Each row represents one forecast horizon and each column represents one time series from the hierarchy
-
-# nodes: If the object class is hts, a list contains the number of child nodes referring to hts.
-# groups: If the object is gts, a gmatrix is required, which is the same as groups in the function gts.
-# residuals: Matrix of insample residuals for all time series in the hierarchy. Each column referring to one time series.
-# covariance: Type of the covariance matrix to be used. Sample covariance matrix ("sam") or shrinking towards a diagonal unequal variances ("shr").
-# algorithms: Algorithm used to compute inverse of the matrices.
-# keep: Return a gts object or the reconciled forecasts at the bottom level.
-
-
 # MinT - Trace minimization approach
 
 
@@ -137,7 +124,8 @@ shrink.estim <- function(x, tar)
 #' 
 #' @export MinT
 MinT <- function (fcasts, nodes, groups, residual, covariance = c("shr", "sam"),
-  algorithms = c("lu", "cg", "chol"), keep = c("gts", "all", "bottom"))
+                  nonnegative = FALSE, parallel = FALSE, num.cores = 2, 
+                  algorithms = c("lu", "cg", "chol"), keep = c("gts", "all", "bottom"), ...)
 {
   alg <- match.arg(algorithms)
   keep <- match.arg(keep)
@@ -146,50 +134,51 @@ MinT <- function (fcasts, nodes, groups, residual, covariance = c("shr", "sam"),
   fcasts <- stats::as.ts(fcasts)
   tspx <- stats::tsp(fcasts)
   cnames <- colnames(fcasts)
-
-  if(missing(residual))
-  {
-    stop("MinT needs insample residuals.", call. = FALSE)
-  }
-  if(covar=="sam")
-  {
-    n <- nrow(res)
-    w.1 <- crossprod(res) / n
-    if(is.positive.definite(w.1)==FALSE)
+  
+  if (!nonnegative) {
+    if (missing(residual))
     {
-      stop("MinT needs covariance matrix to be positive definite.", call. = FALSE)
+      stop("MinT needs insample residuals.", call. = FALSE)
     }
-  }else{
-    tar <- lowerD(res)
-    shrink <- shrink.estim(res, tar)
-    w.1 <- shrink[[1]]
-    lambda <- shrink[[2]]
-    if(is.positive.definite(w.1)==FALSE)
+    if (covar=="sam")
     {
-      stop("MinT needs covariance matrix to be positive definite.", call. = FALSE)
+      n <- nrow(res)
+      w.1 <- crossprod(res) / n
+      if(is.positive.definite(w.1)==FALSE)
+      {
+        stop("MinT needs covariance matrix to be positive definite.", call. = FALSE)
+      }
+    } else {
+      tar <- lowerD(res)
+      shrink <- shrink.estim(res, tar)
+      w.1 <- shrink[[1]]
+      lambda <- shrink[[2]]
+      if (is.positive.definite(w.1)==FALSE)
+      {
+        stop("MinT needs covariance matrix to be positive definite.", call. = FALSE)
+      }
     }
-  }
-
-  if (missing(groups)) { # hts class
-    totalts <- sum(Mnodes(nodes))
-    if (!is.matrix(fcasts)) {
+    
+    if (missing(groups)) { # hts class
+      totalts <- sum(Mnodes(nodes))
+      if (!is.matrix(fcasts)) {
+        fcasts <- t(fcasts)
+      }
+      h <- nrow(fcasts)
+      if (ncol(fcasts) != totalts) {
+        stop("Argument fcasts requires all the forecasts.", call. = FALSE)
+      }
+      gmat <- GmatrixH(nodes)
       fcasts <- t(fcasts)
-    }
-    h <- nrow(fcasts)
-    if (ncol(fcasts) != totalts) {
-      stop("Argument fcasts requires all the forecasts.", call. = FALSE)
-    }
-    gmat <- GmatrixH(nodes)
-    fcasts <- t(fcasts)
-    if (alg == "chol") {
-      smat <- Smatrix(gmat)
-      if (!is.null(w.1)) {
-        w.1 <- as.matrix.csr(w.1)
+      if (alg == "chol") {
+        smat <- Smatrix(gmat)
+        if (!is.null(w.1)) {
+          w.1 <- as.matrix.csr(w.1)
+        }
+        allf <- CHOL(fcasts = fcasts, S = smat, weights = w.1, allow.changes = FALSE)
       }
-      allf <- CHOL(fcasts = fcasts, S = smat, weights = w.1, allow.changes = FALSE)
-      }
-    else {
-      smat <- SmatrixM(gmat)
+      else {
+        smat <- SmatrixM(gmat)
         if (!is.null(w.1)) {
           weights <-  methods::as(w.1, "sparseMatrix")
         }
@@ -200,62 +189,96 @@ MinT <- function (fcasts, nodes, groups, residual, covariance = c("shr", "sam"),
           allf <- CG(fcasts = fcasts, S = smat, weights = weights, allow.changes = FALSE)
         }
       }
-
-    if (keep == "all") {
+      
+      if (keep == "all") {
         out <- t(allf)
-    }
-    else {
+      }
+      else {
         bottom <- totalts - (ncol(smat):1L) + 1L
         bf <- t(allf[bottom, ])
-      if (keep == "gts") {
-        bf <- ts(bf, start = tspx[1L], frequency = tspx[3L])
+        if (keep == "gts") {
+          bf <- ts(bf, start = tspx[1L], frequency = tspx[3L])
+          out <- suppressMessages(hts(bf, nodes = nodes))
+        }
+        else {
+          out <- bf
+        }
+      }
+    }
+    else if (missing(nodes)) {
+      rownames(groups) <- NULL
+      gmat <- GmatrixG(groups)
+      totalts <- sum(Mlevel(gmat))
+      if (ncol(fcasts) != totalts) {
+        stop("Argument fcasts requires all the forecasts.", call. = FALSE)
+      }
+      fcasts <- t(fcasts)
+      if (alg == "chol") {
+        smat <- Smatrix(gmat)
+        if (!is.null(w.1)) {
+          weights <- as.matrix.csr(w.1)
+        }
+        allf <- CHOL(fcasts = fcasts, S = smat, weights = weights, allow.changes = FALSE)
+      }
+      else {
+        smat <- SmatrixM(gmat)
+        if (!is.null(w.1)) {
+          weights <-  methods::as(w.1, "sparseMatrix")
+        }
+        if (alg == "lu") {
+          allf <- LU(fcasts = fcasts, S = smat, weights = weights, allow.changes = FALSE)
+        }
+        else if (alg == "cg") {
+          allf <- CG(fcasts = fcasts, S = smat, weights = weights, allow.changes = FALSE)
+        }
+      }
+      if (keep == "all") {
+        out <- t(allf)
+      }
+      else {
+        bottom <- totalts - (ncol(smat):1L) + 1L
+        bf <- t(allf[bottom, ])
+        if (keep == "gts") {
+          colnames(bf) <- cnames[bottom]
+          bf <- ts(bf, start = tspx[1L], frequency = tspx[3L])
+          out <- suppressMessages(gts(bf, groups = groups))
+        }
+        else {
+          out <- bf
+        }
+      }
+    }
+  } else {
+    lst.fc <- split(fcasts, row(fcasts))
+    if (parallel) {
+      if (is.null(num.cores)) {
+        num.cores <- detectCores()
+      }
+      cl <- makeCluster(num.cores)
+      bf <- parSapplyLB(cl = cl, X = lst.fc, MinTbpv, nodes, groups, res = res, covar = covar, alg = alg, ..., simplify = TRUE)
+      stopCluster(cl = cl)
+    } else {
+      bf <- sapply(lst.fc, MinTbpv, nodes, groups, res = res, covar = covar, alg = alg, ...)
+    }
+    bf <- ts(t(bf), start = tspx[1L], frequency = tspx[3L])
+    if (missing(groups)) {
+      if (keep == "bottom") {
+        out <- bf
+      } else {
         out <- suppressMessages(hts(bf, nodes = nodes))
+        if (keep == "all") {
+          out <- aggts(out)
+        }
       }
-      else {
+    } else {
+      if (keep == "bottom") {
         out <- bf
-      }
-    }
-  }
-  else if (missing(nodes)) {
-    rownames(groups) <- NULL
-    gmat <- GmatrixG(groups)
-    totalts <- sum(Mlevel(gmat))
-    if (ncol(fcasts) != totalts) {
-      stop("Argument fcasts requires all the forecasts.", call. = FALSE)
-    }
-    fcasts <- t(fcasts)
-    if (alg == "chol") {
-      smat <- Smatrix(gmat)
-      if (!is.null(w.1)) {
-        weights <- as.matrix.csr(w.1)
-      }
-      allf <- CHOL(fcasts = fcasts, S = smat, weights = weights, allow.changes = FALSE)
-    }
-    else {
-      smat <- SmatrixM(gmat)
-      if (!is.null(w.1)) {
-        weights <-  methods::as(w.1, "sparseMatrix")
-      }
-      if (alg == "lu") {
-        allf <- LU(fcasts = fcasts, S = smat, weights = weights, allow.changes = FALSE)
-      }
-      else if (alg == "cg") {
-        allf <- CG(fcasts = fcasts, S = smat, weights = weights, allow.changes = FALSE)
-      }
-    }
-    if (keep == "all") {
-      out <- t(allf)
-    }
-    else {
-      bottom <- totalts - (ncol(smat):1L) + 1L
-      bf <- t(allf[bottom, ])
-      if (keep == "gts") {
-        colnames(bf) <- cnames[bottom]
-        bf <- ts(bf, start = tspx[1L], frequency = tspx[3L])
+      } else {
+        colnames(bf) <- tail(cnames, ncol(bf))
         out <- suppressMessages(gts(bf, groups = groups))
-      }
-      else {
-        out <- bf
+        if (keep == "all") {
+          out <- aggts(out)
+        }
       }
     }
   }

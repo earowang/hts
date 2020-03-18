@@ -115,7 +115,8 @@ CHOL <- function(fcasts, S, weights, allow.changes = FALSE) {
     utmat <- cbind(methods::as(nagg, "matrix.diag.csr"), -1 * S[1L:nagg, ])
   } else {
     # Identifying rows with one 1 element to make the Identity matrix in S
-    indx <- rowSums(S)
+    Sm <- as(S, "dgCMatrix")
+    indx <- rowSums(Sm)
     idx <- tail(which(indx == 1L), nbts) 
     
     # Permulation vector to rearrange rows of S, rows/col of W and forecasts

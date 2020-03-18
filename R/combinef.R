@@ -211,38 +211,40 @@ combinef <- function(fcasts, nodes, groups, weights = NULL, nonnegative = FALSE,
     if (alg %in% c("recursive", "slm")) {
       stop("The non-negative algorithm doesn't support slm or recursive", call. = FALSE)
     } else {
+      lst.fc <- split(fcasts, row(fcasts))
       if (parallel) {
         if (is.null(num.cores)) {
           num.cores <- detectCores()
         }
         cl <- makeCluster(num.cores)
-        bf <- parSapplyLB(cl = cl, X = fcasts, bpv, nodes, groups, weights = weights, alg = alg, ..., simplify = TRUE)
+        bf <- parSapplyLB(cl = cl, X = lst.fc, bpv, nodes, groups, weights = weights, alg = alg, ..., simplify = TRUE)
         stopCluster(cl = cl)
       } else {
-        bf <- sapply(fcasts, bpv, nodes, groups, weights = weights, alg = alg, ...)
+        bf <- sapply(lst.fc, bpv, nodes, groups, weights = weights, alg = alg, ...)
       }
     }
-    bf <- ts(bf, start = tspx[1L], frequency = tspx[3L])
-  }
-  
-  if (missing(groups)) {
-    if (keep == "bottom") {
-      out <- bf
+    bf <- ts(t(bf), start = tspx[1L], frequency = tspx[3L])
+    if (missing(groups)) {
+      if (keep == "bottom") {
+        out <- bf
+      } else {
+        out <- suppressMessages(hts(bf, nodes = nodes))
+        if (keep == "all") {
+          out <- aggts(out)
+        }
+      }
     } else {
-      out <- suppressMessages(hts(bf, nodes = nodes))
-      if (keep == "all") {
-        out <- aggts(out)
-      }
-    }
-  } else {
-    if (keep == "bottom") {
-      out <- bf
-    } else {
-      out <- suppressMessages(gts(bf, groups = groups))
-      if (keep == "all") {
-        out <- aggts(out)
+      if (keep == "bottom") {
+        out <- bf
+      } else {
+        colnames(bf) <- tail(cnames, ncol(bf))
+        out <- suppressMessages(gts(bf, groups = groups))
+        if (keep == "all") {
+          out <- aggts(out)
+        }
       }
     }
   }
+
   return(out)
 }

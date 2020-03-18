@@ -1,6 +1,7 @@
 bpv <- function(fcasts, nodes, groups, weights = NULL, alg,
                 ptype = c("fixed", "random"), pbar = 10, gtol = sqrt(.Machine$double.eps))
 {
+  ptype <- match.arg(ptype)
   if (missing(groups)) { # hts class
     gmat <- GmatrixH(nodes)
     if (alg == "chol") {
@@ -15,8 +16,7 @@ bpv <- function(fcasts, nodes, groups, weights = NULL, alg,
     if (ncol(fcasts) != totalts) {
       stop("Argument fcasts requires all the forecasts.")
     }
-    lnodes <- length(nodes)
-    nb <- length(nodes[[lnodes]]) # number of bottom level series
+    nb <- ncol(smat) # number of bottom level series
     nt <- nrow(smat) # total no of series
     nxb <- nt - nb # no of series, except the bottom level
     ifcasts <- combinef(fcasts = fcasts, nodes = nodes, weights = weights, algorithms = alg, keep = "all") 
@@ -36,8 +36,7 @@ bpv <- function(fcasts, nodes, groups, weights = NULL, alg,
     if (ncol(fcasts) != totalts) {
       stop("Argument fcasts requires all the forecasts.")
     }
-    lgroups <- nrow(groups)
-    nb <- length(groups[lgroups, ]) # number of bottom level series
+    nb <- ncol(smat) # number of bottom level series
     nt <- nrow(smat) # total no of series
     nxb <- nt - nb # no of series, except the bottom level
     ifcasts <- combinef(fcasts = fcasts, groups = groups, weights = weights, algorithms = alg, keep = "all") # initial solution
@@ -72,7 +71,7 @@ bpv <- function(fcasts, nodes, groups, weights = NULL, alg,
   
   tol <- sqrt(.Machine$double.eps)
   tzb <- t(z) %*% as.matrix(b)
-  grad <- as.matrix(z %*% tzb) - y
+  grad <- as.matrix(z %*% tzb - y)
   maxp <- pbar
   ninf <- nb + 1
   
@@ -133,7 +132,6 @@ bpv <- function(fcasts, nodes, groups, weights = NULL, alg,
       gset <- union(gset[!gset %in% i2], i1)
       
       if (missing(groups)) { # class hts
-        useH <- TRUE
         # gset0 <- 1:nbot %in% gset
         # active <- which(gset0 == TRUE) # active indices at the bottom level
         allf <- numeric(nt)
@@ -144,7 +142,7 @@ bpv <- function(fcasts, nodes, groups, weights = NULL, alg,
           # if (!is.null(weights)) {
           #   weightsnw <- weightsnw
           # }
-          tmp <- combinefnw(ufcasts, use = useH, smat = smat, weights = uwts, algorithms = alg)
+          tmp <- combinefm(ufcasts, nodes, groups, smat = smat, weights = uwts, alg = alg)
           allf <- as.numeric(tmp)
         } else {
           usmat <- smat[, -gset]
@@ -157,7 +155,7 @@ bpv <- function(fcasts, nodes, groups, weights = NULL, alg,
               uwts <- uwts[-idxR]
             } 
             usmat <- usmat[-idxR, ]
-            tmp <- combinefnw(ufcasts, use = useH, smat = usmat, weights = uwts, algorithms = alg)
+            tmp <- combinefm(ufcasts, nodes, groups, smat = usmat, weights = uwts, alg = alg)
             allf[sort(setdiff(c(1:nxb, (fset + nxb)), zidx))] <- as.numeric(tmp)
             
           } else {
@@ -166,12 +164,11 @@ bpv <- function(fcasts, nodes, groups, weights = NULL, alg,
             if (!is.null(weights)) {
               uwts <- uwts[-idxR]              
             }
-            tmp <- combinefnw(ufcasts, use = useH, smat = usmat, weights = uwts, algorithms = alg)
+            tmp <- combinefm(ufcasts, nodes, groups, smat = usmat, weights = uwts, alg = alg)
             allf[c(1:nxb, (fset + nxb))] <- as.numeric(tmp)
           }
         }
       } else if (missing(nodes)) { # class gts
-        useH <- FALSE
         allf <- numeric(nt)
         uwts <- weights
         
@@ -180,7 +177,7 @@ bpv <- function(fcasts, nodes, groups, weights = NULL, alg,
           # if (!is.null(weights)) {
           #   weightsnw <- weightsnw
           # }
-          tmp <- combinefnw(ufcasts, use = useH, smat = smat, weights = uwts, algorithms = alg)
+          tmp <- combinefm(ufcasts, nodes, groups, smat = smat, weights = uwts, alg = alg)
           allf <- as.numeric(tmp)
         } else {
           usmat <- smat[, -gset]
@@ -193,7 +190,7 @@ bpv <- function(fcasts, nodes, groups, weights = NULL, alg,
               uwts <- uwts[-idxR]
             } 
             usmat <- usmat[-idxR, ]
-            tmp <- combinefnw(ufcasts, use = useH, smat = usmat, weights = uwts, algorithms = alg)
+            tmp <- combinefm(ufcasts, nodes, groups, smat = usmat, weights = uwts, alg = alg)
             allf[sort(setdiff(c(1:nxb, (fset + nxb)), zidx))] <- as.numeric(tmp)
             
           } else {
@@ -202,7 +199,7 @@ bpv <- function(fcasts, nodes, groups, weights = NULL, alg,
             if (!is.null(weights)) {
               uwts <- uwts[-idxR]              
             }
-            tmp <- combinefnw(ufcasts, use = useH, smat = usmat, weights = uwts, algorithms = alg)
+            tmp <- combinefm(ufcasts, nodes, groups, smat = usmat, weights = uwts, alg = alg)
             allf[c(1:nxb, (fset + nxb))] <- as.numeric(tmp)
           }
         }
@@ -223,7 +220,7 @@ bpv <- function(fcasts, nodes, groups, weights = NULL, alg,
     }
   } 
   
-  bf <- t(bf)
+  bf <- t(b)
   return(bf)
 }
 
