@@ -127,14 +127,6 @@ MinT <- function (fcasts, nodes = NULL, groups = NULL, residual, covariance = c(
                   nonnegative = FALSE, parallel = FALSE, num.cores = 2, 
                   algorithms = c("lu", "cg", "chol"), keep = c("gts", "all", "bottom"), ...)
 {
-  if (is.null(nodes) && is.null(groups)) {
-    stop("Please specify the hierarchical or the grouping structure.", call. = FALSE)
-  }
-  
-  if (!(is.null(nodes) && is.null(groups))) {
-    stop("Please specify either nodes or groups argument, not both.", call. = FALSE)
-  }
-  
   alg <- match.arg(algorithms)
   keep <- match.arg(keep)
   covar <- match.arg(covariance)
