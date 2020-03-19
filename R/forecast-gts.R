@@ -264,6 +264,12 @@ forecast.gts <- function(
   }
 
   pfcasts <- sapply(loopout, function(x) x$pfcasts)
+  
+  if (any(pfcasts < 0) && negative) {
+    fcasts[pfcasts < 0] <- 0
+    warning("Negative base forecasts are truncated to zero.")
+  }
+  
   if (keep.fitted) {
     fits <- sapply(loopout, function(x) x$fitted)
   }
