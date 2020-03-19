@@ -257,6 +257,11 @@ MinT <- function (fcasts, nodes = NULL, groups = NULL, residual, covariance = c(
       }
     }
   } else {
+    if (any(fcasts < 0) {
+      fcasts[fcasts < 0] <- 0
+      warning("Negative base forecasts are truncated to zero.")
+    }
+    
     lst.fc <- split(fcasts, row(fcasts))
     if (parallel) {
       if (is.null(num.cores)) {
