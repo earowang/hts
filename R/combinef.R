@@ -62,7 +62,7 @@
 combinef <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, nonnegative = FALSE, 
                      parallel = FALSE, num.cores = 2,
                      algorithms = c("lu", "cg", "chol", "recursive", "slm"),
-                     keep = c("gts", "all", "bottom"), ...) {
+                     keep = c("gts", "all", "bottom"), control.nn = list()) {
   # Construct optimal combination forecasts
   #
   # Args:
@@ -226,10 +226,10 @@ combinef <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, nonneg
           num.cores <- detectCores()
         }
         cl <- makeCluster(num.cores)
-        bf <- parSapplyLB(cl = cl, X = lst.fc, bpv, nodes = nodes, groups = groups, weights = weights, alg = alg, ..., simplify = TRUE)
+        bf <- parSapplyLB(cl = cl, X = lst.fc, bpv, nodes = nodes, groups = groups, weights = weights, alg = alg, control.nn = control.nn, simplify = TRUE)
         stopCluster(cl = cl)
       } else {
-        bf <- sapply(lst.fc, bpv, nodes = nodes, groups = groups, weights = weights, alg = alg, ...)
+        bf <- sapply(lst.fc, bpv, nodes = nodes, groups = groups, weights = weights, alg = alg, control.nn = control.nn)
       }
     }
     bf <- ts(t(bf), start = tspx[1L], frequency = tspx[3L])
