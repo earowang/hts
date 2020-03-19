@@ -124,8 +124,8 @@ shrink.estim <- function(x, tar)
 #' 
 #' @export MinT
 MinT <- function (fcasts, nodes = NULL, groups = NULL, residual, covariance = c("shr", "sam"),
-                  nonnegative = FALSE, parallel = FALSE, num.cores = 2, 
-                  algorithms = c("lu", "cg", "chol"), keep = c("gts", "all", "bottom"), control.nn = list())
+                  nonnegative = FALSE, algorithms = c("lu", "cg", "chol"), 
+                  keep = c("gts", "all", "bottom"),  parallel = FALSE, num.cores = 2, control.nn = list())
 {
   if (is.null(nodes) && is.null(groups)) {
     stop("Please specify the hierarchical or the grouping structure.", call. = FALSE)
