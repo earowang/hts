@@ -217,6 +217,11 @@ combinef <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, nonneg
       }
     }
   } else {
+    if (any(fcasts < 0) {
+      fcasts[fcasts < 0] <- 0
+      warning("Negative base forecasts are truncated to zero.")
+    }
+    
     if (alg %in% c("recursive", "slm")) {
       stop("The non-negative algorithm doesn't support slm or recursive", call. = FALSE)
     } else {
