@@ -131,7 +131,7 @@ MinT <- function (fcasts, nodes = NULL, groups = NULL, residual, covariance = c(
     stop("Please specify the hierarchical or the grouping structure.", call. = FALSE)
   }
   
-  if (!(is.null(nodes) && is.null(groups))) {
+  if (!xor(is.null(nodes), is.null(groups))) {
     stop("Please specify either nodes or groups argument, not both.", call. = FALSE)
   }
   
