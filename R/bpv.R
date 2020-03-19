@@ -1,3 +1,17 @@
+# block principal pivoting algorithm
+# can only be used with OLS, WLS (any positive weights)
+# Author: Shanika Wickramasuriya
+# Paper: Optimal non-negative forecast reconciliation
+
+# Arguments
+# fcasts: Matrix of forecasts for all levels of the hierarchical time series. 
+# Each row represents one forecast horizon and each column represents one time series from the hierarchy.
+# nodes: Hierarchical structure
+# groups: Grouping structure
+# weights: weights to be used in OLS or WLS
+# control.nn: A list of control parameters to be used in the non-negative algorithm. 
+# This includes ptype (fixed or random), par, and gtol (tolerance of the convergence criteria)
+
 bpv <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, alg, control.nn = list())
 {
   # ptype <- match.arg(ptype)
