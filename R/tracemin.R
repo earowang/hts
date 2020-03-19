@@ -107,6 +107,7 @@ CG <- function(fcasts, S, weights, allow.changes = FALSE) {
 
 # Cholesky factorization
 CHOL <- function(fcasts, S, weights, allow.changes = FALSE) {
+  fcasts <- t(stats::na.omit(t(fcasts)))
   nts <- nrow(S)
   nbts <- ncol(S)
   nagg <- nts - nbts
