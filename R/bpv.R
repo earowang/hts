@@ -1,7 +1,13 @@
-bpv <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, alg,
-                ptype = c("fixed", "random"), pbar = 10, gtol = sqrt(.Machine$double.eps))
+bpv <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, alg, control.nn = list())
 {
-  ptype <- match.arg(ptype)
+  # ptype <- match.arg(ptype)
+  con <- list(ptype = "fixed", pbar = 10, gtol = sqrt(.Machine$double.eps))
+  nmsC <- names(con)
+  con[(namc <- names(control.nn))] <- control.nn
+  if (length(noNms <- namc[!namc %in% nmsC])) 
+    warning("unknown names in control.nn: ", paste(noNms, 
+                                                   collapse = ", "))
+  
   if (is.null(groups)) { # hts class
     gmat <- GmatrixH(nodes)
     if (alg == "chol") {
@@ -72,12 +78,12 @@ bpv <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, alg,
   tol <- sqrt(.Machine$double.eps)
   tzb <- t(z) %*% as.matrix(b)
   grad <- as.matrix(z %*% tzb - y)
-  maxp <- pbar
+  maxp <- con$pbar
   ninf <- nb + 1
   
-  if (ptype == "fixed") {
+  if (con$ptype == "fixed") {
     alpha <- 1:nb
-  } else if (ptype == "random") {
+  } else if (con$ptype == "random") {
     alpha <- sample(1:nb, nb, replace = FALSE)
   }
   
@@ -94,7 +100,7 @@ bpv <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, alg,
   gradg[idxg] <- 0L
   
   # convergence criteria
-  converged <- all(bf > -gtol) & all(gradg > -gtol)
+  converged <- all(bf > -con$gtol) & all(gradg > -con$gtol)
   
   if (converged) {
     bf <- t(b)
@@ -107,14 +113,14 @@ bpv <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, alg,
       
       if (length(ivec) < ninf) {
         ninf <- length(ivec)
-        maxp <- pbar
+        maxp <- con$pbar
       } else if (maxp >= 1) {
         maxp <- maxp - 1
       } else {
-        if (ptype == "fixed") {
+        if (con$ptype == "fixed") {
           cat("You are entering a slow zone! It might take some time to converge! \n")
           r <- max(ivec)
-        } else if (ptype == "random") {
+        } else if (con$ptype == "random") {
           cat("You are entering a slow zone! It might take some time to converge! \n")
           r <- alpha[max(which(alpha %in% ivec))]
         }
@@ -216,7 +222,7 @@ bpv <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, alg,
       idxg <- abs(gradg) < tol
       bf[idxf] <- 0L
       gradg[idxg] <- 0L
-      converged <- all(bf > -gtol) & all(gradg > -gtol)
+      converged <- all(bf > -con$gtol) & all(gradg > -con$gtol)
     }
   } 
   
