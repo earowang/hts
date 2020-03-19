@@ -125,7 +125,7 @@ shrink.estim <- function(x, tar)
 #' @export MinT
 MinT <- function (fcasts, nodes = NULL, groups = NULL, residual, covariance = c("shr", "sam"),
                   nonnegative = FALSE, parallel = FALSE, num.cores = 2, 
-                  algorithms = c("lu", "cg", "chol"), keep = c("gts", "all", "bottom"), ...)
+                  algorithms = c("lu", "cg", "chol"), keep = c("gts", "all", "bottom"), control.nn = list())
 {
   if (is.null(nodes) && is.null(groups)) {
     stop("Please specify the hierarchical or the grouping structure.", call. = FALSE)
@@ -263,10 +263,10 @@ MinT <- function (fcasts, nodes = NULL, groups = NULL, residual, covariance = c(
         num.cores <- detectCores()
       }
       cl <- makeCluster(num.cores)
-      bf <- parSapplyLB(cl = cl, X = lst.fc, MinTbpv, nodes = nodes, groups = groups, res = res, covar = covar, alg = alg, ..., simplify = TRUE)
+      bf <- parSapplyLB(cl = cl, X = lst.fc, MinTbpv, nodes = nodes, groups = groups, res = res, covar = covar, alg = alg, control.nn = control.nn, simplify = TRUE)
       stopCluster(cl = cl)
     } else {
-      bf <- sapply(lst.fc, MinTbpv, nodes = nodes, groups = groups, res = res, covar = covar, alg = alg, ...)
+      bf <- sapply(lst.fc, MinTbpv, nodes = nodes, groups = groups, res = res, covar = covar, alg = alg, control.nn = control.nn)
     }
     bf <- ts(t(bf), start = tspx[1L], frequency = tspx[3L])
     if (is.null(groups)) {
