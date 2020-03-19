@@ -118,6 +118,7 @@ forecast.gts <- function(
   fmethod = c("ets", "arima", "rw"),
   algorithms = c("lu", "cg", "chol", "recursive", "slm"),
   covariance = c("shr", "sam"),
+  nonnegative = FALSE, control.nn = list(),
   keep.fitted = FALSE, keep.resid = FALSE,
   positive = FALSE, lambda = NULL, level,
   parallel = FALSE, num.cores = 2, FUN = NULL,
@@ -164,6 +165,9 @@ forecast.gts <- function(
   }
   if (method == "mo" && missing(level)) {
     stop("Please specify argument level for the middle-out method.", call. = FALSE)
+  }
+  if (is.element(method, c("bu", "mo","tdgsa", "tdgsf", "tdfp")) && nonnegative) {
+    stop("Non-negative algorithm is only implemented for combination forecasts.", call. = FALSE)
   }
 
   # Set up lambda for arg "positive" when lambda is missing
@@ -298,7 +302,6 @@ forecast.gts <- function(
     }
   }
 
-
   # An internal function to call combinef correctly
   Comb <- function(x, ...) {
     if (is.hts(x)) {
@@ -319,15 +322,20 @@ forecast.gts <- function(
 
   if (method == "comb") {
     if (weights == "ols") {
-      bfcasts <- Comb(pfcasts, keep = "bottom", algorithms = alg)
+      bfcasts <- Comb(pfcasts, nonnegative = nonnegative,
+                      parallel = parallel, num.cores = num.cores,
+                      keep = "bottom", algorithms = alg, control.nn = control.nn)
     } else if (any(weights == c("wls", "nseries"))) {
-      bfcasts <- Comb(pfcasts, weights = wvec, keep = "bottom",
-                      algorithms = alg)
+      bfcasts <- Comb(pfcasts, weights = wvec, nonnegative = nonnegative,
+                      parallel = parallel, num.cores = num.cores,
+                      keep = "bottom", algorithms = alg, control.nn = control.nn)
     } else { # weights=="mint"
       bfcasts <- mint(pfcasts, residual = tmp.resid,
-                    covariance = covariance, keep = "bottom", algorithms = alg)
+                    covariance = covariance, nonnegative = nonnegative,
+                    parallel = parallel, num.cores = num.cores, 
+                    keep = "bottom", algorithms = alg, control.nn = control.nn)
     }
-    if (keep.fitted0) {
+    if (keep.fitted0 && !nonnegative) {
       if (weights == "ols") {
         fits <- Comb(fits, keep = "bottom", algorithms = alg)
       } else if (any(weights == c("wls", "nseries"))) {
@@ -338,7 +346,7 @@ forecast.gts <- function(
                    covariance = covariance, keep = "bottom", algorithms = alg)
       }
     }
-    if (keep.resid) {
+    if (keep.resid && !nonnegative) {
       if (weights == "ols") {
         resid <- Comb(resid, keep = "bottom", algorithms = alg)
       } else if (any(weights == c("wls", "nseries"))) {
@@ -387,7 +395,7 @@ forecast.gts <- function(
 
   # In case that accuracy.gts() is called later, since NA's have been omitted
   # to ensure slm/chol to run without errors.
-  if (method == "comb" && fmethod == "rw"
+  if (method == "comb" && fmethod == "rw" && !nonnegative
       && keep.fitted0 == TRUE && (alg == "slm" || alg == "chol")) {
     fits <- rbind(rep(NA, ncol(fits)), fits)
   }
@@ -398,11 +406,11 @@ forecast.gts <- function(
   class(bfcasts) <- class(object$bts)
   attr(bfcasts, "msts") <- attr(object$bts, "msts")
 
-  if (keep.fitted0) {
+  if (keep.fitted0 && !nonnegative) {
     bfits <- ts(fits, start = tsp.y[1L], frequency = tsp.y[3L])
     colnames(bfits) <- bnames
   }
-  if (keep.resid) {
+  if (keep.resid && !nonnegative) {
     bresid <- ts(resid, start = tsp.y[1L], frequency = tsp.y[3L])
     colnames(bresid) <- bnames
   }
@@ -410,10 +418,10 @@ forecast.gts <- function(
   # Output
   out <- list(bts = bfcasts, histy = object$bts, labels = object$labels,
               method = method, fmethod = fmethod)
-  if (keep.fitted0) {
+  if (keep.fitted0 && !nonnegative) {
     out$fitted <- bfits
   }
-  if (keep.resid) {
+  if (keep.resid && !nonnegative) {
     out$residuals <- bresid
   }
   if (is.hts(object)) {
