@@ -217,7 +217,7 @@ combinef <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, nonneg
       }
     }
   } else {
-    if (any(fcasts < 0) {
+    if (any(fcasts < 0)) {
       fcasts[fcasts < 0] <- 0
       warning("Negative base forecasts are truncated to zero.")
     }
