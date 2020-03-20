@@ -155,7 +155,7 @@ bpv <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, alg, contro
         
         if (length(gset) == 0) {
           ufcasts <- fcasts
-          tmp <- combinefm(fcasts = ufcasts, nodes = nodes, groups = groups, smat = smat, weights = uwts, alg = alg)
+          tmp <- combinefm(fcasts = ufcasts, smat = smat, weights = uwts, alg = alg)
           allf <- as.numeric(tmp)
         } else {
           usmat <- smat[, -gset]
@@ -168,7 +168,7 @@ bpv <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, alg, contro
               uwts <- uwts[-idxR]
             } 
             usmat <- usmat[-idxR, ]
-            tmp <- combinefm(fcasts = ufcasts, nodes = nodes, groups = groups, smat = usmat, weights = uwts, alg = alg)
+            tmp <- combinefm(fcasts = ufcasts, smat = usmat, weights = uwts, alg = alg)
             allf[sort(setdiff(c(1:nxb, (fset + nxb)), zidx))] <- as.numeric(tmp)
             
           } else {
@@ -177,7 +177,7 @@ bpv <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, alg, contro
             if (!is.null(weights)) {
               uwts <- uwts[-idxR]              
             }
-            tmp <- combinefm(fcasts = ufcasts, nodes = nodes, groups = groups, smat = usmat, weights = uwts, alg = alg)
+            tmp <- combinefm(fcasts = ufcasts, smat = usmat, weights = uwts, alg = alg)
             allf[c(1:nxb, (fset + nxb))] <- as.numeric(tmp)
           }
         }
@@ -187,7 +187,7 @@ bpv <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, alg, contro
         
         if (length(gset) == 0) {
           ufcasts <- fcasts
-          tmp <- combinefm(fcasts = ufcasts, nodes = nodes, groups = groups, smat = smat, weights = uwts, alg = alg)
+          tmp <- combinefm(fcasts = ufcasts, smat = smat, weights = uwts, alg = alg)
           allf <- as.numeric(tmp)
         } else {
           usmat <- smat[, -gset]
@@ -200,7 +200,7 @@ bpv <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, alg, contro
               uwts <- uwts[-idxR]
             } 
             usmat <- usmat[-idxR, ]
-            tmp <- combinefm(fcasts = ufcasts, nodes = nodes, groups = groups, smat = usmat, weights = uwts, alg = alg)
+            tmp <- combinefm(fcasts = ufcasts, smat = usmat, weights = uwts, alg = alg)
             allf[sort(setdiff(c(1:nxb, (fset + nxb)), zidx))] <- as.numeric(tmp)
             
           } else {
@@ -209,7 +209,7 @@ bpv <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, alg, contro
             if (!is.null(weights)) {
               uwts <- uwts[-idxR]              
             }
-            tmp <- combinefm(fcasts = ufcasts, nodes = nodes, groups = groups, smat = usmat, weights = uwts, alg = alg)
+            tmp <- combinefm(fcasts = ufcasts, smat = usmat, weights = uwts, alg = alg)
             allf[c(1:nxb, (fset + nxb))] <- as.numeric(tmp)
           }
         }
