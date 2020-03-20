@@ -111,6 +111,7 @@ combinef <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, nonneg
   
   if (alg %in% c("recursive", "slm") && nonnegative) {
     stop("The non-negative algorithm doesn't support slm or recursive", call. = FALSE)
+  }
   
   alg <- match.arg(algorithms)
   keep <- match.arg(keep)
