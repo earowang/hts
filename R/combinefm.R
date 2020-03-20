@@ -1,3 +1,16 @@
+# helper function to block principal pivoting algorithm
+# can only be used with OLS, WLS (any positive weights)
+# Author: Shanika Wickramasuriya
+# Paper: Optimal non-negative forecast reconciliation
+
+# Arguments
+# fcasts: a vector of h-steps-ahead forecasts for all levels of the hierarchical time series. 
+# nodes: Hierarchical structure
+# groups: Grouping structure
+# smat: updated original s-matrix (based on the active set constraints)
+# weights: weights to be used in OLS or WLS
+# alg: algorithm such as "lu", "chol" or "cg"
+
 combinefm <- function(fcasts, nodes = NULL, groups = NULL, smat, weights, alg) 
 {
   totalts <- nrow(smat)
