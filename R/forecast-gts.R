@@ -19,6 +19,13 @@
 #' When \code{xreg} and \code{newxreg} are passed, the same covariates are
 #' applied to every series in the hierarchy.
 #' 
+#' The \code{control.nn} argument is a list that can supply any of the following components:
+#' \describe{
+#' \item{\code{ptype}}{Permutation method to be used: \code{"fixed"}  or \code{"random"}. Defaults to \code{"fixed"}.}
+#' \item{\code{par}}{The number of full exchange rules that may be tried. Defaults to 10.}
+#' \item{\code{gtol}}{The tolerance of the convergence criteria. Defaults to \code{sqrt(.Machine$double.eps)}.}
+#' }
+#' 
 #' @aliases forecast.gts forecast.hts
 #' @param object Hierarchical or grouped time series object of class
 #' \code{{gts}}
@@ -28,9 +35,9 @@
 #' @param weights Weights used for "optimal combination" method:
 #' \code{weights="ols"} uses an unweighted combination (as described in Hyndman
 #' et al 2011); \code{weights="wls"} uses weights based on forecast variances
-#' (as described in Hyndman et al 2015); \code{weights="mint"} uses a full
-#' covariance estimate to determine the weights (as described in Hyndman et al
-#' 2016); \code{weights="nseries"} uses weights based on the number of series
+#' (as described in Hyndman et al 2016); \code{weights="mint"} uses a full
+#' covariance estimate to determine the weights (as described in Wickramasuriya et al
+#' 2019); \code{weights="nseries"} uses weights based on the number of series
 #' aggregated at each node.
 #' @param fmethod Forecasting method to use for each series.
 #' @param algorithms An algorithm to be used for computing the combination
@@ -38,24 +45,23 @@
 #' on an ill-conditioned regression model. "lu" indicates LU decomposition is
 #' used; "cg" indicates a conjugate gradient method; "chol" corresponds to a
 #' Cholesky decomposition; "recursive" indicates the recursive hierarchical
-#' algorithm of Hyndman et al (2015); "slm" uses sparse linear regression. Note
+#' algorithm of Hyndman et al (2016); "slm" uses sparse linear regression. Note
 #' that \code{algorithms = "recursive"} and \code{algorithms = "slm"} cannot be
 #' used if \code{weights="mint"}.
 #' @param covariance Type of the covariance matrix to be used with
 #' \code{weights="mint"}: either a shrinkage estimator (\code{"shr"}) with
 #' shrinkage towards the diagonal; or a sample covariance matrix
 #' (\code{"sam"}).
-#' @param keep.fitted If TRUE, keep fitted values at the bottom level.
-#' @param keep.resid If TRUE, keep residuals at the bottom level.
-#' @param positive If TRUE, forecasts are forced to be strictly positive (by
+#' @param nonnegative Logical. Should the reconciled forecasts be non-negative?
+#' @param control.nn A list of control parameters to be passed on to the 
+#' block principal pivoting algorithm. See 'Details'.
+#' @param keep.fitted If \code{TRUE}, keep fitted values at the bottom level.
+#' @param keep.resid If \code{TRUE}, keep residuals at the bottom level.
+#' @param positive If \code{TRUE}, forecasts are forced to be strictly positive (by
 #' setting \code{lambda=0}).
 #' @param lambda Box-Cox transformation parameter.
 #' @param level Level used for "middle-out" method (only used when \code{method
 #' = "mo"}).
-#' @param parallel If TRUE, import \code{parallel} package to allow parallel
-#' processing.
-#' @param num.cores If parallel = TRUE, specify how many cores are going to be
-#' used.
 #' @param FUN A user-defined function that returns an object which can be
 #' passed to the \code{forecast} function. It is applied to all series in order
 #' to generate base forecasts.  When \code{FUN} is not \code{NULL},
@@ -68,33 +74,40 @@
 #' @param newxreg When \code{fmethod = "arima"}, a vector or matrix of external
 #' regressors used for forecasting, which must have the same number of rows as
 #' the \code{h} forecast horizon
+#' @param parallel If \code{TRUE}, import \code{parallel} package to allow parallel
+#' processing.
+#' @param num.cores If \code{parallel = TRUE}, specify how many cores are going to be
+#' used.
 #' @param ... Other arguments passed to \code{\link[forecast]{ets}},
 #' \code{\link[forecast]{auto.arima}} or \code{FUN}.
 #' @return A forecasted hierarchical/grouped time series of class \code{gts}.
+#' @note In-sample fitted values and resiuals are not returned if \code{method = "comb"} and \code{nonnegative = TRUE}.
 #' @author Earo Wang, Rob J Hyndman and Shanika L Wickramasuriya
 #' @seealso \code{\link[hts]{hts}}, \code{\link[hts]{gts}},
 #' \code{\link[hts]{plot.gts}}, \code{\link[hts]{accuracy.gts}}
-#' @references G. Athanasopoulos, R. A. Ahmed and R. J. Hyndman (2009)
+#' @references Athanasopoulos, G., Ahmed, R. A., & Hyndman, R. J. (2009).
 #' Hierarchical forecasts for Australian domestic tourism, \emph{International
 #' Journal of Forecasting}, \bold{25}, 146-166.
 #' 
-#' R. J. Hyndman, R. A. Ahmed, G. Athanasopoulos and H.L. Shang (2011) Optimal
+#' Hyndman, R. J., Ahmed, R. A., Athanasopoulos, G., & Shang, H. L. (2011). Optimal
 #' combination forecasts for hierarchical time series. \emph{Computational
 #' Statistics and Data Analysis}, \bold{55}(9), 2579--2589.
 #' \url{http://robjhyndman.com/papers/hierarchical/}
 #' 
-#' Hyndman, R. J., Lee, A., & Wang, E. (2015). Fast computation of reconciled
+#' Hyndman, R. J., Lee, A., & Wang, E. (2016). Fast computation of reconciled
 #' forecasts for hierarchical and grouped time series. \emph{Computational
 #' Statistics and Data Analysis}, \bold{97}, 16--32.
 #' \url{http://robjhyndman.com/papers/hgts/}
 #' 
-#' Wickramasuriya, S. L., Athanasopoulos, G., & Hyndman, R. J. (2015).
-#' Forecasting hierarchical and grouped time series through trace minimization.
-#' \emph{Working paper 15/15, Department of Econometrics & Business Statistics,
-#' Monash University.} \url{http://robjhyndman.com/working-papers/mint/}
+#' Wickramasuriya, S. L., Athanasopoulos, G., & Hyndman, R. J. (2019).
+#' Optimal forecast reconciliation for hierarchical and grouped time series through trace minimization.
+#' \emph{Journal of the American Statistical Association}, \bold{114}(526), 804--819. \url{http://robjhyndman.com/working-papers/mint/}
 #' 
-#' Gross, C. and Sohl, J. (1990) Dissagregation methods to expedite product
-#' line forecasting, \emph{Journal of Forecasting}, \bold{9}, 233-254.
+#' Wickramasuriya, S. L., Turlach, B. A., & Hyndman, R. J. (to appear). Optimal non-negative forecast reconciliation. 
+#' \emph{Statistics and Computing}. \url{https://robjhyndman.com/publications/nnmint/}
+#' 
+#' Gross, C., & Sohl, J. (1990). Dissagregation methods to expedite product
+#' line forecasting, \emph{Journal of Forecasting}, \bold{9}, 233--254.
 #' @keywords ts
 #' @method forecast gts
 #' @examples
@@ -120,9 +133,8 @@ forecast.gts <- function(
   covariance = c("shr", "sam"),
   nonnegative = FALSE, control.nn = list(),
   keep.fitted = FALSE, keep.resid = FALSE,
-  positive = FALSE, lambda = NULL, level,
-  parallel = FALSE, num.cores = 2, FUN = NULL,
-  xreg = NULL, newxreg = NULL, ...
+  positive = FALSE, lambda = NULL, level, FUN = NULL,
+  xreg = NULL, newxreg = NULL, parallel = FALSE, num.cores = 2, ...
 ) {
   # Forecast hts or gts objects
   #
