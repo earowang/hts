@@ -13,7 +13,6 @@
 
 bpv <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, alg, control.nn = list())
 {
-  # ptype <- match.arg(ptype)
   con <- list(ptype = "fixed", pbar = 10, gtol = sqrt(.Machine$double.eps))
   nmsC <- names(con)
   con[(namc <- names(control.nn))] <- control.nn
@@ -151,16 +150,11 @@ bpv <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, alg, contro
       gset <- union(gset[!gset %in% i2], i1)
       
       if (is.null(groups)) { # class hts
-        # gset0 <- 1:nbot %in% gset
-        # active <- which(gset0 == TRUE) # active indices at the bottom level
         allf <- numeric(nt)
         uwts <- weights
         
         if (length(gset) == 0) {
           ufcasts <- fcasts
-          # if (!is.null(weights)) {
-          #   weightsnw <- weightsnw
-          # }
           tmp <- combinefm(fcasts = ufcasts, nodes = nodes, groups = groups, smat = smat, weights = uwts, alg = alg)
           allf <- as.numeric(tmp)
         } else {
@@ -193,9 +187,6 @@ bpv <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, alg, contro
         
         if (length(gset) == 0) {
           ufcasts <- fcasts
-          # if (!is.null(weights)) {
-          #   weightsnw <- weightsnw
-          # }
           tmp <- combinefm(fcasts = ufcasts, nodes = nodes, groups = groups, smat = smat, weights = uwts, alg = alg)
           allf <- as.numeric(tmp)
         } else {
