@@ -5,7 +5,9 @@
 \alias{htseg1}
 \alias{htseg2}
 \title{Simple examples of hierarchical time series.}
-\format{Objects of class \code{\link[hts]{hts}}.}
+\format{
+Objects of class \code{\link[hts]{hts}}.
+}
 \description{
 These are simulated data. \code{htseg1} has three levels with a total of 8
 series each of length 10. \code{htseg2} has four levels with a total of 17
