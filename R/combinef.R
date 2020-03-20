@@ -108,16 +108,17 @@ combinef <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, nonneg
   if (!xor(is.null(nodes), is.null(groups))) {
     stop("Please specify either nodes or groups argument, not both.", call. = FALSE)
   }
-  
-  if (alg %in% c("recursive", "slm") && nonnegative) {
-    stop("The non-negative algorithm doesn't support slm or recursive", call. = FALSE)
-  }
-  
+
   alg <- match.arg(algorithms)
   keep <- match.arg(keep)
   fcasts <- stats::as.ts(fcasts)
   tspx <- stats::tsp(fcasts)
   cnames <- colnames(fcasts)
+  
+  
+  if (alg %in% c("recursive", "slm") && nonnegative) {
+    stop("The non-negative algorithm doesn't support slm or recursive", call. = FALSE)
+  }
   
   if (!nonnegative) {
     if (is.null(groups)) { # hts class
