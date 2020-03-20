@@ -109,6 +109,9 @@ combinef <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, nonneg
     stop("Please specify either nodes or groups argument, not both.", call. = FALSE)
   }
   
+  if (alg %in% c("recursive", "slm") && nonnegative) {
+    stop("The non-negative algorithm doesn't support slm or recursive", call. = FALSE)
+  
   alg <- match.arg(algorithms)
   keep <- match.arg(keep)
   fcasts <- stats::as.ts(fcasts)
@@ -243,21 +246,18 @@ combinef <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, nonneg
       warning("Negative base forecasts are truncated to zero.")
     }
     
-    if (alg %in% c("recursive", "slm")) {
-      stop("The non-negative algorithm doesn't support slm or recursive", call. = FALSE)
-    } else {
-      lst.fc <- split(fcasts, row(fcasts))
-      if (parallel) {
-        if (is.null(num.cores)) {
-          num.cores <- detectCores()
-        }
-        cl <- makeCluster(num.cores)
-        bf <- parSapplyLB(cl = cl, X = lst.fc, bpv, nodes = nodes, groups = groups, weights = weights, alg = alg, control.nn = control.nn, simplify = TRUE)
-        stopCluster(cl = cl)
-      } else {
-        bf <- sapply(lst.fc, bpv, nodes = nodes, groups = groups, weights = weights, alg = alg, control.nn = control.nn)
+    lst.fc <- split(fcasts, row(fcasts))
+    if (parallel) {
+      if (is.null(num.cores)) {
+        num.cores <- detectCores()
       }
+      cl <- makeCluster(num.cores)
+      bf <- parSapplyLB(cl = cl, X = lst.fc, bpv, nodes = nodes, groups = groups, weights = weights, alg = alg, control.nn = control.nn, simplify = TRUE)
+      stopCluster(cl = cl)
+    } else {
+      bf <- sapply(lst.fc, bpv, nodes = nodes, groups = groups, weights = weights, alg = alg, control.nn = control.nn)
     }
+
     bf <- ts(t(bf), start = tspx[1L], frequency = tspx[3L])
     if (is.null(groups)) {
       if (keep == "bottom") {
