@@ -15,8 +15,8 @@
 #' @param \dots Other arguments passing to \code{\link[graphics]{plot.default}}
 #' @author Rob J Hyndman and Earo Wang
 #' @seealso \code{\link[hts]{aggts}}
-#' @references R. J. Hyndman, R. A. Ahmed, G. Athanasopoulos and H.L. Shang
-#' (2011) Optimal combination forecasts for hierarchical time series.
+#' @references Hyndman, R. J., Ahmed, R. A., Athanasopoulos, G., & Shang, H. L.
+#' (2011). Optimal combination forecasts for hierarchical time series.
 #' \emph{Computational Statistics and Data Analysis}, \bold{55}(9), 2579--2589.
 #' \url{http://robjhyndman.com/papers/hierarchical/}
 #' @keywords hplot
