@@ -4,8 +4,7 @@
 # Paper: Optimal non-negative forecast reconciliation
 
 # Arguments
-# fcasts: Matrix of forecasts for all levels of the hierarchical time series. 
-# Each row represents one forecast horizon and each column represents one time series from the hierarchy.
+# fcasts: a vector of h-steps-ahead forecasts for all levels of the hierarchical time series. 
 # nodes: Hierarchical structure
 # groups: Grouping structure
 # weights: weights to be used in OLS or WLS
