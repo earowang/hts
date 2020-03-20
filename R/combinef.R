@@ -15,33 +15,34 @@
 #' which is the same as \code{groups} in the function \code{gts}.
 #' @param weights A numeric vector. The default is \code{NULL} which means that
 #' ordinary least squares is implemented.
-#' @param nonnegative Logical. Should the reconciled forecasts be non-negative?.
+#' @param nonnegative Logical. Should the reconciled forecasts be non-negative?
 #' @param algorithms An algorithm to be used for computing reconciled
 #' forecasts. See \code{\link{forecast.gts}} for details.
 #' @param keep Return a \code{gts} object or the the reconciled forecasts at
 #' the bottom level.
 #' @param parallel Logical. Import parallel package to allow parallel processing.
 #' @param num.cores Numeric. Specify how many cores are going to be used.
-#' @control.nn A list of control parameters to be passed on to the 
+#' @param control.nn A list of control parameters to be passed on to the 
 #' block principal pivoting algorithm. See 'Details'.
 #' @return Return the (non-negative) reconciled \code{gts} object or forecasts at the bottom
 #' level.
 #' 
-#' The \code{control.nn} argument is a list that can supply any of the following components:
-#' \item{ptype} Permutation method to be used: \code{"fixed"}  or \code{"random"}. Defaults to \code{"fixed"}.
-#' \item{par} The number of full exchange rules that may be tried. Defaults to 10.
-#' \item{gtol} The tolerance of the convergence criteria. Defaults to \code{sqrt(.Machine$double.eps)}.
+#' @details 
+#' The \code{control.nn} argument is a list that can supply any of the following components: 
+#' \describe{
+#' \item{\code{ptype}}{Permutation method to be used: \code{"fixed"} or \code{"random"}. Defaults to \code{"fixed"}.}
+#' \item{\code{par}}{The number of full exchange rules that may be tried. Defaults to 10.} 
+#' \item{\code{gtol}}{The tolerance of the convergence criteria. Defaults to \code{sqrt(.Machine$double.eps)}.}
+#' }
 #' @author Alan Lee, Rob J Hyndman, Earo Wang and Shanika L Wickramasuriya
 #' @seealso \code{\link[hts]{hts}}, \code{\link[hts]{forecast.gts}}
 #' @references Hyndman, R. J., Ahmed, R. A., Athanasopoulos, G., & Shang, H. L.
-#' (2011) Optimal combination forecasts for hierarchical time series.
-#' \emph{Computational Statistics and Data Analysis}, \bold{55}(9), 2579--2589.
-#' \url{http://robjhyndman.com/papers/hierarchical/}
+#' (2011). Optimal combination forecasts for hierarchical time series.
+#' \emph{Computational Statistics and Data Analysis}, \bold{55}(9), 2579--2589. \url{http://robjhyndman.com/papers/hierarchical/}
 #' 
 #' Hyndman, R. J., Lee, A., & Wang, E. (2016). Fast computation of reconciled
 #' forecasts for hierarchical and grouped time series. \emph{Computational Statistics and Data Analysis},
-#' \bold{97}, 16--32.
-#' \url{http://robjhyndman.com/working-papers/hgts/}
+#' \bold{97}, 16--32. \url{http://robjhyndman.com/working-papers/hgts/}
 #' 
 #' Wickramasuriya, S. L., Turlach, B. A., & Hyndman, R. J. (to appear). Optimal non-negative forecast reconciliation. 
 #' \emph{Statistics and Computing}. \url{https://robjhyndman.com/publications/nnmint/}
@@ -62,7 +63,7 @@
 #' ally <- abs(aggts(htseg2))
 #' allf <- matrix(NA, nrow = h, ncol = ncol(ally))
 #' for(i in 1:ncol(ally))
-#'   allf[,i] <- forecast(auto.arima(ally[,i], lambda = 0), h = h)$mean
+#'   allf[,i] <- forecast(auto.arima(ally[,i], lambda = 0, biasadj = TRUE), h = h)$mean
 #' b.f <- combinef(allf, get_nodes(htseg2), weights = NULL, keep = "bottom", algorithms = "lu")
 #' b.nnf <- combinef(allf, get_nodes(htseg2), weights = NULL, keep = "bottom", algorithms = "lu", nonnegative = TRUE)}
 #' 
