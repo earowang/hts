@@ -1,3 +1,14 @@
+# helper function to block principal pivoting algorithm
+# can only be used with MinT (sample or shrinkage)
+# Author: Shanika Wickramasuriya
+# Paper: Optimal non-negative forecast reconciliation
+
+# Arguments
+# fcasts: a vector of h-steps-ahead forecasts for all levels of the hierarchical time series. 
+# smat: updated original s-matrix (based on the active set constraints)
+# vmat: updated covariance matrix to be used.
+# alg: algorithm such as "lu", "chol" or "cg"
+
 MinTm <- function(fcasts, smat, vmat, alg) 
 {
   totalts <- nrow(smat)
@@ -18,7 +29,15 @@ MinTm <- function(fcasts, smat, vmat, alg)
   return(allf)
 }
 
-
+# Arguments
+# fcasts: a vector of h-steps-ahead forecasts for all levels of the hierarchical time series. 
+# nodes: Hierarchical structure
+# groups: Grouping structure
+# res: in-sample residuals of the base forecasts
+# covar: covariance matrix (sam vs shr)
+# alg: algorithm such as "lu", "chol" or "cg"
+# control.nn: A list of control parameters to be used in the non-negative algorithm. 
+# This includes ptype (fixed or random), par, and gtol (tolerance of the convergence criteria)
 
 MinTbpv <- function(fcasts, nodes = NULL, groups = NULL, res, covar,
                     alg, control.nn  = list())
