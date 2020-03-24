@@ -277,7 +277,7 @@ forecast.gts <- function(
 
   pfcasts <- sapply(loopout, function(x) x$pfcasts)
   
-  if (any(pfcasts < 0) && negative) {
+  if (any(pfcasts < 0) && nonnegative) {
     fcasts[pfcasts < 0] <- 0
     warning("Negative base forecasts are truncated to zero.")
   }
