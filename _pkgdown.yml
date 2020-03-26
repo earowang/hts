@@ -3,7 +3,7 @@ template:
     bootswatch: united
 
 development:
-	mode: auto
+  mode: auto
 
 authors:
   Rob Hyndman:
