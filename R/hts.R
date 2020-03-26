@@ -28,8 +28,8 @@
 #' @author Earo Wang and Rob J Hyndman
 #' @seealso \code{\link[hts]{gts}}, \code{\link[hts]{accuracy.gts}},
 #' \code{\link[hts]{forecast.gts}}, \code{\link[hts]{plot.gts}}
-#' @references R. J. Hyndman, R. A. Ahmed, G. Athanasopoulos and H.L. Shang
-#' (2011) Optimal combination forecasts for hierarchical time series.
+#' @references Hyndman, R. J., Ahmed, R. A., Athanasopoulos, G., & Shang, H. L.
+#' (2011). Optimal combination forecasts for hierarchical time series.
 #' \emph{Computational Statistics and Data Analysis}, \bold{55}(9), 2579--2589.
 #' \url{http://robjhyndman.com/papers/hierarchical/}
 #' @keywords ts
