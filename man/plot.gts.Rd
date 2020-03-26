@@ -4,8 +4,7 @@
 \alias{plot.gts}
 \title{Plot grouped or hierarchical time series}
 \usage{
-\method{plot}{gts}(x, include, levels, labels = TRUE, col = NULL,
-  color_lab = FALSE, ...)
+\method{plot}{gts}(x, include, levels, labels = TRUE, col = NULL, color_lab = FALSE, ...)
 }
 \arguments{
 \item{x}{An object of class \code{\link[hts]{gts}}.}
@@ -37,8 +36,8 @@ plot(infantgts, include = 10, levels = "State",
 
 }
 \references{
-R. J. Hyndman, R. A. Ahmed, G. Athanasopoulos and H.L. Shang
-(2011) Optimal combination forecasts for hierarchical time series.
+Hyndman, R. J., Ahmed, R. A., Athanasopoulos, G., & Shang, H. L.
+(2011). Optimal combination forecasts for hierarchical time series.
 \emph{Computational Statistics and Data Analysis}, \bold{55}(9), 2579--2589.
 \url{http://robjhyndman.com/papers/hierarchical/}
 }

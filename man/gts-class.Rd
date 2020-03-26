@@ -5,8 +5,6 @@
 \alias{print.gts}
 \alias{summary.gts}
 \alias{is.gts}
-\alias{print.gts}
-\alias{summary.gts}
 \title{Create a grouped time series}
 \usage{
 gts(y, groups, gnames = rownames(groups), characters)
@@ -101,8 +99,8 @@ x2 <- gts(bts2, characters = c(3, 1, 1))
 
 }
 \references{
-R. J. Hyndman, R. A. Ahmed, G. Athanasopoulos and H.L. Shang
-(2011) Optimal combination forecasts for hierarchical time series.
+Hyndman, R. J., Ahmed, R. A., Athanasopoulos, G., & Shang, H. L.
+(2011). Optimal combination forecasts for hierarchical time series.
 \emph{Computational Statistics and Data Analysis}, \bold{55}(9), 2579--2589.
 \url{http://robjhyndman.com/papers/hierarchical/}
 }

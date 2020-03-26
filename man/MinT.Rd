@@ -4,8 +4,19 @@
 \alias{MinT}
 \title{Trace minimization for hierarchical or grouped time series}
 \usage{
-MinT(fcasts, nodes, groups, residual, covariance = c("shr", "sam"),
-  algorithms = c("lu", "cg", "chol"), keep = c("gts", "all", "bottom"))
+MinT(
+  fcasts,
+  nodes = NULL,
+  groups = NULL,
+  residual,
+  covariance = c("shr", "sam"),
+  nonnegative = FALSE,
+  algorithms = c("lu", "cg", "chol"),
+  keep = c("gts", "all", "bottom"),
+  parallel = FALSE,
+  num.cores = 2,
+  control.nn = list()
+)
 }
 \arguments{
 \item{fcasts}{Matrix of forecasts for all levels of a hierarchical or
@@ -23,23 +34,40 @@ disaggregated time series. The columns must be in the same order as
 \code{fcasts}.}
 
 \item{covariance}{Type of the covariance matrix to be used. Shrinking
-towards a diagonal unequal variances ("shr") or sample covariance matrix
-("sam").}
+towards a diagonal unequal variances (\code{"shr"}) or sample covariance matrix
+(\code{"sam"}).}
+
+\item{nonnegative}{Logical. Should the reconciled forecasts be non-negative?}
 
 \item{algorithms}{Algorithm used to compute inverse of the matrices.}
 
 \item{keep}{Return a gts object or the reconciled forecasts at the bottom
 level.}
+
+\item{parallel}{Logical. Import parallel package to allow parallel processing.}
+
+\item{num.cores}{Numeric. Specify how many cores are going to be used.}
+
+\item{control.nn}{A list of control parameters to be passed on to the
+block principal pivoting algorithm. See 'Details'.}
 }
 \value{
 Return the reconciled \code{gts} object or forecasts at the bottom
 level.
 }
 \description{
-Using the method of Wickramasuriya et al. (2015), this function combines the
+Using the method of Wickramasuriya et al. (2019), this function combines the
 forecasts at all levels of a hierarchical or grouped time series. The
 \code{\link{forecast.gts}} calls this function when the \code{MinT} method
 is selected.
+}
+\details{
+The \code{control.nn} argument is a list that can supply any of the following components:
+\describe{
+\item{\code{ptype}}{Permutation method to be used: \code{"fixed"} or \code{"random"}. Defaults to \code{"fixed"}.}
+\item{\code{par}}{The number of full exchange rules that may be tried. Defaults to 10.}
+\item{\code{gtol}}{The tolerance of the convergence criteria. Defaults to \code{sqrt(.Machine$double.eps)}.}
+}
 }
 \examples{
 
@@ -62,6 +90,20 @@ y.f <- MinT(allf, get_nodes(htseg1), residual = res, covariance = "shr",
 plot(y.f)
 y.f_cg <- MinT(allf, get_nodes(htseg1), residual = res, covariance = "shr", 
   keep = "all", algorithms = "cg")
+}
+
+\dontrun{h <- 12
+ally <- abs(aggts(htseg2))
+allf <- matrix(NA, nrow = h, ncol = ncol(ally))
+res <- matrix(NA, nrow = nrow(ally), ncol = ncol(ally))
+for(i in 1:ncol(ally)) {
+  fit <- auto.arima(ally[, i], lambda = 0, biasadj = TRUE)
+  allf[,i] <- forecast(fit, h = h)$mean
+  res[,i] <- na.omit(ally[, i] - fitted(fit))
+}
+b.f <- MinT(allf, get_nodes(htseg2), residual = res, covariance = "shr", keep = "bottom", algorithms = "lu")
+b.nnf <-  MinT(allf, get_nodes(htseg2), residual = res, covariance = "shr", keep = "bottom", algorithms = "lu", 
+               nonnegative = TRUE, parallel = TRUE)
 }
   
 # gts example
@@ -87,13 +129,14 @@ plot(y.f)}
 
 }
 \references{
-Wickramasuriya, S. L., Athanasopoulos, G., & Hyndman, R. J.
-(2015).  Forecasting hierarchical and grouped time series through trace
-minimization.  \emph{Working paper 15/15, Department of Econometrics &
-Business Statistics, Monash University.}
-\url{http://robjhyndman.com/working-papers/mint/}
+Wickramasuriya, S. L., Athanasopoulos, G., & Hyndman, R. J. (2019).
+Optimal forecast reconciliation for hierarchical and grouped time series through trace minimization.
+\emph{Journal of the American Statistical Association}, \bold{114}(526), 804--819. \url{http://robjhyndman.com/working-papers/mint/}
 
-Hyndman, R. J., Lee, A., & Wang, E. (2015).  Fast computation of reconciled
+Wickramasuriya, S. L., Turlach, B. A., & Hyndman, R. J. (to appear). Optimal non-negative forecast reconciliation.
+\emph{Statistics and Computing}. \url{https://robjhyndman.com/publications/nnmint/}
+
+Hyndman, R. J., Lee, A., & Wang, E. (2016).  Fast computation of reconciled
 forecasts for hierarchical and grouped time series.  \emph{Computational
 Statistics and Data Analysis}, \bold{97}, 16--32.
 \url{http://robjhyndman.com/papers/hgts/}
