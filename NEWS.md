@@ -1,5 +1,6 @@
-# hts 5.1.5.9000
+# hts 6.0.0
 
+* Added the support for non-negative forecast reconciliation. (@ShanikaLW)
 * Fixed bug in `forecast(weights = "wls")` for removing the squared root, as it's been done in following functions.
 
 # hts 5.1.5

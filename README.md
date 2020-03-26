@@ -7,6 +7,11 @@
 status](https://github.com/earowang/hts/workflows/R-CMD-check/badge.svg)](https://github.com/earowang/hts/actions?workflow=R-CMD-check)
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/hts)](https://cran.r-project.org/package=hts)
 [![Downloads](http://cranlogs.r-pkg.org/badges/hts)](https://cran.r-project.org/package=hts)
+[![Lifecycle:
+retired](https://img.shields.io/badge/lifecycle-retired-orange.svg)](https://www.tidyverse.org/lifecycle/#retired)
+
+**hts** is retired, with minimum maintenance to keep it on CRAN. We
+recommend using the [fable](http://fable.tidyverts.org) package instead.
 
 The R package *hts* presents functions to create, plot and forecast
 hierarchical and grouped time series.
