@@ -170,7 +170,7 @@ Optimal forecast reconciliation for hierarchical and grouped time series through
 Wickramasuriya, S. L., Turlach, B. A., & Hyndman, R. J. (to appear). Optimal non-negative forecast reconciliation.
 \emph{Statistics and Computing}. \url{https://robjhyndman.com/publications/nnmint/}
 
-Gross, C., & Sohl, J. (1990) Dissagregation methods to expedite product
+Gross, C., & Sohl, J. (1990). Dissagregation methods to expedite product
 line forecasting, \emph{Journal of Forecasting}, \bold{9}, 233--254.
 }
 \seealso{
