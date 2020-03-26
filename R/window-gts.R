@@ -12,7 +12,7 @@
 #' 
 #' window(htseg2, start = 2000, end = 2001)
 #' 
-#' @export
+#' @export window.gts
 window.gts <- function(x, ...) {
   # Select a snapshot of hts or gts
   x$bts <- stats::window(x$bts, ...)
