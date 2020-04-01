@@ -11,13 +11,14 @@
 #' non-seasonal time series, and in-sample seasonal naive forecasts for
 #' seasonal time series.
 #' 
-#' @param f An object of class \code{gts}, containing the forecasted
+#' @param object An object of class \code{gts}, containing the forecasted
 #' hierarchical or grouped time series. In-sample accuracy at the bottom level
 #' returns when \code{test} is missing.
 #' @param test An object of class \code{gts}, containing the holdout
 #' hierarchical time series
 #' @param levels Return the specified level(s), when carrying out out-of-sample
 #' @param ...  Extra arguments to be ignored
+#' @param f Deprecated. Please use `object` instead.
 #' @return Matrix giving forecast accuracy measures. \item{ME}{Mean Error}
 #' \item{RMSE}{Root Mean Square Error} \item{MAE}{Mean Absolute Error}
 #' \item{MAPE}{Mean Absolute Percentage Error} \item{MPE}{Mean Percentage
@@ -40,7 +41,7 @@
 #' 
 #' @export
 #' @export accuracy.gts
-accuracy.gts <- function(f, test, levels, ...) {
+accuracy.gts <- function(object, test, levels, ..., f = NULL) {
   # Compute in-sample or out-of-sample accuracy measures
   #
   # Args:
@@ -54,7 +55,11 @@ accuracy.gts <- function(f, test, levels, ...) {
   #   Accuracy measures
   #
   # Error Handling:
-  if (!is.gts(f)) {
+  if(!is.null(f)){
+    warning("Using `f` as the argument for `accuracy()` is deprecated. Please use `object` instead.")
+    object <- f
+  }
+  if (!is.gts(object)) {
     stop("Argument f must be a grouped time series.", call. = FALSE)
   }
   if (!missing(test) && !is.gts(test)) {
@@ -63,24 +68,24 @@ accuracy.gts <- function(f, test, levels, ...) {
 
   if (missing(test))
   {
-    if(is.null(f$fitted))
+    if(is.null(object$fitted))
       stop("No fitted values available for historical times, and no actual values available for future times", call. = FALSE)
 
-    x <- unclass(f$histy)  # Unclass mts to matrix
-    res <- x - unclass(f$fitted)  # f$residuals may contain errors
-    levels <- ifelse(is.hts(f), length(f$nodes),
-                     nrow(f$groups) - 1L)
+    x <- unclass(object$histy)  # Unclass mts to matrix
+    res <- x - unclass(object$fitted)  # f$residuals may contain errors
+    levels <- ifelse(is.hts(object), length(object$nodes),
+                     nrow(object$groups) - 1L)
   }
   else {
-    fcasts <- unclass(aggts(f, levels, forecasts = TRUE))
+    fcasts <- unclass(aggts(object, levels, forecasts = TRUE))
     x <- unclass(aggts(test, levels))
     res <- x - fcasts
   }
 
-  if(is.null(f$histy))
+  if(is.null(object$histy))
     histy <- NULL
   else
-    histy <- aggts(f, levels, forecasts = FALSE)
+    histy <- aggts(object, levels, forecasts = FALSE)
   if (!is.null(histy)) {
     scale <- colMeans(abs(diff(histy, lag = max(1, stats::frequency(histy)))),
                       na.rm = TRUE)

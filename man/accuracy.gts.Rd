@@ -5,10 +5,10 @@
 \title{In-sample or out-of-sample accuracy measures for forecast grouped and
 hierarchical model}
 \usage{
-\method{accuracy}{gts}(f, test, levels, ...)
+\method{accuracy}{gts}(object, test, levels, ..., f = NULL)
 }
 \arguments{
-\item{f}{An object of class \code{gts}, containing the forecasted
+\item{object}{An object of class \code{gts}, containing the forecasted
 hierarchical or grouped time series. In-sample accuracy at the bottom level
 returns when \code{test} is missing.}
 
@@ -18,6 +18,8 @@ hierarchical time series}
 \item{levels}{Return the specified level(s), when carrying out out-of-sample}
 
 \item{...}{Extra arguments to be ignored}
+
+\item{f}{Deprecated. Please use \code{object} instead.}
 }
 \value{
 Matrix giving forecast accuracy measures. \item{ME}{Mean Error}
