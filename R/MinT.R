@@ -93,7 +93,8 @@ shrink.estim <- function(x, tar)
 #' @examples
 #' 
 #' # hts example
-#' \dontrun{h <- 12 
+#' \dontrun{
+#' h <- 12 
 #' ally <- aggts(htseg1)
 #' n <- nrow(ally)
 #' p <- ncol(ally)
@@ -113,7 +114,8 @@ shrink.estim <- function(x, tar)
 #'   keep = "all", algorithms = "cg")
 #' }
 #' 
-#' \dontrun{h <- 12
+#' \dontrun{
+#' h <- 12
 #' ally <- abs(aggts(htseg2))
 #' allf <- matrix(NA, nrow = h, ncol = ncol(ally))
 #' res <- matrix(NA, nrow = nrow(ally), ncol = ncol(ally))
@@ -122,13 +124,15 @@ shrink.estim <- function(x, tar)
 #'   allf[,i] <- forecast(fit, h = h)$mean
 #'   res[,i] <- na.omit(ally[, i] - fitted(fit))
 #' }
-#' b.f <- MinT(allf, get_nodes(htseg2), residual = res, covariance = "shr", keep = "bottom", algorithms = "lu")
-#' b.nnf <-  MinT(allf, get_nodes(htseg2), residual = res, covariance = "shr", keep = "bottom", algorithms = "lu", 
-#'                nonnegative = TRUE, parallel = TRUE)
+#' b.f <- MinT(allf, get_nodes(htseg2), residual = res, covariance = "shr",
+#'   keep = "bottom", algorithms = "lu")
+#' b.nnf <-  MinT(allf, get_nodes(htseg2), residual = res, covariance = "shr",
+#'   keep = "bottom", algorithms = "lu", nonnegative = TRUE, parallel = TRUE)
 #' }
 #'   
 #' # gts example
-#' \dontrun{abc <- ts(5 + matrix(sort(rnorm(200)), ncol = 4, nrow = 50))
+#' \dontrun{
+#' abc <- ts(5 + matrix(sort(rnorm(200)), ncol = 4, nrow = 50))
 #' g <- rbind(c(1,1,2,2), c(1,2,1,2))
 #' y <- gts(abc, groups = g)
 #' h <- 12
@@ -146,8 +150,8 @@ shrink.estim <- function(x, tar)
 #' allf <- ts(allf, start = 51)
 #' y.f <- MinT(allf, groups = get_groups(y), residual = res, covariance = "shr", 
 #'   keep = "gts", algorithms = "lu")
-#' plot(y.f)}
-#' 
+#' plot(y.f)
+#' }
 #' @export MinT
 MinT <- function (fcasts, nodes = NULL, groups = NULL, residual, covariance = c("shr", "sam"),
                   nonnegative = FALSE, algorithms = c("lu", "cg", "chol"), 

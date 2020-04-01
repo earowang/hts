@@ -50,25 +50,32 @@
 #' @examples
 #' 
 #' # hts example
-#' \dontrun{h <- 12
+#' \dontrun{
+#' h <- 12
 #' ally <- aggts(htseg1)
 #' allf <- matrix(NA, nrow = h, ncol = ncol(ally))
 #' for(i in 1:ncol(ally))
 #' 	allf[,i] <- forecast(auto.arima(ally[,i]), h = h)$mean
 #' allf <- ts(allf, start = 51)
 #' y.f <- combinef(allf, get_nodes(htseg1), weights = NULL, keep = "gts", algorithms = "lu")
-#' plot(y.f)}
+#' plot(y.f)
+#' }
 #' 
-#' \dontrun{h <- 12
+#' \dontrun{
+#' h <- 12
 #' ally <- abs(aggts(htseg2))
 #' allf <- matrix(NA, nrow = h, ncol = ncol(ally))
 #' for(i in 1:ncol(ally))
 #'   allf[,i] <- forecast(auto.arima(ally[,i], lambda = 0, biasadj = TRUE), h = h)$mean
-#' b.f <- combinef(allf, get_nodes(htseg2), weights = NULL, keep = "bottom", algorithms = "lu")
-#' b.nnf <- combinef(allf, get_nodes(htseg2), weights = NULL, keep = "bottom", algorithms = "lu", nonnegative = TRUE)}
+#' b.f <- combinef(allf, get_nodes(htseg2), weights = NULL, keep = "bottom",
+#' algorithms = "lu")
+#' b.nnf <- combinef(allf, get_nodes(htseg2), weights = NULL, keep = "bottom",
+#' algorithms = "lu", nonnegative = TRUE)
+#' }
 #' 
 #' # gts example
-#' \dontrun{abc <- ts(5 + matrix(sort(rnorm(200)), ncol = 4, nrow = 50))
+#' \dontrun{
+#' abc <- ts(5 + matrix(sort(rnorm(200)), ncol = 4, nrow = 50))
 #' g <- rbind(c(1,1,2,2), c(1,2,1,2))
 #' y <- gts(abc, groups = g)
 #' h <- 12
@@ -78,8 +85,8 @@
 #'   allf[,i] <- forecast(auto.arima(ally[,i]),h = h)$mean
 #' allf <- ts(allf, start = 51)
 #' y.f <- combinef(allf, groups = get_groups(y), keep ="gts", algorithms = "lu")
-#' plot(y.f)}
-#' 
+#' plot(y.f)
+#' }
 #' @export combinef
 combinef <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, nonnegative = FALSE, 
                      algorithms = c("lu", "cg", "chol", "recursive", "slm"),
