@@ -4,7 +4,9 @@
 \name{infantgts}
 \alias{infantgts}
 \title{Regional infant mortality counts across Australia from 1933 to 2003.}
-\format{Objects of class \code{\link[hts]{gts}}.}
+\format{
+Objects of class \code{\link[hts]{gts}}.
+}
 \description{
 These are infant mortality counts. This data set is an example of
 \code{gts}, where the total infant mortality count in Australia can be first

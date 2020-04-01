@@ -12,10 +12,12 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.path = "man/figures/"
 
 # hts <img src="man/figures/logo.png" align="right" /> 
 
-[![Travis-CI Build Status](https://travis-ci.org/earowang/hts.svg?branch=master)](https://travis-ci.org/earowang/hts)
-[![codecov](https://codecov.io/gh/earowang/hts/branch/master/graph/badge.svg)](https://codecov.io/gh/earowang/hts)
+[![R build status](https://github.com/earowang/hts/workflows/R-CMD-check/badge.svg)](https://github.com/earowang/hts/actions?workflow=R-CMD-check)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/hts)](https://cran.r-project.org/package=hts)
 [![Downloads](http://cranlogs.r-pkg.org/badges/hts)](https://cran.r-project.org/package=hts)
+[![Lifecycle: retired](https://img.shields.io/badge/lifecycle-retired-orange.svg)](https://www.tidyverse.org/lifecycle/#retired)
+
+**hts** is retired, with minimum maintenance to keep it on CRAN. We recommend using the [fable](http://fable.tidyverts.org) package instead.
 
 The R package *hts* presents functions to create, plot and forecast hierarchical and grouped time series. 
 

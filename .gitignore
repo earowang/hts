@@ -13,3 +13,5 @@ hts.Rproj
 *.fdb_latexmk
 hts.tex
 inst/doc
+docs
+pkgdown/

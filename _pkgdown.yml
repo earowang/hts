@@ -2,6 +2,9 @@ template:
   params:
     bootswatch: united
 
+development:
+  mode: auto
+
 authors:
   Rob Hyndman:
     href: http://robjhyndman.com
