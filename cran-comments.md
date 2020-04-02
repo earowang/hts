@@ -1,11 +1,11 @@
 ## Comments
 
-This is a re-submission to elaborate the methods in the DESCRIPTION. I've pointed out the available reconciliation methods for hierarchical and grouped time series with their references. Thanks.
+This submission fixes the compatibility error with the forecast package on CRAN.
 
 ## Test environments
-* local OS X install, R 3.4.4
-* ubuntu 16.04 (on travis-ci), R 3.4.4
-* win-builder (devel)
+
+* local OS X install, R 3.6.1
+* ubuntu, windows, macOS (on github actions), R 3.6.1
 
 ## R CMD check results
 
