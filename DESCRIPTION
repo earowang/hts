@@ -1,6 +1,6 @@
 Package: hts
 Title: Hierarchical and Grouped Time Series
-Version: 6.0.0
+Version: 6.0.0.9000
 Authors@R: c(
     person("Rob", "Hyndman", role = "aut", comment = "Package creator"), 
     person("Alan", "Lee", role = "aut", comment = "Fast computation using recursive methods"),
