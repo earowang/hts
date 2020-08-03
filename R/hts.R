@@ -74,7 +74,7 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
   }
   nbts <- ncol(y)
 
-  if (nbts <= 1L) {
+  if (is.null(nbts) || nbts <= 1L) {
     stop("Argument y must be a multivariate time series.", call. = FALSE)
   }
   if (missing(characters)) { # Arg "characters" not specified
