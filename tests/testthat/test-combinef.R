@@ -22,7 +22,7 @@ test_that("tests for hts", {
   out2 <- combinef(allf, nodes = node.list, keep = "gts", algorithms = "lu")
 
   expect_that(dim(out1), equals(c(5, 10)))
-  expect_that(is.hts(out2), is_true())
+  expect_true(is.hts(out2))
 })
 
 test_that("tests for gts", {
