@@ -10,3 +10,5 @@
 ^.github$
 ^pkgdown$
 ^CRAN-RELEASE$
+^codecov\.yml$
+^\.github$
