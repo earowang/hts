@@ -86,7 +86,7 @@ discussed in Hyndman and Koehler (2006)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">hts</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">5.1.5.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">6.0.0.9000</span>
       </span>
     </div>
 
@@ -137,13 +137,13 @@ discussed in Hyndman and Koehler (2006).</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for gts</span>
-<span class='fu'>accuracy</span>(<span class='no'>f</span>, <span class='no'>test</span>, <span class='no'>levels</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>accuracy</span>(<span class='no'>object</span>, <span class='no'>test</span>, <span class='no'>levels</span>, <span class='no'>...</span>, <span class='kw'>f</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>f</th>
+      <th>object</th>
       <td><p>An object of class <code>gts</code>, containing the forecasted
 hierarchical or grouped time series. In-sample accuracy at the bottom level
 returns when <code>test</code> is missing.</p></td>
@@ -160,6 +160,10 @@ hierarchical time series</p></td>
     <tr>
       <th>...</th>
       <td><p>Extra arguments to be ignored</p></td>
+    </tr>
+    <tr>
+      <th>f</th>
+      <td><p>Deprecated. Please use <code>object</code> instead.</p></td>
     </tr>
     </table>
 
@@ -234,7 +238,7 @@ forecast accuracy, <em>International Journal of Forecasting</em>, <b>22</b>,
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

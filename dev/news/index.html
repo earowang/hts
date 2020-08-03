@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">hts</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">5.1.5.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">6.0.0.9000</span>
       </span>
     </div>
 
@@ -121,10 +121,12 @@
 
     <div id="hts-600" class="section level1">
 <h1 class="page-header" data-toc-text="6.0.0">
-<a href="#hts-600" class="anchor"></a>hts 6.0.0<small> Unreleased </small>
+<a href="#hts-600" class="anchor"></a>hts 6.0.0<small> 2020-04-03 </small>
 </h1>
 <ul>
 <li>Added the support for non-negative forecast reconciliation. (<a href='https://github.com/ShanikaLW'>@ShanikaLW</a>)</li>
+<li>Officially retired in favour of <code>fable</code>.</li>
+<li>Depended on <code>forecast (&gt;= v8.12)</code> due to the change in <code>accuracy()</code> signature.</li>
 <li>Fixed bug in <code>forecast(weights = "wls")</code> for removing the squared root, as it’s been done in following functions.</li>
 </ul>
 </div>
@@ -321,7 +323,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
