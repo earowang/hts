@@ -1,11 +1,11 @@
 ## Comments
 
-This submission fixes the compatibility error with the forecast package on CRAN.
+This is a minor release.
 
 ## Test environments
 
-* local OS X install, R 3.6.1
-* ubuntu, windows, macOS (on github actions), R 3.6.1
+* local OS X install, R 4.0.4
+* ubuntu, windows, macOS (on github actions), R 4.0.4
 
 ## R CMD check results
 
