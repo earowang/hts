@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">hts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">6.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">6.0.1</span>
       </span>
     </div>
 
@@ -119,6 +119,14 @@
       <small>Source: <a href='https://github.com/earowang/hts/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="hts-601" class="section level1">
+<h1 class="page-header" data-toc-text="6.0.1">
+<a href="#hts-601" class="anchor"></a>hts 6.0.1<small> Unreleased </small>
+</h1>
+<ul>
+<li>Fixed bug in <code>forecast(nonnegative = TRUE)</code> for erroring “object not found”. (<a href='https://github.com/earowang/hts/issues/58'>#58</a>, <a href='https://github.com/apantovic'>@apantovic</a>)</li>
+</ul>
+</div>
     <div id="hts-600" class="section level1">
 <h1 class="page-header" data-toc-text="6.0.0">
 <a href="#hts-600" class="anchor"></a>hts 6.0.0<small> 2020-04-03 </small>
@@ -127,7 +135,7 @@
 <li>Added the support for non-negative forecast reconciliation. (<a href='https://github.com/ShanikaLW'>@ShanikaLW</a>)</li>
 <li>Officially retired in favour of <code>fable</code>.</li>
 <li>Depended on <code>forecast (&gt;= v8.12)</code> due to the change in <code>accuracy()</code> signature.</li>
-<li>Fixed bug in <code>forecast(weights = "wls")</code> for removing the squared root, as itâs been done in following functions.</li>
+<li>Fixed bug in <code>forecast(weights = "wls")</code> for removing the squared root, as it’s been done in following functions.</li>
 </ul>
 </div>
     <div id="hts-515" class="section level1">
@@ -146,7 +154,7 @@
 <a href="#hts-514" class="anchor"></a>hts 5.1.4<small> 2017-06-21 </small>
 </h1>
 <ul>
-<li>The <code>hts</code> and <code>gts</code> donât actually fit into <code>mts</code>, <code>ts</code> and <code>matrix</code> classes, and hence <code>mts</code>, <code>ts</code> and <code>matrix</code> classes are dropped.</li>
+<li>The <code>hts</code> and <code>gts</code> don’t actually fit into <code>mts</code>, <code>ts</code> and <code>matrix</code> classes, and hence <code>mts</code>, <code>ts</code> and <code>matrix</code> classes are dropped.</li>
 <li>Added helper functions <code>get_nodes</code> for <code>hts</code> and <code>get_groups</code> for <code>gts</code>.</li>
 <li>Fixed <code>forecast(method = "tdfp", h = 1)</code> issue (<a href="https://github.com/earowang/hts/issues/32"><a href='https://github.com/earowang/hts/issues/32'>#32</a></a>).</li>
 <li>Fixed <code>forecast(FUN = hybridModel)</code> when <code>newxreg</code> is present (<a href="https://github.com/earowang/hts/issues/28"><a href='https://github.com/earowang/hts/issues/28'>#28</a></a>).</li>
@@ -159,7 +167,7 @@
 <ul>
 <li>Earo Wang took over maintenance of the package from Rob J Hyndman.</li>
 <li>Replaced <code>ChangeLog</code> with a <code>NEWS.md</code> file to track changes to the package.</li>
-<li>Used <code>roxygen2</code> to generate and manage reference. Thanks to Yihuiâs <code>Rd2roxygen</code> package for hassle-free conversion.</li>
+<li>Used <code>roxygen2</code> to generate and manage reference. Thanks to Yihui’s <code>Rd2roxygen</code> package for hassle-free conversion.</li>
 <li>Enabled <code>pkgdown</code> support.</li>
 <li>Allowed more control of colour in <code>plot.gts</code> (Thanks to <a href='https://github.com/ellisp'>@ellisp</a> for the pull request <a href='https://github.com/earowang/hts/issues/25'>#25</a>).</li>
 <li>Exported the <code>is.hts</code> and <code>is.gts</code> functions (as per <a href="https://github.com/earowang/hts/issues/29"><a href='https://github.com/earowang/hts/issues/29'>#29</a></a>).</li>
@@ -188,7 +196,7 @@
 <li>Speeded up Smatrix().</li>
 <li>Make SparseM package as dependency.</li>
 <li>Better handle missing values.</li>
-<li>Speeded up combinef() for Alanâs algorithm.</li>
+<li>Speeded up combinef() for Alan’s algorithm.</li>
 <li>Added 3 new algorithms to the optimally reconciled approach.</li>
 <li>Fixed bug in forecast.gts() when using external regressors with parallel.</li>
 <li>Fixed time attributes of fitted and residual series.</li>
@@ -199,9 +207,9 @@
 <a href="#hts-44" class="anchor"></a>hts 4.4<small> 2014-07-23 </small>
 </h1>
 <ul>
-<li>Allowed multiple seasonal objects âmstsâ in hts() and gts().</li>
+<li>Allowed multiple seasonal objects “msts” in hts() and gts().</li>
 <li>Fixed bug of MASE in accuracy.gts().</li>
-<li>Allowed userâs defined forecasting function in forecast.gts().</li>
+<li>Allowed user’s defined forecasting function in forecast.gts().</li>
 </ul>
 </div>
     <div id="hts-43" class="section level1">
@@ -209,12 +217,12 @@
 <a href="#hts-43" class="anchor"></a>hts 4.3<small> 2014-06-10 </small>
 </h1>
 <ul>
-<li>Fixed bug of the arg âincludeâ in plot.gts, when there are not yearly data.</li>
+<li>Fixed bug of the arg “include” in plot.gts, when there are not yearly data.</li>
 <li>Fixed bug in combinef(), when it handles a simple hierarchy with 2 levels.</li>
-<li>Improved arg âcharactersâ in hts() to automate the node structure.</li>
-<li>Added a new arg âcharactersâ in gts(), which will automate the grouping matrix.</li>
+<li>Improved arg “characters” in hts() to automate the node structure.</li>
+<li>Added a new arg “characters” in gts(), which will automate the grouping matrix.</li>
 <li>Added a new reference to combinef() man.</li>
-<li>Made âsdâ the default weight in forecast.gts().</li>
+<li>Made ‘sd’ the default weight in forecast.gts().</li>
 </ul>
 </div>
     <div id="hts-42" class="section level1">
@@ -249,11 +257,11 @@
 <li>Renamed Smatrix to smatrix.</li>
 <li>Added summary.gts function.</li>
 <li>Added more arguments to forecast.gts such as keep.fitted, keep.resid, lambda, weights.</li>
-<li>When setting method = âmoâ in forecasts.gts, argument level started with 0 rather than 1.</li>
+<li>When setting method = “mo” in forecasts.gts, argument level started with 0 rather than 1.</li>
 <li>Import parallel package in order to support for parallel processing.</li>
 <li>Added more criterions to accuracy.gts function. When keep.fitted = TRUE in forecast.gts function, accuracy.gts can also return in-sample error measures at the bottom level.</li>
 <li>Dropped argument criterions in accuracy.gts function.</li>
-<li>Added argument weights to combinef function. When itâs a hts object, argument nodes is used instead of the summing matrix.</li>
+<li>Added argument weights to combinef function. When it’s a hts object, argument nodes is used instead of the summing matrix.</li>
 <li>combinef function returns either a gts object or time series at the bottom level. Dropped arguments return and hierarchical.</li>
 <li>Argument levels in plot.gts function allows more flexibilities.</li>
 </ul>
@@ -323,7 +331,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.0.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
