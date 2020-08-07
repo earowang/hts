@@ -108,11 +108,11 @@ plot(y.f)
 \references{
 Hyndman, R. J., Ahmed, R. A., Athanasopoulos, G., & Shang, H. L.
 (2011). Optimal combination forecasts for hierarchical time series.
-\emph{Computational Statistics and Data Analysis}, \bold{55}(9), 2579--2589. \url{http://robjhyndman.com/papers/hierarchical/}
+\emph{Computational Statistics and Data Analysis}, \bold{55}(9), 2579--2589. \url{https://robjhyndman.com/publications/hierarchical/}
 
 Hyndman, R. J., Lee, A., & Wang, E. (2016). Fast computation of reconciled
 forecasts for hierarchical and grouped time series. \emph{Computational Statistics and Data Analysis},
-\bold{97}, 16--32. \url{http://robjhyndman.com/working-papers/hgts/}
+\bold{97}, 16--32. \url{https://robjhyndman.com/publications/hgts/}
 
 Wickramasuriya, S. L., Turlach, B. A., & Hyndman, R. J. (to appear). Optimal non-negative forecast reconciliation.
 \emph{Statistics and Computing}. \url{https://robjhyndman.com/publications/nnmint/}

@@ -156,16 +156,16 @@ Journal of Forecasting}, \bold{25}, 146-166.
 Hyndman, R. J., Ahmed, R. A., Athanasopoulos, G., & Shang, H. L. (2011). Optimal
 combination forecasts for hierarchical time series. \emph{Computational
 Statistics and Data Analysis}, \bold{55}(9), 2579--2589.
-\url{http://robjhyndman.com/papers/hierarchical/}
+\url{https://robjhyndman.com/publications/hierarchical/}
 
 Hyndman, R. J., Lee, A., & Wang, E. (2016). Fast computation of reconciled
 forecasts for hierarchical and grouped time series. \emph{Computational
 Statistics and Data Analysis}, \bold{97}, 16--32.
-\url{http://robjhyndman.com/papers/hgts/}
+\url{https://robjhyndman.com/publications/hgts/}
 
 Wickramasuriya, S. L., Athanasopoulos, G., & Hyndman, R. J. (2019).
 Optimal forecast reconciliation for hierarchical and grouped time series through trace minimization.
-\emph{Journal of the American Statistical Association}, \bold{114}(526), 804--819. \url{http://robjhyndman.com/working-papers/mint/}
+\emph{Journal of the American Statistical Association}, \bold{114}(526), 804--819. \url{https://robjhyndman.com/publications/mint/}
 
 Wickramasuriya, S. L., Turlach, B. A., & Hyndman, R. J. (to appear). Optimal non-negative forecast reconciliation.
 \emph{Statistics and Computing}. \url{https://robjhyndman.com/publications/nnmint/}

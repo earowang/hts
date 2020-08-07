@@ -36,10 +36,10 @@ LinkingTo:
 LazyLoad: yes
 LazyData: yes
 ByteCompile: TRUE
-URL: http://pkg.earo.me/hts
+URL: https://pkg.earo.me/hts
 BugReports: https://github.com/earowang/hts/issues
 License: GPL (>= 2)
 VignetteBuilder: knitr
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE, roclets=c('rd', 'collate', 'namespace'))
 Encoding: UTF-8

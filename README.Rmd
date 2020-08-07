@@ -30,7 +30,7 @@ install.packages('hts', dependencies = TRUE)
 ```
 
 You can also install the **development** version from
-[Github](https://github.com/robjhyndman/gts)
+[Github](https://github.com/earowang/hts)
 
 ```r
 # install.packages("devtools")
