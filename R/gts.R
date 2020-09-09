@@ -1,7 +1,7 @@
 #' Create a grouped time series
-#' 
+#'
 #' Method for creating grouped time series.
-#' 
+#'
 #' @rdname gts-class
 #' @aliases gts print.gts summary.gts
 #' @param y A matrix or multivariate time series contains the bottom level
@@ -50,7 +50,7 @@
 #' \url{https://robjhyndman.com/publications/hierarchical/}
 #' @keywords ts
 #' @examples
-#' 
+#'
 #' # Example 1 illustrating the usage of the "groups" argument
 #' abc <- ts(5 + matrix(sort(rnorm(1600)), ncol = 16, nrow = 100))
 #' sex <- rep(c("female", "male"), each = 8)
@@ -60,23 +60,23 @@
 #' rownames(gc) <- rownames(gn) <- c("Sex", "State")
 #' x <- gts(abc, groups = gc)
 #' y <- gts(abc, groups = gn)
-#' 
+#'
 #' # Example 2 with two simple hierarchies (geography and product) to show the argument "characters"
-#' bnames1 <- c("VICMelbAA", "VICMelbAB", "VICGeelAA", "VICGeelAB",  
+#' bnames1 <- c("VICMelbAA", "VICMelbAB", "VICGeelAA", "VICGeelAB",
 #'              "VICMelbBA", "VICMelbBB", "VICGeelBA", "VICGeelBB",
-#'              "NSWSyndAA", "NSWSyndAB", "NSWWollAA", "NSWWollAB", 
+#'              "NSWSyndAA", "NSWSyndAB", "NSWWollAA", "NSWWollAB",
 #'              "NSWSyndBA", "NSWSyndBB", "NSWWollBA", "NSWWollBB")
 #' bts1 <- matrix(ts(rnorm(160)), ncol = 16)
 #' colnames(bts1) <- bnames1
 #' x1 <- gts(bts1, characters = list(c(3, 4), c(1, 1)))
-#' 
+#'
 #' # Example 3 with a non-hierarchical grouped time series of 3 grouping variables (state, age and sex)
 #' bnames2 <- c("VIC1F", "VIC1M", "VIC2F", "VIC2M", "VIC3F", "VIC3M",
 #'              "NSW1F", "NSW1M", "NSW2F", "NSW2M", "NSW3F", "NSW3M")
 #' bts2 <- matrix(ts(rnorm(120)), ncol = 12)
 #' colnames(bts2) <- bnames2
 #' x2 <- gts(bts2, characters = c(3, 1, 1))
-#' 
+#'
 #' @export
 gts <- function(y, groups, gnames = rownames(groups), characters) {
   # Construct the grouped time series.
@@ -306,7 +306,7 @@ print.gts <- function(x, ...) {
     cat("Number of forecasts per series:", nrow(x$bts), "\n")
     cat("Top level series of forecasts: \n")
   }
-  topts <- ts(rowSums(x$bts, na.rm = TRUE), start = stats::tsp(x$bts)[1L],
+  topts <- ts(rowSums(x$bts), start = stats::tsp(x$bts)[1L],
               frequency = stats::tsp(x$bts)[3L])
   print(topts)
 }
@@ -330,7 +330,7 @@ summary.gts <- function(object, ...) {
     tdgsa = "Top-down forecasts based on the average historical proportions",
     tdgsf = "Top-down forecasts based on the proportion of historical averages",
     tdfp = "Top-down forecasts using forecasts proportions")
-    fmethod <- switch(object$fmethod, ets = "ETS", arima = "Arima", 
+    fmethod <- switch(object$fmethod, ets = "ETS", arima = "Arima",
                       rw = "Random walk")
     cat("\n")
     cat(paste("Method:", method), "\n")

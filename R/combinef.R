@@ -1,11 +1,11 @@
 #' Optimally combine forecasts from a hierarchical or grouped time series
-#' 
+#'
 #' Using the methods of Hyndman et al. (2016) and Hyndman et al. (2011), this function optimally combines
 #' the forecasts at all levels of a hierarchical time series. The
 #' \code{\link{forecast.gts}} calls this function when the \code{comb} method
 #' is selected.
-#' 
-#' 
+#'
+#'
 #' @param fcasts Matrix of forecasts for all levels of the hierarchical time
 #' series. Each row represents one forecast horizon and each column represents
 #' one time series from the hierarchy.
@@ -22,16 +22,16 @@
 #' the bottom level.
 #' @param parallel Logical. Import parallel package to allow parallel processing.
 #' @param num.cores Numeric. Specify how many cores are going to be used.
-#' @param control.nn A list of control parameters to be passed on to the 
+#' @param control.nn A list of control parameters to be passed on to the
 #' block principal pivoting algorithm. See 'Details'.
 #' @return Return the (non-negative) reconciled \code{gts} object or forecasts at the bottom
 #' level.
-#' 
-#' @details 
-#' The \code{control.nn} argument is a list that can supply any of the following components: 
+#'
+#' @details
+#' The \code{control.nn} argument is a list that can supply any of the following components:
 #' \describe{
 #' \item{\code{ptype}}{Permutation method to be used: \code{"fixed"} or \code{"random"}. Defaults to \code{"fixed"}.}
-#' \item{\code{par}}{The number of full exchange rules that may be tried. Defaults to 10.} 
+#' \item{\code{par}}{The number of full exchange rules that may be tried. Defaults to 10.}
 #' \item{\code{gtol}}{The tolerance of the convergence criteria. Defaults to \code{sqrt(.Machine$double.eps)}.}
 #' }
 #' @author Alan Lee, Rob J Hyndman, Earo Wang and Shanika L Wickramasuriya
@@ -39,16 +39,16 @@
 #' @references Hyndman, R. J., Ahmed, R. A., Athanasopoulos, G., & Shang, H. L.
 #' (2011). Optimal combination forecasts for hierarchical time series.
 #' \emph{Computational Statistics and Data Analysis}, \bold{55}(9), 2579--2589. \url{https://robjhyndman.com/publications/hierarchical/}
-#' 
+#'
 #' Hyndman, R. J., Lee, A., & Wang, E. (2016). Fast computation of reconciled
 #' forecasts for hierarchical and grouped time series. \emph{Computational Statistics and Data Analysis},
 #' \bold{97}, 16--32. \url{https://robjhyndman.com/publications/hgts/}
-#' 
-#' Wickramasuriya, S. L., Turlach, B. A., & Hyndman, R. J. (to appear). Optimal non-negative forecast reconciliation. 
+#'
+#' Wickramasuriya, S. L., Turlach, B. A., & Hyndman, R. J. (to appear). Optimal non-negative forecast reconciliation.
 #' \emph{Statistics and Computing}. \url{https://robjhyndman.com/publications/nnmint/}
 #' @keywords ts
 #' @examples
-#' 
+#'
 #' # hts example
 #' \dontrun{
 #' h <- 12
@@ -60,7 +60,7 @@
 #' y.f <- combinef(allf, get_nodes(htseg1), weights = NULL, keep = "gts", algorithms = "lu")
 #' plot(y.f)
 #' }
-#' 
+#'
 #' \dontrun{
 #' h <- 12
 #' ally <- abs(aggts(htseg2))
@@ -72,7 +72,7 @@
 #' b.nnf <- combinef(allf, get_nodes(htseg2), weights = NULL, keep = "bottom",
 #' algorithms = "lu", nonnegative = TRUE)
 #' }
-#' 
+#'
 #' # gts example
 #' \dontrun{
 #' abc <- ts(5 + matrix(sort(rnorm(200)), ncol = 4, nrow = 50))
@@ -88,7 +88,7 @@
 #' plot(y.f)
 #' }
 #' @export combinef
-combinef <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, nonnegative = FALSE, 
+combinef <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, nonnegative = FALSE,
                      algorithms = c("lu", "cg", "chol", "recursive", "slm"),
                      keep = c("gts", "all", "bottom"), parallel = FALSE, num.cores = 2, control.nn = list()) {
   # Construct optimal combination forecasts
@@ -107,11 +107,11 @@ combinef <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, nonneg
   #
   # Return:
   #   Optimal (non-negative) reconciled forecasts
-  
+
   if (is.null(nodes) && is.null(groups)) {
     stop("Please specify the hierarchical or the grouping structure.", call. = FALSE)
   }
-  
+
   if (!xor(is.null(nodes), is.null(groups))) {
     stop("Please specify either nodes or groups argument, not both.", call. = FALSE)
   }
@@ -121,12 +121,12 @@ combinef <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, nonneg
   fcasts <- stats::as.ts(fcasts)
   tspx <- stats::tsp(fcasts)
   cnames <- colnames(fcasts)
-  
-  
+
+
   if (alg %in% c("recursive", "slm") && nonnegative) {
     stop("The non-negative algorithm doesn't support slm or recursive", call. = FALSE)
   }
-  
+
   if (!nonnegative) {
     if (is.null(groups)) { # hts class
       if (alg == "slm") {
@@ -170,18 +170,16 @@ combinef <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, nonneg
           }
         }
       }
-      
+
       if (keep == "all") {
         if (alg == "recursive") {
           gmat <- GmatrixH(nodes)
           levels <- 1L:nrow(gmat)
           # A function to aggregate the bts
           if (h == 1 && !is.null(weights)) {
-            rSum <- function(x) rowsum(as.matrix(bf), gmat[x, ], reorder = FALSE,
-                                       na.rm = TRUE)
+            rSum <- function(x) rowsum(as.matrix(bf), gmat[x, ], reorder = FALSE)
           } else {
-            rSum <- function(x) rowsum(t(bf), gmat[x, ], reorder = FALSE,
-                                       na.rm = TRUE)
+            rSum <- function(x) rowsum(t(bf), gmat[x, ], reorder = FALSE)
           }
           ally <- lapply(levels, rSum)
           # Convert lists to matrices
@@ -234,7 +232,7 @@ combinef <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, nonneg
           allf <- CG(fcasts = fcasts, S = smat, weights = weights, allow.changes = FALSE)
         }
       }
-      
+
       if (keep == "all") {
         out <- t(allf)
       } else {
@@ -254,7 +252,7 @@ combinef <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, nonneg
       fcasts[fcasts < 0] <- 0
       warning("Negative base forecasts are truncated to zero.")
     }
-    
+
     lst.fc <- split(fcasts, row(fcasts))
     if (parallel) {
       if (is.null(num.cores)) {

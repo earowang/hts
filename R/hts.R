@@ -1,8 +1,8 @@
 #' Create a hierarchical time series
-#' 
+#'
 #' Method for creating hierarchical time series.
-#' 
-#' 
+#'
+#'
 #' @rdname hts-class
 #' @param y A matrix or multivariate time series contain the bottom level
 #' series.
@@ -34,24 +34,24 @@
 #' \url{https://robjhyndman.com/publications/hierarchical/}
 #' @keywords ts
 #' @examples
-#' 
+#'
 #' # Example 1
 #' # The hierarchical structure looks like 2 child nodes associated with level 1,
 #' # which are followed by 3 and 2 sub-child nodes respectively at level 2.
 #' nodes <- list(2, c(3, 2))
 #' abc <- ts(5 + matrix(sort(rnorm(500)), ncol = 5, nrow = 100))
 #' x <- hts(abc, nodes)
-#' 
+#'
 #' # Example 2
 #' # Suppose we've got the bottom names that can be useful for constructing the node
-#' # structure and the labels at higher levels. We need to specify how to split them 
+#' # structure and the labels at higher levels. We need to specify how to split them
 #' # in the argument "characters".
 #' library(hts)
 #' abc <- ts(5 + matrix(sort(rnorm(1000)), ncol = 10, nrow = 100))
 #' colnames(abc) <- c("A10A", "A10B", "A10C", "A20A", "A20B",
 #'                    "B30A", "B30B", "B30C", "B40A", "B40B")
 #' y <- hts(abc, characters = c(1, 2, 1))
-#' 
+#'
 #' @export hts
 hts <- function(y, nodes, bnames = colnames(y), characters) {
   # Construct the hierarchical time series.
@@ -140,7 +140,7 @@ hts <- function(y, nodes, bnames = colnames(y), characters) {
 }
 
 #' Get nodes/groups from an hts/gts object
-#' 
+#'
 #' @rdname helper-functions
 #' @param y An hts or gts object
 #' series.
@@ -272,7 +272,7 @@ print.hts <- function(x, ...) {
     cat("Number of forecasts per series:", nrow(x$bts), "\n")
     cat("Top level series of forecasts: \n")
   }
-  topts <- ts(rowSums(x$bts, na.rm = TRUE), start = stats::tsp(x$bts)[1L],
+  topts <- ts(rowSums(x$bts), start = stats::tsp(x$bts)[1L],
               frequency = stats::tsp(x$bts)[3L])
   print(topts)
 }
