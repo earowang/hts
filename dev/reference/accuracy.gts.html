@@ -137,7 +137,7 @@ discussed in Hyndman and Koehler (2006).</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for gts</span>
-<span class='fu'>accuracy</span>(<span class='no'>object</span>, <span class='no'>test</span>, <span class='no'>levels</span>, <span class='no'>...</span>, <span class='kw'>f</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+<span class='fu'>accuracy</span>(<span class='kw'>object</span>, <span class='kw'>test</span>, <span class='kw'>levels</span>, <span class='kw'>...</span>, f = <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -187,15 +187,19 @@ forecast accuracy, <em>International Journal of Forecasting</em>, <b>22</b>,
 679-688.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='hts-class.html'>hts</a></code>, <code><a href='plot.gts.html'>plot.gts</a></code>,
+    <div class='dont-index'><p><code><a href='hts.html'>hts</a></code>, <code><a href='plot.gts.html'>plot.gts</a></code>,
 <code><a href='forecast.gts.html'>forecast.gts</a></code>, <code><a href='https://rdrr.io/pkg/forecast/man/accuracy.html'>accuracy</a></code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Rob J Hyndman and Earo Wang</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>data</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/window.html'>window</a></span>(<span class='no'>htseg2</span>, <span class='kw'>start</span> <span class='kw'>=</span> <span class='fl'>1992</span>, <span class='kw'>end</span> <span class='kw'>=</span> <span class='fl'>2002</span>)
-<span class='no'>test</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/window.html'>window</a></span>(<span class='no'>htseg2</span>, <span class='kw'>start</span> <span class='kw'>=</span> <span class='fl'>2003</span>)
-<span class='no'>fcasts</span> <span class='kw'>&lt;-</span> <span class='fu'>forecast</span>(<span class='no'>data</span>, <span class='kw'>h</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"bu"</span>)
-<span class='fu'>accuracy</span>(<span class='no'>fcasts</span>, <span class='no'>test</span>)</div><div class='output co'>#&gt;           Total          A         B         A10          A20       B30
+<span class='kw'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/window.html'>window</a></span>(<span class='kw'>htseg2</span>, start = <span class='fl'>1992</span>, end = <span class='fl'>2002</span>)
+<span class='kw'>test</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/window.html'>window</a></span>(<span class='kw'>htseg2</span>, start = <span class='fl'>2003</span>)
+<span class='kw'>fcasts</span> <span class='op'>&lt;-</span> <span class='fu'>forecast</span>(<span class='kw'>data</span>, h = <span class='fl'>5</span>, method = <span class='st'>"bu"</span>)
+<span class='fu'>accuracy</span>(<span class='kw'>fcasts</span>, <span class='kw'>test</span>)
+</div><div class='output co'>#&gt;           Total          A         B         A10          A20       B30
 #&gt; ME    0.5175864  0.1288857 0.3887008  0.06573302   0.06315266 0.1155213
 #&gt; RMSE  0.6067434  0.1501689 0.4582254  0.08267622   0.06873023 0.1246662
 #&gt; MAE   0.5175864  0.1288857 0.3887008  0.06984219   0.06315266 0.1155213
@@ -215,7 +219,8 @@ forecast accuracy, <em>International Journal of Forecasting</em>, <b>22</b>,
 #&gt; MAE   0.03933843 0.03369417 0.04248867 0.03895166  0.2409048
 #&gt; MAPE 13.24251118 7.37361308 6.59428670 2.91406938 10.7931448
 #&gt; MPE  13.24251118 7.37361308 6.59428670 2.43285014 10.7931448
-#&gt; MASE  1.61097593 3.74724838 3.49213005 0.75045087  5.8492447</div><div class='input'><span class='fu'>accuracy</span>(<span class='no'>fcasts</span>, <span class='no'>test</span>, <span class='kw'>levels</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt;               A         B
+#&gt; MASE  1.61097593 3.74724838 3.49213005 0.75045087  5.8492447</div><div class='input'><span class='fu'>accuracy</span>(<span class='kw'>fcasts</span>, <span class='kw'>test</span>, levels = <span class='fl'>1</span>)
+</div><div class='output co'>#&gt;               A         B
 #&gt; ME    0.1288857 0.3887008
 #&gt; RMSE  0.1501689 0.4582254
 #&gt; MAE   0.1288857 0.3887008
@@ -238,7 +243,7 @@ forecast accuracy, <em>International Journal of Forecasting</em>, <b>22</b>,
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

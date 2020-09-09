@@ -132,17 +132,17 @@ is selected.</p>
     </div>
 
     <pre class="usage"><span class='fu'>MinT</span>(
-  <span class='no'>fcasts</span>,
-  <span class='kw'>nodes</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='no'>residual</span>,
-  <span class='kw'>covariance</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"shr"</span>, <span class='st'>"sam"</span>),
-  <span class='kw'>nonnegative</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>algorithms</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"lu"</span>, <span class='st'>"cg"</span>, <span class='st'>"chol"</span>),
-  <span class='kw'>keep</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"gts"</span>, <span class='st'>"all"</span>, <span class='st'>"bottom"</span>),
-  <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>num.cores</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>control.nn</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
+  <span class='kw'>fcasts</span>,
+  nodes = <span class='kw'>NULL</span>,
+  groups = <span class='kw'>NULL</span>,
+  <span class='kw'>residual</span>,
+  covariance = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"shr"</span>, <span class='st'>"sam"</span>),
+  nonnegative = <span class='fl'>FALSE</span>,
+  algorithms = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"lu"</span>, <span class='st'>"cg"</span>, <span class='st'>"chol"</span>),
+  keep = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"gts"</span>, <span class='st'>"all"</span>, <span class='st'>"bottom"</span>),
+  parallel = <span class='fl'>FALSE</span>,
+  num.cores = <span class='fl'>2</span>,
+  control.nn = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -210,7 +210,7 @@ block principal pivoting algorithm. See 'Details'.</p></td>
 level.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The <code>control.nn</code> argument is a list that can supply any of the following components:</p><dl'>
+    <p>The <code>control.nn</code> argument is a list that can supply any of the following components:</p><dl>
 <dt><code>ptype</code></dt><dd><p>Permutation method to be used: <code>"fixed"</code> or <code>"random"</code>. Defaults to <code>"fixed"</code>.</p></dd>
 <dt><code>par</code></dt><dd><p>The number of full exchange rules that may be tried. Defaults to 10.</p></dd>
 <dt><code>gtol</code></dt><dd><p>The tolerance of the convergence criteria. Defaults to <code><a href='https://rdrr.io/r/base/MathFun.html'>sqrt(.Machine$double.eps)</a></code>.</p></dd>
@@ -230,71 +230,75 @@ Statistics and Data Analysis</em>, <b>97</b>, 16--32.
 <a href='https://robjhyndman.com/publications/hgts/'>https://robjhyndman.com/publications/hgts/</a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='hts-class.html'>hts</a></code>, <code><a href='gts-class.html'>gts</a></code>,
+    <div class='dont-index'><p><code><a href='hts.html'>hts</a></code>, <code><a href='gts.html'>gts</a></code>,
 <code><a href='forecast.gts.html'>forecast.gts</a></code>, <code><a href='combinef.html'>combinef</a></code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Shanika L Wickramasuriya</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'># hts example</span>
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fl'>12</span>
-<span class='no'>ally</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='aggts.html'>aggts</a></span>(<span class='no'>htseg1</span>)
-<span class='no'>n</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>ally</span>)
-<span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span>(<span class='no'>ally</span>)
-<span class='no'>allf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fl'>NA</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='no'>h</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='no'>p</span>)
-<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fl'>NA</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='no'>n</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='no'>p</span>)
-<span class='kw'>for</span>(<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='no'>p</span>)
+<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='kw'>h</span> <span class='op'>&lt;-</span> <span class='fl'>12</span> 
+<span class='kw'>ally</span> <span class='op'>&lt;-</span> <span class='fu'><a href='aggts.html'>aggts</a></span>(<span class='kw'>htseg1</span>)
+<span class='kw'>n</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='kw'>ally</span>)
+<span class='kw'>p</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span>(<span class='kw'>ally</span>)
+<span class='kw'>allf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fl'>NA</span>, nrow = <span class='kw'>h</span>, ncol = <span class='kw'>p</span>)
+<span class='kw'>res</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fl'>NA</span>, nrow = <span class='kw'>n</span>, ncol = <span class='kw'>p</span>)
+<span class='co'>for</span>(<span class='kw'>i</span> <span class='co'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='kw'>p</span>)
 {
-  <span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'>auto.arima</span>(<span class='no'>ally</span>[, <span class='no'>i</span>])
-  <span class='no'>allf</span>[, <span class='no'>i</span>] <span class='kw'>&lt;-</span> <span class='fu'>forecast</span>(<span class='no'>fit</span>, <span class='kw'>h</span> <span class='kw'>=</span> <span class='no'>h</span>)$<span class='no'>mean</span>
-  <span class='no'>res</span>[, <span class='no'>i</span>] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/na.fail.html'>na.omit</a></span>(<span class='no'>ally</span>[, <span class='no'>i</span>] - <span class='fu'><a href='https://rdrr.io/r/stats/fitted.values.html'>fitted</a></span>(<span class='no'>fit</span>))
+  <span class='kw'>fit</span> <span class='op'>&lt;-</span> <span class='fu'>auto.arima</span>(<span class='kw'>ally</span>[, <span class='kw'>i</span>])
+  <span class='kw'>allf</span>[, <span class='kw'>i</span>] <span class='op'>&lt;-</span> <span class='fu'>forecast</span>(<span class='kw'>fit</span>, h = <span class='kw'>h</span>)<span class='op'>$</span><span class='kw'>mean</span>
+  <span class='kw'>res</span>[, <span class='kw'>i</span>] <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/na.fail.html'>na.omit</a></span>(<span class='kw'>ally</span>[, <span class='kw'>i</span>] <span class='op'>-</span> <span class='fu'><a href='https://rdrr.io/r/stats/fitted.values.html'>fitted</a></span>(<span class='kw'>fit</span>))
 }
-<span class='no'>allf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span>(<span class='no'>allf</span>, <span class='kw'>start</span> <span class='kw'>=</span> <span class='fl'>51</span>)
-<span class='no'>y.f</span> <span class='kw'>&lt;-</span> <span class='fu'>MinT</span>(<span class='no'>allf</span>, <span class='fu'><a href='helper-functions.html'>get_nodes</a></span>(<span class='no'>htseg1</span>), <span class='kw'>residual</span> <span class='kw'>=</span> <span class='no'>res</span>, <span class='kw'>covariance</span> <span class='kw'>=</span> <span class='st'>"shr"</span>,
-  <span class='kw'>keep</span> <span class='kw'>=</span> <span class='st'>"gts"</span>, <span class='kw'>algorithms</span> <span class='kw'>=</span> <span class='st'>"lu"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>y.f</span>)
-<span class='no'>y.f_cg</span> <span class='kw'>&lt;-</span> <span class='fu'>MinT</span>(<span class='no'>allf</span>, <span class='fu'><a href='helper-functions.html'>get_nodes</a></span>(<span class='no'>htseg1</span>), <span class='kw'>residual</span> <span class='kw'>=</span> <span class='no'>res</span>, <span class='kw'>covariance</span> <span class='kw'>=</span> <span class='st'>"shr"</span>,
-  <span class='kw'>keep</span> <span class='kw'>=</span> <span class='st'>"all"</span>, <span class='kw'>algorithms</span> <span class='kw'>=</span> <span class='st'>"cg"</span>)
-}
-
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fl'>12</span>
-<span class='no'>ally</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='aggts.html'>aggts</a></span>(<span class='no'>htseg2</span>))
-<span class='no'>allf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fl'>NA</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='no'>h</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span>(<span class='no'>ally</span>))
-<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fl'>NA</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>ally</span>), <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span>(<span class='no'>ally</span>))
-<span class='kw'>for</span>(<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span>(<span class='no'>ally</span>)) {
-  <span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'>auto.arima</span>(<span class='no'>ally</span>[, <span class='no'>i</span>], <span class='kw'>lambda</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>biasadj</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-  <span class='no'>allf</span>[,<span class='no'>i</span>] <span class='kw'>&lt;-</span> <span class='fu'>forecast</span>(<span class='no'>fit</span>, <span class='kw'>h</span> <span class='kw'>=</span> <span class='no'>h</span>)$<span class='no'>mean</span>
-  <span class='no'>res</span>[,<span class='no'>i</span>] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/na.fail.html'>na.omit</a></span>(<span class='no'>ally</span>[, <span class='no'>i</span>] - <span class='fu'><a href='https://rdrr.io/r/stats/fitted.values.html'>fitted</a></span>(<span class='no'>fit</span>))
-}
-<span class='no'>b.f</span> <span class='kw'>&lt;-</span> <span class='fu'>MinT</span>(<span class='no'>allf</span>, <span class='fu'><a href='helper-functions.html'>get_nodes</a></span>(<span class='no'>htseg2</span>), <span class='kw'>residual</span> <span class='kw'>=</span> <span class='no'>res</span>, <span class='kw'>covariance</span> <span class='kw'>=</span> <span class='st'>"shr"</span>,
-  <span class='kw'>keep</span> <span class='kw'>=</span> <span class='st'>"bottom"</span>, <span class='kw'>algorithms</span> <span class='kw'>=</span> <span class='st'>"lu"</span>)
-<span class='no'>b.nnf</span> <span class='kw'>&lt;-</span>  <span class='fu'>MinT</span>(<span class='no'>allf</span>, <span class='fu'><a href='helper-functions.html'>get_nodes</a></span>(<span class='no'>htseg2</span>), <span class='kw'>residual</span> <span class='kw'>=</span> <span class='no'>res</span>, <span class='kw'>covariance</span> <span class='kw'>=</span> <span class='st'>"shr"</span>,
-  <span class='kw'>keep</span> <span class='kw'>=</span> <span class='st'>"bottom"</span>, <span class='kw'>algorithms</span> <span class='kw'>=</span> <span class='st'>"lu"</span>, <span class='kw'>nonnegative</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='kw'>allf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span>(<span class='kw'>allf</span>, start = <span class='fl'>51</span>)
+<span class='kw'>y.f</span> <span class='op'>&lt;-</span> <span class='fu'>MinT</span>(<span class='kw'>allf</span>, <span class='fu'><a href='get_groups.html'>get_nodes</a></span>(<span class='kw'>htseg1</span>), residual = <span class='kw'>res</span>, covariance = <span class='st'>"shr"</span>, 
+  keep = <span class='st'>"gts"</span>, algorithms = <span class='st'>"lu"</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>y.f</span>)
+<span class='kw'>y.f_cg</span> <span class='op'>&lt;-</span> <span class='fu'>MinT</span>(<span class='kw'>allf</span>, <span class='fu'><a href='get_groups.html'>get_nodes</a></span>(<span class='kw'>htseg1</span>), residual = <span class='kw'>res</span>, covariance = <span class='st'>"shr"</span>, 
+  keep = <span class='st'>"all"</span>, algorithms = <span class='st'>"cg"</span>)
 }
 
+<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='kw'>h</span> <span class='op'>&lt;-</span> <span class='fl'>12</span>
+<span class='kw'>ally</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span>(<span class='fu'><a href='aggts.html'>aggts</a></span>(<span class='kw'>htseg2</span>))
+<span class='kw'>allf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fl'>NA</span>, nrow = <span class='kw'>h</span>, ncol = <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span>(<span class='kw'>ally</span>))
+<span class='kw'>res</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fl'>NA</span>, nrow = <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='kw'>ally</span>), ncol = <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span>(<span class='kw'>ally</span>))
+<span class='co'>for</span>(<span class='kw'>i</span> <span class='co'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span>(<span class='kw'>ally</span>)) {
+  <span class='kw'>fit</span> <span class='op'>&lt;-</span> <span class='fu'>auto.arima</span>(<span class='kw'>ally</span>[, <span class='kw'>i</span>], lambda = <span class='fl'>0</span>, biasadj = <span class='fl'>TRUE</span>)
+  <span class='kw'>allf</span>[,<span class='kw'>i</span>] <span class='op'>&lt;-</span> <span class='fu'>forecast</span>(<span class='kw'>fit</span>, h = <span class='kw'>h</span>)<span class='op'>$</span><span class='kw'>mean</span>
+  <span class='kw'>res</span>[,<span class='kw'>i</span>] <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/na.fail.html'>na.omit</a></span>(<span class='kw'>ally</span>[, <span class='kw'>i</span>] <span class='op'>-</span> <span class='fu'><a href='https://rdrr.io/r/stats/fitted.values.html'>fitted</a></span>(<span class='kw'>fit</span>))
+}
+<span class='kw'>b.f</span> <span class='op'>&lt;-</span> <span class='fu'>MinT</span>(<span class='kw'>allf</span>, <span class='fu'><a href='get_groups.html'>get_nodes</a></span>(<span class='kw'>htseg2</span>), residual = <span class='kw'>res</span>, covariance = <span class='st'>"shr"</span>,
+  keep = <span class='st'>"bottom"</span>, algorithms = <span class='st'>"lu"</span>)
+<span class='kw'>b.nnf</span> <span class='op'>&lt;-</span>  <span class='fu'>MinT</span>(<span class='kw'>allf</span>, <span class='fu'><a href='get_groups.html'>get_nodes</a></span>(<span class='kw'>htseg2</span>), residual = <span class='kw'>res</span>, covariance = <span class='st'>"shr"</span>,
+  keep = <span class='st'>"bottom"</span>, algorithms = <span class='st'>"lu"</span>, nonnegative = <span class='fl'>TRUE</span>, parallel = <span class='fl'>TRUE</span>)
+}
+  
 <span class='co'># gts example</span>
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>abc</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span>(<span class='fl'>5</span> + <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sort.html'>sort</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>200</span>)), <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>50</span>))
-<span class='no'>g</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>2</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>1</span>,<span class='fl'>2</span>))
-<span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gts-class.html'>gts</a></span>(<span class='no'>abc</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='no'>g</span>)
-<span class='no'>h</span> <span class='kw'>&lt;-</span> <span class='fl'>12</span>
-<span class='no'>ally</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='aggts.html'>aggts</a></span>(<span class='no'>y</span>)
-<span class='no'>n</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>ally</span>)
-<span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span>(<span class='no'>ally</span>)
-<span class='no'>allf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fl'>NA</span>,<span class='kw'>nrow</span> <span class='kw'>=</span> <span class='no'>h</span>,<span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span>(<span class='no'>ally</span>))
-<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fl'>NA</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='no'>n</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='no'>p</span>)
-<span class='kw'>for</span>(<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='no'>p</span>)
+<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='kw'>abc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span>(<span class='fl'>5</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sort.html'>sort</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>200</span>)), ncol = <span class='fl'>4</span>, nrow = <span class='fl'>50</span>))
+<span class='kw'>g</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>2</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>1</span>,<span class='fl'>2</span>))
+<span class='kw'>y</span> <span class='op'>&lt;-</span> <span class='fu'><a href='gts.html'>gts</a></span>(<span class='kw'>abc</span>, groups = <span class='kw'>g</span>)
+<span class='kw'>h</span> <span class='op'>&lt;-</span> <span class='fl'>12</span>
+<span class='kw'>ally</span> <span class='op'>&lt;-</span> <span class='fu'><a href='aggts.html'>aggts</a></span>(<span class='kw'>y</span>)
+<span class='kw'>n</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='kw'>ally</span>)
+<span class='kw'>p</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span>(<span class='kw'>ally</span>)
+<span class='kw'>allf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fl'>NA</span>,nrow = <span class='kw'>h</span>,ncol = <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span>(<span class='kw'>ally</span>))
+<span class='kw'>res</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fl'>NA</span>, nrow = <span class='kw'>n</span>, ncol = <span class='kw'>p</span>)
+<span class='co'>for</span>(<span class='kw'>i</span> <span class='co'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='kw'>p</span>)
 {
-  <span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'>auto.arima</span>(<span class='no'>ally</span>[, <span class='no'>i</span>])
-  <span class='no'>allf</span>[, <span class='no'>i</span>] <span class='kw'>&lt;-</span> <span class='fu'>forecast</span>(<span class='no'>fit</span>, <span class='kw'>h</span> <span class='kw'>=</span> <span class='no'>h</span>)$<span class='no'>mean</span>
-  <span class='no'>res</span>[, <span class='no'>i</span>] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/na.fail.html'>na.omit</a></span>(<span class='no'>ally</span>[, <span class='no'>i</span>] - <span class='fu'><a href='https://rdrr.io/r/stats/fitted.values.html'>fitted</a></span>(<span class='no'>fit</span>))
+  <span class='kw'>fit</span> <span class='op'>&lt;-</span> <span class='fu'>auto.arima</span>(<span class='kw'>ally</span>[, <span class='kw'>i</span>])
+  <span class='kw'>allf</span>[, <span class='kw'>i</span>] <span class='op'>&lt;-</span> <span class='fu'>forecast</span>(<span class='kw'>fit</span>, h = <span class='kw'>h</span>)<span class='op'>$</span><span class='kw'>mean</span>
+  <span class='kw'>res</span>[, <span class='kw'>i</span>] <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/na.fail.html'>na.omit</a></span>(<span class='kw'>ally</span>[, <span class='kw'>i</span>] <span class='op'>-</span> <span class='fu'><a href='https://rdrr.io/r/stats/fitted.values.html'>fitted</a></span>(<span class='kw'>fit</span>))
 }
-<span class='no'>allf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span>(<span class='no'>allf</span>, <span class='kw'>start</span> <span class='kw'>=</span> <span class='fl'>51</span>)
-<span class='no'>y.f</span> <span class='kw'>&lt;-</span> <span class='fu'>MinT</span>(<span class='no'>allf</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='fu'><a href='helper-functions.html'>get_groups</a></span>(<span class='no'>y</span>), <span class='kw'>residual</span> <span class='kw'>=</span> <span class='no'>res</span>, <span class='kw'>covariance</span> <span class='kw'>=</span> <span class='st'>"shr"</span>,
-  <span class='kw'>keep</span> <span class='kw'>=</span> <span class='st'>"gts"</span>, <span class='kw'>algorithms</span> <span class='kw'>=</span> <span class='st'>"lu"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>y.f</span>)
-}</div></pre>
+<span class='kw'>allf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span>(<span class='kw'>allf</span>, start = <span class='fl'>51</span>)
+<span class='kw'>y.f</span> <span class='op'>&lt;-</span> <span class='fu'>MinT</span>(<span class='kw'>allf</span>, groups = <span class='fu'><a href='get_groups.html'>get_groups</a></span>(<span class='kw'>y</span>), residual = <span class='kw'>res</span>, covariance = <span class='st'>"shr"</span>, 
+  keep = <span class='st'>"gts"</span>, algorithms = <span class='st'>"lu"</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>y.f</span>)
+}
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -310,7 +314,7 @@ Statistics and Data Analysis</em>, <b>97</b>, 16--32.
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

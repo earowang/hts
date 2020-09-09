@@ -126,14 +126,14 @@
     </div>
 
     <pre class="usage"><span class='co'># S3 method for gts</span>
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>x</span>, <span class='no'>include</span>, <span class='no'>levels</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>color_lab</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>x</span>, <span class='kw'>include</span>, <span class='kw'>levels</span>, labels = <span class='fl'>TRUE</span>, col = <span class='kw'>NULL</span>, color_lab = <span class='fl'>FALSE</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>An object of class <code><a href='gts-class.html'>gts</a></code>.</p></td>
+      <td><p>An object of class <code><a href='gts.html'>gts</a></code>.</p></td>
     </tr>
     <tr>
       <th>include</th>
@@ -173,11 +173,17 @@ colours.  If <code>FALSE</code> will be as per <code>par()$fg</code>.</p></td>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='aggts.html'>aggts</a></code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Rob J Hyndman and Earo Wang</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>htseg1</span>, <span class='kw'>levels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>2</span>))</div><div class='img'><img src='plot.gts-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>infantgts</span>, <span class='kw'>include</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>levels</span> <span class='kw'>=</span> <span class='st'>"State"</span>)</div><div class='img'><img src='plot.gts-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>infantgts</span>, <span class='kw'>include</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>levels</span> <span class='kw'>=</span> <span class='st'>"State"</span>,
-    <span class='kw'>col</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/colors.html'>colours</a></span>()[<span class='fl'>100</span>:<span class='fl'>107</span>], <span class='kw'>lty</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>8</span>, <span class='kw'>color_lab</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='img'><img src='plot.gts-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>htseg1</span>, levels = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>2</span>))
+</div><div class='img'><img src='plot.gts-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>infantgts</span>, include = <span class='fl'>10</span>, levels = <span class='st'>"State"</span>)
+</div><div class='img'><img src='plot.gts-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>infantgts</span>, include = <span class='fl'>10</span>, levels = <span class='st'>"State"</span>, 
+    col = <span class='fu'><a href='https://rdrr.io/r/grDevices/colors.html'>colours</a></span>()[<span class='fl'>100</span><span class='op'>:</span><span class='fl'>107</span>], lty = <span class='fl'>1</span><span class='op'>:</span><span class='fl'>8</span>, color_lab = <span class='fl'>TRUE</span>)
+</div><div class='img'><img src='plot.gts-3.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -194,7 +200,7 @@ colours.  If <code>FALSE</code> will be as per <code>par()$fg</code>.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

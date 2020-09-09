@@ -89,10 +89,14 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>You can install the <strong>stable</strong> version on <a href="https://cran.r-project.org/package=hts">R CRAN</a>.</p>
-<div class="sourceCode" id="cb1"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">'hts'</span>, <span class="kw">dependencies</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">'hts'</span>, dependencies = <span class="fl">TRUE</span>)
+</pre></div>
 <p>You can also install the <strong>development</strong> version from <a href="https://github.com/earowang/hts">Github</a></p>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="co"># install.packages("devtools")</span>
-<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu">install_github</span>(<span class="st">"earowang/hts"</span>)</pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="co"># install.packages("devtools")</span>
+<span class="kw">devtools</span>::<span class="fu">install_github</span>(<span class="st">"earowang/hts"</span>)
+</pre></div>
 </div>
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
@@ -100,14 +104,15 @@
 <div id="example-1-hierarchical-time-series" class="section level3">
 <h3 class="hasAnchor">
 <a href="#example-1-hierarchical-time-series" class="anchor"></a>Example 1: hierarchical time series</h3>
-<div class="sourceCode" id="cb3"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">hts</span>)
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://pkg.earo.me/hts">hts</a></span>)
 <span class="co">#&gt; Loading required package: forecast</span>
 <span class="co">#&gt; Registered S3 method overwritten by 'quantmod':</span>
 <span class="co">#&gt;   method            from</span>
 <span class="co">#&gt;   as.zoo.data.frame zoo</span>
 
 <span class="co"># hts example 1</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">htseg1</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw">htseg1</span>)
 <span class="co">#&gt; Hierarchical Time Series </span>
 <span class="co">#&gt; 3 Levels </span>
 <span class="co">#&gt; Number of nodes at each level: 1 2 5 </span>
@@ -120,7 +125,7 @@
 <span class="co">#&gt; Frequency = 1 </span>
 <span class="co">#&gt;  [1] 48.74808 49.48047 49.93238 50.24070 50.60846 50.84851 51.70922 51.94330</span>
 <span class="co">#&gt;  [9] 52.57796 53.21496</span>
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">htseg1</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="kw">htseg1</span>)
 <span class="co">#&gt; Hierarchical Time Series </span>
 <span class="co">#&gt; 3 Levels </span>
 <span class="co">#&gt; Number of nodes at each level: 1 2 5 </span>
@@ -136,12 +141,14 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Labels: </span>
 <span class="co">#&gt; [1] "Level 0" "Level 1" "Level 2"</span>
-<span class="no">aggts1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/aggts.html">aggts</a></span>(<span class="no">htseg1</span>)
-<span class="no">aggts2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/aggts.html">aggts</a></span>(<span class="no">htseg1</span>, <span class="kw">levels</span> <span class="kw">=</span> <span class="fl">1</span>)
-<span class="no">aggts3</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/aggts.html">aggts</a></span>(<span class="no">htseg1</span>, <span class="kw">levels</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">2</span>))
-<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">htseg1</span>, <span class="kw">levels</span> <span class="kw">=</span> <span class="fl">1</span>)</pre></div>
+<span class="kw">aggts1</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/aggts.html">aggts</a></span>(<span class="kw">htseg1</span>)
+<span class="kw">aggts2</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/aggts.html">aggts</a></span>(<span class="kw">htseg1</span>, levels = <span class="fl">1</span>)
+<span class="kw">aggts3</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/aggts.html">aggts</a></span>(<span class="kw">htseg1</span>, levels = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">2</span>))
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">htseg1</span>, levels = <span class="fl">1</span>)
+</pre></div>
 <p><img src="reference/figures/hts-eg1-1.png"><!-- --></p>
-<div class="sourceCode" id="cb4"><pre class="r"><span class="fu"><a href="reference/smatrix.html">smatrix</a></span>(<span class="no">htseg1</span>)  <span class="co"># Return the dense mode</span>
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="fu"><a href="reference/smatrix.html">smatrix</a></span>(<span class="kw">htseg1</span>)  <span class="co"># Return the dense mode</span>
 <span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span>
 <span class="co">#&gt; [1,]    1    1    1    1    1</span>
 <span class="co">#&gt; [2,]    1    1    1    0    0</span>
@@ -153,11 +160,11 @@
 <span class="co">#&gt; [8,]    0    0    0    0    1</span>
 
 <span class="co"># Forecasts</span>
-<span class="no">fcasts1.bu</span> <span class="kw">&lt;-</span> <span class="fu">forecast</span>(
-  <span class="no">htseg1</span>, <span class="kw">h</span> <span class="kw">=</span> <span class="fl">4</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">"bu"</span>, <span class="kw">fmethod</span> <span class="kw">=</span> <span class="st">"ets"</span>, <span class="kw">parallel</span> <span class="kw">=</span> <span class="fl">TRUE</span>
+<span class="kw">fcasts1.bu</span> <span class="op">&lt;-</span> <span class="fu">forecast</span>(
+  <span class="kw">htseg1</span>, h = <span class="fl">4</span>, method = <span class="st">"bu"</span>, fmethod = <span class="st">"ets"</span>, parallel = <span class="fl">TRUE</span>
 )
-<span class="no">aggts4</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/aggts.html">aggts</a></span>(<span class="no">fcasts1.bu</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">fcasts1.bu</span>)
+<span class="kw">aggts4</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/aggts.html">aggts</a></span>(<span class="kw">fcasts1.bu</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="kw">fcasts1.bu</span>)
 <span class="co">#&gt; Hierarchical Time Series </span>
 <span class="co">#&gt; 3 Levels </span>
 <span class="co">#&gt; Number of nodes at each level: 1 2 5 </span>
@@ -173,10 +180,10 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Method: Bottom-up forecasts </span>
 <span class="co">#&gt; Forecast method: ETS</span>
-<span class="no">fcasts1.td</span> <span class="kw">&lt;-</span> <span class="fu">forecast</span>(
-  <span class="no">htseg1</span>, <span class="kw">h</span> <span class="kw">=</span> <span class="fl">4</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">"tdfp"</span>, <span class="kw">fmethod</span> <span class="kw">=</span> <span class="st">"arima"</span>, <span class="kw">keep.fitted</span> <span class="kw">=</span> <span class="fl">TRUE</span>
+<span class="kw">fcasts1.td</span> <span class="op">&lt;-</span> <span class="fu">forecast</span>(
+  <span class="kw">htseg1</span>, h = <span class="fl">4</span>, method = <span class="st">"tdfp"</span>, fmethod = <span class="st">"arima"</span>, keep.fitted = <span class="fl">TRUE</span>
 )
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">fcasts1.td</span>)  <span class="co"># When keep.fitted = TRUE, return in-sample accuracy</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="kw">fcasts1.td</span>)  <span class="co"># When keep.fitted = TRUE, return in-sample accuracy</span>
 <span class="co">#&gt; Hierarchical Time Series </span>
 <span class="co">#&gt; 3 Levels </span>
 <span class="co">#&gt; Number of nodes at each level: 1 2 5 </span>
@@ -200,26 +207,30 @@
 <span class="co">#&gt; MAPE 1.1275970221 0.4534439625 0.323535559 0.251066115  0.691364891</span>
 <span class="co">#&gt; MPE  0.0367879336 0.0069220593 0.006785872 0.007787895 -0.011087494</span>
 <span class="co">#&gt; MASE 0.6825678136 0.5197483057 0.774250880 0.447950006  0.493684443</span>
-<span class="no">fcasts1.comb</span> <span class="kw">&lt;-</span> <span class="fu">forecast</span>(
-  <span class="no">htseg1</span>, <span class="kw">h</span> <span class="kw">=</span> <span class="fl">4</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">"comb"</span>, <span class="kw">fmethod</span> <span class="kw">=</span> <span class="st">"ets"</span>, <span class="kw">keep.fitted</span> <span class="kw">=</span> <span class="fl">TRUE</span>
+<span class="kw">fcasts1.comb</span> <span class="op">&lt;-</span> <span class="fu">forecast</span>(
+  <span class="kw">htseg1</span>, h = <span class="fl">4</span>, method = <span class="st">"comb"</span>, fmethod = <span class="st">"ets"</span>, keep.fitted = <span class="fl">TRUE</span>
 )
-<span class="no">aggts4</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/aggts.html">aggts</a></span>(<span class="no">fcasts1.comb</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">fcasts1.comb</span>, <span class="kw">levels</span> <span class="kw">=</span> <span class="fl">2</span>)</pre></div>
+<span class="kw">aggts4</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/aggts.html">aggts</a></span>(<span class="kw">fcasts1.comb</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">fcasts1.comb</span>, levels = <span class="fl">2</span>)
+</pre></div>
 <p><img src="reference/figures/hts-eg1-2.png"><!-- --></p>
-<div class="sourceCode" id="cb5"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">fcasts1.comb</span>, <span class="kw">include</span> <span class="kw">=</span> <span class="fl">5</span>, <span class="kw">levels</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">2</span>))</pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">fcasts1.comb</span>, include = <span class="fl">5</span>, levels = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">2</span>))
+</pre></div>
 <p><img src="reference/figures/hts-eg1-3.png"><!-- --></p>
 </div>
 <div id="example-2-hierarchical-time-series" class="section level3">
 <h3 class="hasAnchor">
 <a href="#example-2-hierarchical-time-series" class="anchor"></a>Example 2: hierarchical time series</h3>
-<div class="sourceCode" id="cb6"><pre class="r"><span class="co"># hts example 2</span>
-<span class="no">data</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/window.html">window</a></span>(<span class="no">htseg2</span>, <span class="kw">start</span> <span class="kw">=</span> <span class="fl">1992</span>, <span class="kw">end</span> <span class="kw">=</span> <span class="fl">2002</span>)
-<span class="no">test</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/window.html">window</a></span>(<span class="no">htseg2</span>, <span class="kw">start</span> <span class="kw">=</span> <span class="fl">2003</span>)
-<span class="no">fcasts2.mo</span> <span class="kw">&lt;-</span> <span class="fu">forecast</span>(
-  <span class="no">data</span>, <span class="kw">h</span> <span class="kw">=</span> <span class="fl">5</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">"mo"</span>, <span class="kw">fmethod</span> <span class="kw">=</span> <span class="st">"ets"</span>, <span class="kw">level</span> <span class="kw">=</span> <span class="fl">1</span>,
-  <span class="kw">keep.fitted</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">keep.resid</span> <span class="kw">=</span> <span class="fl">TRUE</span>
+<div class="sourceCode" id="cb6"><pre class="downlit">
+<span class="co"># hts example 2</span>
+<span class="kw">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/window.html">window</a></span>(<span class="kw">htseg2</span>, start = <span class="fl">1992</span>, end = <span class="fl">2002</span>)
+<span class="kw">test</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/window.html">window</a></span>(<span class="kw">htseg2</span>, start = <span class="fl">2003</span>)
+<span class="kw">fcasts2.mo</span> <span class="op">&lt;-</span> <span class="fu">forecast</span>(
+  <span class="kw">data</span>, h = <span class="fl">5</span>, method = <span class="st">"mo"</span>, fmethod = <span class="st">"ets"</span>, level = <span class="fl">1</span>,
+  keep.fitted = <span class="fl">TRUE</span>, keep.resid = <span class="fl">TRUE</span>
 )
-<span class="fu"><a href="reference/accuracy.gts.html">accuracy.gts</a></span>(<span class="no">fcasts2.mo</span>, <span class="no">test</span>)
+<span class="fu"><a href="reference/accuracy.gts.html">accuracy.gts</a></span>(<span class="kw">fcasts2.mo</span>, <span class="kw">test</span>)
 <span class="co">#&gt;           Total          A          B        A10          A20         B30</span>
 <span class="co">#&gt; ME   -0.1463168 -0.2229191 0.07660233 -0.2283919  0.005472780 -0.01989880</span>
 <span class="co">#&gt; RMSE  0.1500119  0.2452066 0.14257606  0.2523329  0.009805797  0.02928379</span>
@@ -241,7 +252,7 @@
 <span class="co">#&gt; MAPE 4.13200908  2.39939647  3.26532975  3.09570196 8.2253477</span>
 <span class="co">#&gt; MPE  4.13200908 -2.39939647 -3.26532975 -3.09570196 5.9207223</span>
 <span class="co">#&gt; MASE 0.49670326  1.22312029  1.72843722  0.82335272 4.3982548</span>
-<span class="fu"><a href="reference/accuracy.gts.html">accuracy.gts</a></span>(<span class="no">fcasts2.mo</span>, <span class="no">test</span>, <span class="kw">levels</span> <span class="kw">=</span> <span class="fl">1</span>)
+<span class="fu"><a href="reference/accuracy.gts.html">accuracy.gts</a></span>(<span class="kw">fcasts2.mo</span>, <span class="kw">test</span>, levels = <span class="fl">1</span>)
 <span class="co">#&gt;               A          B</span>
 <span class="co">#&gt; ME   -0.2229191 0.07660233</span>
 <span class="co">#&gt; RMSE  0.2452066 0.14257606</span>
@@ -249,39 +260,50 @@
 <span class="co">#&gt; MAPE  7.5314777 2.36244104</span>
 <span class="co">#&gt; MPE   7.5314777 1.45433283</span>
 <span class="co">#&gt; MASE  1.2506962 0.84324674</span>
-<span class="no">fcasts2.td</span> <span class="kw">&lt;-</span> <span class="fu">forecast</span>(
-  <span class="no">data</span>, <span class="kw">h</span> <span class="kw">=</span> <span class="fl">5</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">"tdgsa"</span>, <span class="kw">fmethod</span> <span class="kw">=</span> <span class="st">"ets"</span>,
-  <span class="kw">keep.fitted</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">keep.resid</span> <span class="kw">=</span> <span class="fl">TRUE</span>
+<span class="kw">fcasts2.td</span> <span class="op">&lt;-</span> <span class="fu">forecast</span>(
+  <span class="kw">data</span>, h = <span class="fl">5</span>, method = <span class="st">"tdgsa"</span>, fmethod = <span class="st">"ets"</span>, 
+  keep.fitted = <span class="fl">TRUE</span>, keep.resid = <span class="fl">TRUE</span>
 )
-<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">fcasts2.td</span>, <span class="kw">include</span> <span class="kw">=</span> <span class="fl">5</span>)</pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">fcasts2.td</span>, include = <span class="fl">5</span>)
+</pre></div>
 <p><img src="reference/figures/hts-eg2-1.png"><!-- --></p>
-<div class="sourceCode" id="cb7"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">fcasts2.td</span>, <span class="kw">include</span> <span class="kw">=</span> <span class="fl">5</span>, <span class="kw">levels</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">2</span>))</pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">fcasts2.td</span>, include = <span class="fl">5</span>, levels = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">2</span>))
+</pre></div>
 <p><img src="reference/figures/hts-eg2-2.png"><!-- --></p>
 </div>
 <div id="example-3-grouped-time-series" class="section level3">
 <h3 class="hasAnchor">
 <a href="#example-3-grouped-time-series" class="anchor"></a>Example 3: grouped time series</h3>
-<div class="sourceCode" id="cb8"><pre class="r"><span class="co"># gts example</span>
-<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">infantgts</span>, <span class="kw">levels</span> <span class="kw">=</span> <span class="fl">1</span>)</pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit">
+<span class="co"># gts example</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">infantgts</span>, levels = <span class="fl">1</span>)
+</pre></div>
 <p><img src="reference/figures/gts-eg-1.png"><!-- --></p>
-<div class="sourceCode" id="cb9"><pre class="r">
-<span class="no">fcasts3.comb</span> <span class="kw">&lt;-</span> <span class="fu">forecast</span>(<span class="no">infantgts</span>, <span class="kw">h</span> <span class="kw">=</span> <span class="fl">4</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">"comb"</span>, <span class="kw">fmethod</span> <span class="kw">=</span> <span class="st">"ets"</span>)
-<span class="no">agg_gts1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/aggts.html">aggts</a></span>(<span class="no">fcasts3.comb</span>, <span class="kw">levels</span> <span class="kw">=</span> <span class="fl">1</span>)
-<span class="no">agg_gts2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/aggts.html">aggts</a></span>(<span class="no">fcasts3.comb</span>, <span class="kw">levels</span> <span class="kw">=</span> <span class="fl">1</span>, <span class="kw">forecasts</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">fcasts3.comb</span>)</pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit">
+
+<span class="kw">fcasts3.comb</span> <span class="op">&lt;-</span> <span class="fu">forecast</span>(<span class="kw">infantgts</span>, h = <span class="fl">4</span>, method = <span class="st">"comb"</span>, fmethod = <span class="st">"ets"</span>)
+<span class="kw">agg_gts1</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/aggts.html">aggts</a></span>(<span class="kw">fcasts3.comb</span>, levels = <span class="fl">1</span>)
+<span class="kw">agg_gts2</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/aggts.html">aggts</a></span>(<span class="kw">fcasts3.comb</span>, levels = <span class="fl">1</span>, forecasts = <span class="fl">FALSE</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">fcasts3.comb</span>)
+</pre></div>
 <p><img src="reference/figures/gts-eg-2.png"><!-- --></p>
-<div class="sourceCode" id="cb10"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">fcasts3.comb</span>, <span class="kw">include</span> <span class="kw">=</span> <span class="fl">5</span>, <span class="kw">levels</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">2</span>))</pre></div>
+<div class="sourceCode" id="cb10"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">fcasts3.comb</span>, include = <span class="fl">5</span>, levels = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">2</span>))
+</pre></div>
 <p><img src="reference/figures/gts-eg-3.png"><!-- --></p>
-<div class="sourceCode" id="cb11"><pre class="r">
-<span class="no">fcasts3.combsd</span> <span class="kw">&lt;-</span> <span class="fu">forecast</span>(
-  <span class="no">infantgts</span>, <span class="kw">h</span> <span class="kw">=</span> <span class="fl">4</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">"comb"</span>, <span class="kw">fmethod</span> <span class="kw">=</span> <span class="st">"ets"</span>,
-  <span class="kw">weights</span> <span class="kw">=</span> <span class="st">"sd"</span>, <span class="kw">keep.fitted</span> <span class="kw">=</span> <span class="fl">TRUE</span>
+<div class="sourceCode" id="cb11"><pre class="downlit">
+
+<span class="kw">fcasts3.combsd</span> <span class="op">&lt;-</span> <span class="fu">forecast</span>(
+  <span class="kw">infantgts</span>, h = <span class="fl">4</span>, method = <span class="st">"comb"</span>, fmethod = <span class="st">"ets"</span>,
+  weights = <span class="st">"sd"</span>, keep.fitted = <span class="fl">TRUE</span>
 )
 
-<span class="no">fcasts3.combn</span> <span class="kw">&lt;-</span> <span class="fu">forecast</span>(
-  <span class="no">infantgts</span>, <span class="kw">h</span> <span class="kw">=</span> <span class="fl">4</span>, <span class="kw">method</span> <span class="kw">=</span> <span class="st">"comb"</span>, <span class="kw">fmethod</span> <span class="kw">=</span> <span class="st">"ets"</span>,
-  <span class="kw">weights</span> <span class="kw">=</span> <span class="st">"nseries"</span>, <span class="kw">keep.resid</span> <span class="kw">=</span> <span class="fl">TRUE</span>
-)</pre></div>
+<span class="kw">fcasts3.combn</span> <span class="op">&lt;-</span> <span class="fu">forecast</span>(
+  <span class="kw">infantgts</span>, h = <span class="fl">4</span>, method = <span class="st">"comb"</span>, fmethod = <span class="st">"ets"</span>,
+  weights = <span class="st">"nseries"</span>, keep.resid = <span class="fl">TRUE</span>
+)
+</pre></div>
 </div>
 </div>
 <div id="license" class="section level2">
@@ -350,7 +372,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

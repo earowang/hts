@@ -125,15 +125,15 @@
     <p>Method for creating grouped time series.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>gts</span>(<span class='no'>y</span>, <span class='no'>groups</span>, <span class='kw'>gnames</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>groups</span>), <span class='no'>characters</span>)
+    <pre class="usage"><span class='fu'>gts</span>(<span class='kw'>y</span>, <span class='kw'>groups</span>, gnames = <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='kw'>groups</span>), <span class='kw'>characters</span>)
 
-<span class='fu'>is.gts</span>(<span class='no'>xts</span>)
-
-<span class='co'># S3 method for gts</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)
+<span class='fu'>is.gts</span>(<span class='kw'>xts</span>)
 
 <span class='co'># S3 method for gts</span>
-<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>object</span>, <span class='no'>...</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>x</span>, <span class='kw'>...</span>)
+
+<span class='co'># S3 method for gts</span>
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='kw'>object</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -217,35 +217,40 @@ series</p></dd> <dt>groups</dt><dd><p>Information about the groups of a grouped 
 <a href='https://robjhyndman.com/publications/hierarchical/'>https://robjhyndman.com/publications/hierarchical/</a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='hts-class.html'>hts</a></code>, <code><a href='accuracy.gts.html'>accuracy.gts</a></code>,
+    <div class='dont-index'><p><code><a href='hts.html'>hts</a></code>, <code><a href='accuracy.gts.html'>accuracy.gts</a></code>,
 <code><a href='forecast.gts.html'>forecast.gts</a></code>, <code><a href='plot.gts.html'>plot.gts</a></code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Earo Wang and Rob J Hyndman</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'># Example 1 illustrating the usage of the "groups" argument</span>
-<span class='no'>abc</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span>(<span class='fl'>5</span> + <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sort.html'>sort</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>1600</span>)), <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>16</span>, <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>100</span>))
-<span class='no'>sex</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"female"</span>, <span class='st'>"male"</span>), <span class='kw'>each</span> <span class='kw'>=</span> <span class='fl'>8</span>)
-<span class='no'>state</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"NSW"</span>, <span class='st'>"VIC"</span>, <span class='st'>"QLD"</span>, <span class='st'>"SA"</span>, <span class='st'>"WA"</span>, <span class='st'>"NT"</span>, <span class='st'>"ACT"</span>, <span class='st'>"TAS"</span>), <span class='fl'>2</span>)
-<span class='no'>gc</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span>(<span class='no'>sex</span>, <span class='no'>state</span>)  <span class='co'># a matrix consists of strings.</span>
-<span class='no'>gn</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>1</span>:<span class='fl'>2</span>, <span class='kw'>each</span> <span class='kw'>=</span> <span class='fl'>8</span>), <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>1</span>:<span class='fl'>8</span>, <span class='fl'>2</span>))  <span class='co'># a numerical matrix</span>
-<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>gc</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>gn</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Sex"</span>, <span class='st'>"State"</span>)
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>gts</span>(<span class='no'>abc</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='no'>gc</span>)
-<span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'>gts</span>(<span class='no'>abc</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='no'>gn</span>)
+<span class='kw'>abc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span>(<span class='fl'>5</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sort.html'>sort</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>1600</span>)), ncol = <span class='fl'>16</span>, nrow = <span class='fl'>100</span>))
+<span class='kw'>sex</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"female"</span>, <span class='st'>"male"</span>), each = <span class='fl'>8</span>)
+<span class='kw'>state</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"NSW"</span>, <span class='st'>"VIC"</span>, <span class='st'>"QLD"</span>, <span class='st'>"SA"</span>, <span class='st'>"WA"</span>, <span class='st'>"NT"</span>, <span class='st'>"ACT"</span>, <span class='st'>"TAS"</span>), <span class='fl'>2</span>)
+<span class='kw'>gc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span>(<span class='kw'>sex</span>, <span class='kw'>state</span>)  <span class='co'># a matrix consists of strings.</span>
+<span class='kw'>gn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>, each = <span class='fl'>8</span>), <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>8</span>, <span class='fl'>2</span>))  <span class='co'># a numerical matrix</span>
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='kw'>gc</span>) <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='kw'>gn</span>) <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Sex"</span>, <span class='st'>"State"</span>)
+<span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='fu'>gts</span>(<span class='kw'>abc</span>, groups = <span class='kw'>gc</span>)
+<span class='kw'>y</span> <span class='op'>&lt;-</span> <span class='fu'>gts</span>(<span class='kw'>abc</span>, groups = <span class='kw'>gn</span>)
 
 <span class='co'># Example 2 with two simple hierarchies (geography and product) to show the argument "characters"</span>
-<span class='no'>bnames1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"VICMelbAA"</span>, <span class='st'>"VICMelbAB"</span>, <span class='st'>"VICGeelAA"</span>, <span class='st'>"VICGeelAB"</span>,
+<span class='kw'>bnames1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"VICMelbAA"</span>, <span class='st'>"VICMelbAB"</span>, <span class='st'>"VICGeelAA"</span>, <span class='st'>"VICGeelAB"</span>,  
              <span class='st'>"VICMelbBA"</span>, <span class='st'>"VICMelbBB"</span>, <span class='st'>"VICGeelBA"</span>, <span class='st'>"VICGeelBB"</span>,
-             <span class='st'>"NSWSyndAA"</span>, <span class='st'>"NSWSyndAB"</span>, <span class='st'>"NSWWollAA"</span>, <span class='st'>"NSWWollAB"</span>,
+             <span class='st'>"NSWSyndAA"</span>, <span class='st'>"NSWSyndAB"</span>, <span class='st'>"NSWWollAA"</span>, <span class='st'>"NSWWollAB"</span>, 
              <span class='st'>"NSWSyndBA"</span>, <span class='st'>"NSWSyndBB"</span>, <span class='st'>"NSWWollBA"</span>, <span class='st'>"NSWWollBB"</span>)
-<span class='no'>bts1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>160</span>)), <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>16</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='no'>bts1</span>) <span class='kw'>&lt;-</span> <span class='no'>bnames1</span>
-<span class='no'>x1</span> <span class='kw'>&lt;-</span> <span class='fu'>gts</span>(<span class='no'>bts1</span>, <span class='kw'>characters</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>, <span class='fl'>4</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>)))</div><div class='output co'>#&gt; <span class='message'>Argument gnames is missing and the default labels are used.</span></div><div class='input'>
+<span class='kw'>bts1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>160</span>)), ncol = <span class='fl'>16</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='kw'>bts1</span>) <span class='op'>&lt;-</span> <span class='kw'>bnames1</span>
+<span class='kw'>x1</span> <span class='op'>&lt;-</span> <span class='fu'>gts</span>(<span class='kw'>bts1</span>, characters = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>, <span class='fl'>4</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>)))
+</div><div class='output co'>#&gt; <span class='message'>Argument gnames is missing and the default labels are used.</span></div><div class='input'>
 <span class='co'># Example 3 with a non-hierarchical grouped time series of 3 grouping variables (state, age and sex)</span>
-<span class='no'>bnames2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"VIC1F"</span>, <span class='st'>"VIC1M"</span>, <span class='st'>"VIC2F"</span>, <span class='st'>"VIC2M"</span>, <span class='st'>"VIC3F"</span>, <span class='st'>"VIC3M"</span>,
+<span class='kw'>bnames2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"VIC1F"</span>, <span class='st'>"VIC1M"</span>, <span class='st'>"VIC2F"</span>, <span class='st'>"VIC2M"</span>, <span class='st'>"VIC3F"</span>, <span class='st'>"VIC3M"</span>,
              <span class='st'>"NSW1F"</span>, <span class='st'>"NSW1M"</span>, <span class='st'>"NSW2F"</span>, <span class='st'>"NSW2M"</span>, <span class='st'>"NSW3F"</span>, <span class='st'>"NSW3M"</span>)
-<span class='no'>bts2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>120</span>)), <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>12</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='no'>bts2</span>) <span class='kw'>&lt;-</span> <span class='no'>bnames2</span>
-<span class='no'>x2</span> <span class='kw'>&lt;-</span> <span class='fu'>gts</span>(<span class='no'>bts2</span>, <span class='kw'>characters</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>, <span class='fl'>1</span>, <span class='fl'>1</span>))</div><div class='output co'>#&gt; <span class='message'>Argument gnames is missing and the default labels are used.</span></div><div class='input'>
+<span class='kw'>bts2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/ts.html'>ts</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>120</span>)), ncol = <span class='fl'>12</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='kw'>bts2</span>) <span class='op'>&lt;-</span> <span class='kw'>bnames2</span>
+<span class='kw'>x2</span> <span class='op'>&lt;-</span> <span class='fu'>gts</span>(<span class='kw'>bts2</span>, characters = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>, <span class='fl'>1</span>, <span class='fl'>1</span>))
+</div><div class='output co'>#&gt; <span class='message'>Argument gnames is missing and the default labels are used.</span></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -262,7 +267,7 @@ series</p></dd> <dt>groups</dt><dd><p>Information about the groups of a grouped 
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

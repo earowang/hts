@@ -129,7 +129,7 @@ or a forecasted hierarchical/grouped time series are returned as a
 multivariate time series.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>aggts</span>(<span class='no'>y</span>, <span class='no'>levels</span>, <span class='kw'>forecasts</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>aggts</span>(<span class='kw'>y</span>, <span class='kw'>levels</span>, forecasts = <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -153,10 +153,14 @@ data. Otherwise it is ignored.</p></td>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='allts.html'>allts</a></code></p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Earo Wang</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'>aggts</span>(<span class='no'>htseg1</span>, <span class='kw'>levels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>2</span>))</div><div class='output co'>#&gt; Time Series:
+<span class='fu'>aggts</span>(<span class='kw'>htseg1</span>, levels = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>2</span>))
+</div><div class='output co'>#&gt; Time Series:
 #&gt; Start = 1992 
 #&gt; End = 2001 
 #&gt; Frequency = 1 
@@ -170,7 +174,8 @@ data. Otherwise it is ignored.</p></td>
 #&gt; 1998 51.70922 8.893267  9.730347 10.28392 10.86323 11.93846
 #&gt; 1999 51.94330 8.933993  9.797294 10.29026 10.92463 11.99712
 #&gt; 2000 52.57796 9.133653  9.921262 10.34817 11.00622 12.16865
-#&gt; 2001 53.21496 9.152636 10.022783 10.46706 11.03531 12.53717</div><div class='input'><span class='fu'>aggts</span>(<span class='no'>infantgts</span>, <span class='kw'>levels</span> <span class='kw'>=</span> <span class='st'>"State"</span>)</div><div class='output co'>#&gt; Time Series:
+#&gt; 2001 53.21496 9.152636 10.022783 10.46706 11.03531 12.53717</div><div class='input'><span class='fu'>aggts</span>(<span class='kw'>infantgts</span>, levels = <span class='st'>"State"</span>)
+</div><div class='output co'>#&gt; Time Series:
 #&gt; Start = 1933 
 #&gt; End = 2003 
 #&gt; Frequency = 1 
@@ -334,7 +339,7 @@ data. Otherwise it is ignored.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>
