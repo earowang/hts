@@ -3,13 +3,13 @@
 This is a minor release.
 
 ## Test environments
-
-* local OS X install, R 4.0.4
-* ubuntu, windows, macOS (on github actions), R 4.0.4
+* local R installation Ubuntu 21.04, R 4.1.0
+* ubuntu 16.04 (on travis-ci), R 4.1.0
+* win-builder (devel)
 
 ## R CMD check results
 
-0 errors | 0 warnings | 0 note
+0 errors | 0 warnings | 0 notes
 
 ## Reverse dependencies
 

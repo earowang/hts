@@ -1,3 +1,7 @@
+# hts 6.0.2
+
+* Removed dependency on matrixcalc
+
 # hts 6.0.1
 
 * Fixed bug in `forecast(nonnegative = TRUE)` for erroring "object not found". (#58, @apantovic)
