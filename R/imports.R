@@ -6,7 +6,6 @@
 #' @import Matrix 
 #' @import SparseM
 #' @import forecast
-#' @import matrixcalc
 #' @import parallel
 #' @useDynLib hts
 NULL

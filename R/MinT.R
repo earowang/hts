@@ -39,12 +39,12 @@ shrink.estim <- function(x, tar)
 
 
 #' Trace minimization for hierarchical or grouped time series
-#' 
+#'
 #' Using the method of Wickramasuriya et al. (2019), this function combines the
 #' forecasts at all levels of a hierarchical or grouped time series. The
 #' \code{\link{forecast.gts}} calls this function when the \code{MinT} method
 #' is selected.
-#' 
+#'
 #' @param fcasts Matrix of forecasts for all levels of a hierarchical or
 #' grouped time series. Each row represents one forecast horizon and each
 #' column represents one time series of aggregated or disaggregated forecasts.
@@ -64,15 +64,15 @@ shrink.estim <- function(x, tar)
 #' level.
 #' @param parallel Logical. Import parallel package to allow parallel processing.
 #' @param num.cores Numeric. Specify how many cores are going to be used.
-#' @param control.nn A list of control parameters to be passed on to the 
+#' @param control.nn A list of control parameters to be passed on to the
 #' block principal pivoting algorithm. See 'Details'.
 #' @return Return the reconciled \code{gts} object or forecasts at the bottom
 #' level.
-#' @details 
-#' The \code{control.nn} argument is a list that can supply any of the following components: 
+#' @details
+#' The \code{control.nn} argument is a list that can supply any of the following components:
 #' \describe{
 #' \item{\code{ptype}}{Permutation method to be used: \code{"fixed"} or \code{"random"}. Defaults to \code{"fixed"}.}
-#' \item{\code{par}}{The number of full exchange rules that may be tried. Defaults to 10.} 
+#' \item{\code{par}}{The number of full exchange rules that may be tried. Defaults to 10.}
 #' \item{\code{gtol}}{The tolerance of the convergence criteria. Defaults to \code{sqrt(.Machine$double.eps)}.}
 #' }
 #' @author Shanika L Wickramasuriya
@@ -81,20 +81,20 @@ shrink.estim <- function(x, tar)
 #' @references Wickramasuriya, S. L., Athanasopoulos, G., & Hyndman, R. J. (2019).
 #' Optimal forecast reconciliation for hierarchical and grouped time series through trace minimization.
 #' \emph{Journal of the American Statistical Association}, \bold{114}(526), 804--819. \url{https://robjhyndman.com/working-papers/mint/}
-#' 
-#' Wickramasuriya, S. L., Turlach, B. A., & Hyndman, R. J. (to appear). Optimal non-negative forecast reconciliation. 
+#'
+#' Wickramasuriya, S. L., Turlach, B. A., & Hyndman, R. J. (to appear). Optimal non-negative forecast reconciliation.
 #' \emph{Statistics and Computing}. \url{https://robjhyndman.com/publications/nnmint/}
-#' 
+#'
 #' Hyndman, R. J., Lee, A., & Wang, E. (2016).  Fast computation of reconciled
 #' forecasts for hierarchical and grouped time series.  \emph{Computational
 #' Statistics and Data Analysis}, \bold{97}, 16--32.
 #' \url{https://robjhyndman.com/publications/hgts/}
 #' @keywords ts
 #' @examples
-#' 
+#'
 #' # hts example
 #' \dontrun{
-#' h <- 12 
+#' h <- 12
 #' ally <- aggts(htseg1)
 #' n <- nrow(ally)
 #' p <- ncol(ally)
@@ -107,13 +107,13 @@ shrink.estim <- function(x, tar)
 #'   res[, i] <- na.omit(ally[, i] - fitted(fit))
 #' }
 #' allf <- ts(allf, start = 51)
-#' y.f <- MinT(allf, get_nodes(htseg1), residual = res, covariance = "shr", 
+#' y.f <- MinT(allf, get_nodes(htseg1), residual = res, covariance = "shr",
 #'   keep = "gts", algorithms = "lu")
 #' plot(y.f)
-#' y.f_cg <- MinT(allf, get_nodes(htseg1), residual = res, covariance = "shr", 
+#' y.f_cg <- MinT(allf, get_nodes(htseg1), residual = res, covariance = "shr",
 #'   keep = "all", algorithms = "cg")
 #' }
-#' 
+#'
 #' \dontrun{
 #' h <- 12
 #' ally <- abs(aggts(htseg2))
@@ -129,7 +129,7 @@ shrink.estim <- function(x, tar)
 #' b.nnf <-  MinT(allf, get_nodes(htseg2), residual = res, covariance = "shr",
 #'   keep = "bottom", algorithms = "lu", nonnegative = TRUE, parallel = TRUE)
 #' }
-#'   
+#'
 #' # gts example
 #' \dontrun{
 #' abc <- ts(5 + matrix(sort(rnorm(200)), ncol = 4, nrow = 50))
@@ -148,23 +148,23 @@ shrink.estim <- function(x, tar)
 #'   res[, i] <- na.omit(ally[, i] - fitted(fit))
 #' }
 #' allf <- ts(allf, start = 51)
-#' y.f <- MinT(allf, groups = get_groups(y), residual = res, covariance = "shr", 
+#' y.f <- MinT(allf, groups = get_groups(y), residual = res, covariance = "shr",
 #'   keep = "gts", algorithms = "lu")
 #' plot(y.f)
 #' }
 #' @export MinT
 MinT <- function (fcasts, nodes = NULL, groups = NULL, residual, covariance = c("shr", "sam"),
-                  nonnegative = FALSE, algorithms = c("lu", "cg", "chol"), 
+                  nonnegative = FALSE, algorithms = c("lu", "cg", "chol"),
                   keep = c("gts", "all", "bottom"),  parallel = FALSE, num.cores = 2, control.nn = list())
 {
   if (is.null(nodes) && is.null(groups)) {
     stop("Please specify the hierarchical or the grouping structure.", call. = FALSE)
   }
-  
+
   if (!xor(is.null(nodes), is.null(groups))) {
     stop("Please specify either nodes or groups argument, not both.", call. = FALSE)
   }
-  
+
   alg <- match.arg(algorithms)
   keep <- match.arg(keep)
   covar <- match.arg(covariance)
@@ -172,7 +172,7 @@ MinT <- function (fcasts, nodes = NULL, groups = NULL, residual, covariance = c(
   fcasts <- stats::as.ts(fcasts)
   tspx <- stats::tsp(fcasts)
   cnames <- colnames(fcasts)
-  
+
   if (!nonnegative) {
     if (missing(residual))
     {
@@ -182,7 +182,7 @@ MinT <- function (fcasts, nodes = NULL, groups = NULL, residual, covariance = c(
     {
       n <- nrow(res)
       w.1 <- crossprod(res) / n
-      if(is.positive.definite(w.1)==FALSE)
+      if(is.posdef(w.1)==FALSE)
       {
         stop("MinT needs covariance matrix to be positive definite.", call. = FALSE)
       }
@@ -191,12 +191,12 @@ MinT <- function (fcasts, nodes = NULL, groups = NULL, residual, covariance = c(
       shrink <- shrink.estim(res, tar)
       w.1 <- shrink[[1]]
       lambda <- shrink[[2]]
-      if (is.positive.definite(w.1)==FALSE)
+      if (is.posdef(w.1)==FALSE)
       {
         stop("MinT needs covariance matrix to be positive definite.", call. = FALSE)
       }
     }
-    
+
     if (is.null(groups)) { # hts class
       totalts <- sum(Mnodes(nodes))
       if (!is.matrix(fcasts)) {
@@ -227,7 +227,7 @@ MinT <- function (fcasts, nodes = NULL, groups = NULL, residual, covariance = c(
           allf <- CG(fcasts = fcasts, S = smat, weights = weights, allow.changes = FALSE)
         }
       }
-      
+
       if (keep == "all") {
         out <- t(allf)
       }
@@ -291,7 +291,7 @@ MinT <- function (fcasts, nodes = NULL, groups = NULL, residual, covariance = c(
       fcasts[fcasts < 0] <- 0
       warning("Negative base forecasts are truncated to zero.")
     }
-    
+
     lst.fc <- split(fcasts, row(fcasts))
     if (parallel) {
       if (is.null(num.cores)) {
@@ -328,4 +328,13 @@ MinT <- function (fcasts, nodes = NULL, groups = NULL, residual, covariance = c(
   return(out)
 }
 
-
+is.posdef <- function (x, tol = 1e-08) {
+  n <- NROW(x)
+  if(n != NCOL(x))
+    stop("x is not a square matrix")
+  if(sum(c(abs(x - t(x)))) > 1e-8)
+    stop("x is not a symmetric matrix")
+  eigenvalues <- eigen(x, only.values = TRUE)$values
+  eigenvalues[abs(eigenvalues) < tol] <- 0
+  all(eigenvalues >= 0)
+}

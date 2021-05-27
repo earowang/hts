@@ -18,7 +18,6 @@ Depends:
 Imports:
     SparseM,
     Matrix,
-    matrixcalc,
     parallel,
     utils,
     methods,

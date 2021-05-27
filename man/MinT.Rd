@@ -73,7 +73,7 @@ The \code{control.nn} argument is a list that can supply any of the following co
 
 # hts example
 \dontrun{
-h <- 12 
+h <- 12
 ally <- aggts(htseg1)
 n <- nrow(ally)
 p <- ncol(ally)
@@ -86,10 +86,10 @@ for(i in 1:p)
   res[, i] <- na.omit(ally[, i] - fitted(fit))
 }
 allf <- ts(allf, start = 51)
-y.f <- MinT(allf, get_nodes(htseg1), residual = res, covariance = "shr", 
+y.f <- MinT(allf, get_nodes(htseg1), residual = res, covariance = "shr",
   keep = "gts", algorithms = "lu")
 plot(y.f)
-y.f_cg <- MinT(allf, get_nodes(htseg1), residual = res, covariance = "shr", 
+y.f_cg <- MinT(allf, get_nodes(htseg1), residual = res, covariance = "shr",
   keep = "all", algorithms = "cg")
 }
 
@@ -108,7 +108,7 @@ b.f <- MinT(allf, get_nodes(htseg2), residual = res, covariance = "shr",
 b.nnf <-  MinT(allf, get_nodes(htseg2), residual = res, covariance = "shr",
   keep = "bottom", algorithms = "lu", nonnegative = TRUE, parallel = TRUE)
 }
-  
+
 # gts example
 \dontrun{
 abc <- ts(5 + matrix(sort(rnorm(200)), ncol = 4, nrow = 50))
@@ -127,7 +127,7 @@ for(i in 1:p)
   res[, i] <- na.omit(ally[, i] - fitted(fit))
 }
 allf <- ts(allf, start = 51)
-y.f <- MinT(allf, groups = get_groups(y), residual = res, covariance = "shr", 
+y.f <- MinT(allf, groups = get_groups(y), residual = res, covariance = "shr",
   keep = "gts", algorithms = "lu")
 plot(y.f)
 }

@@ -64,7 +64,7 @@ x <- hts(abc, nodes)
 
 # Example 2
 # Suppose we've got the bottom names that can be useful for constructing the node
-# structure and the labels at higher levels. We need to specify how to split them 
+# structure and the labels at higher levels. We need to specify how to split them
 # in the argument "characters".
 library(hts)
 abc <- ts(5 + matrix(sort(rnorm(1000)), ncol = 10, nrow = 100))
