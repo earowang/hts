@@ -4,7 +4,7 @@ This is a minor release.
 
 ## Test environments
 * local R installation Ubuntu 21.04, R 4.1.0
-* ubuntu 16.04 (on travis-ci), R 4.1.0
+* macOS release, windows release, windows 3.6, ubuntu 16.04 devel, ubuntu 16.04 release, ubuntu 16.04 oldrel, ubuntu 16.04 3.5 on github actions
 * win-builder (devel)
 
 ## R CMD check results
@@ -13,4 +13,8 @@ This is a minor release.
 
 ## Reverse dependencies
 
-I have run R CMD check on the 3 downstream dependencies. All packages that I could install passed the checks.
+We checked 3 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
+
+ * We saw 0 new problems
+ * We failed to check 0 packages
+

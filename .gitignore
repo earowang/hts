@@ -15,3 +15,6 @@ hts.tex
 inst/doc
 docs
 pkgdown/
+revdep/library
+revdep/checks
+revdep/data.sqlite
