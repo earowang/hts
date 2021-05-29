@@ -22,6 +22,6 @@ plot(htseg1)
 R. J. Hyndman, R. A. Ahmed, G. Athanasopoulos and H.L. Shang
 (2011) Optimal combination forecasts for hierarchical time series.
 \emph{Computational Statistics and Data Analysis}, \bold{55}(9), 2579--2589.
-\url{http://robjhyndman.com/papers/hierarchical/}
+\url{https://robjhyndman.com/publications/hierarchical/}
 }
 \keyword{datasets}

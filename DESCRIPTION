@@ -35,7 +35,7 @@ LinkingTo:
 LazyLoad: yes
 LazyData: yes
 ByteCompile: TRUE
-URL: https://pkg.earo.me/hts
+URL: https://pkg.earo.me/hts/
 BugReports: https://github.com/earowang/hts/issues
 License: GPL (>= 2)
 VignetteBuilder: knitr

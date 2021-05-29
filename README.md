@@ -8,7 +8,7 @@ status](https://github.com/earowang/hts/workflows/R-CMD-check/badge.svg)](https:
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/hts)](https://cran.r-project.org/package=hts)
 [![Downloads](http://cranlogs.r-pkg.org/badges/hts)](https://cran.r-project.org/package=hts)
 [![Lifecycle:
-retired](https://img.shields.io/badge/lifecycle-retired-orange.svg)](https://www.tidyverse.org/lifecycle/#retired)
+retired](https://img.shields.io/badge/lifecycle-retired-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 
 **hts** is retired, with minimum maintenance to keep it on CRAN. We
 recommend using the [fable](http://fable.tidyverts.org) package instead.
@@ -222,7 +222,6 @@ plot(infantgts, levels = 1)
 ![](man/figures/gts-eg-1.png)<!-- -->
 
 ``` r
-
 fcasts3.comb <- forecast(infantgts, h = 4, method = "comb", fmethod = "ets")
 agg_gts1 <- aggts(fcasts3.comb, levels = 1)
 agg_gts2 <- aggts(fcasts3.comb, levels = 1, forecasts = FALSE)
@@ -238,7 +237,6 @@ plot(fcasts3.comb, include = 5, levels = c(1, 2))
 ![](man/figures/gts-eg-3.png)<!-- -->
 
 ``` r
-
 fcasts3.combsd <- forecast(
   infantgts, h = 4, method = "comb", fmethod = "ets",
   weights = "sd", keep.fitted = TRUE
@@ -252,5 +250,5 @@ fcasts3.combn <- forecast(
 
 ## License
 
-This package is free and open source software, licensed under GPL (\>=
+This package is free and open source software, licensed under GPL (&gt;=
 2).
