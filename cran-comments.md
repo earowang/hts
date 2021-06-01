@@ -1,6 +1,6 @@
 ## Comments
 
-This is a minor release.
+This is a resubmission that urls have been fixed.
 
 ## Test environments
 * local R installation Ubuntu 21.04, R 4.1.0
