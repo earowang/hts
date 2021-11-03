@@ -158,7 +158,7 @@ bpv <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, alg, contro
           tmp <- combinefm(fcasts = ufcasts, smat = smat, weights = uwts, alg = alg)
           allf <- as.numeric(tmp)
         } else {
-          usmat <- smat[, -gset]
+          usmat <- as(smat[, -gset], "sparseMatrix")
           zidx <- setdiff(1:nt, unique(summary(usmat)$i)) # identifying rows with zeros
           if (length(zidx) != 0)
           {
@@ -167,8 +167,13 @@ bpv <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, alg, contro
             if (!is.null(weights)) {
               uwts <- uwts[-idxR]
             } 
-            usmat <- usmat[-idxR, ]
-            tmp <- combinefm(fcasts = ufcasts, smat = usmat, weights = uwts, alg = alg)
+            if (ncol(usmat) == 1) {
+              tmp <- rep(mean(ufcasts), length(ufcasts))
+            } else {
+              usmat <- as(usmat[-idxR, ], "sparseMatrix")
+              tmp <- combinefm(fcasts = ufcasts, smat = usmat, 
+                                     weights = uwts, alg = alg)
+            }
             allf[sort(setdiff(c(1:nxb, (fset + nxb)), zidx))] <- as.numeric(tmp)
             
           } else {
@@ -177,7 +182,12 @@ bpv <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, alg, contro
             if (!is.null(weights)) {
               uwts <- uwts[-idxR]              
             }
-            tmp <- combinefm(fcasts = ufcasts, smat = usmat, weights = uwts, alg = alg)
+            if (ncol(usmat) == 1) {
+              tmp <- rep(mean(ufcasts), length(ufcasts))
+            } else {
+              tmp <- combinefm(fcasts = ufcasts, smat = usmat, 
+                                     weights = uwts, alg = alg)
+            }
             allf[c(1:nxb, (fset + nxb))] <- as.numeric(tmp)
           }
         }
@@ -190,7 +200,7 @@ bpv <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, alg, contro
           tmp <- combinefm(fcasts = ufcasts, smat = smat, weights = uwts, alg = alg)
           allf <- as.numeric(tmp)
         } else {
-          usmat <- smat[, -gset]
+          usmat <- as(smat[, -gset], "sparseMatrix")
           zidx <- setdiff(1:nt, unique(summary(usmat)$i)) # identifying rows with zeros
           if (length(zidx) != 0)
           {
@@ -199,8 +209,13 @@ bpv <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, alg, contro
             if (!is.null(weights)) {
               uwts <- uwts[-idxR]
             } 
-            usmat <- usmat[-idxR, ]
-            tmp <- combinefm(fcasts = ufcasts, smat = usmat, weights = uwts, alg = alg)
+            if(ncol(usmat) == 1) {
+              tmp <- rep(mean(ufcasts), length(ufcasts))
+            } else {
+              usmat <- as(usmat[-idxR, ], "sparseMatrix")
+              tmp <- combinefm(fcasts = ufcasts, smat = usmat, 
+                                     weights = uwts, alg = alg)
+            }
             allf[sort(setdiff(c(1:nxb, (fset + nxb)), zidx))] <- as.numeric(tmp)
             
           } else {
@@ -209,7 +224,12 @@ bpv <- function(fcasts, nodes = NULL, groups = NULL, weights = NULL, alg, contro
             if (!is.null(weights)) {
               uwts <- uwts[-idxR]              
             }
-            tmp <- combinefm(fcasts = ufcasts, smat = usmat, weights = uwts, alg = alg)
+            if (ncol(usmat) == 1) {
+              tmp <- rep(mean(ufcasts), length(ufcasts))
+            } else {
+              tmp <- combinefm(fcasts = ufcasts, smat = usmat, 
+                                     weights = uwts, alg = alg)
+            }
             allf[c(1:nxb, (fset + nxb))] <- as.numeric(tmp)
           }
         }
