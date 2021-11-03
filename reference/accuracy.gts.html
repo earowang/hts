@@ -137,7 +137,7 @@ discussed in Hyndman and Koehler (2006).</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for gts</span>
-<span class='fu'>accuracy</span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>test</span>, <span class='va'>levels</span>, <span class='va'>...</span>, f <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+<span class='fu'><a href='https://pkg.robjhyndman.com/forecast/reference/accuracy.html'>accuracy</a></span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>test</span>, <span class='va'>levels</span>, <span class='va'>...</span>, f <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -194,40 +194,42 @@ forecast accuracy, <em>International Journal of Forecasting</em>, <b>22</b>,
     <p>Rob J Hyndman and Earo Wang</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/window.html'>window</a></span><span class='op'>(</span><span class='va'>htseg2</span>, start <span class='op'>=</span> <span class='fl'>1992</span>, end <span class='op'>=</span> <span class='fl'>2002</span><span class='op'>)</span>
-<span class='va'>test</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/window.html'>window</a></span><span class='op'>(</span><span class='va'>htseg2</span>, start <span class='op'>=</span> <span class='fl'>2003</span><span class='op'>)</span>
-<span class='va'>fcasts</span> <span class='op'>&lt;-</span> <span class='fu'>forecast</span><span class='op'>(</span><span class='va'>data</span>, h <span class='op'>=</span> <span class='fl'>5</span>, method <span class='op'>=</span> <span class='st'>"bu"</span><span class='op'>)</span>
-<span class='fu'>accuracy</span><span class='op'>(</span><span class='va'>fcasts</span>, <span class='va'>test</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;           Total          A         B         A10          A20       B30
-#&gt; ME    0.5175864  0.1288857 0.3887008  0.06573302   0.06315266 0.1155213
-#&gt; RMSE  0.6067434  0.1501689 0.4582254  0.08267622   0.06873023 0.1246662
-#&gt; MAE   0.5175864  0.1288857 0.3887008  0.06984219   0.06315266 0.1155213
-#&gt; MAPE 26.8125025  4.3851653 7.8647359  2.70732415  17.45099176 8.2711056
-#&gt; MPE  26.8125025 -4.3851653 7.8647359 -2.55987709 -17.45099176 8.2711056
-#&gt; MASE  1.6332610  0.7231180 2.8031103  0.46325019   2.29893333 2.5346010
-#&gt;            B40        A10A        A10B         A10C         A20A          A20B
-#&gt; ME   0.2731795  0.09542307 -0.09835074   0.06866069   0.05654830   0.006604366
-#&gt; RMSE 0.3372614  0.10595132  0.10365079   0.07887357   0.06022321   0.011265235
-#&gt; MAE  0.2731795  0.09542307  0.09835074   0.06866069   0.05654830   0.008816632
-#&gt; MAPE 7.6660385  7.64346709 12.24476912  12.74890041  18.43994906  22.297766518
-#&gt; MPE  7.6660385 -7.64346709 12.24476912 -12.74890041 -18.43994906 -20.013326734
-#&gt; MASE 2.9345749  0.90325116  3.04328419   5.36231602   4.45477238   0.596663726
-#&gt;             B30A       B30B       B30C       B40A       B40B
-#&gt; ME    0.03933843 0.03369417 0.04248867 0.03227470  0.2409048
-#&gt; RMSE  0.04155152 0.03679464 0.04710692 0.04358476  0.3257019
-#&gt; MAE   0.03933843 0.03369417 0.04248867 0.03895166  0.2409048
-#&gt; MAPE 13.24251118 7.37361308 6.59428670 2.91406938 10.7931448
-#&gt; MPE  13.24251118 7.37361308 6.59428670 2.43285014 10.7931448
-#&gt; MASE  1.61097593 3.74724838 3.49213005 0.75045087  5.8492447</div><div class='input'><span class='fu'>accuracy</span><span class='op'>(</span><span class='va'>fcasts</span>, <span class='va'>test</span>, levels <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;               A         B
-#&gt; ME    0.1288857 0.3887008
-#&gt; RMSE  0.1501689 0.4582254
-#&gt; MAE   0.1288857 0.3887008
-#&gt; MAPE  4.3851653 7.8647359
-#&gt; MPE  -4.3851653 7.8647359
-#&gt; MASE  0.7231180 2.8031103</div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'></span>
+<span class='r-in'><span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/window.html'>window</a></span><span class='op'>(</span><span class='va'>htseg2</span>, start <span class='op'>=</span> <span class='fl'>1992</span>, end <span class='op'>=</span> <span class='fl'>2002</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>test</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/window.html'>window</a></span><span class='op'>(</span><span class='va'>htseg2</span>, start <span class='op'>=</span> <span class='fl'>2003</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>fcasts</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://pkg.robjhyndman.com/forecast/reference/forecast.html'>forecast</a></span><span class='op'>(</span><span class='va'>data</span>, h <span class='op'>=</span> <span class='fl'>5</span>, method <span class='op'>=</span> <span class='st'>"bu"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://pkg.robjhyndman.com/forecast/reference/accuracy.html'>accuracy</a></span><span class='op'>(</span><span class='va'>fcasts</span>, <span class='va'>test</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>           Total          A         B         A10          A20       B30</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ME    0.5175864  0.1288857 0.3887008  0.06573302   0.06315266 0.1155213</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> RMSE  0.6067434  0.1501689 0.4582254  0.08267622   0.06873023 0.1246662</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> MAE   0.5175864  0.1288857 0.3887008  0.06984219   0.06315266 0.1155213</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> MAPE 26.8125025  4.3851653 7.8647359  2.70732415  17.45099176 8.2711056</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> MPE  26.8125025 -4.3851653 7.8647359 -2.55987709 -17.45099176 8.2711056</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> MASE  1.6332610  0.7231180 2.8031103  0.46325019   2.29893333 2.5346010</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            B40        A10A        A10B         A10C         A20A          A20B</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ME   0.2731795  0.09542307 -0.09835074   0.06866069   0.05654830   0.006604366</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> RMSE 0.3372614  0.10595132  0.10365079   0.07887357   0.06022321   0.011265235</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> MAE  0.2731795  0.09542307  0.09835074   0.06866069   0.05654830   0.008816632</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> MAPE 7.6660385  7.64346709 12.24476912  12.74890041  18.43994906  22.297766518</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> MPE  7.6660385 -7.64346709 12.24476912 -12.74890041 -18.43994906 -20.013326734</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> MASE 2.9345749  0.90325116  3.04328419   5.36231602   4.45477238   0.596663726</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             B30A       B30B       B30C       B40A       B40B</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ME    0.03933843 0.03369417 0.04248867 0.03227470  0.2409048</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> RMSE  0.04155152 0.03679464 0.04710692 0.04358476  0.3257019</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> MAE   0.03933843 0.03369417 0.04248867 0.03895166  0.2409048</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> MAPE 13.24251118 7.37361308 6.59428670 2.91406938 10.7931448</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> MPE  13.24251118 7.37361308 6.59428670 2.43285014 10.7931448</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> MASE  1.61097593 3.74724838 3.49213005 0.75045087  5.8492447</span>
+<span class='r-in'><span class='fu'><a href='https://pkg.robjhyndman.com/forecast/reference/accuracy.html'>accuracy</a></span><span class='op'>(</span><span class='va'>fcasts</span>, <span class='va'>test</span>, levels <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>               A         B</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ME    0.1288857 0.3887008</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> RMSE  0.1501689 0.4582254</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> MAE   0.1288857 0.3887008</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> MAPE  4.3851653 7.8647359</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> MPE  -4.3851653 7.8647359</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> MASE  0.7231180 2.8031103</span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -156,7 +156,7 @@
 <span class="co">#&gt; [8,]    0    0    0    0    1</span>
 
 <span class="co"># Forecasts</span>
-<span class="va">fcasts1.bu</span> <span class="op">&lt;-</span> <span class="fu">forecast</span><span class="op">(</span>
+<span class="va">fcasts1.bu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://pkg.robjhyndman.com/forecast/reference/forecast.html">forecast</a></span><span class="op">(</span>
   <span class="va">htseg1</span>, h <span class="op">=</span> <span class="fl">4</span>, method <span class="op">=</span> <span class="st">"bu"</span>, fmethod <span class="op">=</span> <span class="st">"ets"</span>, parallel <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span>
 <span class="va">aggts4</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/aggts.html">aggts</a></span><span class="op">(</span><span class="va">fcasts1.bu</span><span class="op">)</span>
@@ -176,7 +176,7 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Method: Bottom-up forecasts </span>
 <span class="co">#&gt; Forecast method: ETS</span>
-<span class="va">fcasts1.td</span> <span class="op">&lt;-</span> <span class="fu">forecast</span><span class="op">(</span>
+<span class="va">fcasts1.td</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://pkg.robjhyndman.com/forecast/reference/forecast.html">forecast</a></span><span class="op">(</span>
   <span class="va">htseg1</span>, h <span class="op">=</span> <span class="fl">4</span>, method <span class="op">=</span> <span class="st">"tdfp"</span>, fmethod <span class="op">=</span> <span class="st">"arima"</span>, keep.fitted <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">fcasts1.td</span><span class="op">)</span>  <span class="co"># When keep.fitted = TRUE, return in-sample accuracy</span>
@@ -203,7 +203,7 @@
 <span class="co">#&gt; MAPE 1.1275970221 0.4534439625 0.323535559 0.251066115  0.691364891</span>
 <span class="co">#&gt; MPE  0.0367879336 0.0069220593 0.006785872 0.007787895 -0.011087494</span>
 <span class="co">#&gt; MASE 0.6825678136 0.5197483057 0.774250880 0.447950006  0.493684443</span>
-<span class="va">fcasts1.comb</span> <span class="op">&lt;-</span> <span class="fu">forecast</span><span class="op">(</span>
+<span class="va">fcasts1.comb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://pkg.robjhyndman.com/forecast/reference/forecast.html">forecast</a></span><span class="op">(</span>
   <span class="va">htseg1</span>, h <span class="op">=</span> <span class="fl">4</span>, method <span class="op">=</span> <span class="st">"comb"</span>, fmethod <span class="op">=</span> <span class="st">"ets"</span>, keep.fitted <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span>
 <span class="va">aggts4</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/aggts.html">aggts</a></span><span class="op">(</span><span class="va">fcasts1.comb</span><span class="op">)</span>
@@ -220,7 +220,7 @@
 <code class="sourceCode R"><span class="co"># hts example 2</span>
 <span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/window.html">window</a></span><span class="op">(</span><span class="va">htseg2</span>, start <span class="op">=</span> <span class="fl">1992</span>, end <span class="op">=</span> <span class="fl">2002</span><span class="op">)</span>
 <span class="va">test</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/window.html">window</a></span><span class="op">(</span><span class="va">htseg2</span>, start <span class="op">=</span> <span class="fl">2003</span><span class="op">)</span>
-<span class="va">fcasts2.mo</span> <span class="op">&lt;-</span> <span class="fu">forecast</span><span class="op">(</span>
+<span class="va">fcasts2.mo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://pkg.robjhyndman.com/forecast/reference/forecast.html">forecast</a></span><span class="op">(</span>
   <span class="va">data</span>, h <span class="op">=</span> <span class="fl">5</span>, method <span class="op">=</span> <span class="st">"mo"</span>, fmethod <span class="op">=</span> <span class="st">"ets"</span>, level <span class="op">=</span> <span class="fl">1</span>,
   keep.fitted <span class="op">=</span> <span class="cn">TRUE</span>, keep.resid <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span>
@@ -254,7 +254,7 @@
 <span class="co">#&gt; MAPE  7.5314777 2.36244104</span>
 <span class="co">#&gt; MPE   7.5314777 1.45433283</span>
 <span class="co">#&gt; MASE  1.2506962 0.84324674</span>
-<span class="va">fcasts2.td</span> <span class="op">&lt;-</span> <span class="fu">forecast</span><span class="op">(</span>
+<span class="va">fcasts2.td</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://pkg.robjhyndman.com/forecast/reference/forecast.html">forecast</a></span><span class="op">(</span>
   <span class="va">data</span>, h <span class="op">=</span> <span class="fl">5</span>, method <span class="op">=</span> <span class="st">"tdgsa"</span>, fmethod <span class="op">=</span> <span class="st">"ets"</span>, 
   keep.fitted <span class="op">=</span> <span class="cn">TRUE</span>, keep.resid <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span>
@@ -272,7 +272,7 @@
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">infantgts</span>, levels <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/gts-eg-1.png"><!-- --></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">fcasts3.comb</span> <span class="op">&lt;-</span> <span class="fu">forecast</span><span class="op">(</span><span class="va">infantgts</span>, h <span class="op">=</span> <span class="fl">4</span>, method <span class="op">=</span> <span class="st">"comb"</span>, fmethod <span class="op">=</span> <span class="st">"ets"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">fcasts3.comb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://pkg.robjhyndman.com/forecast/reference/forecast.html">forecast</a></span><span class="op">(</span><span class="va">infantgts</span>, h <span class="op">=</span> <span class="fl">4</span>, method <span class="op">=</span> <span class="st">"comb"</span>, fmethod <span class="op">=</span> <span class="st">"ets"</span><span class="op">)</span>
 <span class="va">agg_gts1</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/aggts.html">aggts</a></span><span class="op">(</span><span class="va">fcasts3.comb</span>, levels <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
 <span class="va">agg_gts2</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/aggts.html">aggts</a></span><span class="op">(</span><span class="va">fcasts3.comb</span>, levels <span class="op">=</span> <span class="fl">1</span>, forecasts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fcasts3.comb</span><span class="op">)</span></code></pre></div>
@@ -281,12 +281,12 @@
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fcasts3.comb</span>, include <span class="op">=</span> <span class="fl">5</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/gts-eg-3.png"><!-- --></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">fcasts3.combsd</span> <span class="op">&lt;-</span> <span class="fu">forecast</span><span class="op">(</span>
+<code class="sourceCode R"><span class="va">fcasts3.combsd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://pkg.robjhyndman.com/forecast/reference/forecast.html">forecast</a></span><span class="op">(</span>
   <span class="va">infantgts</span>, h <span class="op">=</span> <span class="fl">4</span>, method <span class="op">=</span> <span class="st">"comb"</span>, fmethod <span class="op">=</span> <span class="st">"ets"</span>,
   weights <span class="op">=</span> <span class="st">"sd"</span>, keep.fitted <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span>
 
-<span class="va">fcasts3.combn</span> <span class="op">&lt;-</span> <span class="fu">forecast</span><span class="op">(</span>
+<span class="va">fcasts3.combn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://pkg.robjhyndman.com/forecast/reference/forecast.html">forecast</a></span><span class="op">(</span>
   <span class="va">infantgts</span>, h <span class="op">=</span> <span class="fl">4</span>, method <span class="op">=</span> <span class="st">"comb"</span>, fmethod <span class="op">=</span> <span class="st">"ets"</span>,
   weights <span class="op">=</span> <span class="st">"nseries"</span>, keep.resid <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span></code></pre></div>
