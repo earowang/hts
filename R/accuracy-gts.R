@@ -1,16 +1,16 @@
 #' In-sample or out-of-sample accuracy measures for forecast grouped and
 #' hierarchical model
-#' 
+#'
 #' Returns a range of summary measures of the forecast accuracy. The function
 #' measures out-of-sample forecast accuracy based on (holdout data - forecasts)
 #' and in-sample accuracy at the bottom level when setting \code{keep.fitted =
 #' TRUE} in the \code{\link[hts]{forecast.gts}}. All measures are defined and
 #' discussed in Hyndman and Koehler (2006).
-#' 
+#'
 #' MASE calculation is scaled using MAE of in-sample naive forecasts for
 #' non-seasonal time series, and in-sample seasonal naive forecasts for
 #' seasonal time series.
-#' 
+#'
 #' @param object An object of class \code{gts}, containing the forecasted
 #' hierarchical or grouped time series. In-sample accuracy at the bottom level
 #' returns when \code{test} is missing.
@@ -32,13 +32,13 @@
 #' @keywords error
 #' @method accuracy gts
 #' @examples
-#' 
+#'
 #' data <- window(htseg2, start = 1992, end = 2002)
 #' test <- window(htseg2, start = 2003)
 #' fcasts <- forecast(data, h = 5, method = "bu")
 #' accuracy(fcasts, test)
 #' accuracy(fcasts, test, levels = 1)
-#' 
+#'
 #' @export
 #' @export accuracy.gts
 accuracy.gts <- function(object, test, levels, ..., f = NULL) {
@@ -79,6 +79,14 @@ accuracy.gts <- function(object, test, levels, ..., f = NULL) {
   else {
     fcasts <- unclass(aggts(object, levels, forecasts = TRUE))
     x <- unclass(aggts(test, levels))
+    tspf <- tsp(fcasts)
+    tspx <- tsp(x)
+    start <- max(tspf[1], tspx[1])
+    end <- min(tspf[2], tspx[2])
+    start <- min(start, end)
+    end <- max(start, end)
+    fcasts <- window(fcasts, start = start, end = end)
+    x <- window(x, start = start, end = end)
     res <- x - fcasts
   }
 
