@@ -87,7 +87,7 @@ accuracy.gts <- function(object, test, levels, ..., f = NULL) {
   else
     histy <- aggts(object, levels, forecasts = FALSE)
   if (!is.null(histy)) {
-    scale <- colMeans(abs(diff(histy, lag = max(1, stats::frequency(histy)))),
+    scale <- colMeans(abs(diff(histy, lag = max(1, round(stats::frequency(histy))))),
                       na.rm = TRUE)
     q <- sweep(res, 2, scale, "/")
     mase <- colMeans(abs(q), na.rm = TRUE)
