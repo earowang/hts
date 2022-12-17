@@ -25,7 +25,7 @@ Imports:
     grDevices,
     stats
 Suggests:
-    testthat,
+    testthat (>= 3.0.0),
     knitr,
     rmarkdown,
     covr
@@ -41,4 +41,5 @@ License: GPL (>= 2)
 VignetteBuilder: knitr
 RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE, roclets=c('rd', 'collate', 'namespace'))
+Config/testthat/edition: 3
 Encoding: UTF-8

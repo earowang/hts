@@ -6,7 +6,7 @@ test_that("tests for hts", {
   hts <- hts(mts, nodes = node.list)
   s <- 1/rowSums(smatrix(hts))
 
-  expect_that(InvS4h(node.list), equals(s))
+  expect_identical(InvS4h(node.list), s)
 })
 
 test_that("tests for gts", {
@@ -20,5 +20,5 @@ test_that("tests for gts", {
   out <- InvS4g(gts$groups)
   names(out) <- NULL
 
-  expect_that(out, equals(s))
+  expect_identical(out, s)
 })
