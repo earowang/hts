@@ -95,10 +95,15 @@ accuracy.gts <- function(object, test, levels, ..., f = NULL) {
   else
     histy <- aggts(object, levels, forecasts = FALSE)
   if (!is.null(histy)) {
+    # MASE
     scale <- colMeans(abs(diff(histy, lag = max(1, round(stats::frequency(histy))))),
                       na.rm = TRUE)
     q <- sweep(res, 2, scale, "/")
     mase <- colMeans(abs(q), na.rm = TRUE)
+    # RMSSE
+    mse <- colMeans(res^2, na.rm = TRUE)
+    scale_rmsse <- colMeans(diff(histy, lag = max(1, round(stats::frequency(histy))))^2, na.rm = TRUE)
+    rmsse <- sqrt(mse / scale_rmsse)
   }
   pe <- res/x * 100  # percentage error
 
@@ -110,9 +115,10 @@ accuracy.gts <- function(object, test, levels, ..., f = NULL) {
 
   out <- rbind(me, rmse, mae, mape, mpe)
   rownames(out) <- c("ME", "RMSE", "MAE", "MAPE", "MPE")
-  if (exists("mase")) {
-    out <- rbind(out, mase)
+  if (exists("mase") || exists("rmsse")) {
+    out <- rbind(out, mase, rmsse)
     rownames(out)[6L] <- "MASE"
+    rownames(out)[7L] <- "RMSSE"
   }
   if (exists("fcasts")) {
     colnames(out) <- colnames(fcasts)
