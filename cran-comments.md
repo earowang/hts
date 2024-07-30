@@ -1,6 +1,6 @@
 ## Comments
 
-This is a submission to fix CRAN errors.
+This is a resubmission to fix CRAN errors.
 
 ## R CMD check results
 
