@@ -270,7 +270,7 @@ CreateGmat <- function(bnames, characters) {
   gmatrix <- gmatrix[!duplicated(gmatrix), , drop = FALSE]
   # Remove bottom names if it has
   check <- try(which(gmatrix == bnames, arr.ind = TRUE)[1L, 1L], silent = TRUE)
-  if (class(check) != "try-error") {
+    if (class(check) != "try-error") {
     gmatrix <- gmatrix[-check, ]
   }
   return(gmatrix)

@@ -1,3 +1,7 @@
+# hts 6.0.3
+
+* Cran maintenance
+
 # hts 6.0.2
 
 * Removed dependency on matrixcalc

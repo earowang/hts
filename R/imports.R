@@ -3,8 +3,8 @@
 #' @importFrom utils combn
 #' @import methods
 #' @importFrom stats window as.ts fitted frequency is.ts na.omit residuals time ts tsp tsp<-
-#' @import Matrix 
-#' @import SparseM
+#' @import Matrix
+#' @importFrom(SparseM,as.matrix.csr)
 #' @import forecast
 #' @import parallel
 #' @useDynLib hts

@@ -22,22 +22,22 @@ LU <- function(fcasts, S, weights, allow.changes = FALSE) {
   nbts <- ncol(S)
   nagg <- nts - nbts
   seqagg <- 1L:nagg
-  
+
   if (!allow.changes) {
     utmat <- cbind2(sparseMatrix(i = seqagg, j = seqagg, x = 1),
-                    -1 * S[1L:nagg, ])
+                    -1 * S[1L:nagg, , drop = TRUE])
   } else {
     # Identifying rows with one 1 element to make the Identity matrix in S
     indx <- rowSums(S)
-    idx <- tail(which(indx == 1L), nbts) 
-    
+    idx <- tail(which(indx == 1L), nbts)
+
     # Permulation vector to rearrange rows of S, rows/col of W and forecasts
     pvec <- c(setdiff(1:nts, idx) , idx)
     S2 <- S[pvec, ]
     weights <- weights[pvec, pvec]
     fcasts <- fcasts[pvec, ]
-    utmat <- cbind2(sparseMatrix(i = seqagg, j = seqagg, x = 1), 
-                    -1 * S2[1L:nagg, ])
+    utmat <- cbind2(sparseMatrix(i = seqagg, j = seqagg, x = 1),
+                    -1 * S2[1L:nagg, , drop = TRUE])
   }
   jmat <- sparseMatrix(i = 1L:nbts, j = (nagg + 1L):nts, x = rep(1L, nbts),
                        dims = c(nbts, nts))
@@ -74,14 +74,14 @@ CG <- function(fcasts, S, weights, allow.changes = FALSE) {
   } else {
     # Identifying rows with one 1 element to make the Identity matrix in S
     indx <- rowSums(S)
-    idx <- tail(which(indx == 1L), nbts) 
-    
+    idx <- tail(which(indx == 1L), nbts)
+
     # Permulation vector to rearrange rows of S, rows/col of W and forecasts
     pvec <- c(setdiff(1:nts, idx) , idx)
     S2 <- S[pvec, ]
     weights <- weights[pvec, pvec]
     fcasts <- fcasts[pvec, ]
-    utmat <- cbind2(Matrix::sparseMatrix(i = seqagg, j = seqagg, x = 1), 
+    utmat <- cbind2(Matrix::sparseMatrix(i = seqagg, j = seqagg, x = 1),
                     -1 * S2[1L:nagg, ])
   }
   jmat <- Matrix::sparseMatrix(i = 1L:nbts, j = (nagg + 1L):nts, x = rep(1L, nbts),
@@ -118,8 +118,8 @@ CHOL <- function(fcasts, S, weights, allow.changes = FALSE) {
     # Identifying rows with one 1 element to make the Identity matrix in S
     Sm <- as(S, "dgCMatrix")
     indx <- rowSums(Sm)
-    idx <- tail(which(indx == 1L), nbts) 
-    
+    idx <- tail(which(indx == 1L), nbts)
+
     # Permulation vector to rearrange rows of S, rows/col of W and forecasts
     pvec <- c(setdiff(1:nts, idx) , idx)
     S2 <- S[pvec, ]
