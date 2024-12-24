@@ -95,8 +95,12 @@ accuracy.gts <- function(object, test, levels, ..., f = NULL) {
   else
     histy <- aggts(object, levels, forecasts = FALSE)
   if (!is.null(histy)) {
-    scale <- colMeans(abs(diff(histy, lag = max(1, round(stats::frequency(histy))))),
-                      na.rm = TRUE)
+    m <- max(1, round(stats::frequency(histy)))
+    if(m > 1 & NROW(histy) < 2*m) {
+      warning("Not enough historical data to use seasonal naive method for MASE. Using naive method instead.")
+      m <- 1
+    }
+    scale <- colMeans(abs(diff(histy, lag = m)), na.rm = TRUE)
     q <- sweep(res, 2, scale, "/")
     mase <- colMeans(abs(q), na.rm = TRUE)
   }
